@@ -13,7 +13,7 @@ import org.springframework.data.annotation.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy= InheritanceType.JOINED)
 @Entity
 @Table(name="user")
 //@MappedSuperclass

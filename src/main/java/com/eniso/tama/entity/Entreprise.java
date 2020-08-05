@@ -1,9 +1,5 @@
 package com.eniso.tama.entity;
 
-
-
-import java.util.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -38,8 +34,9 @@ public class Entreprise extends User{
 	@Column(name = "website")
 	private String website;
 	
-	@OneToMany
-	private List<Participant> employes = new ArrayList<>();
+	
+
+	
 	
 	
 }

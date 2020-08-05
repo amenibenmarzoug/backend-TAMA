@@ -1,5 +1,4 @@
 package com.eniso.tama.entity;
-
 import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -103,4 +102,16 @@ public class Participant extends User{
 	@NotNull
 	@Column(name = "abandon")
 	private boolean abandon;
+	
+
+	  @ManyToOne
+	  private Entreprise entreprise;
+
+	public Entreprise getEntreprise() {
+		return entreprise;
+	}
+
+	public void setEntreprise(Entreprise entreprise) {
+		this.entreprise = entreprise;
+	}
 }
