@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class User {
 	
 	@Id
-    @Column(name = "user_id")
+    @Column(name = "user_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
@@ -53,15 +53,6 @@ public class User {
 		this.password = password;
 	}
 
-
-	public String getAddress() {
-		return address;
-	}
-
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
 
 
 	public String getPhoneNumber() {
@@ -100,13 +91,25 @@ public class User {
 	@Email(message="{errors.invalid_email}")
 	private String email;
 	@NotNull
-	@Column(name = "password")
+	@Column(name = "password", insertable=true, updatable=true, nullable=false)
 	@Size(min=8)
 	private String password;
-	@NotNull
-	@Column(name = "address")
-	private String address;
 	
+	@NotNull
+	@Embedded
+	@Column(name = "address", unique=true, insertable=true, updatable=false, nullable=false)
+	private Address address;
+	
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+
+	public Address getAddress() {
+		return address;
+	}
+
+
 	@NotNull
 	@Column(name = "phoneNumber")
 	private String phoneNumber;  

@@ -80,14 +80,13 @@ public class Participant extends User{
 	@Column(name = "birthday")
 	private Date birthday;
 	
-	@NotNull
 	@Column(name = "currentPosition")
 	private String currentPosition;
 	
-	@NotNull
+	
 	@Column(name = "level")
 	private String level;
-	@NotNull
+	
 	@Column(name = "educationLevel")
 	private String educationLevel;
 	

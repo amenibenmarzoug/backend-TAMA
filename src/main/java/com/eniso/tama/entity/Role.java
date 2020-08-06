@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 public class Role {
 	
 	 @Id
-	 @Column(name = "role_id")
+	 @Column(name = "role_id", updatable = false, nullable = false)
 	 @GeneratedValue(strategy = GenerationType.AUTO)
 	 private Integer id;
 	 
