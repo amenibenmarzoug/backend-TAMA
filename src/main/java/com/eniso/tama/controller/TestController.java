@@ -1,4 +1,4 @@
-package com.eniso.tama.configuration.controller;
+package com.eniso.tama.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;

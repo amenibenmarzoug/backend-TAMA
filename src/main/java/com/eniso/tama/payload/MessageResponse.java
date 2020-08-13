@@ -1,4 +1,4 @@
-package com.eniso.tama.configuration.payload;
+package com.eniso.tama.payload;
 
 public class MessageResponse {
 	private String message;

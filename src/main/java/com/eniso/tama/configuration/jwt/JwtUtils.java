@@ -7,9 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import io.jsonwebtoken.*;
 
-import com.eniso.tama.configuration.service.UserDetailsImpl;
+import com.eniso.tama.service.UserDetailsImpl;
+
+import io.jsonwebtoken.*;
 
 @Component
 public class JwtUtils {

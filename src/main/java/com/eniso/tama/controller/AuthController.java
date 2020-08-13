@@ -1,4 +1,4 @@
-package com.eniso.tama.configuration.controller;
+package com.eniso.tama.controller;
 
 import java.util.HashSet;
 import java.util.List;
@@ -21,16 +21,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.configuration.jwt.JwtUtils;
-import com.eniso.tama.configuration.payload.JwtResponse;
-import com.eniso.tama.configuration.payload.LoginRequest;
-import com.eniso.tama.configuration.payload.MessageResponse;
-import com.eniso.tama.configuration.payload.SignupRequest;
-import com.eniso.tama.configuration.service.UserDetailsImpl;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
 import com.eniso.tama.entity.User;
+import com.eniso.tama.payload.JwtResponse;
+import com.eniso.tama.payload.LoginRequest;
+import com.eniso.tama.payload.MessageResponse;
+import com.eniso.tama.payload.SignupRequest;
 import com.eniso.tama.repository.RoleRepository;
 import com.eniso.tama.repository.UserRepository;
+import com.eniso.tama.service.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController

@@ -1,4 +1,4 @@
-package com.eniso.tama.configuration.payload;
+package com.eniso.tama.payload;
 
 import javax.validation.constraints.NotBlank;
 

@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.eniso.tama.configuration.jwt.AuthEntryPointJwt;
 import com.eniso.tama.configuration.jwt.AuthTokenFilter;
-import com.eniso.tama.configuration.service.UserDetailsServiceImpl;
+import com.eniso.tama.service.UserDetailsServiceImpl;
 
 
 @Configuration

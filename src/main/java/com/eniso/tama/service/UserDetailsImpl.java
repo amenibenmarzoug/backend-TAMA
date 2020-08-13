@@ -1,4 +1,4 @@
-package com.eniso.tama.configuration.service;
+package com.eniso.tama.service;
 
 import java.util.Collection;
 import java.util.List;

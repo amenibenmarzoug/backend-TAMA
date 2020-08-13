@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.eniso.tama.configuration.service.UserDetailsServiceImpl;
+import com.eniso.tama.service.UserDetailsServiceImpl;
 
 public class AuthTokenFilter extends OncePerRequestFilter{
 
