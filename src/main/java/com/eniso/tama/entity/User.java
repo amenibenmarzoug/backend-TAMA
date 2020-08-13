@@ -92,25 +92,27 @@ public class User {
 	private String email;
 	@NotNull
 	@Column(name = "password", insertable=true, updatable=true, nullable=false)
-	@Size(min=8)
+	//@Size(min=8, max=40)
 	private String password;
 	
 	@NotNull
-	@Embedded
-	@Column(name = "address", unique=true, insertable=true, updatable=false, nullable=false)
-	private Address address;
 	
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+	@Column(name = "address", unique=true, insertable=true, updatable=false, nullable=false)
+	private String address;
+	
+	
 
-
-	public Address getAddress() {
+	public String getAddress() {
 		return address;
 	}
 
 
-	@NotNull
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+	//@NotNull
 	@Column(name = "phoneNumber")
 	private String phoneNumber;  
 	
@@ -140,6 +142,24 @@ public class User {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+	public User() {
+	}
+	public User(@NotBlank @Size(max = 50) @Email String email,
+			String password, @NotBlank String address, @NotNull String phoneNumber,
+			Set<Role> roles) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.roles = roles;
+	}
+	
+
+	public User(String email, String password) {
+		this.email = email;
+		this.password = password;
 	}
 
 

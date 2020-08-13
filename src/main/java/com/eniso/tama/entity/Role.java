@@ -1,6 +1,8 @@
 package com.eniso.tama.entity;
 
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -10,7 +12,7 @@ public class Role {
 	
 	 @Id
 	 @Column(name = "role_id", updatable = false, nullable = false)
-	 @GeneratedValue(strategy = GenerationType.AUTO)
+	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	 private Integer id;
 	 
 	 
@@ -18,6 +20,17 @@ public class Role {
 	 @Enumerated(EnumType.STRING)
 	 private Roles role;
 	 
+	 @ManyToMany(mappedBy="roles")
+	 private List<User> users;
+	 
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 
 	public Integer getId() {
 		return id;
@@ -32,6 +45,14 @@ public class Role {
 	}
 
 	public void setRole(Roles role) {
+		this.role = role;
+	}
+	
+	public Role() {
+
+	}
+
+	public Role(Roles role) {
 		this.role = role;
 	}
 }
