@@ -23,12 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.configuration.jwt.JwtUtils;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
+import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.entity.User;
 import com.eniso.tama.payload.JwtResponse;
 import com.eniso.tama.payload.LoginRequest;
 import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.payload.SignupRequest;
+import com.eniso.tama.payload.SignupRequestTrainer;
 import com.eniso.tama.repository.RoleRepository;
+import com.eniso.tama.repository.TrainerRepository;
 import com.eniso.tama.repository.UserRepository;
 import com.eniso.tama.service.UserDetailsImpl;
 
@@ -44,6 +47,9 @@ public class AuthController {
 
 	@Autowired
 	RoleRepository roleRepository ;
+	
+	@Autowired
+	TrainerRepository trainerRepository ;
 
 	@Autowired
 	PasswordEncoder encoder ;
@@ -77,30 +83,36 @@ public class AuthController {
 	}
 
 	@PostMapping( "/signup" )
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-	
+	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestTrainer signupRequestTrainer){
 		
 		
 
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+		if (trainerRepository.existsByEmail(signupRequestTrainer.getEmail())) {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: Email is already in use!"));
 		}
+		
 
 		// Create new user's account
-		User user = new User(signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()),
-							 signUpRequest.getAddress(),
-							 signUpRequest.getPhoneNumber(),
-							  null);
-		//System.out.println(encoder.encode(signUpRequest.getPassword())) ;
-		//System.out.println(encoder.encode(signUpRequest.getPhoneNumber())) ;
+		Trainer trainer = new Trainer(
+				             signupRequestTrainer.getEmail(),
+							 encoder.encode(signupRequestTrainer.getPassword()),
+							 signupRequestTrainer.getAddress(),
+							 signupRequestTrainer.getPhoneNumber(),
+							
+							 signupRequestTrainer.getFirstName(),
+							 signupRequestTrainer.getLastName(),
+							 signupRequestTrainer.getGender());
+		
+		User user = new User(signupRequestTrainer.getEmail(),
+				 encoder.encode(signupRequestTrainer.getPassword()),
+				 signupRequestTrainer.getAddress(),
+				 signupRequestTrainer.getPhoneNumber(),null);
 		
 		
+		Set<String> strRoles = signupRequestTrainer.getRole();
 		
-		Set<String> strRoles = signUpRequest.getRole();
-		System.out.println(user.getEmail()) ;
 		Set<Role> roles = new HashSet<>();
 
 		if (strRoles == null) {
@@ -112,40 +124,47 @@ public class AuthController {
 				switch (role) {
 				case "MANAGER":
 					Role adminRole = roleRepository.findByRole(Roles.MANAGER)
-							.orElseThrow(() -> new RuntimeException("Error: Role Manager is not found."));
+							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(adminRole);
 
 					break;
 				case "TRAINER":
 					Role modRole = roleRepository.findByRole(Roles.TRAINER)
-							.orElseThrow(() -> new RuntimeException("Error: Role Trainer is not found."));
+							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(modRole);
 					break ; 
 				case "ENTREPRISE":
 					Role entrRole = roleRepository.findByRole(Roles.ENTREPRISE)
-							.orElseThrow(() -> new RuntimeException("Error: Role Enterprise is not found."));
+							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(entrRole);
 
 					break;
 				case "INSTITUTION":
 					Role instRole = roleRepository.findByRole(Roles.INSTITUTION)
-							.orElseThrow(() -> new RuntimeException("Error: Role Institution is not found."));
+							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(instRole);
 
 					
 				default:
 					Role userRole = roleRepository.findByRole(Roles.MANAGER)
-							.orElseThrow(() -> new RuntimeException("Error: Role Default is not found."));
+							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 					roles.add(userRole);
 				}
 			});
 		}
 
-		user.setRoles(roles);
+		user.setRoles(roles) ;
 		
 		userRepository.save(user);
-		System.out.println(user.getPhoneNumber()) ;
+		userRepository.save(trainer);
+		
+		
+		System.out.println(trainer.getPhoneNumber()) ;
 		
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
+	
+	
+	
 }
+

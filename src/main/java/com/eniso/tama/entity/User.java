@@ -13,7 +13,7 @@ import org.springframework.data.annotation.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Inheritance(strategy= InheritanceType.JOINED)
+@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 @Entity
 @Table(name="user")
 //@MappedSuperclass
@@ -148,7 +148,7 @@ public class User {
 	public User(@NotBlank @Size(max = 50) @Email String email,
 			String password, @NotBlank String address, @NotNull String phoneNumber,
 			Set<Role> roles) {
-		super();
+		//super();
 		this.email = email;
 		this.password = password;
 		this.address = address;
