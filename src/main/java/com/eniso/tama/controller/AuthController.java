@@ -94,8 +94,8 @@ public class AuthController {
 							 signUpRequest.getAddress(),
 							 signUpRequest.getPhoneNumber(),
 							  null);
-		//System.out.println(encoder.encode(signUpRequest.getPassword())) ;
-		//System.out.println(encoder.encode(signUpRequest.getPhoneNumber())) ;
+	System.out.println(encoder.encode(signUpRequest.getPassword())) ;
+		System.out.println(encoder.encode(signUpRequest.getPhoneNumber())) ;
 		
 		
 		
