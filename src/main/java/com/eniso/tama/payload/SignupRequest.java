@@ -3,6 +3,8 @@ package com.eniso.tama.payload;
 import java.util.Set;
 
 import javax.validation.constraints.*;
+
+import com.eniso.tama.entity.Role;
  
 public class SignupRequest {
 	@NotBlank
@@ -20,7 +22,7 @@ public class SignupRequest {
     
  
  
-    private Set<String> role;
+    private Set<Role> role;
     
     @NotBlank
     @Size(min = 8, max = 40)
@@ -45,11 +47,11 @@ public class SignupRequest {
         this.password = password;
     }
     
-    public Set<String> getRole() {
+    public Set<Role> getRole() {
       return this.role;
     }
     
-    public void setRole(Set<String> role) {
+    public void setRole(Set<Role> role) {
       this.role = role;
     }
     public String getAddress() {
