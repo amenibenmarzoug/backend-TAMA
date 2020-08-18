@@ -12,6 +12,12 @@ public class Participant extends User{
 	@Column(name = "firstNameP")
 	private String firstNameP;
 	
+
+	@NotNull
+	@Column(name = "lastNameP")
+	private String lastNameP;
+	
+	
 	public String getGender() {
 		return gender;
 	}
@@ -52,10 +58,6 @@ public class Participant extends User{
 		this.abandon = abandon;
 	}
 
-	@NotNull
-	@Column(name = "lastNameP")
-	private String lastNameP;
-	
 	public String getFirstNameP() {
 		return firstNameP;
 	}
