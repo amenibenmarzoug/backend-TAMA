@@ -1,7 +1,10 @@
 package com.eniso.tama.entity;
 import java.util.*;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="participant")
@@ -112,5 +115,24 @@ public class Participant extends User{
 
 	public void setEntreprise(Entreprise entreprise) {
 		this.entreprise = entreprise;
+	}
+	
+	public Participant() {
+		
+	}
+	
+	public Participant(@NotBlank @Size(max = 50) @Email String email,
+			String password, @NotBlank String address, @NotNull String phoneNumber,@NotBlank @Size(max = 20)  String firstName,
+			@NotBlank String lastName, @NotBlank String gender , Date birthday) {
+		this.setId(super.getId());
+		super.setEmail(email);
+		super.setPassword(password);
+		super.setAddress(address);
+		super.setPhoneNumber(phoneNumber);
+		this.firstNameP = firstName;
+		this.lastNameP  = lastName;
+		this.gender = gender;
+		this.birthday= birthday;
+		
 	}
 }

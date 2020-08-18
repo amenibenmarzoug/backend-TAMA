@@ -1,5 +1,8 @@
 package com.eniso.tama.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +20,15 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
 	@Override
 	@Transactional
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		User user = userRepository.findByEmail(email)
-				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));
+	public UserDetails loadUserByUsername(String email) {
+		List<User> userlist = userRepository.findByEmail(email);
+		for (User user : userlist) {
+			System.out.println("user email");
+			System.out.println(user.getEmail());
+		}		
+		
 		//logger.debug("Is rollbackOnly: " + TransactionAspectSupport.currentTransactionStatus().isRollbackOnly());
-		return UserDetailsImpl.build(user);
+		return UserDetailsImpl.build(userlist.get(0));
 	}
 
 }
