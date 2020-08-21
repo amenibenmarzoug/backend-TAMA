@@ -33,10 +33,12 @@ public class SignupRequestTrainer {
 	//@NotBlank
 	private String field;
  
+ 
     private Set<String> role;
     
     @NotBlank
     @Size(min = 8, max = 40)
+   // @Size(min = 8, max = 40)
     private String password;
   
 	public String getEmail() {
@@ -116,3 +118,5 @@ public class SignupRequestTrainer {
 
 
 }
+	
+
