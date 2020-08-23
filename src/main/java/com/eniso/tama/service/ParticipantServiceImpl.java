@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
-
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.repository.ParticipanRepository;
@@ -31,7 +30,6 @@ public class ParticipantServiceImpl implements  ParticipantService {
 		
 		@Override
 		public List<Participant> findAll() {
-		
 			return participanRepository.findAll();
 		}
 
@@ -121,9 +119,7 @@ public class ParticipantServiceImpl implements  ParticipantService {
 			return participanRepository.findByAbandon(theAbondan);
 		}
 
-		
-		
-		
+
 		@Override
 		public void save(Participant theControl) {
 			participanRepository.save(theControl);

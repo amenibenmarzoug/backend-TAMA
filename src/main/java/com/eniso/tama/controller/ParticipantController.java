@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.service.ParticipantService;
@@ -51,6 +50,7 @@ public class ParticipantController {
 		
 		@GetMapping("participants/{participantId}")
 		public Participant getParticipant(@PathVariable long participantId) {
+
 			
 			Participant theParticipant = participantService.findById(participantId);
 			
@@ -60,6 +60,7 @@ public class ParticipantController {
 			
 			return theParticipant;
 		}
+
 		//get participants by level 
 
 		@GetMapping("participants/level/{participantLevel}")
@@ -139,6 +140,7 @@ public class ParticipantController {
 		}
 		
 		
+
 		// add mapping for POST /participants - add new control
 
 		@PostMapping("/participants")
@@ -167,6 +169,7 @@ public class ParticipantController {
 
 			@DeleteMapping("/participants/{participantId}")
 			public String deleteParticipant(@PathVariable long  participantId) {
+
 				
 				Participant tempParticipant = participantService.findById(participantId);
 				

@@ -13,11 +13,13 @@ public class Participant extends User{
 	private String firstNameP;
 	
 
+
 	//@NotNull
 	@Column(name = "lastNameP")
 	private String lastNameP;
 	
 	
+
 
 	//@NotNull
 	@Column(name = "gender")
@@ -44,7 +46,6 @@ public class Participant extends User{
 
 		  @ManyToOne
 		  private Entreprise entreprise;
-	
 	
 	public String getGender() {
 		return gender;
