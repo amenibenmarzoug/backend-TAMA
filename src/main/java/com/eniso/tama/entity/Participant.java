@@ -8,9 +8,43 @@ import javax.validation.constraints.NotNull;
 public class Participant extends User{
 	
 
-	@NotNull
+	//@NotNull
 	@Column(name = "firstNameP")
 	private String firstNameP;
+	
+
+	//@NotNull
+	@Column(name = "lastNameP")
+	private String lastNameP;
+	
+	
+
+	//@NotNull
+	@Column(name = "gender")
+	private String gender;
+	
+	//@NotNull
+	@Column(name = "birthday")
+	private Date birthday;
+	
+	@Column(name = "currentPosition")
+	private String currentPosition;
+	
+	
+	@Column(name = "level")
+	private String level;
+	
+	@Column(name = "educationLevel")
+	private String educationLevel;
+	
+	//@NotNull
+		@Column(name = "abandon")
+	private boolean abandon;
+		
+
+		  @ManyToOne
+		  private Entreprise entreprise;
+	
 	
 	public String getGender() {
 		return gender;
@@ -52,10 +86,6 @@ public class Participant extends User{
 		this.abandon = abandon;
 	}
 
-	@NotNull
-	@Column(name = "lastNameP")
-	private String lastNameP;
-	
 	public String getFirstNameP() {
 		return firstNameP;
 	}
@@ -72,24 +102,6 @@ public class Participant extends User{
 		this.lastNameP = lastNameP;
 	}
 
-	@NotNull
-	@Column(name = "gender")
-	private String gender;
-	
-	@NotNull
-	@Column(name = "birthday")
-	private Date birthday;
-	
-	@Column(name = "currentPosition")
-	private String currentPosition;
-	
-	
-	@Column(name = "level")
-	private String level;
-	
-	@Column(name = "educationLevel")
-	private String educationLevel;
-	
 	public String getEducationLevel() {
 		return educationLevel;
 	}
@@ -98,13 +110,7 @@ public class Participant extends User{
 		this.educationLevel = educationLevel;
 	}
 
-	@NotNull
-	@Column(name = "abandon")
-	private boolean abandon;
 	
-
-	  @ManyToOne
-	  private Entreprise entreprise;
 
 	public Entreprise getEntreprise() {
 		return entreprise;
