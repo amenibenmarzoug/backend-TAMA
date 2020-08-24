@@ -10,32 +10,29 @@ import com.eniso.tama.entity.Participant;
 import com.eniso.tama.repository.ParticipantRepository;
 
 
+
 @Service
 @ComponentScan(basePackageClasses = ParticipantRepository.class )
 
 public class ParticipantServiceImpl implements  ParticipantService {
 
 	
+		private ParticipantRepository participantRepository;
 
-
-
-		private ParticipantRepository participanRepository;
 		
-		public ParticipantServiceImpl() {}
-
 		@Autowired
 		public ParticipantServiceImpl(ParticipantRepository theParticipantRepository) {
-			participanRepository = theParticipantRepository;
+			participantRepository = theParticipantRepository;
 		}
 		
 		@Override
 		public List<Participant> findAll() {
-			return participanRepository.findAll();
+			return participantRepository.findAll();
 		}
 
 		@Override
 		public Participant findById(long theId) {
-			Optional<Participant> result = participanRepository.findById(theId);
+			Optional<Participant> result = participantRepository.findById(theId);
 			
 			Participant theControl = null;
 			
@@ -49,14 +46,75 @@ public class ParticipantServiceImpl implements  ParticipantService {
 			
 			return theControl;
 		}
-
+		//find By level 
 		@Override
-		public void save(Participant theControl) {
-			participanRepository.save(theControl);
+		public List<Participant> findByLevel(String theLevel) {
+			//List <Participant> result = participanRepository.findByLevel(theLevel);
+			
+//					Optional <Participant>  theParticipant = null;
+//					
+//					if (result.isPresent()) {
+//						theParticipant = result.get();
+//					}
+//					else {
+//						// we didn't find the participants
+//						throw new RuntimeException("Did not find participants with level - " + theLevel);
+//					}
+			
+			return participantRepository.findByLevel(theLevel);
+		}
+		//find by Company
+		@Override
+		
+		public List<Participant>  findByEntreprise (Participant theParticipant) {
+			
+			
+			
+			//List<Participant> result = participanRepository.findByEntreprise(theParticipant);
+         
+			List<Participant> p1= null ;
+			
+			
+			for(Participant theP:participantRepository.findAll()) {
+				
+				
+			if  (theP.getEntreprise()!=null) {
+        	  
+				p1.add(theP) ;
+			
+          }
+		            	
+		}
+			return p1;
+			
+		}
+				
+				
+		//find by abondan 
+		@Override
+		public 	List<Participant> findByAbonadn(boolean theAbondan ){
+	//					Optional<Participant> result = participanRepository.findByAbandon(theAbondan);
+	//					
+	//					Participant theParticipant = null;
+	//					
+	//					if (result.isPresent()) {
+	//						theParticipant = result.get();
+	//					}
+	//					else {
+	//						// we didn't find the participant
+	//						throw new RuntimeException("Did not find participant level - " );
+	//					}
+	//					
+			return participantRepository.findByAbandon(theAbondan);
 		}
 
 		@Override
-		public void deleteById(long    theId) {
-			participanRepository.deleteById(theId);
+		public void save(Participant theControl) {
+			participantRepository.save(theControl);
+		}
+
+		@Override
+		public void deleteById(long theId) {
+			participantRepository.deleteById(theId);
 		}
 }

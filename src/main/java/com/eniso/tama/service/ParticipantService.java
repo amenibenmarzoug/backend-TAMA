@@ -10,12 +10,13 @@ import com.eniso.tama.entity.Participant;
 
 public interface ParticipantService {
 	
-		
-		
-
 		public List<Participant> findAll();
 		
 		public Participant findById(long theId);
+		public List<Participant>findByLevel(String theLevel);
+		public List<Participant> findByEntreprise(Participant theParticipant);
+		
+		public 	List<Participant> findByAbonadn(boolean theAbondan );
 		
 		public void save(Participant theParticipant);
 		

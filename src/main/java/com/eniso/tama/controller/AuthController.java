@@ -130,6 +130,7 @@ public class AuthController {
 							 signupRequestTrainer.getLastName(),
 							 signupRequestTrainer.getSpecification(),
 							 signupRequestTrainer.getGender());
+
 		
 //		User user = new User(signupRequestTrainer.getEmail(),
 //				 encoder.encode(signupRequestTrainer.getPassword()),
@@ -193,12 +194,8 @@ public class AuthController {
 //				 signupRequestInstitution.getPostalCode(),
 //				 signupRequestInstitution.getPhoneNumber(),null);
 //		
-		
-		Set<String> strRoles = signupRequestInstitution.getRole();
-		
+	//	Set<String> strRoles = signupRequestTrainer.getRole();
 		Set<Role> roles = new HashSet<>();
-
-		
 		Role modRole = roleRepository.findByRole(Roles.INSTITUTION)
 				.orElseThrow(() -> new RuntimeException("Error: Role INSTITUTION is not found."));
 		roles.add(modRole);
@@ -262,8 +259,6 @@ public class AuthController {
 		//userRepository.save(user);
 		enterpriseRepository.save(enterprise);
 		
-		
-		//System.out.println(institution.getPhoneNumber()) ;
 		
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}

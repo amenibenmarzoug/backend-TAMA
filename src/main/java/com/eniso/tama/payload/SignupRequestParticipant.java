@@ -1,23 +1,78 @@
 package com.eniso.tama.payload;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
-import javax.validation.constraints.*;
-
-
-public class SignupRequestTrainer {
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+public class SignupRequestParticipant {
 	@NotBlank
-    @Size(max = 50)
-    @Email
-    private String email;
-	
+	@Size(max = 50)
+	@Email
+	private String email;
+
 //	@NotBlank
-//    @Size(min = 3, max = 20)
-//    private String address;
+//	@Size(min = 3, max = 20)
+//	private String address;
 	@NotNull
 	private String street;
 	
+	@NotNull
+	private String city;
+	
+	@NotNull
+	private String postalCode;
+	
+	@NotBlank
+	@Size(min = 3, max = 20)
+	private String phoneNumber;
+
+	@NotBlank
+	@Size(max = 20)
+	private String firstName;
+
+	@NotBlank
+	@Size(max = 30)
+	private String lastName;
+
+	@NotBlank
+	private String gender;
+
+	// @NotBlank
+	private String field;
+
+	private Set<String> role;
+
+	@NotBlank
+	@Size(min = 8, max = 40)
+	private String password;
+
+	
+	private Date birthday;
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+//	public String getAddress() {
+//		return address;
+//	}
+//
+//	public void setAddress(String address) {
+//		this.address = address;
+//	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
 	public String getStreet() {
 		return street;
 	}
@@ -42,56 +97,6 @@ public class SignupRequestTrainer {
 		this.postalCode = postalCode;
 	}
 
-	@NotNull
-	private String city;
-	
-	@NotNull
-	private String postalCode;
-	
-	@NotBlank
-	@Size(min = 3, max = 20)
-    private String phoneNumber;
-    
-	@NotBlank
-	@Size(max = 20)
-	private String firstName;
-	
-	@NotBlank
-	@Size(max = 30)
-	private String lastName;
-	
-	@NotBlank
-	private String gender;
-	
-	@NotBlank
-	private String specification;
- 
-    private Set<String> role;
-    
-    @NotBlank
-   // @Size(min = 8, max = 40)
-    private String password;
-  
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-//	public String getAddress() {
-//		return address;
-//	}
-//
-//	public void setAddress(String address) {
-//		this.address = address;
-//	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
@@ -112,16 +117,12 @@ public class SignupRequestTrainer {
 		this.password = password;
 	}
 
-
-	
-	
-
-	public String getSpecification() {
-		return specification;
+	public String getField() {
+		return field;
 	}
 
-	public void setSpecification(String specification) {
-		this.specification = specification;
+	public void setField(String field) {
+		this.field = field;
 	}
 
 	public String getFirstName() {
@@ -148,5 +149,12 @@ public class SignupRequestTrainer {
 		this.gender = gender;
 	}
 
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
 
 }
