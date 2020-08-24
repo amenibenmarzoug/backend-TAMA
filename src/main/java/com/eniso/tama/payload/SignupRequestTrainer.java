@@ -2,6 +2,7 @@ package com.eniso.tama.payload;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.validation.constraints.*;
 
 
@@ -11,15 +12,59 @@ public class SignupRequestTrainer {
     @Email
     private String email;
 	
-	@NotBlank
-    @Size(min = 3, max = 20)
-    private String address;
-    
+//	@NotBlank
+//    @Size(min = 3, max = 20)
+//    private String address;
+	@NotNull
+	private String street;
+	
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	@NotNull
+	private String city;
+	
+	@NotNull
+	private String postalCode;
+	
 	@NotBlank
 	@Size(min = 3, max = 20)
     private String phoneNumber;
     
- 
+	@NotBlank
+	@Size(max = 20)
+	private String firstName;
+	
+	@NotBlank
+	@Size(max = 30)
+	private String lastName;
+	
+	@NotBlank
+	private String gender;
+	
+	@NotBlank
+	private String specification;
  
     private Set<String> role;
     
@@ -35,13 +80,13 @@ public class SignupRequestTrainer {
 		this.email = email;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
+//	public String getAddress() {
+//		return address;
+//	}
+//
+//	public void setAddress(String address) {
+//		this.address = address;
+//	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;
@@ -67,23 +112,16 @@ public class SignupRequestTrainer {
 		this.password = password;
 	}
 
-	@NotBlank
-	@Size(max = 20)
-	private String firstName;
+
 	
-	@NotBlank
-	@Size(max = 30)
-	private String lastName;
 	
-	//@NotBlank
-	private String field;
-	
-	public String getField() {
-		return field;
+
+	public String getSpecification() {
+		return specification;
 	}
 
-	public void setField(String field) {
-		this.field = field;
+	public void setSpecification(String specification) {
+		this.specification = specification;
 	}
 
 	public String getFirstName() {
@@ -110,7 +148,5 @@ public class SignupRequestTrainer {
 		this.gender = gender;
 	}
 
-	@NotBlank
-	private String gender;
 
 }

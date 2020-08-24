@@ -1,13 +1,9 @@
 package com.eniso.tama.entity;
-
-
-
-
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -16,6 +12,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="trainer")
+@PrimaryKeyJoinColumn(name = "user_id")
 public class Trainer extends User {
 	
 	@NotNull
@@ -54,30 +51,36 @@ public class Trainer extends User {
 		this.lastName = lastName;
 	}
 
-	public String getField() {
-		return field;
+
+	public String getSpecification() {
+		return specification;
 	}
 
-	public void setField(String field) {
-		this.field = field;
+	public void setSpecification(String specification) {
+		this.specification = specification;
 	}
 
-	//@NotNull
-	@Column(name = "field")
-	private String field;
+	@NotNull
+	@Column(name = "specification")
+	private String specification;
 	
 	public Trainer() {
 	}
 	public Trainer(@NotBlank @Size(max = 50) @Email String email,
-			String password, @NotBlank String address, @NotNull String phoneNumber,@NotBlank @Size(max = 20)  String firstName,
-			@NotBlank String lastName,  String gender ) {
+			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,
+			@NotBlank String lastName,@NotBlank String specification, String gender ) {
 		this.setId(super.getId());
 		super.setEmail(email);
 		super.setPassword(password);
-		super.setAddress(address);
+		//super.setAddress(address);
+		super.setStreet(street);
+		super.setCity(city);
+		super.setPostalCode(postalCode);
 		super.setPhoneNumber(phoneNumber);
+		super.setRoles(roles);
 		this.firstName = firstName;
 		this.lastName  = lastName;
+		this.specification = specification;
 		this.gender = gender;
 		
 	}

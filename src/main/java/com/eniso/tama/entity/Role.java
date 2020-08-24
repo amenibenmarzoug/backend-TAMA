@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="role")
 public class Role {
@@ -20,6 +22,7 @@ public class Role {
 	 @Enumerated(EnumType.STRING)
 	 private Roles role;
 	 
+	 @JsonIgnore
 	 @ManyToMany(mappedBy="roles")
 	 private List<User> users;
 	 

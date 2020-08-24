@@ -1,13 +1,8 @@
 package com.eniso.tama.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,59 +12,82 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.eniso.tama.exception.ResourceNotFoundException;
 import com.eniso.tama.entity.Trainer;
-import com.eniso.tama.repository.TrainerRepository;
+import com.eniso.tama.service.TrainerService;
 
 @RestController 
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/v1")
+@ComponentScan(basePackageClasses = TrainerService.class )
+@RequestMapping("/api")
 public class TrainerController {
+	
+	
+	
+	private TrainerService trainerService;
+	
 	@Autowired
-	private TrainerRepository trainerRepository;
+	public TrainerController(TrainerService theTrainerService) {
+		trainerService = theTrainerService;
+	}
 	
-	@GetMapping("/trainer")
+	@GetMapping("/trainers")
     public List<Trainer> getAllTrainers() {
-        return trainerRepository.findAll();
+        return trainerService.findAll();
     }
 	
-	@GetMapping("/trainer/{id}")
-    public ResponseEntity<Trainer> getTrainerById(@PathVariable(value = "id") Long trainerId)
-        throws ResourceNotFoundException {
-        Trainer trainer = trainerRepository.findById(trainerId)
-          .orElseThrow(() -> new ResourceNotFoundException("Trainer not found for this id :: " + trainerId));
-        return ResponseEntity.ok().body(trainer);
-    }
+	@GetMapping("trainers/{trainerId}")
+	public Trainer getTrainer(@PathVariable int  trainerId) {
+		
+		Trainer theTrainer = trainerService.findById(trainerId);
+		
+		if (theTrainer == null) {
+			throw new RuntimeException("Trainer id not found - " + trainerId);
+		}
+		
+		return theTrainer;
+	}
+	// add mapping for POST /participants - add new control
+
+	@PostMapping("/trainers")
+	public  Trainer addTrainer(@RequestBody Trainer theTrainer) {
 	
-	 @PostMapping("/trainer")
-	    public Trainer createTrainer(@Valid @RequestBody Trainer trainer) {
-	        return trainerRepository.save(trainer);
-	    }
-	 
-	 @PutMapping("/trainer/{id}")
-	    public ResponseEntity<Trainer> updateTrainer(@PathVariable(value = "id") Long trainerId,
-	         @Valid @RequestBody Trainer trainerDetails) throws ResourceNotFoundException {
-		 	Trainer trainer = trainerRepository.findById(trainerId)
-	        .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + trainerId));
+		
+		// also just in case they pass an id in JSON ... set id to 0
+		// this is to force a save of new item ... instead of update
+		
+		//stheControl.setId(0);
+		
+		trainerService.save(theTrainer);
+		return theTrainer;
+	}
+	
+	
+	// add mapping for PUT /employees - update existing employee
+	
+		@PutMapping("/trainers")
+		public Trainer updateTrainer(@RequestBody Trainer theTrainer) {
+			
+			trainerService.save(theTrainer);
+			
+			return theTrainer;
+		}
 
-	        trainer.setEmail(trainerDetails.getEmail());
-	        trainer.setLastName(trainerDetails.getLastName());
-	        trainer.setFirstName(trainerDetails.getFirstName());
-	        final Trainer updatedTrainer = trainerRepository.save(trainer);
-	        return ResponseEntity.ok(updatedTrainer);
-	    }
-
-	    @DeleteMapping("/trainer/{id}")
-	    public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") Long trainerId)
-	         throws ResourceNotFoundException {
-	        Trainer trainer = trainerRepository.findById(trainerId)
-	       .orElseThrow(() -> new ResourceNotFoundException("Trainer not found for this id :: " + trainerId));
-
-	        trainerRepository.delete(trainer);
-	        Map<String, Boolean> response = new HashMap<>();
-	        response.put("deleted", Boolean.TRUE);
-	        return response;
-	    }
+		@DeleteMapping("/trainers/{trainerId}")
+		public String deleteTrainer(@PathVariable int  trainerId) {
+			
+			Trainer tempTrainer = trainerService.findById(trainerId);
+			
+			// throw exception if null
+			
+			if (tempTrainer == null) {
+				throw new RuntimeException("the trainer id is not found - " + trainerId);
+			}
+			
+			trainerService.deleteById(trainerId);
+			
+			return "Deleted trainer id - " + trainerId;
+		}
+	
 	
 
 }
