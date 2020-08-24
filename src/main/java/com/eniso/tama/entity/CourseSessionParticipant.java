@@ -1,7 +1,11 @@
 package com.eniso.tama.entity;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -9,16 +13,16 @@ import javax.persistence.MapsId;
 @Entity
 public class CourseSessionParticipant {
 
-	@EmbeddedId
-	Long id;
+	@Id
+    @Column(name = "courseSessionP_id", updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
 	@ManyToOne
-	@MapsId("student_id")
 	@JoinColumn(name = "participant_id")
 	Participant participant;
 
 	@ManyToOne
-	@MapsId("courseSession_id")
 	@JoinColumn(name = "courseSession_id")
 	CourseSession courseSession;
 
@@ -56,5 +60,7 @@ public class CourseSessionParticipant {
 		this.absent = absent;
 	}
 	
+	
+	//public CourseSessionParticipant() {}
 	
 }

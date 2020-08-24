@@ -129,6 +129,14 @@ public class Participant extends User {
 	@OneToMany(mappedBy = "participant")
     Set<CourseSessionParticipant> courseSessionParticipant;
 	
+	public Set<CourseSessionParticipant> getCourseSessionParticipant() {
+		return courseSessionParticipant;
+	}
+
+	public void setCourseSessionParticipant(Set<CourseSessionParticipant> courseSessionParticipant) {
+		this.courseSessionParticipant = courseSessionParticipant;
+	}
+
 	public Participant() {
 
 	}

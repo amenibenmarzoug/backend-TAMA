@@ -32,6 +32,8 @@ public class CourseSession {
 	@Column(name = "courseSession_end_date")
 	private Date courseSessionEndDate;
 
+
+	
 	public Long getId() {
 		return id;
 	}
@@ -98,5 +100,17 @@ public class CourseSession {
 		this.courseSessionParticipant = courseSessionParticipant;
 	}
 	
-	
+    @OneToMany(mappedBy = "courseSession")
+    Set<TrainerDisponibility> trainerDisponibility;
+
+	public Set<TrainerDisponibility> getTrainerDisponibility() {
+		return trainerDisponibility;
+	}
+
+	public void setTrainerDisponibility(Set<TrainerDisponibility> trainerDisponibility) {
+		this.trainerDisponibility = trainerDisponibility;
+	}
+    
+	//public CourseSession() {}
+    
 }

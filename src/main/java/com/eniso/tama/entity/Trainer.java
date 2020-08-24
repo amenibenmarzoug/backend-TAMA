@@ -7,7 +7,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -66,6 +66,19 @@ public class Trainer extends User {
 	@Column(name = "field")
 	private String field;
 	
+	@OneToMany(mappedBy = "trainer")
+    Set<TrainerDisponibility> trainerDisponibility;
+	
+	
+	
+	public Set<TrainerDisponibility> getTrainerDisponibility() {
+		return trainerDisponibility;
+	}
+
+	public void setTrainerDisponibility(Set<TrainerDisponibility> trainerDisponibility) {
+		this.trainerDisponibility = trainerDisponibility;
+	}
+
 	public Trainer() {
 	}
 	public Trainer(@NotBlank @Size(max = 50) @Email String email,
