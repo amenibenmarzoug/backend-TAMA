@@ -128,7 +128,7 @@ public class Participant extends User{
 	public Participant(@NotBlank @Size(max = 50) @Email String email,
 			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,
 			@NotBlank String lastName, @NotBlank String gender , Date birthday) {
-		this.setId(super.getId());
+		//this.setId(super.getId());
 		super.setEmail(email);
 		super.setPassword(password);
 		//super.setAddress(address);

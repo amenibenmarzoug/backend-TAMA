@@ -27,7 +27,6 @@ import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
 import com.eniso.tama.entity.Trainer;
-import com.eniso.tama.entity.User;
 import com.eniso.tama.payload.JwtResponse;
 import com.eniso.tama.payload.LoginRequest;
 import com.eniso.tama.payload.MessageResponse;
@@ -180,8 +179,9 @@ public class AuthController {
 							 encoder.encode(signupRequestInstitution.getPassword()),
 							 //signupRequestInstitution.getAddress(),
 							 signupRequestInstitution.getStreet(),
-							 signupRequestInstitution.getCity(),
 							 signupRequestInstitution.getPostalCode(),
+							 signupRequestInstitution.getCity(),
+							 
 							 signupRequestInstitution.getPhoneNumber(),
 							null,
 							 signupRequestInstitution.getInstitutionName());
@@ -230,8 +230,9 @@ public class AuthController {
 							 encoder.encode(signupRequestEnterprise.getPassword()),
 							 //signupRequestEnterprise.getAddress(),
 							 signupRequestEnterprise.getStreet(),
-							 signupRequestEnterprise.getCity(),
 							 signupRequestEnterprise.getPostalCode(),
+							 signupRequestEnterprise.getCity(),
+							 
 							 signupRequestEnterprise.getPhoneNumber(),
 							 null,
 							 signupRequestEnterprise.getEnterpriseName(),
@@ -282,8 +283,9 @@ public class AuthController {
 							 encoder.encode(signupRequestParticipant.getPassword()),
 							 //signupRequestParticipant.getAddress(),
 							 signupRequestParticipant.getStreet(),
-							 signupRequestParticipant.getCity(),
 							 signupRequestParticipant.getPostalCode(),
+							 signupRequestParticipant.getCity(),
+							 
 							 signupRequestParticipant.getPhoneNumber(),
 							null,
 							 signupRequestParticipant.getFirstName(),
@@ -305,7 +307,7 @@ public class AuthController {
 
 		
 		Role modRole = roleRepository.findByRole(Roles.PARTICIPANT)
-				.orElseThrow(() -> new RuntimeException("Error: Role ENTREPRISE is not found."));
+				.orElseThrow(() -> new RuntimeException("Error: Role PARTICIPANT is not found."));
 		roles.add(modRole);
 
 		participant.setRoles(roles) ;
