@@ -13,12 +13,11 @@ import org.springframework.data.annotation.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy= InheritanceType.JOINED)
 @Entity
 @Table(name="user")
 //@MappedSuperclass
 public class User {
-	
 	@Id
     @Column(name = "user_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -95,20 +94,60 @@ public class User {
 	//@Size(min=8, max=40)
 	private String password;
 	
-	@NotNull
-	
-	@Column(name = "address", unique=true, insertable=true, updatable=false, nullable=false)
-	private String address;
+//	@NotNull
+//	@Column(name = "address", insertable=true, updatable=true, nullable=false)
+//	private String address;
 	
 	
 
-	public String getAddress() {
-		return address;
+//	public String getAddress() {
+//		return address;
+//	}
+//
+//
+//	public void setAddress(String address) {
+//		this.address = address;
+//	}
+	@NotNull
+	@Column(name="street")
+	private String street;
+	
+	@NotNull
+	@Column(name="city")
+	private String city;
+	
+	@NotNull
+	@Column(name="postalCode")
+	private String postalCode;
+	
+
+	public String getStreet() {
+		return street;
 	}
 
 
-	public void setAddress(String address) {
-		this.address = address;
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+
+	public String getCity() {
+		return city;
+	}
+
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
 	}
 
 
@@ -135,6 +174,8 @@ public class User {
 	inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
+	
+
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -143,15 +184,20 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+
+
 	public User() {
 	}
 	public User(@NotBlank @Size(max = 50) @Email String email,
-			String password, @NotBlank String address, @NotNull String phoneNumber,
+			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,
 			Set<Role> roles) {
 		//super();
 		this.email = email;
 		this.password = password;
-		this.address = address;
+		//this.address = address;
+		this.street=street;
+		this.city = city;
+		this.postalCode = postalCode;
 		this.phoneNumber = phoneNumber;
 		this.roles = roles;
 	}
@@ -163,13 +209,4 @@ public class User {
 	}
 
 
-	
-
-	
-
-
-	
-
-	
-	
 }

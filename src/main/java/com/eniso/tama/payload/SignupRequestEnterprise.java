@@ -3,21 +3,28 @@ package com.eniso.tama.payload;
 import java.util.Set;
 
 import javax.persistence.Column;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-
-public class SignupRequestTrainer {
+public class SignupRequestEnterprise {
 	@NotBlank
-    @Size(max = 50)
-    @Email
-    private String email;
-	
+	@Size(max = 50)
+	@Email
+	private String email;
+
 //	@NotBlank
-//    @Size(min = 3, max = 20)
-//    private String address;
+//	@Size(min = 3, max = 20)
+//	private String address;
 	@NotNull
 	private String street;
 	
+	@NotNull
+	private String city;
+	
+	@NotNull
+	private String postalCode;
 	public String getStreet() {
 		return street;
 	}
@@ -42,36 +49,23 @@ public class SignupRequestTrainer {
 		this.postalCode = postalCode;
 	}
 
-	@NotNull
-	private String city;
-	
-	@NotNull
-	private String postalCode;
-	
 	@NotBlank
 	@Size(min = 3, max = 20)
-    private String phoneNumber;
-    
+	private String phoneNumber;
+
 	@NotBlank
-	@Size(max = 20)
-	private String firstName;
+	@Size(min = 8, max = 40)
+	private String password;
 	
-	@NotBlank
-	@Size(max = 30)
-	private String lastName;
+	@NotNull
+	private String enterpriseName;
+
 	
-	@NotBlank
-	private String gender;
+	@Column(name = "website")
+	private String website;
 	
-	@NotBlank
-	private String specification;
- 
-    private Set<String> role;
-    
-    @NotBlank
-   // @Size(min = 8, max = 40)
-    private String password;
-  
+	private Set<String> role;
+	
 	public String getEmail() {
 		return email;
 	}
@@ -112,41 +106,22 @@ public class SignupRequestTrainer {
 		this.password = password;
 	}
 
-
-	
-	
-
-	public String getSpecification() {
-		return specification;
+	public String getEnterpriseName() {
+		return enterpriseName;
 	}
 
-	public void setSpecification(String specification) {
-		this.specification = specification;
+	public void setEnterpriseName(String enterpriseName) {
+		this.enterpriseName = enterpriseName;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getWebsite() {
+		return website;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setWebsite(String website) {
+		this.website = website;
 	}
 
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
 
 
 }

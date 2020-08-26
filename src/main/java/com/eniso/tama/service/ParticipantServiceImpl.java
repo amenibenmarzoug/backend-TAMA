@@ -7,35 +7,32 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
-import com.eniso.tama.repository.ParticipanRepository;
+import com.eniso.tama.repository.ParticipantRepository;
+
 
 
 @Service
-@ComponentScan(basePackageClasses = ParticipanRepository.class )
+@ComponentScan(basePackageClasses = ParticipantRepository.class )
 
 public class ParticipantServiceImpl implements  ParticipantService {
 
 	
+		private ParticipantRepository participantRepository;
 
-
-
-		private ParticipanRepository participanRepository;
 		
-		public ParticipantServiceImpl() {}
-
 		@Autowired
-		public ParticipantServiceImpl(ParticipanRepository theParticipantRepository) {
-			participanRepository = theParticipantRepository;
+		public ParticipantServiceImpl(ParticipantRepository theParticipantRepository) {
+			participantRepository = theParticipantRepository;
 		}
 		
 		@Override
 		public List<Participant> findAll() {
-			return participanRepository.findAll();
+			return participantRepository.findAll();
 		}
 
 		@Override
 		public Participant findById(long theId) {
-			Optional<Participant> result = participanRepository.findById(theId);
+			Optional<Participant> result = participantRepository.findById(theId);
 			
 			Participant theControl = null;
 			
@@ -49,7 +46,7 @@ public class ParticipantServiceImpl implements  ParticipantService {
 			
 			return theControl;
 		}
-		
+
 		//find By level 
 		@Override
 		public List<Participant> findByLevel(String theLevel) {
@@ -65,7 +62,8 @@ public class ParticipantServiceImpl implements  ParticipantService {
 //				throw new RuntimeException("Did not find participants with level - " + theLevel);
 //			}
 			
-			return participanRepository.findByLevel(theLevel);
+			return participantRepository.findByLevel(theLevel);
+
 		}
 		//find by Company
 		@Override
@@ -79,7 +77,8 @@ public class ParticipantServiceImpl implements  ParticipantService {
 			List<Participant> p1= null ;
 			
 			
-			for(Participant theP:participanRepository.findAll()) {
+
+			for(Participant theP:participantRepository.findAll()) {
 				
 				
 			if  (theP.getEntreprise()!=null) {
@@ -95,38 +94,40 @@ public class ParticipantServiceImpl implements  ParticipantService {
 //			}
 //			
 			
+		            	
 		}
 			return p1;
 			
 		}
 		
-		
+	
+				
+				
 		//find by abondan 
 		@Override
 		public 	List<Participant> findByAbonadn(boolean theAbondan ){
-//			Optional<Participant> result = participanRepository.findByAbandon(theAbondan);
-//			
-//			Participant theParticipant = null;
-//			
-//			if (result.isPresent()) {
-//				theParticipant = result.get();
-//			}
-//			else {
-//				// we didn't find the participant
-//				throw new RuntimeException("Did not find participant level - " );
-//			}
-//			
-			return participanRepository.findByAbandon(theAbondan);
+	//					Optional<Participant> result = participanRepository.findByAbandon(theAbondan);
+	//					
+	//					Participant theParticipant = null;
+	//					
+	//					if (result.isPresent()) {
+	//						theParticipant = result.get();
+	//					}
+	//					else {
+	//						// we didn't find the participant
+	//						throw new RuntimeException("Did not find participant level - " );
+	//					}
+	//					
+			return participantRepository.findByAbandon(theAbondan);
 		}
-
 
 		@Override
 		public void save(Participant theControl) {
-			participanRepository.save(theControl);
+			participantRepository.save(theControl);
 		}
 
 		@Override
-		public void deleteById(long    theId) {
-			participanRepository.deleteById(theId);
+		public void deleteById(long theId) {
+			participantRepository.deleteById(theId);
 		}
 }
