@@ -13,27 +13,26 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-@Table(name="courseSession")
+@Table(name = "courseSession")
 public class CourseSession {
 	@Id
-    @Column(name = "course_session_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-	
+	@Column(name = "course_session_id", updatable = false, nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
 	@NotNull
 	@Column(name = "courseSessionName")
 	private String courseSessionName;
-	
-	
+
 	@Column(name = "courseSession_begin_date")
 	private Date courseSessionBeginDate;
-	
+
 	@Column(name = "courseSession_end_date")
 	private Date courseSessionEndDate;
 
-
-	
 	public Long getId() {
 		return id;
 	}
@@ -65,7 +64,7 @@ public class CourseSession {
 	public void setCourseSessionEndDate(Date courseSessionEndDate) {
 		this.courseSessionEndDate = courseSessionEndDate;
 	}
-	
+
 	@ManyToOne
 	private Course course;
 
@@ -76,8 +75,7 @@ public class CourseSession {
 	public void setCourse(Course course) {
 		this.course = course;
 	}
-	
-	
+
 	@ManyToOne
 	private ClassRoom classRoom;
 
@@ -88,9 +86,10 @@ public class CourseSession {
 	public void setClassRoom(ClassRoom classRoom) {
 		this.classRoom = classRoom;
 	}
-	
-    @OneToMany(mappedBy = "courseSession")
-    Set<CourseSessionParticipant> courseSessionParticipant;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "courseSession")
+	Set<CourseSessionParticipant> courseSessionParticipant;
 
 	public Set<CourseSessionParticipant> getCourseSessionParticipant() {
 		return courseSessionParticipant;
@@ -99,9 +98,10 @@ public class CourseSession {
 	public void setCourseSessionParticipant(Set<CourseSessionParticipant> courseSessionParticipant) {
 		this.courseSessionParticipant = courseSessionParticipant;
 	}
-	
-    @OneToMany(mappedBy = "courseSession")
-    Set<TrainerDisponibility> trainerDisponibility;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "courseSession")
+	Set<TrainerDisponibility> trainerDisponibility;
 
 	public Set<TrainerDisponibility> getTrainerDisponibility() {
 		return trainerDisponibility;
@@ -110,7 +110,7 @@ public class CourseSession {
 	public void setTrainerDisponibility(Set<TrainerDisponibility> trainerDisponibility) {
 		this.trainerDisponibility = trainerDisponibility;
 	}
-    
-	//public CourseSession() {}
-    
+
+	// public CourseSession() {}
+
 }

@@ -14,11 +14,22 @@ public class SignupRequestParticipant {
 	@Size(max = 50)
 	@Email
 	private String email;
-
 	@NotBlank
 	@Size(min = 3, max = 20)
 	private String address;
 
+//	@NotBlank
+//	@Size(min = 3, max = 20)
+//	private String address;
+	@NotNull
+	private String street;
+	
+	@NotNull
+	private String city;
+	
+	@NotNull
+	private String postalCode;
+	
 	@NotBlank
 	@Size(min = 3, max = 20)
 	private String phoneNumber;
@@ -54,16 +65,40 @@ public class SignupRequestParticipant {
 		this.email = email;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
+//	public String getAddress() {
+//		return address;
+//	}
+//
+//	public void setAddress(String address) {
+//		this.address = address;
+//	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
 	}
 
 	public void setPhoneNumber(String phoneNumber) {

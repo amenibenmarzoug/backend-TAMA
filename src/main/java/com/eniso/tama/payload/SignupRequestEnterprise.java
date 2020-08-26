@@ -7,8 +7,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import org.hibernate.validator.constraints.URL;
+
 
 public class SignupRequestEnterprise {
 	@NotBlank
@@ -16,9 +16,41 @@ public class SignupRequestEnterprise {
 	@Email
 	private String email;
 
-	@NotBlank
-	@Size(min = 3, max = 20)
-	private String address;
+
+//	@NotBlank
+//	@Size(min = 3, max = 20)
+//	private String address;
+	@NotNull
+	private String street;
+	
+	@NotNull
+	private String city;
+	
+	@NotNull
+	private String postalCode;
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
 
 	@NotBlank
 	@Size(min = 3, max = 20)
@@ -45,13 +77,14 @@ public class SignupRequestEnterprise {
 		this.email = email;
 	}
 
-	public String getAddress() {
-		return address;
-	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+//	public String getAddress() {
+//		return address;
+//	}
+//
+//	public void setAddress(String address) {
+//		this.address = address;
+//	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;

@@ -1,4 +1,5 @@
 package com.eniso.tama.service;
+import java.util.List;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,7 +9,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.User;

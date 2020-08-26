@@ -31,7 +31,6 @@ import com.eniso.tama.entity.User;
 import com.eniso.tama.payload.JwtResponse;
 import com.eniso.tama.payload.LoginRequest;
 import com.eniso.tama.payload.MessageResponse;
-import com.eniso.tama.payload.SignupRequest;
 import com.eniso.tama.payload.SignupRequestEnterprise;
 import com.eniso.tama.payload.SignupRequestInstitution;
 import com.eniso.tama.payload.SignupRequestParticipant;
@@ -120,19 +119,28 @@ public class AuthController {
 		Trainer trainer = new Trainer(
 				             signupRequestTrainer.getEmail(),
 							 encoder.encode(signupRequestTrainer.getPassword()),
-							 signupRequestTrainer.getAddress(),
+							 //signupRequestTrainer.getAddress(),
+							 signupRequestTrainer.getStreet(),
+							 
+							 signupRequestTrainer.getPostalCode(),
+							 signupRequestTrainer.getCity(),
 							 signupRequestTrainer.getPhoneNumber(),
-							
+							 null,
 							 signupRequestTrainer.getFirstName(),
 							 signupRequestTrainer.getLastName(),
+							 signupRequestTrainer.getSpecification(),
 							 signupRequestTrainer.getGender());
+
 		
-		User user = new User(signupRequestTrainer.getEmail(),
-				 encoder.encode(signupRequestTrainer.getPassword()),
-				 signupRequestTrainer.getAddress(),
-				 signupRequestTrainer.getPhoneNumber(),null);
+//		User user = new User(signupRequestTrainer.getEmail(),
+//				 encoder.encode(signupRequestTrainer.getPassword()),
+//				 //signupRequestTrainer.getAddress(),
+//				 signupRequestTrainer.getStreet(),
+//				 signupRequestTrainer.getCity(),
+//				 signupRequestTrainer.getPostalCode(),
+//				 signupRequestTrainer.getPhoneNumber(),null);
 		
-		
+		//User user=trainer;
 		Set<String> strRoles = signupRequestTrainer.getRole();
 		
 		Set<Role> roles = new HashSet<>();
@@ -141,10 +149,10 @@ public class AuthController {
 		Role modRole = roleRepository.findByRole(Roles.TRAINER)
 				.orElseThrow(() -> new RuntimeException("Error: Role Trainer is not found."));
 		roles.add(modRole);
-
-		user.setRoles(roles) ;
 		
-		userRepository.save(user);
+		trainer.setRoles(roles) ;
+		//User.setRoles(roles);
+		//userRepository.save(user);
 		trainerRepository.save(trainer);
 		
 		
@@ -170,29 +178,31 @@ public class AuthController {
 		Institution institution = new Institution(
 				signupRequestInstitution.getEmail(),
 							 encoder.encode(signupRequestInstitution.getPassword()),
-							 signupRequestInstitution.getAddress(),
+							 //signupRequestInstitution.getAddress(),
+							 signupRequestInstitution.getStreet(),
+							 signupRequestInstitution.getCity(),
+							 signupRequestInstitution.getPostalCode(),
 							 signupRequestInstitution.getPhoneNumber(),
-							
+							null,
 							 signupRequestInstitution.getInstitutionName());
 		
-		User user = new User(signupRequestInstitution.getEmail(),
-				 encoder.encode(signupRequestInstitution.getPassword()),
-				 signupRequestInstitution.getAddress(),
-				 signupRequestInstitution.getPhoneNumber(),null);
-		
-		
-		Set<String> strRoles = signupRequestInstitution.getRole();
-		
+//		User user = new User(signupRequestInstitution.getEmail(),
+//				 encoder.encode(signupRequestInstitution.getPassword()),
+//				 //signupRequestInstitution.getAddress(),
+//				 signupRequestInstitution.getStreet(),
+//				 signupRequestInstitution.getCity(),
+//				 signupRequestInstitution.getPostalCode(),
+//				 signupRequestInstitution.getPhoneNumber(),null);
+//		
+	//	Set<String> strRoles = signupRequestTrainer.getRole();
 		Set<Role> roles = new HashSet<>();
-
-		
 		Role modRole = roleRepository.findByRole(Roles.INSTITUTION)
 				.orElseThrow(() -> new RuntimeException("Error: Role INSTITUTION is not found."));
 		roles.add(modRole);
 
-		user.setRoles(roles) ;
+		institution.setRoles(roles) ;
 		
-		userRepository.save(user);
+		//userRepository.save(user);
 		institutionRepository.save(institution);
 		
 		
@@ -218,18 +228,23 @@ public class AuthController {
 		Entreprise enterprise = new Entreprise(
 				signupRequestEnterprise.getEmail(),
 							 encoder.encode(signupRequestEnterprise.getPassword()),
-							 signupRequestEnterprise.getAddress(),
+							 //signupRequestEnterprise.getAddress(),
+							 signupRequestEnterprise.getStreet(),
+							 signupRequestEnterprise.getCity(),
+							 signupRequestEnterprise.getPostalCode(),
 							 signupRequestEnterprise.getPhoneNumber(),
-							
+							 null,
 							 signupRequestEnterprise.getEnterpriseName(),
 							 signupRequestEnterprise.getWebsite());
 		
-		User user = new User(signupRequestEnterprise.getEmail(),
-				 encoder.encode(signupRequestEnterprise.getPassword()),
-				 signupRequestEnterprise.getAddress(),
-				 signupRequestEnterprise.getPhoneNumber(),null);
-		
-		
+//		User user = new User(signupRequestEnterprise.getEmail(),
+//				 encoder.encode(signupRequestEnterprise.getPassword()),
+//				 signupRequestEnterprise.getStreet(),
+//				 signupRequestEnterprise.getCity(),
+//				 signupRequestEnterprise.getPostalCode(),
+//				 signupRequestEnterprise.getPhoneNumber(),null);
+//		
+//		
 		Set<String> strRoles = signupRequestEnterprise.getRole();
 		
 		Set<Role> roles = new HashSet<>();
@@ -239,13 +254,11 @@ public class AuthController {
 				.orElseThrow(() -> new RuntimeException("Error: Role ENTREPRISE is not found."));
 		roles.add(modRole);
 
-		user.setRoles(roles) ;
+		enterprise.setRoles(roles) ;
 		
-		userRepository.save(user);
+		//userRepository.save(user);
 		enterpriseRepository.save(enterprise);
 		
-		
-		//System.out.println(institution.getPhoneNumber()) ;
 		
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
@@ -267,18 +280,23 @@ public class AuthController {
 		Participant participant = new Participant(
 				signupRequestParticipant.getEmail(),
 							 encoder.encode(signupRequestParticipant.getPassword()),
-							 signupRequestParticipant.getAddress(),
+							 //signupRequestParticipant.getAddress(),
+							 signupRequestParticipant.getStreet(),
+							 signupRequestParticipant.getCity(),
+							 signupRequestParticipant.getPostalCode(),
 							 signupRequestParticipant.getPhoneNumber(),
-							
+							null,
 							 signupRequestParticipant.getFirstName(),
 							 signupRequestParticipant.getLastName(),
 							 signupRequestParticipant.getGender(),
 							 signupRequestParticipant.getBirthday());
 		
-		User user = new User(signupRequestParticipant.getEmail(),
-				 encoder.encode(signupRequestParticipant.getPassword()),
-				 signupRequestParticipant.getAddress(),
-				 signupRequestParticipant.getPhoneNumber(),null);
+//		User user = new User(signupRequestParticipant.getEmail(),
+//				 encoder.encode(signupRequestParticipant.getPassword()),
+//				 signupRequestParticipant.getStreet(),
+//				 signupRequestParticipant.getCity(),
+//				 signupRequestParticipant.getPostalCode(),
+//				 signupRequestParticipant.getPhoneNumber(),null);
 		
 		
 		Set<String> strRoles = signupRequestParticipant.getRole();
@@ -290,9 +308,9 @@ public class AuthController {
 				.orElseThrow(() -> new RuntimeException("Error: Role ENTREPRISE is not found."));
 		roles.add(modRole);
 
-		user.setRoles(roles) ;
+		participant.setRoles(roles) ;
 		
-		userRepository.save(user);
+		//userRepository.save(user);
 		participantRepository.save(participant);
 		
 		
@@ -300,5 +318,6 @@ public class AuthController {
 		
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
+	
+	
 }
-

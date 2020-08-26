@@ -13,9 +13,40 @@ public class SignupRequestInstitution {
 	@Email
 	private String email;
 
-	@NotBlank
-	@Size(min = 3, max = 20)
-	private String address;
+//	@NotBlank
+//	@Size(min = 3, max = 20)
+//	private String address;
+	@NotNull
+	private String street;
+	
+	@NotNull
+	private String city;
+	
+	@NotNull
+	private String postalCode;
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
 
 	@NotBlank
 	@Size(min = 3, max = 20)
@@ -37,13 +68,14 @@ public class SignupRequestInstitution {
 		this.email = email;
 	}
 
-	public String getAddress() {
-		return address;
-	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+//	public String getAddress() {
+//		return address;
+//	}
+//
+//	public void setAddress(String address) {
+//		this.address = address;
+//	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;
@@ -76,7 +108,5 @@ public class SignupRequestInstitution {
 	public void setInstitutionName(String institutionName) {
 		this.institutionName = institutionName;
 	}
-
-
 
 }
