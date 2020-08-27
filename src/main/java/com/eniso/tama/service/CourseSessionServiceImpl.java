@@ -29,6 +29,12 @@ public class CourseSessionServiceImpl implements CourseSessionService {
 	public List<CourseSession> findAll() {
 		return courseSessionRepository.findAll();
 	}
+	
+	@Override
+	public List<CourseSession> findAllByCourseId(long id) {
+		// TODO Auto-generated method stub
+		return courseSessionRepository.findByCourseId(id);
+	}
 
 	@Override
 	public CourseSession findById(long theId) {
@@ -55,4 +61,6 @@ public class CourseSessionServiceImpl implements CourseSessionService {
 	public void deleteById(long theId) {
 		courseSessionRepository.deleteById(theId);
 	}
+
+
 }

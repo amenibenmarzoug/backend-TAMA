@@ -2,6 +2,10 @@ package com.eniso.tama.controller;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,6 +51,13 @@ public class CourseSessionController {
 	}
 	// add mapping for POST /course - add new control
 
+	@GetMapping("courseSession/course/{id}")
+	public List<CourseSession> getCourseSessionby(@PathVariable long id){
+		
+		
+				System.out.println(courseSessionService.findAllByCourseId(id).get(0).getCourseSessionName());
+		return  courseSessionService.findAllByCourseId(id);
+	}
 	@PostMapping("/courseSession")
 	public  CourseSession addCourseSession(@RequestBody CourseSession courseSession) {
 	

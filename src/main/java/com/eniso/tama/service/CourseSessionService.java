@@ -8,6 +8,8 @@ public interface CourseSessionService {
 
 	public List<CourseSession> findAll();
 	
+	public List<CourseSession> findAllByCourseId(long id);
+	
 	public CourseSession findById(long theId);
 	
 	public void save(CourseSession courseSession);

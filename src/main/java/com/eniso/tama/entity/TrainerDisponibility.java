@@ -26,6 +26,7 @@ public class TrainerDisponibility {
 	@JoinColumn(name = "courseSession_id")
 	CourseSession courseSession;
 
+	@Column(name = "disponibility")
 	boolean disponibility;
 
 
