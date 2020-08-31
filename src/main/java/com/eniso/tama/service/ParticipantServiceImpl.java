@@ -10,13 +10,13 @@ import com.eniso.tama.entity.Participant;
 import com.eniso.tama.repository.ParticipantRepository;
 
 
-
 @Service
 @ComponentScan(basePackageClasses = ParticipantRepository.class )
 
 public class ParticipantServiceImpl implements  ParticipantService {
 
-	
+
+
 		private ParticipantRepository participantRepository;
 
 		
@@ -122,12 +122,15 @@ public class ParticipantServiceImpl implements  ParticipantService {
 		}
 
 		@Override
-		public void save(Participant theControl) {
-			participantRepository.save(theControl);
+		public void save(Participant theParticipant) {
+			participantRepository.save(theParticipant);
 		}
 
+	
 		@Override
-		public void deleteById(long theId) {
+
+		public void deleteById(long    theId) {
+
 			participantRepository.deleteById(theId);
 		}
 }

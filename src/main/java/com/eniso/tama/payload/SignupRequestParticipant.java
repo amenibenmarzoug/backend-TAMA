@@ -8,13 +8,26 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.eniso.tama.entity.Entreprise;
+
 public class SignupRequestParticipant {
 	@NotBlank
 	@Size(max = 50)
 	@Email
 	private String email;
 
-//	@NotBlank
+	private Entreprise entreprise;
+
+public Entreprise getEntreprise() {
+		return entreprise;
+	}
+
+	public void setEntreprise(Entreprise entreprise) {
+		this.entreprise = entreprise;
+	}
+
+	//	@NotBlank
 //	@Size(min = 3, max = 20)
 //	private String address;
 	@NotNull
@@ -26,17 +39,18 @@ public class SignupRequestParticipant {
 	@NotNull
 	private String postalCode;
 	
+
 	@NotBlank
 	@Size(min = 3, max = 20)
 	private String phoneNumber;
 
 	@NotBlank
 	@Size(max = 20)
-	private String firstName;
+	private String firstNameP;
 
 	@NotBlank
 	@Size(max = 30)
-	private String lastName;
+	private String lastNameP;
 
 	@NotBlank
 	private String gender;
@@ -60,6 +74,7 @@ public class SignupRequestParticipant {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 
 //	public String getAddress() {
 //		return address;
@@ -94,8 +109,8 @@ public class SignupRequestParticipant {
 	}
 
 	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
+		this.postalCode = postalCode;}
+
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
@@ -125,20 +140,20 @@ public class SignupRequestParticipant {
 		this.field = field;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getFirstNameP() {
+		return firstNameP;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setFirstNameP(String firstNameP) {
+		this.firstNameP = firstNameP;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getLastNameP() {
+		return lastNameP;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setLastNameP(String lastNameP) {
+		this.lastNameP = lastNameP;
 	}
 
 	public String getGender() {

@@ -23,11 +23,11 @@ import com.eniso.tama.service.UserDetailsServiceImpl;
 
 
 @Configuration
-//@EnableWebSecurity
-//@EnableGlobalMethodSecurity(
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(
 		// securedEnabled = true,
-		// jsr250Enabled = true,
-//		prePostEnabled = true)
+		 //jsr250Enabled = true,
+		prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;

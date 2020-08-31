@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -121,8 +123,7 @@ public class ParticipantController {
 					throw new RuntimeException("oops");
 				}
 			
-			
-			
+		
 		}
 			return theParticipant1 ;
 		}
@@ -138,6 +139,30 @@ public class ParticipantController {
 			
 			return theParticipant;
 		}
+		
+		
+		
+		@GetMapping("participants/entreprise")
+	public List <Participant> getParticipantEntreprise(@RequestParam("id") long  id) {
+			
+			 List<Participant> participantsPerEntr= new ArrayList<Participant>();
+		
+			for(Participant theP:participantService.findAll()) {
+				
+				
+              if (id==theP.getEntreprise().getId() ) {
+            	  
+            	  participantsPerEntr.add(theP);
+              }
+
+
+		
+				
+	}
+return participantsPerEntr ;
+		}
+////		
+//		
 		
 		
 
@@ -162,7 +187,35 @@ public class ParticipantController {
 			@PutMapping("/participants")
 			public Participant updateParticipant (@RequestBody Participant theParticipant) {
 				
-				participantService.save(theParticipant);
+		Participant newParticipant =participantService.findById(theParticipant.getId());
+		newParticipant.setFirstNameP(theParticipant.getFirstNameP());
+		newParticipant.setLastNameP(theParticipant.getLastNameP());
+		newParticipant.setBirthday(theParticipant.getBirthday());
+		newParticipant.setCity(theParticipant.getCity());
+		newParticipant.setGender(theParticipant.getGender()) ;
+		newParticipant.setCurrentPosition(theParticipant.getCurrentPosition());
+		newParticipant.setEducationLevel(theParticipant.getEducationLevel());
+		newParticipant.setEmail(theParticipant.getEmail());	
+		newParticipant.setLevel(theParticipant.getLevel());	
+		newParticipant.setEntreprise(theParticipant.getEntreprise());
+				participantService.save(newParticipant ); 
+				
+				return theParticipant;
+			}
+			
+			
+			@PutMapping("/participants/validate")
+			public Participant ValidateParticipant (@RequestBody Participant theParticipant) {
+				Participant newParticipant =participantService.findById(theParticipant.getId());
+				newParticipant.setValidated(true);
+				//newParticipant.setValidated(theParticipant.isValidated());
+				System.out.println(newParticipant.isValidated()) ;
+				participantService.save(newParticipant) ;
+				
+
+				if (theParticipant == null) {
+					throw new RuntimeException("oops");
+				}
 				
 				return theParticipant;
 			}

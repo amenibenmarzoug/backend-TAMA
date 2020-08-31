@@ -16,22 +16,36 @@ import org.hibernate.validator.constraints.URL;
 
 public class Entreprise extends User{
 	
-
-	@NotNull
-	@Column(name = "entrepriseName")
-	private String entrepriseName;
+	//this variable is for validating the accounts
+		//@NotNull
+//		@Column(name = "validated"  )
+//		private boolean validated;
+//
+//
+//		
+//
+//		public boolean isValidated() {
+//			return validated;
+//		}
+//
+//		public void setValidated(boolean validated) {
+//			 this.validated=validated;
+//		}
+	//@NotNull
+	@Column(name = "enterpriseName")
+	private String enterpriseName;
 	
 
 	
 	@Column(name = "website")
 	private String website;
 	
-	public String getEntrepriseName() {
-		return entrepriseName;
+	public String getEnterpriseName() {
+		return enterpriseName;
 	}
 
-	public void setEntrepriseName(String entrepriseName) {
-		this.entrepriseName = entrepriseName;
+	public void setEnterpriseName(String enterpriseName) {
+		this.enterpriseName = enterpriseName;
 	}
 
 	public String getWebsite() {
@@ -46,7 +60,7 @@ public class Entreprise extends User{
 	}
 	
 	public Entreprise(@NotBlank @Size(max = 50) @Email String email,
-			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank String enterpriseName, String website) {
+			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,String enterpriseName, String website) {
 		super.setEmail(email);
 		super.setPassword(password);
 		//super.setAddress(address);
@@ -54,12 +68,12 @@ public class Entreprise extends User{
 		super.setCity(city);
 		super.setPostalCode(postalCode);
 		super.setPhoneNumber(phoneNumber);
-		this.entrepriseName = enterpriseName;
+		this.enterpriseName = enterpriseName;
 		super.setRoles(roles);
 		this.website=website;
 	}
 	
-	
+
 
 	
 	

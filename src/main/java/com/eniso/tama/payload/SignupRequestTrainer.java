@@ -63,12 +63,15 @@ public class SignupRequestTrainer {
 	@NotBlank
 	private String gender;
 	
+
 	@NotBlank
 	private String specification;
+
  
     private Set<String> role;
     
     @NotBlank
+    @Size(min = 8, max = 40)
    // @Size(min = 8, max = 40)
     private String password;
   
@@ -112,8 +115,6 @@ public class SignupRequestTrainer {
 		this.password = password;
 	}
 
-
-	
 	
 
 	public String getSpecification() {
@@ -149,4 +150,7 @@ public class SignupRequestTrainer {
 	}
 
 
+
 }
+	
+

@@ -28,6 +28,7 @@ public class Institution extends User{
 	public Institution() {
 	}
 
+
 	public Institution(@NotBlank @Size(max = 50) @Email String email,
 			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank String institutionName) {
 		super.setEmail(email);

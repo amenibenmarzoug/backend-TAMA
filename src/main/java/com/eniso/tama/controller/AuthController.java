@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.configuration.jwt.JwtUtils;
@@ -27,6 +28,7 @@ import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
 import com.eniso.tama.entity.Trainer;
+import com.eniso.tama.entity.User;
 import com.eniso.tama.payload.JwtResponse;
 import com.eniso.tama.payload.LoginRequest;
 import com.eniso.tama.payload.MessageResponse;
@@ -75,8 +77,7 @@ public class AuthController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		System.out.println(loginRequest.getPassword()) ;
-		System.out.println(loginRequest.getEmail()) ;
+		
 		
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -179,9 +180,8 @@ public class AuthController {
 							 encoder.encode(signupRequestInstitution.getPassword()),
 							 //signupRequestInstitution.getAddress(),
 							 signupRequestInstitution.getStreet(),
-							 signupRequestInstitution.getPostalCode(),
 							 signupRequestInstitution.getCity(),
-							 
+							 signupRequestInstitution.getPostalCode(),
 							 signupRequestInstitution.getPhoneNumber(),
 							null,
 							 signupRequestInstitution.getInstitutionName());
@@ -230,22 +230,14 @@ public class AuthController {
 							 encoder.encode(signupRequestEnterprise.getPassword()),
 							 //signupRequestEnterprise.getAddress(),
 							 signupRequestEnterprise.getStreet(),
-							 signupRequestEnterprise.getPostalCode(),
 							 signupRequestEnterprise.getCity(),
-							 
+							 signupRequestEnterprise.getPostalCode(),
 							 signupRequestEnterprise.getPhoneNumber(),
 							 null,
 							 signupRequestEnterprise.getEnterpriseName(),
 							 signupRequestEnterprise.getWebsite());
 		
-//		User user = new User(signupRequestEnterprise.getEmail(),
-//				 encoder.encode(signupRequestEnterprise.getPassword()),
-//				 signupRequestEnterprise.getStreet(),
-//				 signupRequestEnterprise.getCity(),
-//				 signupRequestEnterprise.getPostalCode(),
-//				 signupRequestEnterprise.getPhoneNumber(),null);
-//		
-//		
+		
 		Set<String> strRoles = signupRequestEnterprise.getRole();
 		
 		Set<Role> roles = new HashSet<>();
@@ -273,8 +265,8 @@ public class AuthController {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Error: Email is already in use!"));
-		}
-		
+		} 
+	
 
 		// Create new user's account
 	
@@ -288,8 +280,8 @@ public class AuthController {
 							 
 							 signupRequestParticipant.getPhoneNumber(),
 							null,
-							 signupRequestParticipant.getFirstName(),
-							 signupRequestParticipant.getLastName(),
+							 signupRequestParticipant.getFirstNameP(),
+							 signupRequestParticipant.getLastNameP(),
 							 signupRequestParticipant.getGender(),
 							 signupRequestParticipant.getBirthday());
 		
@@ -316,10 +308,76 @@ public class AuthController {
 		participantRepository.save(participant);
 		
 		
+		
+		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
+	
+	
+	
+	
+	
+	//POST FOR ADDING PARTICIPANTS IN CRUD , IT REQUERS THE ID OF THE ENTERPRISE
+	
+	
+	
+	@PostMapping( "/signupParticipantEntre" )
+	public ResponseEntity<?> registerParticipantPerEntr(@Valid @RequestBody SignupRequestParticipant signupRequestParticipant
+		  ,  @RequestParam("id") long id 
+){
+		System.out.println("participant") ;
+		
+
+		if (participantRepository.existsByEmail(signupRequestParticipant.getEmail())) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Email is already in use!"));
+		}
+		Entreprise entreprise = new Entreprise() ;
+		for ( Entreprise e : enterpriseRepository.findAll()) {
+			if (id==e.getId()) {
+				entreprise=e ;
+			}
+		
+		}
+		
+
+
+		Participant participantPerEntr = new Participant(
+				signupRequestParticipant.getEmail(),
+							 encoder.encode(signupRequestParticipant.getPassword()),
+							 //signupRequestParticipant.getAddress(),
+							 signupRequestParticipant.getStreet(),
+							 signupRequestParticipant.getCity(),
+							 signupRequestParticipant.getPostalCode(),
+							 signupRequestParticipant.getPhoneNumber(),
+							null,
+							 signupRequestParticipant.getFirstNameP(),
+							 signupRequestParticipant.getLastNameP(),
+							 signupRequestParticipant.getGender(),
+							 signupRequestParticipant.getBirthday(),
+		                     entreprise );
+	
+		Set<String> strRoles = signupRequestParticipant.getRole();
+		
+		Set<Role> roles = new HashSet<>();
+
+		
+		Role modRole = roleRepository.findByRole(Roles.PARTICIPANT)
+				.orElseThrow(() -> new RuntimeException("Error: Role PARTICIPANT is not found."));
+		roles.add(modRole);
+		
+		
+		participantPerEntr.setRoles(roles) ;
+		
+		System.out.println(participantPerEntr) ;
+		participantRepository.save(participantPerEntr);
+		
+		
 		//System.out.println(institution.getPhoneNumber()) ;
 		
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
+	
 	
 	
 }
