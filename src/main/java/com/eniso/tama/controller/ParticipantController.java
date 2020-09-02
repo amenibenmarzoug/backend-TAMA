@@ -1,12 +1,18 @@
 package com.eniso.tama.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +28,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
+import com.eniso.tama.entity.Role;
+import com.eniso.tama.entity.Roles;
+import com.eniso.tama.payload.MessageResponse;
+import com.eniso.tama.payload.SignupRequestPartEntr;
+import com.eniso.tama.payload.SignupRequestParticipant;
+import com.eniso.tama.repository.EnterpriseRepository;
+import com.eniso.tama.repository.ParticipantRepository;
+import com.eniso.tama.repository.RoleRepository;
 import com.eniso.tama.service.ParticipantService;
 
 
@@ -30,9 +44,17 @@ import com.eniso.tama.service.ParticipantService;
 @RestController
 @ComponentScan(basePackageClasses = ParticipantService.class )
 @RequestMapping(value="/api")
-
 public class ParticipantController {
 	
+
+@Autowired
+RoleRepository roleRepository ;
+@Autowired
+ParticipantRepository participantRepository ;
+@Autowired
+PasswordEncoder encoder ;
+@Autowired
+EnterpriseRepository enterpriseRepository ;
 
 
 		private ParticipantService participantService;
@@ -146,19 +168,25 @@ public class ParticipantController {
 	public List <Participant> getParticipantEntreprise(@RequestParam("id") long  id) {
 			
 			 List<Participant> participantsPerEntr= new ArrayList<Participant>();
-		
-			for(Participant theP:participantService.findAll()) {
+			
+			for(Participant theP:getParticipantPilier1()) {
 				
-				
+				 System.out.println(theP.getEntreprise().getId()) ;
+				 System.out.println(id) ;
+				 
+				 
               if (id==theP.getEntreprise().getId() ) {
             	  
             	  participantsPerEntr.add(theP);
+            	  System.out.println(participantsPerEntr.isEmpty()) ;
               }
 
 
-		
+              System.out.println(participantsPerEntr.isEmpty()) ;
 				
 	}
+			
+			
 return participantsPerEntr ;
 		}
 ////		
@@ -166,19 +194,66 @@ return participantsPerEntr ;
 		
 		
 
-		// add mapping for POST /participants - add new control
+		//POST FOR ADDING PARTICIPANTS IN CRUD , IT REQUERS THE ID OF THE ENTERPRISE
+		
+		
+		
+		@PostMapping( "/signupParticipantEntre" )
+		public ResponseEntity<?> registerParticipantPerEntr(@Valid @RequestBody SignupRequestPartEntr signupRequestParticipant
+			  ,  @RequestParam("id") long id 
+	){
+			System.out.println("participant") ;
+		
 
-		@PostMapping("/participants")
-		public  Participant addcontrol(@RequestBody Participant theParticipant) {
+		if (participantRepository.existsByEmail(signupRequestParticipant.getEmail())) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Email is already in use!"));
+			}
+			Entreprise entreprise = new Entreprise() ;
+			for ( Entreprise e : enterpriseRepository.findAll()) {
+				if (id==e.getId()) {
+					entreprise=e ;
+				}		
+			}
+			
+
+		Participant participantPerEntr = new Participant(
+				signupRequestParticipant.getEmail(),
+							 encoder.encode(signupRequestParticipant.getPassword()),
+								 //signupRequestParticipant.getAddress(),
+								 signupRequestParticipant.getStreet(),
+								 signupRequestParticipant.getCity(),
+							 signupRequestParticipant.getPostalCode(),
+								 signupRequestParticipant.getPhoneNumber(),
+							null,
+								 signupRequestParticipant.getFirstName(),
+								 signupRequestParticipant.getLastName(),
+							 signupRequestParticipant.getGender(),
+							 signupRequestParticipant.getBirthday(),
+			                     entreprise );
+
+			//Set<String> strRoles = signupRequestParticipant.getRole();
+			
+			Set<Role> roles = new HashSet<>();
+
+			
+		Role modRole = roleRepository.findByRole(Roles.PARTICIPANT)
+					.orElseThrow(() -> new RuntimeException("Error: Role PARTICIPANT is not found."));
+		roles.add(modRole);
+		
+					
+		participantPerEntr.setRoles(roles) ;
+			
+		System.out.println(participantPerEntr.getRoles()) ;
+		
+		
+		participantRepository.save(participantPerEntr);
 		
 			
-			// also just in case they pass an id in JSON ... set id to 0
-			// this is to force a save of new item ... instead of update
+			//System.out.println(institution.getPhoneNumber()) ;
 			
-			//stheControl.setId(0);
-			
-			participantService.save(theParticipant);
-			return theParticipant;
+			return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 		}
 		
 		

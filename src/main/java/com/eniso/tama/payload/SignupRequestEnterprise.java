@@ -123,6 +123,14 @@ public class SignupRequestEnterprise {
 		this.website = website;
 	}
 
+	@Override
+	public String toString() {
+		return "SignupRequestEnterprise [email=" + email + ", street=" + street + ", city=" + city + ", postalCode="
+				+ postalCode + ", phoneNumber=" + phoneNumber + ", password=" + password + ", enterpriseName="
+				+ enterpriseName + ", website=" + website + ", role=" + role + "]";
+	}
+	
+
 
 
 }

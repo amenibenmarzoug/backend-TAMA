@@ -1,5 +1,4 @@
 package com.eniso.tama.payload;
-
 import java.util.Date;
 import java.util.Set;
 
@@ -10,14 +9,20 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.eniso.tama.entity.Entreprise;
-public class SignupRequestParticipant {
+
+public class SignupRequestPartEntr {
+
+
+
+
+
 	@NotBlank
 	@Size(max = 50)
 	@Email
 	private String email;
 	
 
-	
+	private Entreprise entreprise;
 
 //	@NotBlank
 //	@Size(min = 3, max = 20)
@@ -130,6 +135,13 @@ public class SignupRequestParticipant {
 		this.field = field;
 	}
 
+	public Entreprise getEntreprise() {
+		return entreprise;
+	}
+
+	public void setEntreprise(Entreprise entreprise) {
+		this.entreprise = entreprise;
+	}
 
 	public String getFirstName() {
 		return firstName;
