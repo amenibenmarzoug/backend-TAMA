@@ -62,6 +62,7 @@ public class SignupRequestTrainer {
 	@NotBlank
 	private String gender;
 	
+
 	@NotBlank
 	private String specification;
 
@@ -112,8 +113,6 @@ public class SignupRequestTrainer {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-
 
 	
 

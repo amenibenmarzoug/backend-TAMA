@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.Entreprise;
+import com.eniso.tama.entity.Participant;
 import com.eniso.tama.service.EntrepriseService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -36,8 +37,8 @@ public List<Entreprise> findAll() {
 	return entrepriseService.findAll();
 }
 
-@GetMapping("entreprises/{entreprisesId}")
-public Entreprise getParticipant(@PathVariable int  entrepriseId) {
+@GetMapping("entreprises/{entrepriseId}")
+public Entreprise getParticipant(@PathVariable long  entrepriseId) {
 	
 	Entreprise theEntreprise = entrepriseService.findById(entrepriseId);
 	
@@ -66,12 +67,24 @@ public  Entreprise addcontrol(@RequestBody Entreprise theParticipant) {
 // add mapping for PUT /employees - update existing employee
 
 	@PutMapping("/entreprises")
-	public Entreprise updateParticipant (@RequestBody Entreprise theParticipant) {
+
+	public Entreprise updateEntreprise (@RequestBody Entreprise theEntreprise) {
 		
-		entrepriseService.save(theParticipant);
+Entreprise newEntreprise =entrepriseService.findById(theEntreprise.getId());
+newEntreprise.setEnterpriseName(theEntreprise.getEnterpriseName());
+newEntreprise.setEmail(theEntreprise.getEmail());
+newEntreprise.setWebsite(theEntreprise.getWebsite());
+newEntreprise.setCity(theEntreprise.getCity());
+newEntreprise.setStreet(theEntreprise.getStreet());
+newEntreprise.setPhoneNumber(theEntreprise.getPhoneNumber());
+newEntreprise.setPostalCode(theEntreprise.getPostalCode());
+
+entrepriseService.save(newEntreprise ); 
 		
-		return theParticipant;
+		return theEntreprise ;
 	}
+	
+	
 
 	@DeleteMapping("/entreprises/{entrepriseId}")
 	public String deleteParticipant(@PathVariable int  entrepriseId) {

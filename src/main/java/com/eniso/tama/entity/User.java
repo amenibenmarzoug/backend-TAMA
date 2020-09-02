@@ -98,11 +98,11 @@ public class User {
 	@Column(name="street")
 	private String street;
 	
+
 	@NotNull
 	@Column(name="city")
 	private String city;
 
-	
 	@NotNull
 	@Column(name="postalCode")
 	private String postalCode;

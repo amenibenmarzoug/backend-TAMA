@@ -17,6 +17,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Participant extends User{
 	
+	//this variable is for validating the accounts
+		//@NotNull
+		@Column(name = "validated"  )
+		private boolean validated;
+
+	
+
+	public boolean isValidated() {
+			return validated;
+		}
+
+		public void setValidated(boolean validated) {
+			this.validated = validated;
+		}
 
 	@NotNull
 	@Column(name = "firstNameP")
@@ -161,4 +175,23 @@ public class Participant extends User{
 		this.birthday= birthday;
 		
 	}
+	public Participant(@NotBlank @Size(max = 50) @Email String email,
+	String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstNameP,
+	@NotBlank String lastNameP, @NotBlank String gender , Date birthday , Entreprise entreprise) {
+this.setId(super.getId());
+super.setEmail(email);
+super.setPassword(password);
+//super.setAddress(address);
+super.setStreet(street);
+super.setCity(city);
+super.setPostalCode(postalCode);
+super.setPhoneNumber(phoneNumber);
+super.setRoles(roles);
+this.firstNameP = firstNameP;
+this.lastNameP  = lastNameP;
+this.gender = gender;
+this.birthday= birthday;
+this.entreprise=entreprise ;
+
+}
 }

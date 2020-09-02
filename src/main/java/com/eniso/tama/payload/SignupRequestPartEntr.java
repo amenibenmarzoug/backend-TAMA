@@ -1,16 +1,28 @@
 package com.eniso.tama.payload;
-
 import java.util.Date;
 import java.util.Set;
+
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-public class SignupRequestParticipant {
+
+import com.eniso.tama.entity.Entreprise;
+
+public class SignupRequestPartEntr {
+
+
+
+
+
 	@NotBlank
 	@Size(max = 50)
 	@Email
 	private String email;
+	
+
+	private Entreprise entreprise;
 
 //	@NotBlank
 //	@Size(min = 3, max = 20)
@@ -23,7 +35,7 @@ public class SignupRequestParticipant {
 	
 	@NotNull
 	private String postalCode;
-
+	
 	@NotBlank
 	@Size(min = 3, max = 20)
 	private String phoneNumber;
@@ -67,7 +79,9 @@ public class SignupRequestParticipant {
 //		this.address = address;
 //	}
 
-	
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
 
 	public String getStreet() {
 		return street;
@@ -93,9 +107,6 @@ public class SignupRequestParticipant {
 		this.postalCode = postalCode;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
@@ -124,6 +135,13 @@ public class SignupRequestParticipant {
 		this.field = field;
 	}
 
+	public Entreprise getEntreprise() {
+		return entreprise;
+	}
+
+	public void setEntreprise(Entreprise entreprise) {
+		this.entreprise = entreprise;
+	}
 
 	public String getFirstName() {
 		return firstName;

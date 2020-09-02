@@ -2,9 +2,6 @@ package com.eniso.tama.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.Query;
-
-import com.eniso.tama.entity.Group;
 import com.eniso.tama.entity.Participant;
 
 
@@ -12,6 +9,7 @@ import com.eniso.tama.entity.Participant;
 
 public interface ParticipantService {
 	
+
 		public List<Participant> findAll();
 		
 		public Participant findById(long theId);
@@ -22,10 +20,11 @@ public interface ParticipantService {
 		
 		public List<Participant> findByGroup(long id);
 		
+		
+		
+
 		public void save(Participant theParticipant);
 		
 		public void deleteById(long theId);
 		
 	}
-
-

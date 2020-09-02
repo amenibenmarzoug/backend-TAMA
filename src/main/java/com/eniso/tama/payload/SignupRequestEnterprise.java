@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.URL;
 
 
 public class SignupRequestEnterprise {
@@ -14,6 +15,7 @@ public class SignupRequestEnterprise {
 	@Size(max = 50)
 	@Email
 	private String email;
+
 
 //	@NotBlank
 //	@Size(min = 3, max = 20)
@@ -59,7 +61,7 @@ public class SignupRequestEnterprise {
 	@Size(min = 8, max = 40)
 	private String password;
 	
-	@NotNull
+	//@NotNull
 	private String enterpriseName;
 
 	
@@ -75,6 +77,7 @@ public class SignupRequestEnterprise {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 
 	public String getPhoneNumber() {
 		return phoneNumber;
@@ -115,6 +118,14 @@ public class SignupRequestEnterprise {
 	public void setWebsite(String website) {
 		this.website = website;
 	}
+
+	@Override
+	public String toString() {
+		return "SignupRequestEnterprise [email=" + email + ", street=" + street + ", city=" + city + ", postalCode="
+				+ postalCode + ", phoneNumber=" + phoneNumber + ", password=" + password + ", enterpriseName="
+				+ enterpriseName + ", website=" + website + ", role=" + role + "]";
+	}
+	
 
 
 

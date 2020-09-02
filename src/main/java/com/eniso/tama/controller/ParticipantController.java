@@ -1,31 +1,40 @@
 package com.eniso.tama.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
+import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.eniso.tama.entity.Group;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.repository.GroupRepository;
 import com.eniso.tama.repository.ParticipantRepository;
+import com.eniso.tama.entity.Entreprise;
+import com.eniso.tama.entity.Role;
+import com.eniso.tama.entity.Roles;
+import com.eniso.tama.payload.MessageResponse;
+import com.eniso.tama.payload.SignupRequestPartEntr;
+import com.eniso.tama.repository.EnterpriseRepository;
+import com.eniso.tama.repository.RoleRepository;
 import com.eniso.tama.service.ParticipantService;
 
 
@@ -34,18 +43,25 @@ import com.eniso.tama.service.ParticipantService;
 @RestController
 @ComponentScan(basePackageClasses = ParticipantService.class )
 @RequestMapping(value="/api")
-
 public class ParticipantController {
 	
 
-		@Autowired
-		private GroupRepository groupRepository;
-		
-		@Autowired
-		private ParticipantRepository participantRepository;
-		
+@Autowired
+private GroupRepository groupRepository;
+
+@Autowired
+private ParticipantRepository participantRepository;
+
+@Autowired
+RoleRepository roleRepository ;
+
+@Autowired
+PasswordEncoder encoder ;
+@Autowired
+EnterpriseRepository enterpriseRepository ;
+
+
 		private ParticipantService participantService;
-		
 		@Autowired
 		public ParticipantController(ParticipantService theParticipantService) {
 			participantService = theParticipantService;
@@ -59,8 +75,10 @@ public class ParticipantController {
 			return participantService.findAll();
 		}
 		
+		
 		@GetMapping("participants/{participantId}")
-		public Participant getParticipant(@PathVariable int  participantId) {
+		public Participant getParticipant(@PathVariable long participantId) {
+
 			
 			Participant theParticipant = participantService.findById(participantId);
 			
@@ -70,108 +88,219 @@ public class ParticipantController {
 			
 			return theParticipant;
 		}
-		
+
 		//get participants by level 
 
-			@GetMapping("participants/level/{participantLevel}")
-			public List <Participant> getParticipant(@PathVariable String  participantLevel) {
+		@GetMapping("participants/level/{participantLevel}")
+		public List <Participant> getParticipant(@PathVariable String  participantLevel) {
+			
+			List<Participant> theParticipant = participantService.findByLevel(participantLevel);
+			
+			if (theParticipant == null) {
+				throw new RuntimeException("Participant id not found - " + participantLevel);
+			}
+			
+			return theParticipant;
+		}
+		
+		//les participants du pilier1
+		@GetMapping("participants/pilier1")
+		public List <Participant> getParticipantPilier1() {
+		 
+			//List <Participant> theParticipant= participantService.findByEntreprise(participant);
+			 List<Participant> theParticipant1= new ArrayList<Participant>();
+			
+			
+			for(Participant theP:participantService.findAll()) {
 				
-				List<Participant> theParticipant = participantService.findByLevel(participantLevel);
+				System.out.println(theP.getEntreprise()) ;
+				 if  (theP.getEntreprise()!=null) {
+       	  
+				theParticipant1.add(theP) ;
+				         } 
+//
+//				if (theParticipant1 == null) {
+//					throw new RuntimeException("oops");
+//				}
+//				
+		}
+			return theParticipant1 ;
+
+		}
+		
+		//les participants du pilier2
+		@GetMapping("participants/pilier2")
+		public List <Participant> getParticipantPilier2() {
+		 
+			//List <Participant> theParticipant= participantService.findByEntreprise(participant);
+			 List<Participant> theParticipant1= new ArrayList<Participant>();
+			
+			
+			for(Participant theP:participantService.findAll()) {
 				
-				if (theParticipant == null) {
-					throw new RuntimeException("Participant id not found - " + participantLevel);
+				//System.out.println(theP.getEntreprise()) ;
+				 if  (theP.getEntreprise()==null) {
+       	  
+				theParticipant1.add(theP) ;
+			
+         } 
+
+				if (theParticipant1 == null) {
+					throw new RuntimeException("oops");
 				}
+			
+		
+		}
+			return theParticipant1 ;
+		}
+		//get participants by abandon 
+		@GetMapping("participants/isAbandon/{abandon}")
+		public List <Participant> getParticipantByAbandon(@PathVariable boolean  abandon) {
+			
+			List<Participant> theParticipant = participantService.findByAbonadn(abandon);
+			
+			if (theParticipant == null) {
+				throw new RuntimeException("Theres no abandon");
+			}
+			
+			return theParticipant;
+		}
+		
+		
+		
+		@GetMapping("participants/entreprise")
+	public List <Participant> getParticipantEntreprise(@RequestParam("id") long  id) {
+			
+			 List<Participant> participantsPerEntr= new ArrayList<Participant>();
+			
+			for(Participant theP:getParticipantPilier1()) {
 				
-				return theParticipant;
+				 System.out.println(theP.getEntreprise().getId()) ;
+				 System.out.println(id) ;
+				 
+				 
+              if (id==theP.getEntreprise().getId() ) {
+            	  
+            	  participantsPerEntr.add(theP);
+            	  System.out.println(participantsPerEntr.isEmpty()) ;
+              }
+
+
+              System.out.println(participantsPerEntr.isEmpty()) ;
+				
 			}
 			
 			
-			//les participants du pilier1
-			@GetMapping("participants/pilier1")
-			public List <Participant> getParticipantPilier1() {
-			 
-				//List <Participant> theParticipant= participantService.findByEntreprise(participant);
-				 List<Participant> theParticipant1= new ArrayList<Participant>();
-				
-				
-				for(Participant theP:participantService.findAll()) {
-					
-					System.out.println(theP.getEntreprise()) ;
-					 if  (theP.getEntreprise()!=null) {
-	       	  
-					theParticipant1.add(theP) ;
-					         } 					
-			}
-				return theParticipant1 ;
-
-			}
-			
-			//les participants du pilier2
-			@GetMapping("participants/pilier2")
-			public List <Participant> getParticipantPilier2() {
-			 
-				//List <Participant> theParticipant= participantService.findByEntreprise(participant);
-				 List<Participant> theParticipant1= new ArrayList<Participant>();
-				
-				
-				for(Participant theP:participantService.findAll()) {
-					
-					//System.out.println(theP.getEntreprise()) ;
-					 if  (theP.getEntreprise()==null) {
-	       	  
-					theParticipant1.add(theP) ;
-				
-	         } 
-
-					if (theParticipant1 == null) {
-						throw new RuntimeException("oops");
-					}
-				
-				
-				
-			}
-				return theParticipant1 ;
-			}
-			//get participants by abandon 
-			@GetMapping("participants/isAbandon/{abandon}")
-			public List <Participant> getParticipantByAbandon(@PathVariable boolean  abandon) {
-				
-				List<Participant> theParticipant = participantService.findByAbonadn(abandon);
-				
-				if (theParticipant == null) {
-					throw new RuntimeException("Theres no abandon");
-				}
-				
-				return theParticipant;
-			}
-	// add mapping for POST /participants - add new control
-
-	@PostMapping("/participants")
-	public  Participant addcontrol(@RequestBody Participant theParticipant) {
+			return participantsPerEntr ;
+		}
 	
 		
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
+
+		//POST FOR ADDING PARTICIPANTS IN CRUD , IT REQUERS THE ID OF THE ENTERPRISE
 		
-		//stheControl.setId(0);
 		
-		participantService.save(theParticipant);
-		return theParticipant;
-	}
-	
+		@PostMapping("/participants")
+		public  Participant addParticipant(@RequestBody Participant theParticipant) {
+		
+			
+			participantService.save(theParticipant);
+			return theParticipant;
+		}
+		@PostMapping( "/signupParticipantEntre" )
+		public ResponseEntity<?> registerParticipantPerEntr(@Valid @RequestBody SignupRequestPartEntr signupRequestParticipant
+			  ,  @RequestParam("id") long id 
+	){
+			System.out.println("participant") ;
+		
+
+		if (participantRepository.existsByEmail(signupRequestParticipant.getEmail())) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Email is already in use!"));
+			}
+			Entreprise entreprise = new Entreprise() ;
+			for ( Entreprise e : enterpriseRepository.findAll()) {
+				if (id==e.getId()) {
+					entreprise=e ;
+				}		
+			}
+			
+
+		Participant participantPerEntr = new Participant(
+				signupRequestParticipant.getEmail(),
+							 encoder.encode(signupRequestParticipant.getPassword()),
+								 //signupRequestParticipant.getAddress(),
+								 signupRequestParticipant.getStreet(),
+								 signupRequestParticipant.getCity(),
+							 signupRequestParticipant.getPostalCode(),
+								 signupRequestParticipant.getPhoneNumber(),
+							null,
+								 signupRequestParticipant.getFirstName(),
+								 signupRequestParticipant.getLastName(),
+							 signupRequestParticipant.getGender(),
+							 signupRequestParticipant.getBirthday(),
+			                     entreprise );
+
+			//Set<String> strRoles = signupRequestParticipant.getRole();
+			
+			Set<Role> roles = new HashSet<>();
+
+			
+		Role modRole = roleRepository.findByRole(Roles.PARTICIPANT)
+					.orElseThrow(() -> new RuntimeException("Error: Role PARTICIPANT is not found."));
+		roles.add(modRole);
+		
+					
+		participantPerEntr.setRoles(roles) ;
+			
+		System.out.println(participantPerEntr.getRoles()) ;
+		
+		
+		participantRepository.save(participantPerEntr);
+		
+			
+			//System.out.println(institution.getPhoneNumber()) ;
+			
+			return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+		}
+		
 		
 		// add mapping for PUT /employees - update existing employee
 		
 			@PutMapping("/participants")
 			public Participant updateParticipant (@RequestBody Participant theParticipant) {
 				
-				participantService.save(theParticipant);
+		Participant newParticipant =participantService.findById(theParticipant.getId());
+		newParticipant.setFirstNameP(theParticipant.getFirstNameP());
+		newParticipant.setLastNameP(theParticipant.getLastNameP());
+		newParticipant.setBirthday(theParticipant.getBirthday());
+		newParticipant.setCity(theParticipant.getCity());
+		newParticipant.setGender(theParticipant.getGender()) ;
+		newParticipant.setCurrentPosition(theParticipant.getCurrentPosition());
+		newParticipant.setEducationLevel(theParticipant.getEducationLevel());
+		newParticipant.setEmail(theParticipant.getEmail());	
+		newParticipant.setLevel(theParticipant.getLevel());	
+		newParticipant.setEntreprise(theParticipant.getEntreprise());
+				participantService.save(newParticipant ); 
+				
+				return theParticipant;
+			}
+			
+			
+			@PutMapping("/participants/validate")
+			public Participant ValidateParticipant (@RequestBody Participant theParticipant) {
+				Participant newParticipant =participantService.findById(theParticipant.getId());
+				newParticipant.setValidated(true);
+				//newParticipant.setValidated(theParticipant.isValidated());
+				System.out.println(newParticipant.isValidated()) ;
+				participantService.save(newParticipant) ;
 				
 				return theParticipant;
 			}
 
 			@DeleteMapping("/participants/{participantId}")
-			public String deleteParticipant(@PathVariable int  participantId) {
+			public String deleteParticipant(@PathVariable long  participantId) {
+
 				
 				Participant tempParticipant = participantService.findById(participantId);
 				
@@ -188,10 +317,10 @@ public class ParticipantController {
 			
 			//les participants du groupe
 			@GetMapping("participants/group")
-			public List <Participant> getGroupParticipant() {
+			public List <Participant> getGroupParticipant(@RequestParam("id") long  id) {
 			 
 				//List <Participant> theParticipant= participantService.findByEntreprise(participant);
-				 List<Participant> theParticipant1= new ArrayList<Participant>();
+				 List<Participant> groupParticipants= new ArrayList<Participant>();
 				
 				
 				for(Participant theP:participantService.findAll()) {
@@ -199,20 +328,32 @@ public class ParticipantController {
 					//System.out.println(theP.getEntreprise()) ;
 					 if  (theP.getGroup()!=null) {
 	       	  
-					theParticipant1.add(theP) ;
+						if(id == theP.getGroup().getId()) {
+							System.out.println(id) ;
+							groupParticipants.add(theP);
+							System.out.println(groupParticipants.isEmpty()) ;
+						}
+						else {
+							System.out.println(id) ;
+
+						}
+						}
 				
-	         } 
-
-					if (theParticipant1 == null) {
-						throw new RuntimeException("oops");
-					}
-					
-			}
-				return theParticipant1 ;
-
+				}
+				return groupParticipants;
 			}
 			
+			@DeleteMapping("group/participants/{participantId}")
+			public String deleteParticipantFromGroup(@PathVariable long  participantId) {
+
+				
+				Participant tempParticipant = participantService.findById(participantId);
+				System.out.println("participant id" + tempParticipant.getId()) ;
+				tempParticipant.setGroup(null);
 			
+				participantService.save(tempParticipant);
+				return "Deleted participant id - " + participantId;
+			}
 			@GetMapping("participants/group/{id}")
 			public List<Participant> findByGroup(@PathVariable long id) {
 				return participantService.findByGroup(id);
