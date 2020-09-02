@@ -13,7 +13,7 @@ import org.springframework.data.annotation.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy= InheritanceType.JOINED)
 @Entity
 @Table(name="user")
 //@MappedSuperclass
@@ -112,7 +112,6 @@ public class User {
 	@Column(name="street")
 	private String street;
 	
-
 	@NotNull
 	@Column(name="city")
 	private String city;

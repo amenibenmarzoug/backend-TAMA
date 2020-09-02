@@ -112,5 +112,19 @@ public class Course {
 		this.cursus = cursus;
 	}
 	
+	@ManyToOne
+	private Trainer trainer;
+
+
+	public Trainer getTrainer() {
+		return trainer;
+	}
+
+
+	public void setTrainer(Trainer trainer) {
+		this.trainer = trainer;
+	}
+	
+	
 
 }

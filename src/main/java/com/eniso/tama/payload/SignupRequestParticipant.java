@@ -14,9 +14,7 @@ public class SignupRequestParticipant {
 	@Size(max = 50)
 	@Email
 	private String email;
-	@NotBlank
-	@Size(min = 3, max = 20)
-	private String address;
+
 
 //	@NotBlank
 //	@Size(min = 3, max = 20)
@@ -65,13 +63,7 @@ public class SignupRequestParticipant {
 		this.email = email;
 	}
 
-//	public String getAddress() {
-//		return address;
-//	}
-//
-//	public void setAddress(String address) {
-//		this.address = address;
-//	}
+
 
 	public String getPhoneNumber() {
 		return phoneNumber;

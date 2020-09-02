@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 @Entity
 @Table(name="institution")
 @PrimaryKeyJoinColumn(name = "user_id")
-
 public class Institution extends User{
 	
 	@NotNull
