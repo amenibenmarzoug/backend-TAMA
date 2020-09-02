@@ -13,9 +13,6 @@ public class SignupRequestInstitution {
 	@Email
 	private String email;
 
-//	@NotBlank
-//	@Size(min = 3, max = 20)
-//	private String address;
 	@NotNull
 	private String street;
 	
@@ -48,6 +45,7 @@ public class SignupRequestInstitution {
 		this.postalCode = postalCode;
 	}
 
+
 	@NotBlank
 	@Size(min = 3, max = 20)
 	private String phoneNumber;
@@ -67,14 +65,6 @@ public class SignupRequestInstitution {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-//	public String getAddress() {
-//		return address;
-//	}
-//
-//	public void setAddress(String address) {
-//		this.address = address;
-//	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;
@@ -107,6 +97,5 @@ public class SignupRequestInstitution {
 	public void setInstitutionName(String institutionName) {
 		this.institutionName = institutionName;
 	}
-
 
 }

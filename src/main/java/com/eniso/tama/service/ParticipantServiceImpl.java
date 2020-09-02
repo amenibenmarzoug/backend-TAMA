@@ -6,10 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
+import com.eniso.tama.entity.Group;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.repository.ParticipantRepository;
-
-
 
 @Service
 @ComponentScan(basePackageClasses = ParticipantRepository.class )
@@ -67,9 +66,6 @@ public class ParticipantServiceImpl implements  ParticipantService {
 		@Override
 		
 		public List<Participant>  findByEntreprise (Participant theParticipant) {
-			
-			
-			
 			//List<Participant> result = participanRepository.findByEntreprise(theParticipant);
          
 			List<Participant> p1= null ;
@@ -88,23 +84,33 @@ public class ParticipantServiceImpl implements  ParticipantService {
 			return p1;
 			
 		}
-				
-				
+//		//find by Company
+//		@Override
+//		
+//		public List<Participant>  findByGroup(Participant theParticipant) {
+//			//List<Participant> result = participanRepository.findByEntreprise(theParticipant);
+//         
+//			List<Participant> p1= null ;
+//			
+//			
+//			for(Participant theP:participantRepository.findAll()) {
+//				
+//				
+//			if  (theP.getGroup()!=null) {
+//        	  
+//				p1.add(theP) ;
+//			
+//          }
+//		            	
+//		}
+//			return p1;
+//			
+//		}
+	
 		//find by abondan 
 		@Override
 		public 	List<Participant> findByAbonadn(boolean theAbondan ){
-	//					Optional<Participant> result = participanRepository.findByAbandon(theAbondan);
-	//					
-	//					Participant theParticipant = null;
-	//					
-	//					if (result.isPresent()) {
-	//						theParticipant = result.get();
-	//					}
-	//					else {
-	//						// we didn't find the participant
-	//						throw new RuntimeException("Did not find participant level - " );
-	//					}
-	//					
+					
 			return participantRepository.findByAbandon(theAbondan);
 		}
 
@@ -115,6 +121,14 @@ public class ParticipantServiceImpl implements  ParticipantService {
 
 		@Override
 		public void deleteById(long theId) {
+
 			participantRepository.deleteById(theId);
 		}
+
+		@Override
+		public List<Participant> findByGroup(long id) {
+			return participantRepository.findByGroupId(id);
+		}
+
+		
 }

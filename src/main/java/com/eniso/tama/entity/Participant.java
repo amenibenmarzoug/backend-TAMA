@@ -6,6 +6,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="participant")
 @PrimaryKeyJoinColumn(name = "user_id")
@@ -110,8 +115,21 @@ public class Participant extends User{
 	private boolean abandon;
 	
 
-	  @ManyToOne
-	  private Entreprise entreprise;
+	@ManyToOne
+	private Entreprise entreprise;
+	
+	
+	@ManyToOne
+	//@JsonIgnore
+	private Group group;
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
+	}
 
 	public Entreprise getEntreprise() {
 		return entreprise;

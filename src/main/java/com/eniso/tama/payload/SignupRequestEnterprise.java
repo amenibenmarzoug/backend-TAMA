@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+
 public class SignupRequestEnterprise {
 	@NotBlank
 	@Size(max = 50)
@@ -49,6 +50,7 @@ public class SignupRequestEnterprise {
 		this.postalCode = postalCode;
 	}
 
+
 	@NotBlank
 	@Size(min = 3, max = 20)
 	private String phoneNumber;
@@ -73,14 +75,6 @@ public class SignupRequestEnterprise {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-//	public String getAddress() {
-//		return address;
-//	}
-//
-//	public void setAddress(String address) {
-//		this.address = address;
-//	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;

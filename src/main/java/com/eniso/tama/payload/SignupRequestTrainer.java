@@ -2,7 +2,6 @@ package com.eniso.tama.payload;
 
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.validation.constraints.*;
 
 
@@ -65,10 +64,12 @@ public class SignupRequestTrainer {
 	
 	@NotBlank
 	private String specification;
+
  
     private Set<String> role;
     
     @NotBlank
+    @Size(min = 8, max = 40)
    // @Size(min = 8, max = 40)
     private String password;
   
@@ -113,7 +114,7 @@ public class SignupRequestTrainer {
 	}
 
 
-	
+
 	
 
 	public String getSpecification() {
@@ -149,4 +150,7 @@ public class SignupRequestTrainer {
 	}
 
 
+
 }
+	
+

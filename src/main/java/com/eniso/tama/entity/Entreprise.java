@@ -8,7 +8,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.URL;
 
 @Entity
 @Table(name="entreprise")
@@ -44,7 +43,8 @@ public class Entreprise extends User{
 
 	public Entreprise() {
 	}
-	
+
+
 	public Entreprise(@NotBlank @Size(max = 50) @Email String email,
 			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank String enterpriseName, String website) {
 		super.setEmail(email);
@@ -59,7 +59,7 @@ public class Entreprise extends User{
 		this.website=website;
 	}
 	
-	
+
 
 	
 	

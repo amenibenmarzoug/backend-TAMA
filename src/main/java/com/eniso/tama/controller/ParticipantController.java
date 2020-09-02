@@ -1,9 +1,12 @@
 package com.eniso.tama.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,10 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eniso.tama.entity.Group;
 import com.eniso.tama.entity.Participant;
+import com.eniso.tama.repository.GroupRepository;
+import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.service.ParticipantService;
 
 
@@ -31,8 +38,14 @@ import com.eniso.tama.service.ParticipantService;
 public class ParticipantController {
 	
 
-
+		@Autowired
+		private GroupRepository groupRepository;
+		
+		@Autowired
+		private ParticipantRepository participantRepository;
+		
 		private ParticipantService participantService;
+		
 		@Autowired
 		public ParticipantController(ParticipantService theParticipantService) {
 			participantService = theParticipantService;
@@ -57,21 +70,95 @@ public class ParticipantController {
 			
 			return theParticipant;
 		}
-		// add mapping for POST /participants - add new control
+		
+		//get participants by level 
 
-		@PostMapping("/participants")
-		public  Participant addcontrol(@RequestBody Participant theParticipant) {
+			@GetMapping("participants/level/{participantLevel}")
+			public List <Participant> getParticipant(@PathVariable String  participantLevel) {
+				
+				List<Participant> theParticipant = participantService.findByLevel(participantLevel);
+				
+				if (theParticipant == null) {
+					throw new RuntimeException("Participant id not found - " + participantLevel);
+				}
+				
+				return theParticipant;
+			}
+			
+			
+			//les participants du pilier1
+			@GetMapping("participants/pilier1")
+			public List <Participant> getParticipantPilier1() {
+			 
+				//List <Participant> theParticipant= participantService.findByEntreprise(participant);
+				 List<Participant> theParticipant1= new ArrayList<Participant>();
+				
+				
+				for(Participant theP:participantService.findAll()) {
+					
+					System.out.println(theP.getEntreprise()) ;
+					 if  (theP.getEntreprise()!=null) {
+	       	  
+					theParticipant1.add(theP) ;
+					         } 					
+			}
+				return theParticipant1 ;
+
+			}
+			
+			//les participants du pilier2
+			@GetMapping("participants/pilier2")
+			public List <Participant> getParticipantPilier2() {
+			 
+				//List <Participant> theParticipant= participantService.findByEntreprise(participant);
+				 List<Participant> theParticipant1= new ArrayList<Participant>();
+				
+				
+				for(Participant theP:participantService.findAll()) {
+					
+					//System.out.println(theP.getEntreprise()) ;
+					 if  (theP.getEntreprise()==null) {
+	       	  
+					theParticipant1.add(theP) ;
+				
+	         } 
+
+					if (theParticipant1 == null) {
+						throw new RuntimeException("oops");
+					}
+				
+				
+				
+			}
+				return theParticipant1 ;
+			}
+			//get participants by abandon 
+			@GetMapping("participants/isAbandon/{abandon}")
+			public List <Participant> getParticipantByAbandon(@PathVariable boolean  abandon) {
+				
+				List<Participant> theParticipant = participantService.findByAbonadn(abandon);
+				
+				if (theParticipant == null) {
+					throw new RuntimeException("Theres no abandon");
+				}
+				
+				return theParticipant;
+			}
+	// add mapping for POST /participants - add new control
+
+	@PostMapping("/participants")
+	public  Participant addcontrol(@RequestBody Participant theParticipant) {
+	
 		
-			
-			// also just in case they pass an id in JSON ... set id to 0
-			// this is to force a save of new item ... instead of update
-			
-			//stheControl.setId(0);
-			
-			participantService.save(theParticipant);
-			return theParticipant;
-		}
+		// also just in case they pass an id in JSON ... set id to 0
+		// this is to force a save of new item ... instead of update
 		
+		//stheControl.setId(0);
+		
+		participantService.save(theParticipant);
+		return theParticipant;
+	}
+	
 		
 		// add mapping for PUT /employees - update existing employee
 		
@@ -98,6 +185,39 @@ public class ParticipantController {
 				
 				return "Deleted participant id - " + participantId;
 			}
+			
+			//les participants du groupe
+			@GetMapping("participants/group")
+			public List <Participant> getGroupParticipant() {
+			 
+				//List <Participant> theParticipant= participantService.findByEntreprise(participant);
+				 List<Participant> theParticipant1= new ArrayList<Participant>();
+				
+				
+				for(Participant theP:participantService.findAll()) {
+					
+					//System.out.println(theP.getEntreprise()) ;
+					 if  (theP.getGroup()!=null) {
+	       	  
+					theParticipant1.add(theP) ;
+				
+	         } 
+
+					if (theParticipant1 == null) {
+						throw new RuntimeException("oops");
+					}
+					
+			}
+				return theParticipant1 ;
+
+			}
+			
+			
+			@GetMapping("participants/group/{id}")
+			public List<Participant> findByGroup(@PathVariable long id) {
+				return participantService.findByGroup(id);
+			}
+			
 			
 	}
 

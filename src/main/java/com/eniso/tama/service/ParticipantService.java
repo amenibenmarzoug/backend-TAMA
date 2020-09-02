@@ -1,8 +1,10 @@
 package com.eniso.tama.service;
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.Query;
 
+import com.eniso.tama.entity.Group;
 import com.eniso.tama.entity.Participant;
 
 
@@ -15,8 +17,10 @@ public interface ParticipantService {
 		public Participant findById(long theId);
 		public List<Participant>findByLevel(String theLevel);
 		public List<Participant> findByEntreprise(Participant theParticipant);
+		//public List<Participant> findByGroup(Participant theParticipant);
+		public List<Participant> findByAbonadn(boolean theAbondan );
 		
-		public 	List<Participant> findByAbonadn(boolean theAbondan );
+		public List<Participant> findByGroup(long id);
 		
 		public void save(Participant theParticipant);
 		
