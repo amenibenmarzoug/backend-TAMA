@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.eniso.tama.entity.Entreprise;
+
 public class SignupRequestParticipant {
 	@NotBlank
 	@Size(max = 50)
@@ -17,7 +18,7 @@ public class SignupRequestParticipant {
 	private String email;
 	
 
-	
+
 
 //	@NotBlank
 //	@Size(min = 3, max = 20)
@@ -66,13 +67,6 @@ public class SignupRequestParticipant {
 		this.email = email;
 	}
 
-//	public String getAddress() {
-//		return address;
-//	}
-//
-//	public void setAddress(String address) {
-//		this.address = address;
-//	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;

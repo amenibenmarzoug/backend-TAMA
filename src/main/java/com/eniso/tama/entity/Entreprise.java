@@ -13,7 +13,6 @@ import org.hibernate.validator.constraints.URL;
 @Entity
 @Table(name="entreprise")
 @PrimaryKeyJoinColumn(name = "user_id")
-
 public class Entreprise extends User{
 	
 	//this variable is for validating the accounts

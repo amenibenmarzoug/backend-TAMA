@@ -2,6 +2,7 @@ package com.eniso.tama.repository;
 
 
 
+
 import java.util.List;
 
 import java.util.Optional;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.eniso.tama.entity.Trainer;
 
-
+@Repository
 
 public interface TrainerRepository extends JpaRepository<Trainer, Long> {
 	List<Trainer> findByEmail(String email);

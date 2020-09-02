@@ -111,11 +111,12 @@ public class User {
 	@NotNull
 	@Column(name="street")
 	private String street;
-	
+
 
 	@NotNull
 	@Column(name="city")
 	private String city;
+
 
 	@NotNull
 	@Column(name="postalCode")

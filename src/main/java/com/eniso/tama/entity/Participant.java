@@ -1,4 +1,5 @@
 package com.eniso.tama.entity;
+
 import java.util.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -6,10 +7,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="participant")
 @PrimaryKeyJoinColumn(name = "user_id")
-
 public class Participant extends User{
 	
 	//this variable is for validating the accounts
@@ -30,7 +32,6 @@ public class Participant extends User{
 	@NotNull
 	@Column(name = "firstNameP")
 	private String firstNameP;
-	
 
 	@NotNull
 	@Column(name = "lastNameP")
@@ -77,6 +78,7 @@ public class Participant extends User{
 		this.abandon = abandon;
 	}
 
+
 	public String getFirstNameP() {
 		return firstNameP;
 	}
@@ -96,21 +98,20 @@ public class Participant extends User{
 	@NotNull
 	@Column(name = "gender")
 	private String gender;
-	
+
 	@NotNull
 	@Column(name = "birthday")
 	private Date birthday;
-	
+
 	@Column(name = "currentPosition")
 	private String currentPosition;
-	
-	
+
 	@Column(name = "level")
 	private String level;
-	
+
 	@Column(name = "educationLevel")
 	private String educationLevel;
-	
+
 	public String getEducationLevel() {
 		return educationLevel;
 	}
@@ -122,10 +123,9 @@ public class Participant extends User{
 	@NotNull
 	@Column(name = "abandon")
 	private boolean abandon;
-	
 
-	  @ManyToOne
-	  private Entreprise entreprise;
+	@ManyToOne
+	private Entreprise entreprise;
 
 	public Entreprise getEntreprise() {
 		return entreprise;
@@ -134,6 +134,31 @@ public class Participant extends User{
 	public void setEntreprise(Entreprise entreprise) {
 		this.entreprise = entreprise;
 	}
+
+	@ManyToOne
+	private Cursus cursus;
+
+	public Cursus getCursus() {
+		return cursus;
+	}
+
+	public void setCursus(Cursus cursus) {
+		this.cursus = cursus;
+	}
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "participant")
+    Set<CourseSessionParticipant> courseSessionParticipant;
+	
+	public Set<CourseSessionParticipant> getCourseSessionParticipant() {
+		return courseSessionParticipant;
+	}
+
+	public void setCourseSessionParticipant(Set<CourseSessionParticipant> courseSessionParticipant) {
+		this.courseSessionParticipant = courseSessionParticipant;
+	}
+
+	
 	
 	public Participant() {
 		
@@ -176,4 +201,15 @@ this.birthday= birthday;
 this.entreprise=entreprise ;
 
 }
+
+	@Override
+	public String toString() {
+		return "Participant [validated=" + validated + ", firstNameP=" + firstNameP + ", lastNameP=" + lastNameP
+				+ ", gender=" + gender + ", birthday=" + birthday + ", currentPosition=" + currentPosition + ", level="
+				+ level + ", educationLevel=" + educationLevel + ", abandon=" + abandon + ", entreprise=" + entreprise
+				+ ", cursus=" + cursus + ", courseSessionParticipant=" + courseSessionParticipant + "]";
+	}
+	
+	
+	
 }

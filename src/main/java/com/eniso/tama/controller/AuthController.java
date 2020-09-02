@@ -266,7 +266,8 @@ public class AuthController {
 	}
 	
 	@PostMapping( "/signupParticipant" )
-	public ResponseEntity<?> registerParticipant(@Valid @RequestBody SignupRequestParticipant signupRequestParticipant){
+	public ResponseEntity<?> registerParticipant(@Valid @RequestBody SignupRequestParticipant signupRequestParticipant)
+	{
 		
 		
 
@@ -322,8 +323,6 @@ public class AuthController {
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
 	
-
-
 
 	
 }

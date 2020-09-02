@@ -8,15 +8,24 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.eniso.tama.entity.Entreprise;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.User;
 
+
 public interface EnterpriseRepository extends JpaRepository<Entreprise, Long>{
 	
 	Boolean existsByEmail(String email) ; 
+	Optional<Entreprise> findByEmail(String email);
+	Optional<Entreprise> findByEnterpriseName(String enterpriseName);
+	Boolean existsByEnterpriseName(String enterpriseName);
+
 
 
 }
+
+	
+

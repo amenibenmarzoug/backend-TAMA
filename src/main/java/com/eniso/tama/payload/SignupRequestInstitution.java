@@ -13,7 +13,6 @@ public class SignupRequestInstitution {
 	@Email
 	private String email;
 
-
 //	@NotBlank
 //	@Size(min = 3, max = 20)
 //	private String address;
@@ -103,6 +102,5 @@ public class SignupRequestInstitution {
 	public void setInstitutionName(String institutionName) {
 		this.institutionName = institutionName;
 	}
-
 
 }
