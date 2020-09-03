@@ -121,9 +121,9 @@ public class AuthController {
 							 encoder.encode(signupRequestTrainer.getPassword()),
 							 //signupRequestTrainer.getAddress(),
 							 signupRequestTrainer.getStreet(),
-							 
-							 signupRequestTrainer.getPostalCode(),
 							 signupRequestTrainer.getCity(),
+							 signupRequestTrainer.getPostalCode(),
+							 
 							 signupRequestTrainer.getPhoneNumber(),
 							 null,
 							 signupRequestTrainer.getFirstName(),
@@ -231,8 +231,9 @@ public class AuthController {
 							 encoder.encode(signupRequestEnterprise.getPassword()),
 							 //signupRequestEnterprise.getAddress(),
 							 signupRequestEnterprise.getStreet(),
-							 signupRequestEnterprise.getPostalCode(),
 							 signupRequestEnterprise.getCity(),
+							 signupRequestEnterprise.getPostalCode(),
+							
 							 
 							 signupRequestEnterprise.getPhoneNumber(),
 							 null,

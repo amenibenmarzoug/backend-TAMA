@@ -67,8 +67,17 @@ public class TrainerController {
 		@PutMapping("/trainers")
 		public Trainer updateTrainer(@RequestBody Trainer theTrainer) {
 			
-			trainerService.save(theTrainer);
+			Trainer newTrainer = trainerService.findById(theTrainer.getId());
+			newTrainer.setEmail(theTrainer.getEmail());
+			newTrainer.setCity(theTrainer.getCity());
+			newTrainer.setStreet(theTrainer.getStreet());
+			newTrainer.setPhoneNumber(theTrainer.getPhoneNumber());
+			newTrainer.setPostalCode(theTrainer.getPostalCode());
+			newTrainer.setFirstName(theTrainer.getFirstName());
+			newTrainer.setLastName(theTrainer.getLastName());
+			newTrainer.setSpecification(theTrainer.getSpecification());
 			
+			trainerService.save(newTrainer);
 			return theTrainer;
 		}
 
