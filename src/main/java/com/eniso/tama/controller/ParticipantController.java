@@ -320,5 +320,52 @@ public class ParticipantController {
 
 		return "Deleted participant id - " + participantId;
 	}
+	//les participants du groupe
+	
+	@GetMapping("participants/group")
+	public List <Participant> getGroupParticipant(@RequestParam("id") long  id) {
+	 
+		//List <Participant> theParticipant= participantService.findByEntreprise(participant);
+		 List<Participant> groupParticipants= new ArrayList<Participant>();
+		
+		
+		for(Participant theP:participantService.findAll()) {
+			
+			//System.out.println(theP.getEntreprise()) ;
+			 if  (theP.getGroup()!=null) {
+   	  
+				if(id == theP.getGroup().getId()) {
+					System.out.println(id) ;
+					groupParticipants.add(theP);
+					System.out.println(groupParticipants.isEmpty()) ;
+				}
+				else {
+					System.out.println(id) ;
 
+				}
+				}
+		
+		}
+		return groupParticipants;
+	}
+	
+	@DeleteMapping("group/participants/{participantId}")
+	public String deleteParticipantFromGroup(@PathVariable long  participantId) {
+
+		
+		Participant tempParticipant = participantService.findById(participantId);
+		System.out.println("participant id" + tempParticipant.getId()) ;
+		tempParticipant.setGroup(null);
+	
+		participantService.save(tempParticipant);
+		return "Deleted participant id - " + participantId;
+	}
+	@GetMapping("participants/group/{id}")
+	public List<Participant> findByGroup(@PathVariable long id) {
+		return participantService.findByGroup(id);
+	}
+	
+	
 }
+
+

@@ -80,7 +80,6 @@ public class SignupRequestEnterprise {
 	}
 
 
-
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}

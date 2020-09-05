@@ -1,10 +1,13 @@
 package com.eniso.tama.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,7 +18,7 @@ public class Group {
 	
 	
 	@Id
-    @Column(name = "group_id", updatable = false, nullable = false)
+    @Column(name = "group_id", updatable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
@@ -30,10 +33,13 @@ public class Group {
 	}
 
 	
-	@NotNull
+	
 	@Column(name = "groupName")
 	private String groupName;
 	
+	
+
+
 	public String getGroupName() {
 		return groupName;
 	}
@@ -50,8 +56,8 @@ public class Group {
 	}
 
 
-	public Group(Long id, @NotNull @NotBlank String groupName) {
-		//super();
+	public Group(Long id,String groupName) {
+		super();
 		this.id = id;
 		this.groupName = groupName;
 	}

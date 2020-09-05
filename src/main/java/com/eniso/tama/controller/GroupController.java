@@ -23,10 +23,11 @@ import com.eniso.tama.service.GroupService;
 @ComponentScan(basePackageClasses = GroupService.class )
 @RequestMapping(value="/api")
 public class GroupController {
+	
 	private GroupService groupService;
 	@Autowired
 	public GroupController(GroupService groupService) {
-		//super();
+		super();
 		this.groupService = groupService;
 	}
 	@GetMapping("/groups")
@@ -35,7 +36,7 @@ public class GroupController {
 	}
 	
 	@GetMapping("groups/{groupId}")
-	public Group getParticipant(@PathVariable long  groupId) {
+	public Group getParticipant(@PathVariable int  groupId) {
 		
 		Group theGroup = groupService.findById(groupId);
 		
@@ -67,7 +68,7 @@ public class GroupController {
 	}
 	
 	@DeleteMapping("/groups/{groupId}")
-	public String deleteParticipant(@PathVariable long  groupId) {
+	public String deleteParticipant(@PathVariable int  groupId) {
 		
 		Group tempGroup = groupService.findById(groupId);
 		

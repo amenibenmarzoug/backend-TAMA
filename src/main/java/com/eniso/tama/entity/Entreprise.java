@@ -8,7 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.URL;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name="entreprise")
@@ -30,6 +31,21 @@ public class Entreprise extends User{
 //		public void setValidated(boolean validated) {
 //			 this.validated=validated;
 //		}
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "entreprise")
+    Set<EntrepriseDisponibility> entrepriseDisponibility;
+
+	@ManyToOne
+	private Cursus cursus;
+
+	public Cursus getCursus() {
+		return cursus;
+	}
+
+	public void setCursus(Cursus cursus) {
+		this.cursus = cursus;
+	} 
 	//@NotNull
 	@Column(name = "enterpriseName")
 	private String enterpriseName;
@@ -57,7 +73,7 @@ public class Entreprise extends User{
 
 	public Entreprise() {
 	}
-	
+
 	public Entreprise(@NotBlank @Size(max = 50) @Email String email,
 			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,String enterpriseName, String website) {
 		super.setEmail(email);

@@ -2,7 +2,6 @@ package com.eniso.tama.payload;
 
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.validation.constraints.*;
 
 

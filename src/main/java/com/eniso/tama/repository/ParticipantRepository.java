@@ -6,15 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.eniso.tama.entity.Participant;
 
 
-import com.eniso.tama.entity.User;
 
-
-
-
+@Repository
 public interface ParticipantRepository extends JpaRepository<Participant, Long> {
 
 	Optional<Participant> findByEmail(String email);
@@ -23,10 +21,13 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
 	Boolean existsByFirstNameP(String firstNameP);
 
 
-	
 	List<Participant> findByLevel(String level);
 	
 	//List <Participant> findByEntreprise(Participant theParticipant);
 	List<Participant> findByAbandon(boolean abandon );
+
+	
+	//Page<Participant> findByGroupId(Long groupId, Pageable pageable);
+
 
 }

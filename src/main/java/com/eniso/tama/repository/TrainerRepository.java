@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import com.eniso.tama.entity.Trainer;
 
+
+
 @Repository
 
 public interface TrainerRepository extends JpaRepository<Trainer, Long> {

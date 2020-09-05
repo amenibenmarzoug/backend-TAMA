@@ -7,6 +7,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -126,6 +130,21 @@ public class Participant extends User{
 
 	@ManyToOne
 	private Entreprise entreprise;
+
+	
+	
+	@ManyToOne
+	//@JsonIgnore
+	private Group group;
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+
 
 	public Entreprise getEntreprise() {
 		return entreprise;

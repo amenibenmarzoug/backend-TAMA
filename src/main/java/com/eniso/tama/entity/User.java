@@ -93,21 +93,7 @@ public class User {
 	@Column(name = "password", insertable=true, updatable=true, nullable=false)
 	//@Size(min=8, max=40)
 	private String password;
-	
-//	@NotNull
-//	@Column(name = "address", insertable=true, updatable=true, nullable=false)
-//	private String address;
-	
-	
 
-//	public String getAddress() {
-//		return address;
-//	}
-//
-//
-//	public void setAddress(String address) {
-//		this.address = address;
-//	}
 	@NotNull
 	@Column(name="street")
 	private String street;
