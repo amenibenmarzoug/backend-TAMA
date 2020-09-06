@@ -18,7 +18,7 @@ public interface EntrepriseDisponibilityService {
 	
 	
 
-	public void save(EntrepriseDisponibility theEntrepriseDisponibility);
+	public EntrepriseDisponibility save(EntrepriseDisponibility theEntrepriseDisponibility);
 	
 	public void deleteById(long theId);
 	

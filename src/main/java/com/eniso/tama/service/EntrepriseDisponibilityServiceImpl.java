@@ -53,8 +53,9 @@ public class EntrepriseDisponibilityServiceImpl implements EntrepriseDisponibili
 			
 	
 	@Override
-	public void save(EntrepriseDisponibility theControl) {
-		entrepriseDisponibilityRepository.save(theControl);
+	public  EntrepriseDisponibility save(EntrepriseDisponibility theControl) {
+		return entrepriseDisponibilityRepository.save(theControl) ;
+	
 	}
 
 

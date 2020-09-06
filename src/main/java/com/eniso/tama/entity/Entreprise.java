@@ -32,9 +32,9 @@ public class Entreprise extends User{
 //			 this.validated=validated;
 //		}
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "entreprise")
-    Set<EntrepriseDisponibility> entrepriseDisponibility;
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "entreprise")
+//    Set<EntrepriseDisponibility> entrepriseDisponibility;
 
 	@ManyToOne
 	private Cursus cursus;

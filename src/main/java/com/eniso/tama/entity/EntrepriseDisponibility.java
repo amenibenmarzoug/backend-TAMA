@@ -1,5 +1,7 @@
 package com.eniso.tama.entity;
 
+import java.util.Optional;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +29,7 @@ public class EntrepriseDisponibility {
 	@Column(name = "time")
 	private String time ;
   
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name = "Entre_id")
 	Entreprise entreprise;
 
@@ -59,8 +61,8 @@ public class EntrepriseDisponibility {
 		return entreprise;
 	}
 
-	public void setEntreprise(Entreprise entreprise) {
-		this.entreprise = entreprise;
+	public void setEntreprise(Entreprise entreprise2) {
+		this.entreprise = entreprise2;
 	}
 
 }
