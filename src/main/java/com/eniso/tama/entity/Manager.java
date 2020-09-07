@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name="manager")
 @PrimaryKeyJoinColumn(name = "user_id")
-
 public class Manager extends User{
 	
 	@NotNull

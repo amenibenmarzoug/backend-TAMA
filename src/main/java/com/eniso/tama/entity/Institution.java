@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 @Entity
 @Table(name="institution")
 @PrimaryKeyJoinColumn(name = "user_id")
-
 public class Institution extends User{
 	
 	@NotNull
@@ -30,6 +29,7 @@ public class Institution extends User{
 
 	public Institution(@NotBlank @Size(max = 50) @Email String email,
 			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank String institutionName) {
+
 		super.setEmail(email);
 		super.setPassword(password);
 		//super.setAddress(address);

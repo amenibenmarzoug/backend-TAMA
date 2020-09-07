@@ -8,11 +8,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name="entreprise")
 @PrimaryKeyJoinColumn(name = "user_id")
-
 public class Entreprise extends User{
 	
 	//this variable is for validating the accounts

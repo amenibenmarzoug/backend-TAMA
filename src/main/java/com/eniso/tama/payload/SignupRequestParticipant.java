@@ -6,11 +6,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+
 public class SignupRequestParticipant {
 	@NotBlank
 	@Size(max = 50)
 	@Email
 	private String email;
+
 
 //	@NotBlank
 //	@Size(min = 3, max = 20)
@@ -59,13 +62,6 @@ public class SignupRequestParticipant {
 		this.email = email;
 	}
 
-//	public String getAddress() {
-//		return address;
-//	}
-//
-//	public void setAddress(String address) {
-//		this.address = address;
-//	}
 
 	
 

@@ -3,12 +3,15 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="trainer")
@@ -58,6 +61,24 @@ public class Trainer extends User {
 
 	public void setSpecification(String specification) {
 		this.specification = specification;
+	}
+
+//	//@NotNull
+//	@Column(name = "field")
+//	private String field;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "trainer")
+    Set<TrainerDisponibility> trainerDisponibility;
+	
+	
+	
+	public Set<TrainerDisponibility> getTrainerDisponibility() {
+		return trainerDisponibility;
+	}
+
+	public void setTrainerDisponibility(Set<TrainerDisponibility> trainerDisponibility) {
+		this.trainerDisponibility = trainerDisponibility;
 	}
 
 	@NotNull

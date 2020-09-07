@@ -1,5 +1,6 @@
 package com.eniso.tama.repository;
 
+
 import java.util.List;
 
 import java.util.Optional;
@@ -23,7 +24,6 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
 	
 	//List <Participant> findByEntreprise(Participant theParticipant);
 	List<Participant> findByAbandon(boolean abandon );
-	
-	//Page<Participant> findByGroupId(Long groupId, Pageable pageable);
+
 
 }
