@@ -9,7 +9,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,15 +23,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.eniso.tama.entity.Participant;
-import com.eniso.tama.repository.GroupRepository;
-import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.entity.Entreprise;
+import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
 import com.eniso.tama.payload.MessageResponse;
-import com.eniso.tama.payload.SignupRequestPartEntr;
+
 import com.eniso.tama.repository.EnterpriseRepository;
+import com.eniso.tama.repository.GroupRepository;
+import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.RoleRepository;
 import com.eniso.tama.service.ParticipantService;
 
@@ -43,8 +41,7 @@ import com.eniso.tama.service.ParticipantService;
 @RequestMapping(value = "/api")
 public class ParticipantController {
 
-@Autowired
-private GroupRepository groupRepository;
+
 
 @Autowired
 private ParticipantRepository participantRepository;
@@ -56,6 +53,7 @@ RoleRepository roleRepository ;
 PasswordEncoder encoder ;
 @Autowired
 EnterpriseRepository enterpriseRepository ;
+
 
 
 
@@ -191,6 +189,7 @@ EnterpriseRepository enterpriseRepository ;
 				
 			}
 
+
 		}
 
 		return participantsPerEntr;
@@ -265,6 +264,7 @@ EnterpriseRepository enterpriseRepository ;
 		p.setGender(theP.getGender());
 		p.setBirthday(theP.getBirthday());
 		p.setEntreprise(entreprise);
+		
 		// System.out.println(p.toString()) ;
 		participantRepository.save(p);
 
@@ -288,13 +288,22 @@ EnterpriseRepository enterpriseRepository ;
 		newParticipant.setEmail(theParticipant.getEmail());
 		newParticipant.setLevel(theParticipant.getLevel());
 		newParticipant.setEntreprise(theParticipant.getEntreprise());
-				participantService.save(newParticipant ); 
-				
-				return theParticipant;
+		newParticipant.setGroup(theParticipant.getGroup());
+		System.out.print("groupe is" + theParticipant.getGroup());
+		participantService.save(newParticipant);
+
+		return theParticipant;
 	}
-			
-				
-	
+	@PutMapping("/participants/groupe")
+	public Participant updateGroupe(@RequestBody Participant theParticipant) {
+
+		Participant newParticipant = participantService.findById(theParticipant.getId());
+		newParticipant.setGroup(theParticipant.getGroup());
+		System.out.print("groupe is" + theParticipant.getGroup());
+		participantService.save(newParticipant);
+
+		return theParticipant;
+	}
 	@PutMapping("/updatePartEntr")
 	public Participant updateParticipantEntr(@RequestBody Participant theParticipant) {
 
@@ -310,52 +319,8 @@ EnterpriseRepository enterpriseRepository ;
 		newParticipant.setLevel(theParticipant.getLevel());
 		//newParticipant.setEntreprise(theParticipant.getEntreprise());
 		participantService.save(newParticipant);
+
 		return theParticipant;
-	}
-			
-	//les participants du groupe
-	@GetMapping("participants/group")
-	public List <Participant> getGroupParticipant(@RequestParam("id") long  id) {
-	 
-		//List <Participant> theParticipant= participantService.findByEntreprise(participant);
-		 List<Participant> groupParticipants= new ArrayList<Participant>();
-		
-		
-		for(Participant theP:participantService.findAll()) {
-			
-			//System.out.println(theP.getEntreprise()) ;
-			 if  (theP.getGroup()!=null) {
-   	  
-				if(id == theP.getGroup().getId()) {
-					System.out.println(id) ;
-					groupParticipants.add(theP);
-					System.out.println(groupParticipants.isEmpty()) ;
-				}
-				else {
-					System.out.println(id) ;
-
-				}
-				}
-		
-		}
-		return groupParticipants;
-	}
-			
-	@DeleteMapping("group/participants/{participantId}")
-	public String deleteParticipantFromGroup(@PathVariable long  participantId) {
-
-		
-		Participant tempParticipant = participantService.findById(participantId);
-		System.out.println("participant id" + tempParticipant.getId()) ;
-		tempParticipant.setGroup(null);
-	
-		participantService.save(tempParticipant);
-		return "Deleted participant id - " + participantId;
-	}
-	
-	@GetMapping("participants/group/{id}")
-	public List<Participant> findByGroup(@PathVariable long id) {
-		return participantService.findByGroup(id);
 	}
 			
 			
@@ -387,5 +352,52 @@ EnterpriseRepository enterpriseRepository ;
 
 		return "Deleted participant id - " + participantId;
 	}
+	//les participants du groupe
+	
+	@GetMapping("participants/group")
+	public List <Participant> getGroupParticipant(@RequestParam("id") long  id) {
+	 
+		//List <Participant> theParticipant= participantService.findByEntreprise(participant);
+		 List<Participant> groupParticipants= new ArrayList<Participant>();
+		
+		
+		for(Participant theP:participantService.findAll()) {
+			
+			//System.out.println(theP.getEntreprise()) ;
+			 if  (theP.getGroup()!=null) {
+   	  
+				if(id == theP.getGroup().getId()) {
+					System.out.println(id) ;
+					groupParticipants.add(theP);
+					System.out.println(groupParticipants.isEmpty()) ;
+				}
+				else {
+					System.out.println(id) ;
 
+				}
+				}
+		
+		}
+		return groupParticipants;
+	}
+	
+	@DeleteMapping("group/participants/{participantId}")
+	public String deleteParticipantFromGroup(@PathVariable long  participantId) {
+
+		
+		Participant tempParticipant = participantService.findById(participantId);
+		System.out.println("participant id" + tempParticipant.getId()) ;
+		tempParticipant.setGroup(null);
+	
+		participantService.save(tempParticipant);
+		return "Deleted participant id - " + participantId;
+	}
+	@GetMapping("participants/group/{id}")
+	public List<Participant> findByGroup(@PathVariable long id) {
+		return participantService.findByGroup(id);
+	}
+	
+	
 }
+
+

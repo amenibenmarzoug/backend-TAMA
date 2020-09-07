@@ -12,6 +12,7 @@ public interface EntrepriseService {
 		public List<Entreprise> findAll();
 		
 		public Entreprise findById(long theId);
+		
 		//public List<Entreprise>findByLevel(String theLevel);
 		//public List<Entreprise> findByEntreprise(Entreprise theParticipant);
 		

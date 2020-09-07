@@ -8,7 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
 
 
 @Entity
@@ -31,6 +32,21 @@ public class Entreprise extends User{
 //		public void setValidated(boolean validated) {
 //			 this.validated=validated;
 //		}
+	
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "entreprise")
+//    Set<EntrepriseDisponibility> entrepriseDisponibility;
+
+	@ManyToOne
+	private Cursus cursus;
+
+	public Cursus getCursus() {
+		return cursus;
+	}
+
+	public void setCursus(Cursus cursus) {
+		this.cursus = cursus;
+	} 
 	//@NotNull
 	@Column(name = "enterpriseName")
 	private String enterpriseName;

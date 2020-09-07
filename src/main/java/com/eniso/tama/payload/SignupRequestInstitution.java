@@ -13,7 +13,6 @@ public class SignupRequestInstitution {
 	@Email
 	private String email;
 
-
 	@NotNull
 	private String street;
 	

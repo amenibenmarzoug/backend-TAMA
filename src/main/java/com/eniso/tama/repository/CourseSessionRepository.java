@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.eniso.tama.entity.CourseSession;
+@Repository
 
 public interface CourseSessionRepository extends JpaRepository<CourseSession, Long> {
     //@Query(value="SELECT * from course_session", nativeQuery = true)
