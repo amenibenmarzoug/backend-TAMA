@@ -294,12 +294,13 @@ EnterpriseRepository enterpriseRepository ;
 
 		return theParticipant;
 	}
-	@PutMapping("/participants/groupe")
+	
+	@PutMapping("/groupParticipant")
 	public Participant updateGroupe(@RequestBody Participant theParticipant) {
 
 		Participant newParticipant = participantService.findById(theParticipant.getId());
-		newParticipant.setGroup(theParticipant.getGroup());
-		System.out.print("groupe is" + theParticipant.getGroup());
+		
+		newParticipant.setGroup(theParticipant.getGroup());		
 		participantService.save(newParticipant);
 
 		return theParticipant;
