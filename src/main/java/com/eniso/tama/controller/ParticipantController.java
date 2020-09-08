@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.eniso.tama.entity.Cursus;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Role;
@@ -36,6 +38,7 @@ import com.eniso.tama.payload.SignupRequestParticipant;
 import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.RoleRepository;
+import com.eniso.tama.service.CursusService;
 import com.eniso.tama.service.ParticipantService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -52,6 +55,8 @@ public class ParticipantController {
 	PasswordEncoder encoder;
 	@Autowired
 	EnterpriseRepository enterpriseRepository;
+	@Autowired
+	CursusService cursusService;
 
 	private ParticipantService participantService;
 
@@ -213,7 +218,7 @@ public class ParticipantController {
 	}
 	@PostMapping("/signupParticipantEntre")
 	public ResponseEntity<?> registerParticipantPerEntr(@Valid @RequestBody Participant theP,
-			@RequestParam("id") long id) {
+			@RequestParam("id") long id ,@RequestParam("cursusId") long cursusId ) {
 		// System.out.println("participant") ;
 
 		if (participantRepository.existsByEmail(theP.getEmail())) {
@@ -225,6 +230,9 @@ public class ParticipantController {
 				entreprise = e;
 			}
 		}
+		
+		Cursus c = new Cursus() ;
+		c= cursusService.findById(cursusId);
 		Set<Role> roles = new HashSet<>();
 		Role modRole = roleRepository.findByRole(Roles.PARTICIPANT)
 				.orElseThrow(() -> new RuntimeException("Error: Role PARTICIPANT is not found."));
@@ -243,6 +251,7 @@ public class ParticipantController {
 		p.setGender(theP.getGender());
 		p.setBirthday(theP.getBirthday());
 		p.setEntreprise(entreprise);
+		p.setCursus(c);
 		// System.out.println(p.toString()) ;
 		participantRepository.save(p);
 
