@@ -1,10 +1,13 @@
 package com.eniso.tama.controller;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.EntrepriseDisponibility;
+import com.eniso.tama.entity.Participant;
+import com.eniso.tama.entity.Role;
+import com.eniso.tama.entity.Roles;
+import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.EntrepriseDisponibilityRepository;
 import com.eniso.tama.service.EntrepriseDisponibilityService;
@@ -25,13 +32,16 @@ import com.eniso.tama.service.EntrepriseService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@ComponentScan(basePackageClasses = EntrepriseService.class)
+@ComponentScan(basePackageClasses = EntrepriseDisponibilityService.class)
 @RequestMapping(value = "/api")
 public class EntrepriseDisponibilityController {
 
 	private EntrepriseDisponibilityService entrepriseDisponibilityService;
+	@Autowired
 	private EntrepriseDisponibilityRepository entrepriseDisponibilityRepository;
+	@Autowired
 	private EnterpriseRepository enterpriseRepository;
+	@Autowired
 	private EntrepriseService entrepriseService;
 
 	@Autowired
@@ -63,8 +73,11 @@ public class EntrepriseDisponibilityController {
 			@RequestParam("id") long id) {
 
 		Entreprise entreprise = new Entreprise();
+		System.out.println("1");
 		entreprise = entrepriseService.findById(id);
-		if ( disponibility== null) {
+		System.out.println("2");
+
+		if (disponibility == null) {
 			throw new RuntimeException("hell no");
 		}
 		if (entreprise == null) {

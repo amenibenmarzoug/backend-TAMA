@@ -130,13 +130,14 @@ public class Participant extends User{
 	@Column(name = "abandon")
 	private boolean abandon;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
+	
 	//@JsonIgnore
 	private Entreprise entreprise;
 
 	
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	//@JsonIgnore
 	private Group group;
 
@@ -204,25 +205,7 @@ public class Participant extends User{
 		this.birthday= birthday;
 		
 	}
-	public Participant(@NotBlank @Size(max = 50) @Email String email,
-	String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstNameP,
-	@NotBlank String lastNameP, @NotBlank String gender , Date birthday ,  Group group) {
-this.setId(super.getId());
-super.setEmail(email);
-super.setPassword(password);
-//super.setAddress(address);
-super.setStreet(street);
-super.setCity(city);
-super.setPostalCode(postalCode);
-super.setPhoneNumber(phoneNumber);
-super.setRoles(roles);
-this.firstNameP = firstNameP;
-this.lastNameP  = lastNameP;
-this.gender = gender;
-this.birthday= birthday;
-this.group=group;
 
-}
 	public Participant(@NotBlank @Size(max = 50) @Email String email,
 	String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstNameP,
 	@NotBlank String lastNameP, @NotBlank String gender , Date birthday , Entreprise entreprise, Group group) {
@@ -244,13 +227,13 @@ this.group=group;
 
 }
 
-//	@Override
-//	public String toString() {
-//		return "Participant [validated=" + validated + ", firstNameP=" + firstNameP + ", lastNameP=" + lastNameP
-//				+ ", gender=" + gender + ", birthday=" + birthday + ", currentPosition=" + currentPosition + ", level="
-//				+ level + ", educationLevel=" + educationLevel + ", abandon=" + abandon + ", entreprise=" + entreprise
-//				+ ", cursus=" + cursus + ", courseSessionParticipant=" + courseSessionParticipant + "]";
-//	}
+	@Override
+	public String toString() {
+		return "Participant [validated=" + validated + ", firstNameP=" + firstNameP + ", lastNameP=" + lastNameP
+				+ ", gender=" + gender + ", birthday=" + birthday + ", currentPosition=" + currentPosition + ", level="
+				+ level + ", educationLevel=" + educationLevel + ", abandon=" + abandon + ", entreprise=" + entreprise
+				+ ", cursus=" + cursus + ", courseSessionParticipant=" + courseSessionParticipant + "]";
+	}
 	
 	
 	

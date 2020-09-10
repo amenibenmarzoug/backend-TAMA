@@ -74,6 +74,10 @@ public class Entreprise extends User{
 
 	public Entreprise() {
 	}
+	public Entreprise(String enterpriseName, String website) {
+		this.enterpriseName = enterpriseName;
+		this.website=website;
+	}
 
 	public Entreprise(@NotBlank @Size(max = 50) @Email String email,
 			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,String enterpriseName, String website) {
