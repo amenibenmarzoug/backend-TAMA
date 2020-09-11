@@ -287,6 +287,8 @@ public class ParticipantController {
 		newParticipant.setLastNameP(theParticipant.getLastNameP());
 		newParticipant.setBirthday(theParticipant.getBirthday());
 		newParticipant.setCity(theParticipant.getCity());
+		newParticipant.setCity(theParticipant.getStreet());
+		newParticipant.setCity(theParticipant.getPostalCode());
 		newParticipant.setGender(theParticipant.getGender());
 		newParticipant.setCurrentPosition(theParticipant.getCurrentPosition());
 		newParticipant.setEducationLevel(theParticipant.getEducationLevel());
@@ -314,6 +316,8 @@ public class ParticipantController {
 		newParticipant.setFirstNameP(theParticipant.getFirstNameP());
 		newParticipant.setLastNameP(theParticipant.getLastNameP());
 		newParticipant.setBirthday(theParticipant.getBirthday());
+		newParticipant.setCity(theParticipant.getStreet());
+		newParticipant.setCity(theParticipant.getPostalCode());
 		newParticipant.setCity(theParticipant.getCity());
 		newParticipant.setGender(theParticipant.getGender());
 		newParticipant.setCurrentPosition(theParticipant.getCurrentPosition());

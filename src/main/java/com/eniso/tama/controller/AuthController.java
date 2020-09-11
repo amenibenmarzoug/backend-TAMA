@@ -180,22 +180,12 @@ public class AuthController {
 							 encoder.encode(signupRequestInstitution.getPassword()),
 							 //signupRequestInstitution.getAddress(),
 							 signupRequestInstitution.getStreet(),
-							 signupRequestInstitution.getPostalCode(),
 							 signupRequestInstitution.getCity(),
-							 
+							 signupRequestInstitution.getPostalCode(),						 
 							 signupRequestInstitution.getPhoneNumber(),
 							null,
 							 signupRequestInstitution.getInstitutionName());
-		
-//		User user = new User(signupRequestInstitution.getEmail(),
-//				 encoder.encode(signupRequestInstitution.getPassword()),
-//				 //signupRequestInstitution.getAddress(),
-//				 signupRequestInstitution.getStreet(),
-//				 signupRequestInstitution.getCity(),
-//				 signupRequestInstitution.getPostalCode(),
-//				 signupRequestInstitution.getPhoneNumber(),null);
-//		
-	//	Set<String> strRoles = signupRequestTrainer.getRole();
+
 		Set<Role> roles = new HashSet<>();
 		Role modRole = roleRepository.findByRole(Roles.INSTITUTION)
 				.orElseThrow(() -> new RuntimeException("Error: Role INSTITUTION is not found."));
