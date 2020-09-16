@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.ClassRoom;
+import com.eniso.tama.entity.Participant;
 import com.eniso.tama.repository.ClassRoomRepository;
 
 
@@ -53,5 +54,24 @@ private ClassRoomRepository classRoomRepository;
 	@Override
 	public void deleteById(long    theId) {
 		classRoomRepository.deleteById(theId);
+	}
+
+	@Override
+	public List<ClassRoom> findByInstitution(ClassRoom theClassroom) {
+		List<ClassRoom> classroom= null ;
+		
+		
+
+		for(ClassRoom theC:classRoomRepository.findAll()) {
+			
+			
+		if  (theC.getInstitution()!=null) {
+    	  
+			classroom.add(theC) ;
+		
+      }
+           	
+	}
+		return classroom;
 	}
 }

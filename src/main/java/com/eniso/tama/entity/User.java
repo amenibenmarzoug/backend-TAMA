@@ -140,7 +140,7 @@ public class User {
 
 
 	//@NotNull
-	@Column(name = "phoneNumber")
+	@Column(name = "phoneNumber",unique=true)
 	private String phoneNumber;  
 	
 	
