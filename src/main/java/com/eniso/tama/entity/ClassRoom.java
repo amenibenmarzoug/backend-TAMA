@@ -33,8 +33,8 @@ public class ClassRoom {
 	@Column(name="capacity")
 	private int capacity;
 	
-	@OneToMany(mappedBy="classroom" ,cascade = {CascadeType.ALL})
-	private Set<Equipments> equipements;
+//	@OneToMany(mappedBy="classroom" ,cascade = {CascadeType.ALL})
+//	private Set<Equipments> equipements;
 
 	public Long getId() {
 		return id;
@@ -44,13 +44,13 @@ public class ClassRoom {
 		this.id = id;
 	}
 
-	public Set<Equipments> getEquipements() {
-		return equipements;
-	}
-
-	public void setEquipements(Set<Equipments> equipements) {
-		this.equipements = equipements;
-	}
+//	public Set<Equipments> getEquipements() {
+//		return equipements;
+//	}
+//
+//	public void setEquipements(Set<Equipments> equipements) {
+//		this.equipements = equipements;
+//	}
 
 	public String getClassRoomName() {
 		return classRoomName;

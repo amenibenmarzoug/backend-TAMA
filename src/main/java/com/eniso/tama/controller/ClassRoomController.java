@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.ClassRoom;
 import com.eniso.tama.entity.Entreprise;
+import com.eniso.tama.entity.Equipments;
 import com.eniso.tama.entity.Institution;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.payload.MessageResponse;
@@ -40,6 +41,7 @@ public class ClassRoomController {
 	public ClassRoomController(ClassRoomService classRoomService) {
 		this.classRoomService = classRoomService;
 	} 
+	
 	
 	
 
@@ -64,6 +66,7 @@ public class ClassRoomController {
 
 		return classroomsPerInstitution;
 	}
+	
 	@GetMapping("classroom/{classroomId}")
 	public ClassRoom getClassRoom(@PathVariable long  classroomId) {
 		
@@ -114,14 +117,16 @@ public class ClassRoomController {
 	
 	// add mapping for PUT /classRoom - update existing classRoom
 	
-		@PutMapping("/classroom")
-		public ClassRoom updateClassRoom(@RequestBody ClassRoom classRoom) {
-			
-			classRoomService.save(classRoom);
+		@PutMapping("/classroomInstitution")
+		public ClassRoom updateClassRoomInstit(@RequestBody ClassRoom classRoom) {
+			ClassRoom newClassroom = classRoomService.findById(classRoom.getId());
+			newClassroom.setClassRoomName(classRoom.getClassRoomName());
+			newClassroom.setCapacity(classRoom.getCapacity());
+			classRoomService.save(newClassroom);
 			
 			return classRoom;
 		}
-
+		
 		@DeleteMapping("/classroom/{classroomId}")
 		public String deleteClassRoom(@PathVariable long  classroomId) {
 			
