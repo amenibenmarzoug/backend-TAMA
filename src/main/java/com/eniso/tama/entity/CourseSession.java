@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -111,6 +112,18 @@ public class CourseSession {
 		this.trainerDisponibility = trainerDisponibility;
 	}
 
-	// public CourseSession() {}
+	@JsonIgnore
+	@OneToOne(mappedBy = "courseSession")
+	private Event event;
+
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+	
+	
 
 }
