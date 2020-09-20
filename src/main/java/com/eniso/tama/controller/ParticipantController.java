@@ -226,7 +226,6 @@ public class ParticipantController {
 		p.setGender(theP.getGender());
 		p.setBirthday(theP.getBirthday());
 		p.setEntreprise(theP.getEntreprise());
-		//p.setGroup(theP.getGroup());
 		// System.out.println(p.toString()) ;
 		participantRepository.save(p);
 
@@ -296,6 +295,7 @@ public class ParticipantController {
 		newParticipant.setLevel(theParticipant.getLevel());
 		newParticipant.setEntreprise(theParticipant.getEntreprise());
 		newParticipant.setGroup(theParticipant.getGroup());
+		newParticipant.setCursus(theParticipant.getCursus());
 		participantService.save(newParticipant);
 
 		return theParticipant;

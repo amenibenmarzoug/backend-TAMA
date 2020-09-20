@@ -24,7 +24,7 @@ public class Equipments {
 	
 	
 	@Column(name = "quantity")
-	private String quantity;
+	private int quantity;
 	
 	public ClassRoom getClassroom() {
 		return classroom;
@@ -54,14 +54,16 @@ public class Equipments {
 		this.equipmentName = equipmentName;
 	}
 
-	public String getQuantity() {
+	
+	
+
+	public int getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(String quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	
 
 	@Override
 	public String toString() {
