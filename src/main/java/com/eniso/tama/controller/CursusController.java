@@ -1,5 +1,6 @@
 package com.eniso.tama.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.Cursus;
+import com.eniso.tama.entity.Participant;
 import com.eniso.tama.service.CursusService;
+import com.eniso.tama.service.ParticipantService;
 
 @RestController
 @ComponentScan(basePackageClasses = CursusService.class )
@@ -27,6 +30,7 @@ import com.eniso.tama.service.CursusService;
 public class CursusController {
 	
 	private CursusService cursusService;
+	@Autowired ParticipantService participantService;
 	@Autowired
 	public CursusController(CursusService cursusService) {
 		this.cursusService = cursusService;
@@ -39,6 +43,28 @@ public class CursusController {
 	public List<Cursus> findAll() {
 		return cursusService.findAll();
 	}
+	@GetMapping("/cursusParticipant")
+	public List<Cursus> findCursusPart(@RequestParam("id") long  id) {
+		Participant theParticipant = participantService.findById(id);
+		List<Cursus> cursusParticipants= new ArrayList<Cursus>();
+		for(Cursus theC:cursusService.findAll()) {
+			
+   	  
+				if(theParticipant.getCursus().getId() == theC.getId()) {
+					System.out.println(id) ;
+					cursusParticipants.add(theC);
+					System.out.println(cursusParticipants.isEmpty()) ;
+				}
+				else {
+					System.out.println(id) ;
+
+				}
+				
+		
+		}
+		return cursusParticipants;
+	}
+	
 	
 	@GetMapping("cursus/{cursusId}")
 	public Cursus getCursus(@PathVariable int  cursusId) {
