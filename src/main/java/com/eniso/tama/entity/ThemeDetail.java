@@ -12,118 +12,60 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name="course")
-public class Course {
+@Table(name="themeDetail")
+public class ThemeDetail {
 	@Id
-    @Column(name = "course_id", updatable = false, nullable = false)
+    @Column(name = "themeDetail_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
 	@NotNull
-	@Column(name = "courseName")
-	private String courseName;
-	
-	
-	@Column(name="fees")
-	private double fees;
-	
-	@Column(name="nb_max_participants")
-	private int nbmaxParticipants;
+	@Column(name = "themeDetailName")
+	private String themeDetailName;
 	
 	@NotNull
-	@Column(name = "theme")
-	private String theme;
+	@Column(name ="themeDetailDays")
+	private int nbDaysThemeDetail;
 	
-	
-	@Lob
-	@Column(name = "content")
-	private String content;
+	@ManyToOne
+	private Module module;
 
-
-	//Getters and Setters
 	public Long getId() {
 		return id;
 	}
-
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-
-	public String getCourseName() {
-		return courseName;
+	public String getThemeDetailName() {
+		return themeDetailName;
 	}
 
-
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
+	public void setThemeDetailName(String themeDetailName) {
+		this.themeDetailName = themeDetailName;
 	}
 
-
-	public double getFees() {
-		return fees;
+	public int getNbDaysThemeDetail() {
+		return nbDaysThemeDetail;
 	}
 
-
-	public void setFees(double fees) {
-		this.fees = fees;
+	public void setNbDaysThemeDetail(int nbDaysThemeDetail) {
+		this.nbDaysThemeDetail = nbDaysThemeDetail;
 	}
 
-
-	public int getNbmaxParticipants() {
-		return nbmaxParticipants;
+	public Module getModule() {
+		return module;
 	}
 
-
-	public void setNbmaxParticipants(int nbmaxParticipants) {
-		this.nbmaxParticipants = nbmaxParticipants;
-	}
-
-
-	public String getTheme() {
-		return theme;
-	}
-
-
-	public void setTheme(String theme) {
-		this.theme = theme;
-	}
-
-
-	public String getContent() {
-		return content;
-	}
-
-
-	public void setContent(String content) {
-		this.content = content;
+	public void setModule(Module module) {
+		this.module = module;
 	}
 	
 	
-	@ManyToOne
-	private Cursus cursus;
-
-	public Cursus getCursus() {
-		return cursus;
-	}
-
-	public void setCursus(Cursus cursus) {
-		this.cursus = cursus;
-	}
 	
-	@ManyToOne
-	private Trainer trainer;
-
-
-	public Trainer getTrainer() {
-		return trainer;
-	}
-
-
-	public void setTrainer(Trainer trainer) {
-		this.trainer = trainer;
-	}
+	
+	
 	
 	
 

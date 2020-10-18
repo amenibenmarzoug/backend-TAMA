@@ -1,36 +1,36 @@
 package com.eniso.tama.entity;
 
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="cursus")
-public class Cursus {
+@Table(name="theme")
+public class Theme {
 	
 	@Id
-    @Column(name = "cursus_id", updatable = false, nullable = false)
+    @Column(name = "theme_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
 	@NotNull
-	@Column(name = "cursusName")
-	private String cursusName;
+	@Column(name = "themeName")
+	private String themeName;
 	
 	
-	@Column(name = "cursus_begin_date")
-	private Date cursusBeginDate;
+	@NotNull
+	@Column(name="themeDays")
+	private int nbDaysTheme;
 	
-	@Column(name = "cursus_end_date")
-	private Date cursusEndDate;
+	@ManyToOne
+	private Program program;
 
-	
 	public Long getId() {
 		return id;
 	}
@@ -39,28 +39,28 @@ public class Cursus {
 		this.id = id;
 	}
 
-	public String getCursusName() {
-		return cursusName;
+	public String getThemeName() {
+		return themeName;
 	}
 
-	public void setCursusName(String cursusName) {
-		this.cursusName = cursusName;
+	public void setThemeName(String themeName) {
+		this.themeName = themeName;
 	}
 
-	public Date getCursusBeginDate() {
-		return cursusBeginDate;
+	public int getNbDaysTheme() {
+		return nbDaysTheme;
 	}
 
-	public void setCursusBeginDate(Date cursusBeginDate) {
-		this.cursusBeginDate = cursusBeginDate;
+	public void setNbDaysTheme(int nbDaysTheme) {
+		this.nbDaysTheme = nbDaysTheme;
 	}
 
-	public Date getCursusEndDate() {
-		return cursusEndDate;
+	public Program getProgram() {
+		return program;
 	}
 
-	public void setCursusEndDate(Date cursusEndDate) {
-		this.cursusEndDate = cursusEndDate;
+	public void setProgram(Program program) {
+		this.program = program;
 	}
 
 	

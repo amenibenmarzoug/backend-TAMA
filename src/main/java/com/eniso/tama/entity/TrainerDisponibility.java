@@ -24,26 +24,18 @@ public class TrainerDisponibility {
 
 	@ManyToOne
 	@JoinColumn(name = "courseSession_id")
-	CourseSession courseSession;
+	Session courseSession;
 
 	@Column(name = "disponibility")
 	boolean disponibility;
-
-
-	
-
 
 	public Long getIdTrainerDisponibility() {
 		return idTrainerDisponibility;
 	}
 
-
-
 	public void setIdTrainerDisponibility(Long idTrainerDisponibility) {
 		this.idTrainerDisponibility = idTrainerDisponibility;
 	}
-
-
 
 	public Trainer getTrainer() {
 		return trainer;
@@ -53,11 +45,11 @@ public class TrainerDisponibility {
 		this.trainer = trainer;
 	}
 
-	public CourseSession getCourseSession() {
+	public Session getCourseSession() {
 		return courseSession;
 	}
 
-	public void setCourseSession(CourseSession courseSession) {
+	public void setCourseSession(Session courseSession) {
 		this.courseSession = courseSession;
 	}
 

@@ -24,9 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eniso.tama.entity.Cursus;
 import com.eniso.tama.entity.Entreprise;
-import com.eniso.tama.entity.Group;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
@@ -35,7 +33,6 @@ import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.RoleRepository;
-import com.eniso.tama.service.CursusService;
 import com.eniso.tama.service.GroupService;
 import com.eniso.tama.service.ParticipantService;
 
@@ -54,8 +51,8 @@ public class ParticipantController {
 	PasswordEncoder encoder;
 	@Autowired
 	EnterpriseRepository enterpriseRepository;
-	@Autowired
-	CursusService cursusService;
+//	@Autowired
+//	CursusService cursusService;
 	
 	private ParticipantService participantService;
 	@Autowired
@@ -249,8 +246,8 @@ public class ParticipantController {
 			}
 		}
 		
-		Cursus c = new Cursus() ;
-		c= cursusService.findById(cursusId);
+//		Cursus c = new Cursus() ;
+//		c= cursusService.findById(cursusId);
 		Set<Role> roles = new HashSet<>();
 		Role modRole = roleRepository.findByRole(Roles.PARTICIPANT)
 				.orElseThrow(() -> new RuntimeException("Error: Role PARTICIPANT is not found."));
@@ -269,7 +266,7 @@ public class ParticipantController {
 		p.setGender(theP.getGender());
 		p.setBirthday(theP.getBirthday());
 		p.setEntreprise(entreprise);
-		p.setCursus(c);
+		//p.setCursus(c);
 		// System.out.println(p.toString()) ;
 		participantRepository.save(p);
 
@@ -295,7 +292,7 @@ public class ParticipantController {
 		newParticipant.setLevel(theParticipant.getLevel());
 		newParticipant.setEntreprise(theParticipant.getEntreprise());
 		newParticipant.setGroup(theParticipant.getGroup());
-		newParticipant.setCursus(theParticipant.getCursus());
+		//newParticipant.setCursus(theParticipant.getCursus());
 		participantService.save(newParticipant);
 
 		return theParticipant;

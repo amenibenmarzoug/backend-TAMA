@@ -51,7 +51,7 @@ public class Event {
 	//@JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "courseSession_id", referencedColumnName = "course_session_id")
-    private CourseSession courseSession;
+    private Session courseSession;
 
 
 	public Long getId() {
@@ -99,7 +99,7 @@ public class Event {
 	}
 
 
-	public CourseSession getCourseSession() {
+	public Session getCourseSession() {
 		return courseSession;
 	}
 
@@ -149,7 +149,7 @@ public class Event {
 	}
 
 
-	public void setCourseSession(CourseSession courseSession) {
+	public void setCourseSession(Session courseSession) {
 		this.courseSession = courseSession;
 	}
     

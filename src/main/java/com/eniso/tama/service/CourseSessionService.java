@@ -2,17 +2,17 @@ package com.eniso.tama.service;
 
 import java.util.List;
 
-import com.eniso.tama.entity.CourseSession;
+import com.eniso.tama.entity.Session;
 
 public interface CourseSessionService {
 
-	public List<CourseSession> findAll();
+	public List<Session> findAll();
 	
-	public List<CourseSession> findAllByCourseId(long id);
+	public List<Session> findAllByCourseId(long id);
 	
-	public CourseSession findById(long theId);
+	public Session findById(long theId);
 	
-	public void save(CourseSession courseSession);
+	public void save(Session courseSession);
 	
 	public void deleteById(long id);
 }

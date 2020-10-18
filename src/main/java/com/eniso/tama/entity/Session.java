@@ -17,22 +17,22 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "courseSession")
-public class CourseSession {
+@Table(name = "session")
+public class Session {
 	@Id
-	@Column(name = "course_session_id", updatable = false, nullable = false)
+	@Column(name = "session_id", updatable = false, nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	@NotNull
-	@Column(name = "courseSessionName")
-	private String courseSessionName;
+	@Column(name = "sessionName")
+	private String sessionName;
 
-	@Column(name = "courseSession_begin_date")
-	private Date courseSessionBeginDate;
+	@Column(name = "session_begin_date")
+	private Date sessionBeginDate;
 
-	@Column(name = "courseSession_end_date")
-	private Date courseSessionEndDate;
+	@Column(name = "session_end_date")
+	private Date sessionEndDate;
 
 	public Long getId() {
 		return id;
@@ -42,43 +42,40 @@ public class CourseSession {
 		this.id = id;
 	}
 
-	public String getCourseSessionName() {
-		return courseSessionName;
-	}
-
-	public void setCourseSessionName(String courseSessionName) {
-		this.courseSessionName = courseSessionName;
-	}
-
-	public Date getCourseSessionBeginDate() {
-		return courseSessionBeginDate;
-	}
-
-	public void setCourseSessionBeginDate(Date courseSessionBeginDate) {
-		this.courseSessionBeginDate = courseSessionBeginDate;
-	}
-
-	public Date getCourseSessionEndDate() {
-		return courseSessionEndDate;
-	}
-
-	public void setCourseSessionEndDate(Date courseSessionEndDate) {
-		this.courseSessionEndDate = courseSessionEndDate;
-	}
-
 	@ManyToOne
-	private Course course;
+	private ThemeDetail themeDetail;
 
-	public Course getCourse() {
-		return course;
+	public String getSessionName() {
+		return sessionName;
 	}
 
-	public void setCourse(Course course) {
-		this.course = course;
+	public void setSessionName(String sessionName) {
+		this.sessionName = sessionName;
 	}
 
-	@ManyToOne
-	private ClassRoom classRoom;
+	public Date getSessionBeginDate() {
+		return sessionBeginDate;
+	}
+
+	public void setSessionBeginDate(Date sessionBeginDate) {
+		this.sessionBeginDate = sessionBeginDate;
+	}
+
+	public Date getSessionEndDate() {
+		return sessionEndDate;
+	}
+
+	public void setSessionEndDate(Date sessionEndDate) {
+		this.sessionEndDate = sessionEndDate;
+	}
+
+	public ThemeDetail getThemeDetail() {
+		return themeDetail;
+	}
+
+	public void setThemeDetail(ThemeDetail themeDetail) {
+		this.themeDetail = themeDetail;
+	}
 
 	public ClassRoom getClassRoom() {
 		return classRoom;
@@ -88,32 +85,27 @@ public class CourseSession {
 		this.classRoom = classRoom;
 	}
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "courseSession")
-	Set<CourseSessionParticipant> courseSessionParticipant;
+	@ManyToOne
+	private ClassRoom classRoom;
 
-	public Set<CourseSessionParticipant> getCourseSessionParticipant() {
-		return courseSessionParticipant;
-	}
-
-	public void setCourseSessionParticipant(Set<CourseSessionParticipant> courseSessionParticipant) {
-		this.courseSessionParticipant = courseSessionParticipant;
-	}
+	
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "courseSession")
-	Set<TrainerDisponibility> trainerDisponibility;
+	@OneToMany(mappedBy = "session")
+	Set<SessionParticipant> sessionParticipant;
 
-	public Set<TrainerDisponibility> getTrainerDisponibility() {
-		return trainerDisponibility;
+	public Set<SessionParticipant> getCourseSessionParticipant() {
+		return sessionParticipant;
 	}
 
-	public void setTrainerDisponibility(Set<TrainerDisponibility> trainerDisponibility) {
-		this.trainerDisponibility = trainerDisponibility;
+	public void setCourseSessionParticipant(Set<SessionParticipant> sessionParticipant) {
+		this.sessionParticipant = sessionParticipant;
 	}
+
+	
 
 	@JsonIgnore
-	@OneToOne(mappedBy = "courseSession")
+	@OneToOne(mappedBy = "session")
 	private Event event;
 
 	public Event getEvent() {

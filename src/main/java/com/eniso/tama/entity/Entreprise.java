@@ -17,36 +17,7 @@ import javax.validation.constraints.Size;
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Entreprise extends User{
 	
-	//this variable is for validating the accounts
-		//@NotNull
-//		@Column(name = "validated"  )
-//		private boolean validated;
-//
-//
-//		
-//
-//		public boolean isValidated() {
-//			return validated;
-//		}
-//
-//		public void setValidated(boolean validated) {
-//			 this.validated=validated;
-//		}
-	
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "entreprise")
-//    Set<EntrepriseDisponibility> entrepriseDisponibility;
 
-	@ManyToOne
-	private Cursus cursus;
-
-	public Cursus getCursus() {
-		return cursus;
-	}
-
-	public void setCursus(Cursus cursus) {
-		this.cursus = cursus;
-	} 
 	//@NotNull
 	@Column(name = "enterpriseName")
 	private String enterpriseName;

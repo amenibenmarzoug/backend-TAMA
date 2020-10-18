@@ -11,10 +11,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 
 @Entity
-public class CourseSessionParticipant {
+public class SessionParticipant {
 
 	@Id
-    @Column(name = "courseSessionP_id", updatable = false, nullable = false)
+    @Column(name = "sessionP_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
@@ -23,8 +23,8 @@ public class CourseSessionParticipant {
 	Participant participant;
 
 	@ManyToOne
-	@JoinColumn(name = "courseSession_id")
-	CourseSession courseSession;
+	@JoinColumn(name = "session_id")
+	Session session;
 
 	boolean absent;
 
@@ -44,13 +44,7 @@ public class CourseSessionParticipant {
 		this.participant = participant;
 	}
 
-	public CourseSession getCourseSession() {
-		return courseSession;
-	}
 
-	public void setCourseSession(CourseSession courseSession) {
-		this.courseSession = courseSession;
-	}
 
 	public boolean isAbsent() {
 		return absent;
@@ -61,6 +55,6 @@ public class CourseSessionParticipant {
 	}
 	
 	
-	//public CourseSessionParticipant() {}
+	//public SessionParticipant() {}
 	
 }

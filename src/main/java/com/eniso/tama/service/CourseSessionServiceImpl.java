@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
-import com.eniso.tama.entity.CourseSession;
+import com.eniso.tama.entity.Session;
 
 import com.eniso.tama.repository.CourseSessionRepository;
 
@@ -26,21 +26,21 @@ public class CourseSessionServiceImpl implements CourseSessionService {
 	}
 
 	@Override
-	public List<CourseSession> findAll() {
+	public List<Session> findAll() {
 		return courseSessionRepository.findAll();
 	}
 	
 	@Override
-	public List<CourseSession> findAllByCourseId(long id) {
+	public List<Session> findAllByCourseId(long id) {
 		// TODO Auto-generated method stub
 		return courseSessionRepository.findByCourseId(id);
 	}
 
 	@Override
-	public CourseSession findById(long theId) {
-		Optional<CourseSession> result = courseSessionRepository.findById(theId);
+	public Session findById(long theId) {
+		Optional<Session> result = courseSessionRepository.findById(theId);
 
-		CourseSession courseSession = null;
+		Session courseSession = null;
 
 		if (result.isPresent()) {
 			courseSession = result.get();
@@ -53,7 +53,7 @@ public class CourseSessionServiceImpl implements CourseSessionService {
 	}
 
 	@Override
-	public void save(CourseSession courseSession) {
+	public void save(Session courseSession) {
 		courseSessionRepository.save(courseSession);
 	}
 

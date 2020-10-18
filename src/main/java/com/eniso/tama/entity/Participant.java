@@ -158,31 +158,20 @@ public class Participant extends User{
 		this.entreprise = entreprise;
 	}
 
-	@ManyToOne
-	private Cursus cursus;
-
-	public Cursus getCursus() {
-		return cursus;
-	}
-
-	public void setCursus(Cursus cursus) {
-		this.cursus = cursus;
-	}
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "participant")
-    Set<CourseSessionParticipant> courseSessionParticipant;
+    Set<SessionParticipant> sessionParticipant;
 	
-	public Set<CourseSessionParticipant> getCourseSessionParticipant() {
-		return courseSessionParticipant;
+	
+	public Set<SessionParticipant> getSessionParticipant() {
+		return sessionParticipant;
 	}
 
-	public void setCourseSessionParticipant(Set<CourseSessionParticipant> courseSessionParticipant) {
-		this.courseSessionParticipant = courseSessionParticipant;
+	public void setSessionParticipant(Set<SessionParticipant> sessionParticipant) {
+		this.sessionParticipant = sessionParticipant;
 	}
 
-	
-	
 	public Participant() {
 		
 	}
@@ -232,7 +221,7 @@ public class Participant extends User{
 		return "Participant [validated=" + validated + ", firstNameP=" + firstNameP + ", lastNameP=" + lastNameP
 				+ ", gender=" + gender + ", birthday=" + birthday + ", currentPosition=" + currentPosition + ", level="
 				+ level + ", educationLevel=" + educationLevel + ", abandon=" + abandon + ", entreprise=" + entreprise
-				+ ", cursus=" + cursus + ", courseSessionParticipant=" + courseSessionParticipant + "]";
+				+ ", courseSessionParticipant=" + sessionParticipant + "]";
 	}
 	
 	
