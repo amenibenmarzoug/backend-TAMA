@@ -88,17 +88,19 @@ public class Session {
 	@ManyToOne
 	private ClassRoom classRoom;
 
-	
+
+	@ManyToOne
+	private Group group;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "session")
 	Set<SessionParticipant> sessionParticipant;
 
-	public Set<SessionParticipant> getCourseSessionParticipant() {
+	public Set<SessionParticipant> getSessionParticipant() {
 		return sessionParticipant;
 	}
 
-	public void setCourseSessionParticipant(Set<SessionParticipant> sessionParticipant) {
+	public void setSessionParticipant(Set<SessionParticipant> sessionParticipant) {
 		this.sessionParticipant = sessionParticipant;
 	}
 

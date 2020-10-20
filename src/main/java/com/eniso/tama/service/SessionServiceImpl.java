@@ -14,14 +14,14 @@ import com.eniso.tama.repository.CourseSessionRepository;
 
 @Service
 @ComponentScan(basePackageClasses = CourseSessionRepository.class) 
-public class CourseSessionServiceImpl implements CourseSessionService {
+public class SessionServiceImpl implements SessionService {
 	private CourseSessionRepository courseSessionRepository;
 
-	public CourseSessionServiceImpl() {
+	public SessionServiceImpl() {
 	}
 
 	@Autowired
-	public CourseSessionServiceImpl(CourseSessionRepository courseSessionRepository) {
+	public SessionServiceImpl(CourseSessionRepository courseSessionRepository) {
 		this.courseSessionRepository = courseSessionRepository;
 	}
 
