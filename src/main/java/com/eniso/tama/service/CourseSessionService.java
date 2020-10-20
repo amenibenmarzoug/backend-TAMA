@@ -8,7 +8,7 @@ public interface CourseSessionService {
 
 	public List<Session> findAll();
 	
-	public List<Session> findAllByCourseId(long id);
+	//public List<Session> findAllByCourseId(long id);
 	
 	public Session findById(long theId);
 	

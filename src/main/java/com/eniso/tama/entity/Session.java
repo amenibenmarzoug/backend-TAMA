@@ -104,7 +104,7 @@ public class Session {
 
 	
 
-	@JsonIgnore
+	/*@JsonIgnore
 	@OneToOne(mappedBy = "session")
 	private Event event;
 
@@ -114,7 +114,7 @@ public class Session {
 
 	public void setEvent(Event event) {
 		this.event = event;
-	}
+	}*/
 	
 	
 
