@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.eniso.tama.entity.Session;
 
-public interface CourseSessionService {
+public interface SessionService {
 
 	public List<Session> findAll();
 	
