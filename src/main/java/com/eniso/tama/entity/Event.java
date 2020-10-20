@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -48,10 +49,20 @@ public class Event {
 	@Column(name = "draggable",columnDefinition = "boolean default true")
 	private boolean draggable;
 	
+	public Session getSession() {
+		return session;
+	}
+
+
+	public void setSession(Session session) {
+		this.session = session;
+	}
+
+
 	//@JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "courseSession_id", referencedColumnName = "course_session_id")
-    private Session courseSession;
+    @JoinColumn(name = "session_id", referencedColumnName = "session_id")
+    private Session session;
 
 
 	public Long getId() {
@@ -99,10 +110,7 @@ public class Event {
 	}
 
 
-	public Session getCourseSession() {
-		return courseSession;
-	}
-
+	
 
 	public void setId(Long id) {
 		this.id = id;
@@ -149,9 +157,7 @@ public class Event {
 	}
 
 
-	public void setCourseSession(Session courseSession) {
-		this.courseSession = courseSession;
-	}
+	
     
     
 }

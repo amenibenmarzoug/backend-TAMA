@@ -46,7 +46,7 @@ public class GroupServiceImpl implements GroupService {
 			theControl = result.get();
 		}
 		else {
-			// we didn't find the participant
+			// we didn't find the group
 			throw new RuntimeException("Did not find Group id - " + theId);
 		}
 		

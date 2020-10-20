@@ -88,7 +88,9 @@ public class Session {
 	@ManyToOne
 	private ClassRoom classRoom;
 
-	
+
+	@ManyToOne
+	private Group group;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "session")
