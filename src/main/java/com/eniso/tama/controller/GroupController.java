@@ -36,7 +36,7 @@ public class GroupController {
 	}
 	
 	@GetMapping("groups/{groupId}")
-	public Group getParticipant(@PathVariable int  groupId) {
+	public Group getGroup(@PathVariable int  groupId) {
 		
 		Group theGroup = groupService.findById(groupId);
 		
@@ -48,7 +48,7 @@ public class GroupController {
 	}
 	
 	@PostMapping("/groups")
-	public  Group addcontrol(@RequestBody Group theGroup) {
+	public  Group addGroup(@RequestBody Group theGroup) {
 	
 		
 		// also just in case they pass an id in JSON ... set id to 0
@@ -68,7 +68,7 @@ public class GroupController {
 	}
 	
 	@DeleteMapping("/groups/{groupId}")
-	public String deleteParticipant(@PathVariable int  groupId) {
+	public String deleteGroup(@PathVariable int  groupId) {
 		
 		Group tempGroup = groupService.findById(groupId);
 		
