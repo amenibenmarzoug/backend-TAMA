@@ -49,9 +49,9 @@ public class Event {
 	private boolean draggable;
 	
 	//@JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "courseSession_id", referencedColumnName = "course_session_id")
-    private Session courseSession;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "courseSession_id", referencedColumnName = "course_session_id")
+//    private Session courseSession;
 
 
 	public Long getId() {
@@ -98,10 +98,10 @@ public class Event {
 		return draggable;
 	}
 
-
-	public Session getCourseSession() {
-		return courseSession;
-	}
+//
+//	public Session getCourseSession() {
+//		return courseSession;
+//	}
 
 
 	public void setId(Long id) {
@@ -149,9 +149,9 @@ public class Event {
 	}
 
 
-	public void setCourseSession(Session courseSession) {
-		this.courseSession = courseSession;
-	}
-    
+//	public void setCourseSession(Session courseSession) {
+//		this.courseSession = courseSession;
+//	}
+//    
     
 }

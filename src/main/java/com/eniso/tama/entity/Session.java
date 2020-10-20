@@ -94,11 +94,11 @@ public class Session {
 	@OneToMany(mappedBy = "session")
 	Set<SessionParticipant> sessionParticipant;
 
-	public Set<SessionParticipant> getCourseSessionParticipant() {
+	public Set<SessionParticipant> getSessionParticipant() {
 		return sessionParticipant;
 	}
 
-	public void setCourseSessionParticipant(Set<SessionParticipant> sessionParticipant) {
+	public void setSessionParticipant(Set<SessionParticipant> sessionParticipant) {
 		this.sessionParticipant = sessionParticipant;
 	}
 
