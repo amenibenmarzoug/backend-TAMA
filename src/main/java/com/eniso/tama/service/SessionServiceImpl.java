@@ -30,11 +30,11 @@ public class SessionServiceImpl implements SessionService {
 		return courseSessionRepository.findAll();
 	}
 	
-	@Override
+/*	@Override
 	public List<Session> findAllByCourseId(long id) {
 		// TODO Auto-generated method stub
 		return courseSessionRepository.findByCourseId(id);
-	}
+	}*/
 
 	@Override
 	public Session findById(long theId) {

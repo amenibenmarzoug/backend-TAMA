@@ -1,11 +1,9 @@
 package com.eniso.tama.entity;
+import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -62,11 +60,25 @@ public class Trainer extends User {
 	public void setSpecification(String specification) {
 		this.specification = specification;
 	}
+	
+    @ElementCollection
+    @CollectionTable(name = "trainer_disponibility_days", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "disponibility_days")
+    private Set<Day> disponibilityDays = new HashSet<>();
 
+    
 //	//@NotNull
 //	@Column(name = "field")
 //	private String field;
 	
+	public Set<Day> getDisponibilityDays() {
+		return disponibilityDays;
+	}
+
+	public void setDisponibilityDays(Set<Day> disponibilityDays) {
+		this.disponibilityDays = disponibilityDays;
+	}
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "trainer")
     Set<TrainerDisponibility> trainerDisponibility;
