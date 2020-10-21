@@ -228,7 +228,9 @@ public class AuthController {
 							 signupRequestEnterprise.getPhoneNumber(),
 							 null,
 							 signupRequestEnterprise.getEnterpriseName(),
-							 signupRequestEnterprise.getWebsite());
+							 signupRequestEnterprise.getWebsite(),
+							 signupRequestEnterprise.getManagerFirstName(),
+							 signupRequestEnterprise.getManagerLastName());
 		
 //		User user = new User(signupRequestEnterprise.getEmail(),
 //				 encoder.encode(signupRequestEnterprise.getPassword()),
