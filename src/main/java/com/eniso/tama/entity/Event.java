@@ -49,15 +49,7 @@ public class Event {
 	@Column(name = "draggable",columnDefinition = "boolean default true")
 	private boolean draggable;
 	
-	public Session getSession() {
-		return session;
-	}
-
-
-	public void setSession(Session session) {
-		this.session = session;
-	}
-
+	
 
 	//@JsonIgnore
 
@@ -66,6 +58,14 @@ public class Event {
     private Session session;
 
 
+    public Session getSession() {
+		return session;
+	}
+
+
+	public void setSession(Session session) {
+		this.session = session;
+	}
 
 	public Long getId() {
 		return id;
