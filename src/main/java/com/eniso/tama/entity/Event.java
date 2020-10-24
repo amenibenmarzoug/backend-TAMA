@@ -60,9 +60,11 @@ public class Event {
 
 
 	//@JsonIgnore
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "session_id", referencedColumnName = "session_id")
     private Session session;
+
 
 
 	public Long getId() {
@@ -110,7 +112,9 @@ public class Event {
 	}
 
 
+
 	
+
 
 	public void setId(Long id) {
 		this.id = id;
@@ -157,7 +161,4 @@ public class Event {
 	}
 
 
-	
-    
-    
 }
