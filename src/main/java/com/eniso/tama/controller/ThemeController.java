@@ -31,7 +31,7 @@ public class ThemeController {
 		this.themeService = themeService;
 	}
 	
-	@GetMapping("/theme")
+	@GetMapping("/themes")
 	public List<Theme> findAll() {
 		return themeService.findAll();
 	}
