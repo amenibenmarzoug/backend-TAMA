@@ -32,10 +32,6 @@ public class ProgramInstance {
 	private Program program;
 	
 	
-	
-
-	
-	
 	public Program getProgram() {
 		return program;
 	}
