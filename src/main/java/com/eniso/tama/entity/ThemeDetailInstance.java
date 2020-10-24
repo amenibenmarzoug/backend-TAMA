@@ -25,6 +25,38 @@ public class ThemeDetailInstance {
 	@Column(name = "themeDetailInst_begin_date")
 	private Date themeDetailInstBeginDate;
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public ThemeDetail getThemeDetail() {
+		return themeDetail;
+	}
+
+	public void setThemeDetail(ThemeDetail themeDetail) {
+		this.themeDetail = themeDetail;
+	}
+
+	public Date getThemeDetailInstBeginDate() {
+		return themeDetailInstBeginDate;
+	}
+
+	public void setThemeDetailInstBeginDate(Date themeDetailInstBeginDate) {
+		this.themeDetailInstBeginDate = themeDetailInstBeginDate;
+	}
+
+	public Date getThemeDetailInstEndDate() {
+		return themeDetailInstEndDate;
+	}
+
+	public void setThemeDetailInstEndDate(Date themeDetailInstEndDate) {
+		this.themeDetailInstEndDate = themeDetailInstEndDate;
+	}
+
 	@Column(name = "themeDetailInst_end_date")
 	private Date themeDetailInstEndDate;
 	
