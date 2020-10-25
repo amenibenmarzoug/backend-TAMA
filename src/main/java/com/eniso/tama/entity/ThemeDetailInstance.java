@@ -22,6 +22,9 @@ public class ThemeDetailInstance {
 	@ManyToOne
 	private ThemeDetail themeDetail;
 	
+	@ManyToOne
+	private ModuleInstance moduleInstance;
+	
 	@Column(name = "themeDetailInst_begin_date")
 	private Date themeDetailInstBeginDate;
 	
@@ -56,6 +59,16 @@ public class ThemeDetailInstance {
 	public void setThemeDetailInstEndDate(Date themeDetailInstEndDate) {
 		this.themeDetailInstEndDate = themeDetailInstEndDate;
 	}
+
+	
+	public ModuleInstance getModuleInstance() {
+		return moduleInstance;
+	}
+
+	public void setModuleInstance(ModuleInstance moduleInstance) {
+		this.moduleInstance = moduleInstance;
+	}
+
 
 	@Column(name = "themeDetailInst_end_date")
 	private Date themeDetailInstEndDate;

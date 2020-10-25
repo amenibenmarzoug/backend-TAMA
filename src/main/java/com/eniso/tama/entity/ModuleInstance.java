@@ -28,6 +28,14 @@ public class ModuleInstance {
 	private int nbDaysModuleInstance;
 
 
+	@ManyToOne
+	private Module module;
+	
+	
+	@ManyToOne
+	private ThemeInstance themeInstance;
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -56,6 +64,27 @@ public class ModuleInstance {
 	public void setNbDaysModuleInstance(int nbDaysModuleInstance) {
 		this.nbDaysModuleInstance = nbDaysModuleInstance;
 	}
+
+
+	public Module getModule() {
+		return module;
+	}
+
+
+	public void setModule(Module module) {
+		this.module = module;
+	}
+
+
+	public ThemeInstance getThemeInstance() {
+		return themeInstance;
+	}
+
+
+	public void setThemeInstance(ThemeInstance themeInstance) {
+		this.themeInstance = themeInstance;
+	}
+	
 	
 	
 }
