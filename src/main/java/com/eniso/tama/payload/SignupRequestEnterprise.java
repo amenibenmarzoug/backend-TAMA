@@ -68,6 +68,12 @@ public class SignupRequestEnterprise {
 	@Column(name = "website")
 	private String website;
 	
+	@Column(name = "managerFirstName")
+	private String managerFirstName;
+	
+	@Column(name = "managerLastName")
+	private String managerLastName;
+	
 	private Set<String> role;
 	
 	public String getEmail() {
@@ -85,6 +91,24 @@ public class SignupRequestEnterprise {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+	
+	
+
+	public String getManagerFirstName() {
+		return managerFirstName;
+	}
+
+	public void setManagerFirstName(String managerFirstName) {
+		this.managerFirstName = managerFirstName;
+	}
+
+	public String getManagerLastName() {
+		return managerLastName;
+	}
+
+	public void setManagerLastName(String managerLastName) {
+		this.managerLastName = managerLastName;
 	}
 
 	public Set<String> getRole() {
@@ -123,7 +147,8 @@ public class SignupRequestEnterprise {
 	public String toString() {
 		return "SignupRequestEnterprise [email=" + email + ", street=" + street + ", city=" + city + ", postalCode="
 				+ postalCode + ", phoneNumber=" + phoneNumber + ", password=" + password + ", enterpriseName="
-				+ enterpriseName + ", website=" + website + ", role=" + role + "]";
+				+ enterpriseName + ", website=" + website + ", Manager's First Name=" + managerFirstName +
+				", Manager's Last Name=" + managerLastName +", role=" + role + "]";
 	}
 	
 

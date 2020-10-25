@@ -43,7 +43,7 @@ public class Session {
 	}
 
 	@ManyToOne
-	private ThemeDetail themeDetail;
+	private ThemeDetailInstance themeDetailInstance;
 
 	public String getSessionName() {
 		return sessionName;
@@ -69,12 +69,22 @@ public class Session {
 		this.sessionEndDate = sessionEndDate;
 	}
 
-	public ThemeDetail getThemeDetail() {
-		return themeDetail;
+
+
+	public ThemeDetailInstance getThemeDetailInstance() {
+		return themeDetailInstance;
 	}
 
-	public void setThemeDetail(ThemeDetail themeDetail) {
-		this.themeDetail = themeDetail;
+	public void setThemeDetailInstance(ThemeDetailInstance themeDetailInstance) {
+		this.themeDetailInstance = themeDetailInstance;
+	}
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 
 	public ClassRoom getClassRoom() {
