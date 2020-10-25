@@ -63,19 +63,19 @@ public class Trainer extends User {
 	
     @ElementCollection
     @CollectionTable(name = "trainer_disponibility_days", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "disponibility_days")
-    private Set<Day> disponibilityDays = new HashSet<>();
+    @Column(name = "day")
+    private Set<Days> disponibilityDays = new HashSet<>();
 
     
 //	//@NotNull
 //	@Column(name = "field")
 //	private String field;
 	
-	public Set<Day> getDisponibilityDays() {
+	public Set<Days> getDisponibilityDays() {
 		return disponibilityDays;
 	}
 
-	public void setDisponibilityDays(Set<Day> disponibilityDays) {
+	public void setDisponibilityDays(Set<Days> disponibilityDays) {
 		this.disponibilityDays = disponibilityDays;
 	}
 
@@ -117,5 +117,25 @@ public class Trainer extends User {
 		this.gender = gender;
 		
 	}
+
+	public Trainer(String email,
+			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotNull String firstName, @NotNull String lastName, @NotNull String gender,
+			Set<Days> disponibilityDays, @NotNull String specification) {
+		this.setId(super.getId());
+		super.setEmail(email);
+		super.setPassword(password);
+		super.setStreet(street);
+		super.setCity(city);
+		super.setPostalCode(postalCode);
+		super.setPhoneNumber(phoneNumber);
+		super.setRoles(roles);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.gender = gender;
+		this.disponibilityDays = disponibilityDays;
+		this.specification = specification;
+	}
+	
+	
 	
 }
