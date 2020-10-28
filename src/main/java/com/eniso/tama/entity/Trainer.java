@@ -66,10 +66,7 @@ public class Trainer extends User {
     @Column(name = "day")
     private Set<Days> disponibilityDays = new HashSet<>();
 
-    
-//	//@NotNull
-//	@Column(name = "field")
-//	private String field;
+ 
 	
 	public Set<Days> getDisponibilityDays() {
 		return disponibilityDays;
