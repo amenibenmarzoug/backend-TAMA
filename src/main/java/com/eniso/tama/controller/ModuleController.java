@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.Module;
+import com.eniso.tama.entity.Theme;
 import com.eniso.tama.service.ModuleService;
 
 @RestController
@@ -60,8 +61,11 @@ public class ModuleController {
 		// add mapping for PUT /module - update existing module
 		
 			@PutMapping("/module")
-			public Module updateModule(@RequestBody Module module) {
-				
+			public Module updateModule(@RequestBody Module theModule) {
+				Module module = moduleService.findById(theModule.getId());
+				module.setModuleName(theModule.getModuleName());
+				module.setNbDaysModule(theModule.getNbDaysModule());
+				module.setTheme(theModule.getTheme());
 				moduleService.save(module);
 				
 				return module;

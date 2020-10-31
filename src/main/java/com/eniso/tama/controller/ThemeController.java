@@ -19,12 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eniso.tama.entity.ClassRoom;
-import com.eniso.tama.entity.Equipments;
+import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Program;
 import com.eniso.tama.entity.Theme;
 import com.eniso.tama.payload.MessageResponse;
-import com.eniso.tama.repository.ClassRoomRepository;
 import com.eniso.tama.repository.ProgramRepository;
 import com.eniso.tama.service.ThemeService;
 
@@ -83,7 +81,7 @@ public class ThemeController {
 	@PostMapping("/themeProgram")
 	public ResponseEntity<?> addThemeProgram(@Valid @RequestBody Theme theme,@RequestParam("id") long id ) {
 	
-		
+		System.out.println("chnw lid" + id);
 		Program program = new Program();
 		for (Program p : programRepository.findAll()) {
 			if (id == p.getId()) {
@@ -103,7 +101,10 @@ public class ThemeController {
 	}
 	@PutMapping("/theme")
 	public Theme updateTheme (@RequestBody Theme theTheme) {
-		
+		Theme newTheme = themeService.findById(theTheme.getId());
+		newTheme.setThemeName(theTheme.getThemeName());
+		newTheme.setNbDaysTheme(theTheme.getNbDaysTheme());
+		newTheme.setProgram(theTheme.getProgram());
 		themeService.save(theTheme);
 		
 		return theTheme;
