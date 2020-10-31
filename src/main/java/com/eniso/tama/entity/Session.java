@@ -98,6 +98,8 @@ public class Session {
 	@ManyToOne
 	private ClassRoom classRoom;
 
+	@ManyToOne
+	private Trainer trainer;
 
 	@ManyToOne
 	private Group group;
@@ -112,6 +114,14 @@ public class Session {
 
 	public void setSessionParticipant(Set<SessionParticipant> sessionParticipant) {
 		this.sessionParticipant = sessionParticipant;
+	}
+
+	public Trainer getTrainer() {
+		return trainer;
+	}
+
+	public void setTrainer(Trainer trainer) {
+		this.trainer = trainer;
 	}
 
 	

@@ -22,9 +22,9 @@ public class TrainerDisponibility {
 	@JoinColumn(name = "trainer_id")
 	Trainer trainer;
 
-	@ManyToOne
+	/*@ManyToOne
 	@JoinColumn(name = "courseSession_id")
-	Session courseSession;
+	Session courseSession;*/
 
 	@Column(name = "disponibility")
 	boolean disponibility;
@@ -45,13 +45,13 @@ public class TrainerDisponibility {
 		this.trainer = trainer;
 	}
 
-	public Session getCourseSession() {
+	/*public Session getCourseSession() {
 		return courseSession;
 	}
 
 	public void setCourseSession(Session courseSession) {
 		this.courseSession = courseSession;
-	}
+	}*/
 
 	public boolean isDisponibility() {
 		return disponibility;
