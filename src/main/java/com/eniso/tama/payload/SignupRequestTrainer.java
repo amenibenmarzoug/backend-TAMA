@@ -63,8 +63,8 @@ public class SignupRequestTrainer {
 	private String gender;
 	
 
-	@NotBlank
-	private String specification;
+
+	private Set<String> specifications;
 
  
     private Set<String> role;
@@ -110,12 +110,12 @@ public class SignupRequestTrainer {
 
 
 
-	public String getSpecification() {
-		return specification;
+	public Set<String> getSpecifications() {
+		return specifications;
 	}
 
-	public void setSpecification(String specification) {
-		this.specification = specification;
+	public void setSpecification(Set<String> specifications) {
+		this.specifications = specifications;
 	}
 
 	public String getFirstName() {

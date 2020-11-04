@@ -128,7 +128,7 @@ public class AuthController {
 							 null,
 							 signupRequestTrainer.getFirstName(),
 							 signupRequestTrainer.getLastName(),
-							 signupRequestTrainer.getSpecification(),
+							 signupRequestTrainer.getSpecifications(),
 							 signupRequestTrainer.getGender());
 
 		

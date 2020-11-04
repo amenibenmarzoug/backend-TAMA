@@ -91,7 +91,7 @@ public class TrainerController {
 			newTrainer.setPostalCode(theTrainer.getPostalCode());
 			newTrainer.setFirstName(theTrainer.getFirstName());
 			newTrainer.setLastName(theTrainer.getLastName());
-			newTrainer.setSpecification(theTrainer.getSpecification());
+			newTrainer.setSpecifications(theTrainer.getSpecifications());
 			newTrainer.setDisponibilityDays(theTrainer.getDisponibilityDays());
 			System.out.println(theTrainer.getDisponibilityDays());
 			System.out.println(newTrainer.getDisponibilityDays());
