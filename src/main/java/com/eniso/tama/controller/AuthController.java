@@ -1,11 +1,26 @@
 package com.eniso.tama.controller;
 
+import java.io.IOException;
+import javax.mail.PasswordAuthentication;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +29,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +44,9 @@ import com.eniso.tama.entity.Institution;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
+
 import com.eniso.tama.entity.Trainer;
+import com.eniso.tama.entity.User;
 import com.eniso.tama.payload.JwtResponse;
 import com.eniso.tama.payload.LoginRequest;
 import com.eniso.tama.payload.MessageResponse;
@@ -46,6 +65,7 @@ import com.eniso.tama.service.UserDetailsImpl;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
+@Validated
 public class AuthController {
 	@Autowired
 	AuthenticationManager authenticationManager;
@@ -79,6 +99,11 @@ public class AuthController {
 		System.out.println(loginRequest.getPassword()) ;
 		System.out.println(loginRequest.getEmail()) ;
 		
+		User u = new User();
+		u = userRepository.findByEmail(loginRequest.getEmail()); 
+		
+		System.out.println(u.toString()) ;
+		if (u.isValidated()) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
@@ -100,6 +125,11 @@ public class AuthController {
 												 userDetails.getEmail(), 	
 												 roles));
 	}
+		else {
+			
+			return ResponseEntity.ok(new MessageResponse("Your Account is not active yet !"));
+		}
+		}
 
 	@PostMapping( "/signup" )
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestTrainer signupRequestTrainer){
@@ -130,6 +160,9 @@ public class AuthController {
 							 signupRequestTrainer.getLastName(),
 							 signupRequestTrainer.getSpecification(),
 							 signupRequestTrainer.getGender());
+		trainer.setValidated(false) ;
+			
+				
 
 		
 //		User user = new User(signupRequestTrainer.getEmail(),
@@ -185,13 +218,13 @@ public class AuthController {
 							 signupRequestInstitution.getPhoneNumber(),
 							null,
 							 signupRequestInstitution.getInstitutionName());
-
+		institution.setValidated(false) ;
 		Set<Role> roles = new HashSet<>();
 		Role modRole = roleRepository.findByRole(Roles.INSTITUTION)
 				.orElseThrow(() -> new RuntimeException("Error: Role INSTITUTION is not found."));
 		roles.add(modRole);
 
-		institution.setRoles(roles) ;
+		//institution.setRoles(roles) ;
 		
 		//userRepository.save(user);
 		institutionRepository.save(institution);
@@ -229,6 +262,7 @@ public class AuthController {
 							 null,
 							 signupRequestEnterprise.getEnterpriseName(),
 							 signupRequestEnterprise.getWebsite());
+		enterprise.setValidated(false) ;
 		
 //		User user = new User(signupRequestEnterprise.getEmail(),
 //				 encoder.encode(signupRequestEnterprise.getPassword()),
@@ -257,7 +291,7 @@ public class AuthController {
 	}
 	
 	@PostMapping( "/signupParticipant" )
-	public ResponseEntity<?> registerParticipant(@Valid @RequestBody SignupRequestParticipant signupRequestParticipant)
+	public ResponseEntity<?> ji (@Valid @RequestBody SignupRequestParticipant signupRequestParticipant)
 	{
 		
 		
@@ -285,6 +319,7 @@ public class AuthController {
 							 signupRequestParticipant.getLastName(),
 							 signupRequestParticipant.getGender(),
 							 signupRequestParticipant.getBirthday());
+		participant.setValidated(false);
 		
 //		User user = new User(signupRequestParticipant.getEmail(),
 //				 encoder.encode(signupRequestParticipant.getPassword()),
@@ -313,7 +348,8 @@ public class AuthController {
 		
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
-
+	
+	
 
 	
 }

@@ -22,7 +22,30 @@ public class User {
     @Column(name = "user_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-	
+	//this variable is for validating the accounts
+			//@NotNull
+	@Column( name ="validated")
+			private Boolean validated ;
+
+		
+
+		@Override
+			public String toString() {
+				return "User [id=" + id + ", validated=" + validated + ", email=" + email + ", password=" + password
+						+ ", street=" + street + ", city=" + city + ", postalCode=" + postalCode + ", phoneNumber="
+						+ phoneNumber + ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate
+						+ ", roles=" + roles + "]";
+			}
+
+		public Boolean isValidated() {
+				return validated;
+			}
+
+			public void setValidated(Boolean validated) {
+				this.validated = validated;
+			}
+
+
 	public Long getId() {
 		return id;
 	}
@@ -191,9 +214,10 @@ public class User {
 	}
 	
 
-	public User(String email, String password) {
+	public User(String email, String password , Boolean validated) {
 		this.email = email;
 		this.password = password;
+		this.validated=false ;
 	}
 
 
