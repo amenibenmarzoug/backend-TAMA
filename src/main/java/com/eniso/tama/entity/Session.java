@@ -98,6 +98,8 @@ public class Session {
 	@ManyToOne
 	private ClassRoom classRoom;
 
+	@ManyToOne
+	private Trainer trainer;
 
 	@ManyToOne
 	private Group group;
@@ -114,9 +116,17 @@ public class Session {
 		this.sessionParticipant = sessionParticipant;
 	}
 
+	public Trainer getTrainer() {
+		return trainer;
+	}
+
+	public void setTrainer(Trainer trainer) {
+		this.trainer = trainer;
+	}
+
 	
 
-	/*@JsonIgnore
+	@JsonIgnore
 	@OneToOne(mappedBy = "session")
 	private Event event;
 
@@ -126,7 +136,7 @@ public class Session {
 
 	public void setEvent(Event event) {
 		this.event = event;
-	}*/
+	}
 	
 	
 
