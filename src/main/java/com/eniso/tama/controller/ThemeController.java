@@ -47,6 +47,7 @@ public class ThemeController {
 	}
 	@GetMapping("/program/themes")
 	public List<Theme> getProgramThemes(@RequestParam("id") long id) {
+		System.out.println(id);
 		List<Theme> themesPerProgram = new ArrayList<Theme>();
 		for (Theme theT : themeService.findAll()) {
 		if(theT.getProgram()!=null) {
