@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.configuration.jwt.JwtUtils;
+import com.eniso.tama.entity.Day;
+import com.eniso.tama.entity.Days;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Institution;
 import com.eniso.tama.entity.Participant;
@@ -128,8 +130,9 @@ public class AuthController {
 							 null,
 							 signupRequestTrainer.getFirstName(),
 							 signupRequestTrainer.getLastName(),
-							 signupRequestTrainer.getSpecifications(),
-							 signupRequestTrainer.getGender());
+							 signupRequestTrainer.getGender(),
+							 signupRequestTrainer.getDisponibilityDays(),
+							 signupRequestTrainer.getSpecifications());
 
 		
 //		User user = new User(signupRequestTrainer.getEmail(),
@@ -142,14 +145,44 @@ public class AuthController {
 		
 		//User user=trainer;
 		Set<String> strRoles = signupRequestTrainer.getRole();
-		
+		//Set<String> strDisponibilities=signupRequestTrainer.getDisponibilityDays();
 		Set<Role> roles = new HashSet<>();
 
-		
+		/*Set<Day> disponibilities= new HashSet<>();
+		for (String day : strDisponibilities) {
+			Day d=new Day();
+			
+			switch (day) {
+			case "LUNDI":
+				d.setDay(Days.LUNDI);
+				break;
+
+			case "MARDI":
+				d.setDay(Days.MARDI);
+				break;
+			case "MERCREDI":
+				d.setDay(Days.MERCREDI);
+				break;
+			case "JEUDI":
+				d.setDay(Days.JEUDI);
+				break;
+			case "VENDREDI":
+				d.setDay(Days.VENDREDI);
+				break;
+			case "SAMEDI":
+				d.setDay(Days.SAMEDI);
+				break;
+			case "DIMANCHE":
+				d.setDay(Days.DIMANCHE);
+				break;
+			}
+			disponibilities.add(d);
+			System.out.println(Days.valueOf(day));
+		}*/
 		Role modRole = roleRepository.findByRole(Roles.TRAINER)
 				.orElseThrow(() -> new RuntimeException("Error: Role Trainer is not found."));
 		roles.add(modRole);
-		
+		//trainer.setDisponibilityDays(disponibilities);
 		trainer.setRoles(roles) ;
 		//User.setRoles(roles);
 		//userRepository.save(user);

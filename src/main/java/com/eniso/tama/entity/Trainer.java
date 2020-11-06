@@ -53,13 +53,7 @@ public class Trainer extends User {
 	}
 
 
-	public String getSpecification() {
-		return specification;
-	}
 
-	public void setSpecification(String specification) {
-		this.specification = specification;
-	}
 	
     @ElementCollection
     @CollectionTable(name = "trainer_disponibility_days", joinColumns = @JoinColumn(name = "user_id"))
@@ -104,15 +98,13 @@ public class Trainer extends User {
 		this.specifications = specifications;
 	}
 
-	@NotNull
-	@Column(name = "specification")
-	private String specification;
+
 	
 	public Trainer() {
 	}
 	public Trainer(@NotBlank @Size(max = 50) @Email String email,
 			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,
-			@NotBlank String lastName,Set<String>  specifications, String gender ) {
+			@NotBlank String lastName, String gender ) {
 		this.setId(super.getId());
 		super.setEmail(email);
 		super.setPassword(password);
