@@ -72,10 +72,9 @@ public  Program addcontrol(@RequestBody Program theProgram) {
 	public Program updateProgram (@RequestBody Program theProgram) {
 		
 		Program newProgram=programService.findById(theProgram.getId());
+		newProgram.setProgramName(theProgram.getProgramName());;
 		newProgram.setNbDaysProg(theProgram.getNbDaysProg());
-		
-
-
+	
 		programService.save(newProgram ); 
 		
 		return theProgram ;
