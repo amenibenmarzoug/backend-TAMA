@@ -3,9 +3,15 @@ package com.eniso.tama.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.orm.hibernate5.HibernateOperations;
 import org.springframework.stereotype.Service;
+
 
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.repository.ProgramInstanceRepository;
@@ -51,5 +57,14 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 
 	public void deleteById(long theId) {
 		programInstanceRepository.deleteById(theId);
+		
 	}
+	
+	public class ObjectRepositoryImpl {
+
+	    @PersistenceContext
+	    private EntityManager em;
+
+	}
+	
 }
