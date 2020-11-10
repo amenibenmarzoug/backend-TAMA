@@ -3,6 +3,7 @@ package com.eniso.tama.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
+
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -17,6 +18,9 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import java.util.Set;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.eniso.tama.entity.Days;
 import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.entity.User;
 import com.eniso.tama.service.TrainerService;
@@ -64,6 +70,18 @@ public class TrainerController {
 		
 		return theTrainer;
 	}
+	
+	@GetMapping("trainerDisponi/{trainerId}")
+	public Set<Days> getTrainerDisponibilities(@PathVariable int  trainerId) {
+		
+		Trainer theTrainer = trainerService.findById(trainerId);
+		
+		if (theTrainer == null) {
+			throw new RuntimeException("Trainer id not found - " + trainerId);
+		}
+		
+		return theTrainer.getDisponibilityDays();
+	}
 	// add mapping for POST /participants - add new control
 
 	@PostMapping("/trainers")
@@ -93,8 +111,10 @@ public class TrainerController {
 			newTrainer.setPostalCode(theTrainer.getPostalCode());
 			newTrainer.setFirstName(theTrainer.getFirstName());
 			newTrainer.setLastName(theTrainer.getLastName());
-			newTrainer.setSpecification(theTrainer.getSpecification());
-			
+			newTrainer.setSpecifications(theTrainer.getSpecifications());
+			newTrainer.setDisponibilityDays(theTrainer.getDisponibilityDays());
+			System.out.println(theTrainer.getDisponibilityDays());
+			System.out.println(newTrainer.getDisponibilityDays());
 			trainerService.save(newTrainer);
 			return theTrainer;
 		}

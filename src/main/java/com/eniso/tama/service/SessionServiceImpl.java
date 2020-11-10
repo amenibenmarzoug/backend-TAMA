@@ -9,25 +9,25 @@ import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.Session;
 
-import com.eniso.tama.repository.CourseSessionRepository;
+import com.eniso.tama.repository.SessionRepository;
 
 
 @Service
-@ComponentScan(basePackageClasses = CourseSessionRepository.class) 
+@ComponentScan(basePackageClasses = SessionRepository.class) 
 public class SessionServiceImpl implements SessionService {
-	private CourseSessionRepository courseSessionRepository;
+	private SessionRepository sessionRepository;
 
 	public SessionServiceImpl() {
 	}
 
 	@Autowired
-	public SessionServiceImpl(CourseSessionRepository courseSessionRepository) {
-		this.courseSessionRepository = courseSessionRepository;
+	public SessionServiceImpl(SessionRepository sessionRepository) {
+		this.sessionRepository = sessionRepository;
 	}
 
 	@Override
 	public List<Session> findAll() {
-		return courseSessionRepository.findAll();
+		return sessionRepository.findAll();
 	}
 	
 /*	@Override
@@ -38,7 +38,7 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public Session findById(long theId) {
-		Optional<Session> result = courseSessionRepository.findById(theId);
+		Optional<Session> result = sessionRepository.findById(theId);
 
 		Session courseSession = null;
 
@@ -54,12 +54,12 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public void save(Session courseSession) {
-		courseSessionRepository.save(courseSession);
+		sessionRepository.save(courseSession);
 	}
 
 	@Override
 	public void deleteById(long theId) {
-		courseSessionRepository.deleteById(theId);
+		sessionRepository.deleteById(theId);
 	}
 
 

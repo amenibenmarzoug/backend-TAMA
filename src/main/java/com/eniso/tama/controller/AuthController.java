@@ -158,7 +158,7 @@ public class AuthController {
 							 null,
 							 signupRequestTrainer.getFirstName(),
 							 signupRequestTrainer.getLastName(),
-							 signupRequestTrainer.getSpecification(),
+							 signupRequestTrainer.getSpecifications(),
 							 signupRequestTrainer.getGender());
 		trainer.setValidated(false) ;
 			
@@ -261,8 +261,10 @@ public class AuthController {
 							 signupRequestEnterprise.getPhoneNumber(),
 							 null,
 							 signupRequestEnterprise.getEnterpriseName(),
-							 signupRequestEnterprise.getWebsite());
-		enterprise.setValidated(false) ;
+							 signupRequestEnterprise.getWebsite(),
+							 signupRequestEnterprise.getManagerFirstName(),
+							 signupRequestEnterprise.getManagerLastName());
+							 enterprise.setValidated(false) ;
 		
 //		User user = new User(signupRequestEnterprise.getEmail(),
 //				 encoder.encode(signupRequestEnterprise.getPassword()),

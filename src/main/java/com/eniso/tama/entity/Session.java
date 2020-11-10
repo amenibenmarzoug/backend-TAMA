@@ -43,7 +43,7 @@ public class Session {
 	}
 
 	@ManyToOne
-	private ThemeDetail themeDetail;
+	private ThemeDetailInstance themeDetailInstance;
 
 	public String getSessionName() {
 		return sessionName;
@@ -69,12 +69,22 @@ public class Session {
 		this.sessionEndDate = sessionEndDate;
 	}
 
-	public ThemeDetail getThemeDetail() {
-		return themeDetail;
+
+
+	public ThemeDetailInstance getThemeDetailInstance() {
+		return themeDetailInstance;
 	}
 
-	public void setThemeDetail(ThemeDetail themeDetail) {
-		this.themeDetail = themeDetail;
+	public void setThemeDetailInstance(ThemeDetailInstance themeDetailInstance) {
+		this.themeDetailInstance = themeDetailInstance;
+	}
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 
 	public ClassRoom getClassRoom() {
@@ -88,6 +98,8 @@ public class Session {
 	@ManyToOne
 	private ClassRoom classRoom;
 
+	@ManyToOne
+	private Trainer trainer;
 
 	@ManyToOne
 	private Group group;
@@ -104,9 +116,17 @@ public class Session {
 		this.sessionParticipant = sessionParticipant;
 	}
 
+	public Trainer getTrainer() {
+		return trainer;
+	}
+
+	public void setTrainer(Trainer trainer) {
+		this.trainer = trainer;
+	}
+
 	
 
-	/*@JsonIgnore
+	@JsonIgnore
 	@OneToOne(mappedBy = "session")
 	private Event event;
 
@@ -116,7 +136,7 @@ public class Session {
 
 	public void setEvent(Event event) {
 		this.event = event;
-	}*/
+	}
 	
 	
 

@@ -22,10 +22,17 @@ public class Entreprise extends User{
 	@Column(name = "enterpriseName")
 	private String enterpriseName;
 	
-
+	@Column(name = "managerFirstName")
+	private String managerFirstName;
+	
+	@Column(name = "managerLastName")
+	private String managerLastName;
+	
 	
 	@Column(name = "website")
 	private String website;
+	
+	
 	
 	public String getEnterpriseName() {
 		return enterpriseName;
@@ -42,16 +49,36 @@ public class Entreprise extends User{
 	public void setWebsite(String website) {
 		this.website = website;
 	}
+	
+
+	public String getManagerFirstName() {
+		return managerFirstName;
+	}
+
+	public void setManagerFirstName(String managerFirstName) {
+		this.managerFirstName = managerFirstName;
+	}
+
+	public String getManagerLastName() {
+		return managerLastName;
+	}
+
+	public void setManagerLastName(String managerLastName) {
+		this.managerLastName = managerLastName;
+	}
 
 	public Entreprise() {
 	}
-	public Entreprise(String enterpriseName, String website) {
+	public Entreprise(String enterpriseName, String website, String managerFirstName, String managerLastName) {
 		this.enterpriseName = enterpriseName;
 		this.website=website;
+		this.managerFirstName=managerFirstName;
+		this.managerLastName=managerLastName;
 	}
 
 	public Entreprise(@NotBlank @Size(max = 50) @Email String email,
-			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,String enterpriseName, String website) {
+			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,
+			String enterpriseName, String website, String managerFirstName, String managerLastName) {
 		super.setEmail(email);
 		super.setPassword(password);
 		//super.setAddress(address);
@@ -62,6 +89,8 @@ public class Entreprise extends User{
 		this.enterpriseName = enterpriseName;
 		super.setRoles(roles);
 		this.website=website;
+		this.managerFirstName=managerFirstName;
+		this.managerLastName=managerLastName;
 	}
 	
 
