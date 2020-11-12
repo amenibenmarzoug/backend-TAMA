@@ -21,7 +21,32 @@ public class ProgramInstance {
 	@Column(name = "programInstance_id", updatable = false, nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
+	@NotNull
+	@Column(name = "programInstName")
+	private String programInstName;
+	
+	public String getProgramInstName() {
+		return programInstName;
+	}
 
+	public void setProgramInstName(String programInstName) {
+		this.programInstName = programInstName;
+	}
+
+	public int getNbDaysProgInst() {
+		return nbDaysProgInst;
+	}
+
+	
+
+	public void setNbDaysProgInst(int nbDaysProgInst) {
+		this.nbDaysProgInst = nbDaysProgInst;
+	}
+	@NotNull
+	@Column(name="ProgramInstDays")
+	private int nbDaysProgInst;
+	
 	@NotNull
 	@Column(name = "location")
 	private String location;
@@ -52,5 +77,15 @@ public class ProgramInstance {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	public ProgramInstance() {}
+	public ProgramInstance(Long id, @NotNull String programInstName, @NotNull int nbDaysProgInst,
+			@NotNull String location, Program program) {
+		super();
+		this.id = id;
+		this.programInstName = programInstName;
+		this.nbDaysProgInst = nbDaysProgInst;
+		this.location = location;
+		this.program = program;
 	}
 }

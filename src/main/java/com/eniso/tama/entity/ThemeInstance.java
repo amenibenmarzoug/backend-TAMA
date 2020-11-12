@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ThemeInstance")
@@ -19,12 +20,36 @@ public class ThemeInstance {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
+	@NotNull
+	@Column(name = "themeInstName")
+	private String themeInstName;
 	
-	@Column(name = "themeInst_begin_date")
-	private Date themeInstBeginDate;
 	
-	@Column(name = "themeInst_end_date")
-	private Date themeInstEndDate;
+	@NotNull
+	@Column(name="themeInstDays")
+	private int nbDaysthemeInst;
+	
+	public String getThemeInstName() {
+		return themeInstName;
+	}
+
+	public void setThemeInstName(String themeInstName) {
+		this.themeInstName = themeInstName;
+	}
+
+	public int getNbDaysthemeInst() {
+		return nbDaysthemeInst;
+	}
+
+	public void setNbDaysthemeInst(int nbDaysthemeInst) {
+		this.nbDaysthemeInst = nbDaysthemeInst;
+	}
+
+	/*@Column(name = "themeInst_begin_date")
+	private Date themeInstBeginDate;*/
+	
+	/*@Column(name = "themeInst_end_date")
+	private Date themeInstEndDate;*/
 	
 	@ManyToOne
 	private Theme theme;
@@ -41,7 +66,7 @@ public class ThemeInstance {
 		this.id = id;
 	}
 
-	public Date getThemeInstBeginDate() {
+	/*public Date getThemeInstBeginDate() {
 		return themeInstBeginDate;
 	}
 
@@ -55,7 +80,7 @@ public class ThemeInstance {
 
 	public void setThemeInstEndDate(Date themeInstEndDate) {
 		this.themeInstEndDate = themeInstEndDate;
-	}
+	}*/
 
 	public Theme getTheme() {
 		return theme;

@@ -70,7 +70,10 @@ public class ProgramInstanceController {
 	public ProgramInstance updateProgram(@RequestBody ProgramInstance theProgram) {
 
 		ProgramInstance newProgram = programService.findById(theProgram.getId());
+		newProgram.setProgramInstName(theProgram.getProgramInstName());
+		newProgram.setNbDaysProgInst(theProgram.getNbDaysProgInst());;
 		newProgram.setLocation(theProgram.getLocation());
+		newProgram.setProgram(theProgram.getProgram());
 
 		programService.save(newProgram);
 
