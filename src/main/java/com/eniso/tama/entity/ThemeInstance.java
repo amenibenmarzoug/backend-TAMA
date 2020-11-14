@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ThemeInstance")
@@ -18,7 +19,31 @@ public class ThemeInstance {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
+	@NotNull
+	@Column(name = "themeInstName")
+	private String themeInstName;
 	
+	
+	@NotNull
+	@Column(name="themeInstDays")
+	private int nbDaysthemeInst;
+	
+	public String getThemeInstName() {
+		return themeInstName;
+	}
+
+	public void setThemeInstName(String themeInstName) {
+		this.themeInstName = themeInstName;
+	}
+
+	public int getNbDaysthemeInst() {
+		return nbDaysthemeInst;
+	}
+
+	public void setNbDaysthemeInst(int nbDaysthemeInst) {
+		this.nbDaysthemeInst = nbDaysthemeInst;
+	}
+
 	@Column(name = "themeInst_begin_date")
 	private Date themeInstBeginDate;
 	
