@@ -118,8 +118,8 @@ public class ThemeInstanceController {
 		ThemeInstance newthemeInst = themeInstanceService.findById(theThemeInst.getId());
 		newthemeInst.setThemeInstName(theThemeInst.getThemeInstName());
 		newthemeInst.setNbDaysthemeInst(theThemeInst.getNbDaysthemeInst());
-		newthemeInst.setThemeInstBeginDate(theThemeInst.getThemeInstBeginDate());
-		newthemeInst.setThemeInstEndDate(theThemeInst.getThemeInstEndDate());
+		//newthemeInst.setThemeInstBeginDate(theThemeInst.getThemeInstBeginDate());
+		//newthemeInst.setThemeInstEndDate(theThemeInst.getThemeInstEndDate());
 		newthemeInst.setTheme(theThemeInst.getTheme());
 		themeInstanceService.save(newthemeInst);
 

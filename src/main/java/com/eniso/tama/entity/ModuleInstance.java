@@ -1,5 +1,6 @@
 package com.eniso.tama.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ public class ModuleInstance {
 	private Module module;
 	
 	
-	@ManyToOne
+	@ManyToOne 
 	private ThemeInstance themeInstance;
 	
 	

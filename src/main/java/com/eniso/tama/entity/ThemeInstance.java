@@ -2,6 +2,7 @@ package com.eniso.tama.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,11 +45,11 @@ public class ThemeInstance {
 		this.nbDaysthemeInst = nbDaysthemeInst;
 	}
 
-	@Column(name = "themeInst_begin_date")
-	private Date themeInstBeginDate;
+	/*@Column(name = "themeInst_begin_date")
+	private Date themeInstBeginDate;*/
 	
-	@Column(name = "themeInst_end_date")
-	private Date themeInstEndDate;
+	/*@Column(name = "themeInst_end_date")
+	private Date themeInstEndDate;*/
 	
 	@ManyToOne
 	private Theme theme;
@@ -65,7 +66,7 @@ public class ThemeInstance {
 		this.id = id;
 	}
 
-	public Date getThemeInstBeginDate() {
+	/*public Date getThemeInstBeginDate() {
 		return themeInstBeginDate;
 	}
 
@@ -79,7 +80,7 @@ public class ThemeInstance {
 
 	public void setThemeInstEndDate(Date themeInstEndDate) {
 		this.themeInstEndDate = themeInstEndDate;
-	}
+	}*/
 
 	public Theme getTheme() {
 		return theme;
