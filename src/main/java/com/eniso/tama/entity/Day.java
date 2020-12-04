@@ -9,14 +9,14 @@ import javax.validation.constraints.NotNull;
 public class Day {
 
 	@NotNull
-	//@Enumerated(EnumType.STRING)
-	//private Days day;
-	private String dayName;
-	/*public Day(Days day) {
-		this.day = day;
-	}*/
+	@Enumerated(EnumType.STRING)
+	private Days day;
+	//private String dayName;
+	public Day() {
+
+	}
 	
-	public Day(String day) {
+	/*public Day(String day) {
 		System.out.println(Days.LUNDI.name());
 		switch (day) {
 		case "LUNDI":
@@ -42,22 +42,22 @@ public class Day {
 			this.dayName=Days.DIMANCHE.name();
 			break;
 		}
-	}
+	}*/
 
-	public String getDayName() {
+	/*public String getDayName() {
 		return dayName;
 	}
 
 	public void setDayName(String dayName) {
 		this.dayName = dayName;
-	}
+	}*/
 
-	/*public Days getDay() {
+	public Days getDay() {
 		return day;
 	}
 
 	public void setDay(Days day) {
 		this.day = day;
-	}*/
+	}
 
 }

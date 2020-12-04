@@ -82,5 +82,14 @@ public class GroupController {
 		
 		return "Deleted group id - " + groupId;
 	}
+//	@PostMapping("/groups")
+//	public  Group addClass(@RequestBody Group theGroup) {
+//	
+//		Program p = theGroup.
+//		
+//		
+//		groupService.save(theGroup);
+//		return theGroup;
+//	}
 
 }

@@ -2,6 +2,7 @@ package com.eniso.tama.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,9 +26,32 @@ public class ThemeDetailInstance {
 	@ManyToOne
 	private ModuleInstance moduleInstance;
 	
-	@Column(name = "themeDetailInst_begin_date")
-	private Date themeDetailInstBeginDate;
+	/*@Column(name = "themeDetailInst_begin_date")
+	private Date themeDetailInstBeginDate;*/
 	
+	@Column(name = "themeDetailInstName")
+	private String themeDetailInstName;
+	
+	@Column(name = "nbDaysthemeDetailInst")
+	private int nbDaysthemeDetailInst;
+	
+	
+	public String getThemeDetailInstName() {
+		return themeDetailInstName;
+	}
+
+	public void setThemeDetailInstName(String themeDetailInstName) {
+		this.themeDetailInstName = themeDetailInstName;
+	}
+
+	public int getNbDaysthemeDetailInst() {
+		return nbDaysthemeDetailInst;
+	}
+
+	public void setNbDaysthemeDetailInst(int nbDaysthemeDetailInst) {
+		this.nbDaysthemeDetailInst = nbDaysthemeDetailInst;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -44,21 +68,21 @@ public class ThemeDetailInstance {
 		this.themeDetail = themeDetail;
 	}
 
-	public Date getThemeDetailInstBeginDate() {
+	/*public Date getThemeDetailInstBeginDate() {
 		return themeDetailInstBeginDate;
 	}
 
 	public void setThemeDetailInstBeginDate(Date themeDetailInstBeginDate) {
 		this.themeDetailInstBeginDate = themeDetailInstBeginDate;
-	}
+	}*/
 
-	public Date getThemeDetailInstEndDate() {
+	/*public Date getThemeDetailInstEndDate() {
 		return themeDetailInstEndDate;
 	}
 
 	public void setThemeDetailInstEndDate(Date themeDetailInstEndDate) {
 		this.themeDetailInstEndDate = themeDetailInstEndDate;
-	}
+	}*/
 
 	
 	public ModuleInstance getModuleInstance() {
@@ -70,8 +94,8 @@ public class ThemeDetailInstance {
 	}
 
 
-	@Column(name = "themeDetailInst_end_date")
-	private Date themeDetailInstEndDate;
+	/*@Column(name = "themeDetailInst_end_date")
+	private Date themeDetailInstEndDate;*/
 	
 
 }
