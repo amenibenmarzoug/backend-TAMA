@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
-import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
 import com.eniso.tama.payload.MessageResponse;

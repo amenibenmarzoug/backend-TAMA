@@ -131,7 +131,6 @@ public class Participant extends User{
 	private boolean abandon;
 
 	@ManyToOne
-	
 	//@JsonIgnore
 	private Entreprise entreprise;
 
