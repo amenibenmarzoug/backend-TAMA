@@ -32,8 +32,18 @@ public class Entreprise extends User{
 	@Column(name = "website")
 	private String website;
 	
+	@ManyToOne
+	//@JsonIgnore
+	private ProgramInstance programInstance;
 	
-	
+	public ProgramInstance getProgramInstance() {
+		return programInstance;
+	}
+
+	public void setProgramInstance(ProgramInstance programInstance) {
+		this.programInstance = programInstance;
+	}
+
 	public String getEnterpriseName() {
 		return enterpriseName;
 	}
