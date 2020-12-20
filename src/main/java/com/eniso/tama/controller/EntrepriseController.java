@@ -2,6 +2,7 @@ package com.eniso.tama.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -113,6 +114,31 @@ public class EntrepriseController {
 
 		return "Deleted participant id - " + entrepriseId;
 	}
+	
+	
+	@GetMapping ("/NonValidEntreprise")
+	public List<Entreprise> getNonValid () {
+		
+			List<Entreprise> Entreprises = new ArrayList<Entreprise>();
+
+			for (Entreprise e : entrepriseService.findAll()) {
+
+				// System.out.println(theP.getEntreprise()) ;
+				if (!e.isValidated()) {
+
+					Entreprises.add(e);
+
+				}
+
+//				if (theParticipant1 == null) {
+//					throw new RuntimeException("oops");
+//				}
+
+			}
+			return Entreprises;
+
+		}
+		
 	@GetMapping( "/sendMailToEntrep" )
 	private void sendmail(@RequestParam("id") long id  ) throws AddressException, MessagingException, IOException {
 		
