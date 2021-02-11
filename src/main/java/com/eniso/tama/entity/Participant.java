@@ -131,7 +131,6 @@ public class Participant extends User{
 	private boolean abandon;
 
 	@ManyToOne
-	
 	//@JsonIgnore
 	private Entreprise entreprise;
 
@@ -139,16 +138,15 @@ public class Participant extends User{
 	
 	@ManyToOne
 	//@JsonIgnore
-	private Group group;
+	private ProgramInstance programInstance;
 
-	public Group getGroup() {
-		return group;
+	public ProgramInstance getProgramInstance() {
+		return programInstance;
 	}
 
-	public void setGroup(Group group) {
-		this.group = group;
+	public void setProgramInstance(ProgramInstance programInstance) {
+		this.programInstance = programInstance;
 	}
-
 
 	public Entreprise getEntreprise() {
 		return entreprise;
@@ -197,7 +195,7 @@ public class Participant extends User{
 
 	public Participant(@NotBlank @Size(max = 50) @Email String email,
 	String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstNameP,
-	@NotBlank String lastNameP, @NotBlank String gender , Date birthday , Entreprise entreprise, Group group) {
+	@NotBlank String lastNameP, @NotBlank String gender , Date birthday , Entreprise entreprise, ProgramInstance programInstance) {
 		this.setId(super.getId());
 		super.setEmail(email);
 		super.setPassword(password);
@@ -212,7 +210,7 @@ public class Participant extends User{
 		this.gender = gender;
 		this.birthday= birthday;
 		this.entreprise=entreprise ;
-		this.group=group;
+		this.programInstance=programInstance;
 
 }
 

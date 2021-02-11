@@ -26,6 +26,17 @@ public class ProgramInstance {
 	@Column(name = "programInstName")
 	private String programInstName;
 	
+	@Column(name = "dateDebut")
+	private Date dateDebut;
+	
+	public Date getDateDebut() {
+		return dateDebut;
+	}
+
+	public void setDateDebut(Date dateDebut) {
+		this.dateDebut = dateDebut;
+	}
+
 	public String getProgramInstName() {
 		return programInstName;
 	}

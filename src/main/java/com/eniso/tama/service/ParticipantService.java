@@ -18,7 +18,7 @@ public interface ParticipantService {
 		//public List<Participant> findByGroup(Participant theParticipant);
 		public List<Participant> findByAbonadn(boolean theAbondan );
 		
-		public List<Participant> findByGroup(long id);
+		//public List<Participant> findByGroup(long id);
 		
 		
 		
