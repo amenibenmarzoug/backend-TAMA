@@ -1,5 +1,6 @@
 package com.eniso.tama.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +54,19 @@ public class ThemeServiceImpl implements ThemeService {
 	public void deleteById(long id) {
 		themeRepository.deleteById(id);
 		
+	}
+
+	@Override
+	public List<Theme> findByProgId(long id) {
+		List<Theme> list= themeRepository.findAll();
+		List<Theme> list1= new ArrayList<>();
+		for (Theme t : list ) {
+			if (t.getProgram().getId()== id) {
+				 list1.add(t);
+			}
+			
+		}
+		return (list1);
 	}
 
 }

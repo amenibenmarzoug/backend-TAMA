@@ -50,8 +50,8 @@ public class ThemeInstanceServiceImpl implements ThemeInstanceService{
 	}
 
 	@Override
-	public void save(ThemeInstance theThemeInstance) {
-		themeInstanceRepository.save(theThemeInstance)	;	
+	public ThemeInstance save(ThemeInstance theThemeInstance) {
+		return(themeInstanceRepository.save(theThemeInstance));	
 	}
 
 	@Override

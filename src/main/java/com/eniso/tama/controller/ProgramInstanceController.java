@@ -2,6 +2,8 @@ package com.eniso.tama.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.orm.hibernate5.HibernateOperations;
@@ -15,8 +17,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eniso.tama.entity.Module;
+import com.eniso.tama.entity.ModuleInstance;
 import com.eniso.tama.entity.ProgramInstance;
+import com.eniso.tama.entity.Theme;
+import com.eniso.tama.entity.ThemeDetail;
+import com.eniso.tama.entity.ThemeDetailInstance;
+import com.eniso.tama.entity.ThemeInstance;
+import com.eniso.tama.service.ModuleInstanceService;
+import com.eniso.tama.service.ModuleService;
 import com.eniso.tama.service.ProgramInstanceService;
+import com.eniso.tama.service.ThemeDetailInstanceService;
+import com.eniso.tama.service.ThemeDetailService;
+import com.eniso.tama.service.ThemeInstanceService;
+import com.eniso.tama.service.ThemeService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -26,17 +40,35 @@ import com.eniso.tama.service.ProgramInstanceService;
 public class ProgramInstanceController {
 
 	private ProgramInstanceService programService;
-
+	private ThemeService themeService;
+	private ModuleService moduleService;
+	private ThemeDetailService themeDetailService;
+	private ThemeInstanceService themeInstanceService;
+	private ModuleInstanceService moduleInstanceService;
+	private ThemeDetailInstanceService themeDetailInstanceService;
 	@Autowired
-	public ProgramInstanceController(ProgramInstanceService programService) {
+	/*public ProgramInstanceController(ProgramInstanceService programService) {
 		super();
 		this.programService = programService;
+	}*/
+	public ProgramInstanceController(ProgramInstanceService programService, ThemeService themeService,ModuleService moduleService,ThemeDetailService themeDetailService,ThemeInstanceService themeInstanceService,ModuleInstanceService moduleInstanceService,ThemeDetailInstanceService themeDetailInstanceService) {
+		super();
+		this.programService = programService;
+		this.themeService = themeService;
+		this.moduleService=moduleService;
+		this.themeDetailService=themeDetailService;
+		this.themeInstanceService=themeInstanceService;
+		this.moduleInstanceService=moduleInstanceService;
+		this.themeDetailInstanceService=themeDetailInstanceService;
 	}
+	
 
 	@GetMapping("/programsInst")
 	public List<ProgramInstance> findAll() {
 		return programService.findAll();
 	}
+
+	
 
 	@GetMapping("programsInst/{programId}")
 	public ProgramInstance getProgram(@PathVariable long programId) {
@@ -51,6 +83,8 @@ public class ProgramInstanceController {
 	}
 	// add mapping for POST /participants - add new control
 
+	
+	
 	@PostMapping("/programsInst")
 	public ProgramInstance addcontrol(@RequestBody ProgramInstance theProgram) {
 
@@ -59,9 +93,77 @@ public class ProgramInstanceController {
 
 		// stheControl.setId(0);
 
-		programService.save(theProgram);
+		ProgramInstance p=programService.save(theProgram);
+		//System.out.print();
+		
 		return theProgram;
 	}
+	
+	
+	
+	
+	
+	
+	@Transactional 
+	@PostMapping("/programsInst2")
+	public ProgramInstance addClass(@RequestBody ProgramInstance theProgram) {
+
+		// also just in case they pass an id in JSON ... set id to 0
+		// this is to force a save of new item ... instead of update
+
+		// stheControl.setId(0);
+
+		ProgramInstance p=programService.save(theProgram);
+		//System.out.print();
+		long id= theProgram.getProgram().getId();
+		List<Theme> listT=this.themeService.findByProgId(id);
+		
+		for (Theme t : listT ) {
+			System.out.println(t.getThemeName());
+			//traitement création ThmeInst
+			ThemeInstance themeInst= new ThemeInstance();
+			themeInst.setProgramInstance(p);
+			themeInst.setTheme(t);
+			themeInst.setThemeInstName(t.getThemeName());
+			themeInst.setNbDaysthemeInst(t.getNbDaysTheme());
+			ThemeInstance t1=this.themeInstanceService.save(themeInst);
+			
+			List<Module> listM= this.moduleService.findModuleByThemeId(t.getId());
+			for (Module m :listM) {
+				System.out.println(m.getModuleName());
+				//traitement création moduleInst
+				ModuleInstance moduleInst= new ModuleInstance();
+				moduleInst.setModule(m);
+				moduleInst.setModuleInstanceName(m.getModuleName());
+				moduleInst.setNbDaysModuleInstance(m.getNbDaysModule());
+				moduleInst.setThemeInstance(t1);
+				ModuleInstance m1=this.moduleInstanceService.save(moduleInst);
+				
+				List<ThemeDetail> listTd= this.themeDetailService.findByModuleId(m.getId());
+				for (ThemeDetail td: listTd) {
+					System.out.println(td.getThemeDetailName());
+					//traitement 
+					ThemeDetailInstance themeDetailinst= new ThemeDetailInstance();
+					themeDetailinst.setModuleInstance(m1);
+					themeDetailinst.setThemeDetail(td);
+					themeDetailinst.setNbDaysthemeDetailInst(td.getNbDaysThemeDetail());
+					themeDetailinst.setThemeDetailInstName(td.getThemeDetailName());
+					this.themeDetailInstanceService.save(themeDetailinst);
+					
+				}
+			}
+			
+		}
+		
+		
+		return theProgram;
+	}
+	
+	
+	
+	
+	
+	
 
 	// add mapping for PUT /employees - update existing employee
 
