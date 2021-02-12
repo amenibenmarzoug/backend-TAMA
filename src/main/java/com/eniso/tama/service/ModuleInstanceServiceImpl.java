@@ -44,8 +44,8 @@ public class ModuleInstanceServiceImpl  implements ModuleInstanceService{
 		}
 
 		@Override
-		public void save(ModuleInstance module) {
-			moduleInstanceRepository.save(module);
+		public ModuleInstance save(ModuleInstance module) {
+			return(moduleInstanceRepository.save(module));
 		}
 
 		@Override

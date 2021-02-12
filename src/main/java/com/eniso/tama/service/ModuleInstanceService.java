@@ -10,7 +10,7 @@ public interface ModuleInstanceService {
 
 	public ModuleInstance findById(long theId);
 
-	public void save(ModuleInstance module);
+	public ModuleInstance save(ModuleInstance module);
 
 	public void deleteById(long id);
 }

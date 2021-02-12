@@ -1,11 +1,14 @@
 package com.eniso.tama.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
+
+import com.eniso.tama.entity.Theme;
 import com.eniso.tama.entity.ThemeDetail;
 import com.eniso.tama.repository.ThemeDetailRepository;
 
@@ -55,6 +58,19 @@ public class ThemeDetailServiceImpl implements ThemeDetailService {
 	public void deleteById(long id) {
 		themeDetailRepository.deleteById(id);
 
+	}
+
+	@Override
+	public List<ThemeDetail> findByModuleId(long id) {
+		List<ThemeDetail> list= themeDetailRepository.findAll();
+		List<ThemeDetail> list1= new ArrayList<>();
+		for (ThemeDetail t : list ) {
+			if (t.getModule().getId()== id) {
+				 list1.add(t);
+			}
+			
+		}
+		return (list1);
 	}
 
 }

@@ -12,4 +12,6 @@ public interface ThemeService {
 	public void save(Theme theme);
 	
 	public void deleteById(long id);
+	
+	public List<Theme> findByProgId(long id);
 }
