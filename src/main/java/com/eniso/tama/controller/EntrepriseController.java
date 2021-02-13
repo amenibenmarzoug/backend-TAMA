@@ -143,6 +143,7 @@ public class EntrepriseController {
 	private void sendmail(@RequestParam("id") long id  ) throws AddressException, MessagingException, IOException {
 		
 		Entreprise t =entrepriseService.findById(id);
+		System.out.println(t.getEnterpriseName()) ;
 		System.out.println(t.isValidated()) ;
 		t.setValidated(true);
 		System.out.println(t.isValidated()) ;
@@ -180,6 +181,7 @@ public class EntrepriseController {
 		   //multipart.addBodyPart(attachPart);
 		   msg.setContent(multipart);
 		   t.setValidated(true);
+		   entrepriseService.save(t);
 		   System.out.println(t.isValidated()) ;
 		   Transport.send(msg);   
 		}

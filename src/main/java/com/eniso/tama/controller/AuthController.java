@@ -62,6 +62,7 @@ import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.RoleRepository;
 import com.eniso.tama.repository.TrainerRepository;
 import com.eniso.tama.repository.UserRepository;
+import com.eniso.tama.service.EntrepriseService;
 import com.eniso.tama.service.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -92,7 +93,8 @@ public class AuthController {
 	
 	@Autowired
 	PasswordEncoder encoder ;
-
+	@Autowired
+	EntrepriseService entrepriseService ;
 	@Autowired
 	JwtUtils jwtUtils;
 
@@ -326,6 +328,56 @@ public class AuthController {
 		
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
+	//Send an email to the manager to validate the account 
+	@GetMapping( "/sendMailToManager" )
+	private void sendmail(@RequestParam("email") String email  ) throws AddressException, MessagingException, IOException {
+		
+		Entreprise t =entrepriseService.findByEmail(email) ;
+		System.out.println(t.getEnterpriseName()) ;
+		System.out.println(t.isValidated()) ;
+		//t.setValidated(true);
+		System.out.println(t.isValidated()) ;
+		   Properties props = new Properties();
+		   props.put("mail.smtp.auth", "true");
+		   props.put("mail.smtp.starttls.enable", "true"); 
+		   props.put("mail.smtp.host", "smtp.gmail.com");
+		   props.put("mail.smtp.port", "587");
+		   
+		   Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+		      protected PasswordAuthentication getPasswordAuthentication() {
+		         return new PasswordAuthentication("noreplybaeldung@gmail.com", "Admin*0000");
+		      }
+		   });
+		   Message msg = new MimeMessage(session);
+		   msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
+
+		   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+		   msg.setSubject("Program-Registration");
+		   msg.setContent("An enterprise wants to participate in your program :<br>" + 
+		   		"Enterprise Name :"+ t.getEnterpriseName() + "<br>"+
+		   		"Enterprise :"+t.getPhoneNumber() +"", "text/html");
+		   msg.setSentDate(new Date(0));
+
+		   MimeBodyPart messageBodyPart = new MimeBodyPart();
+		   messageBodyPart.setContent("An enterprise wants to participate in your program:<br>" + 
+				   "Enterprise Name :"+ t.getEnterpriseName() + "<br>"+
+				   "Enterprise :"+t.getPhoneNumber() +"", "text/html");
+
+		   Multipart multipart = new MimeMultipart();
+		   multipart.addBodyPart(messageBodyPart);
+		  // MimeBodyPart attachPart = new MimeBodyPart();
+
+		  // attachPart.attachFile("/var/tmp/image19.png");
+		   //multipart.addBodyPart(attachPart);
+		   msg.setContent(multipart);
+		   //t.setValidated(true);
+		   entrepriseService.save(t);
+		   //System.out.println(t.isValidated()) ;
+		   Transport.send(msg);   
+		}
+
+
+
 	
 	@PostMapping( "/signupParticipant" )
 	public ResponseEntity<?> ji (@Valid @RequestBody SignupRequestParticipant signupRequestParticipant)
