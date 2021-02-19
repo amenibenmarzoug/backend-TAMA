@@ -56,6 +56,36 @@ public class SessionController {
 		
 		return session;
 	}
+	
+	@GetMapping("/session/themeDetail")
+	public List<Session> findSessionByThemeDatail(@RequestParam("themeDetailId") long  themeDetailId) {
+		List<Session> listSession=sessionService.findAll();
+		//System.out.println("by theme");
+		List<Session> result=new ArrayList<>();
+		for (Session session : listSession) {
+			if(session.getThemeDetailInstance().getId()==themeDetailId) {
+				result.add(session);
+			}
+		}
+		System.out.println(result.size());
+		return result;
+	}
+	
+	@GetMapping("/session/programInst")
+	public List<Session> findSessionByProgramInst(@RequestParam("programId") long  programId) {
+		List<Session> listSession=sessionService.findAll();
+		//System.out.println("by theme");
+		List<Session> result=new ArrayList<>();
+		for (Session session : listSession) {
+			if(session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance().getId()==programId) {
+				System.out.println(session.getSessionBeginDate());
+				result.add(session);
+			}
+		}
+		System.out.println(result.size());
+		return result;
+	}
+	
 	// add mapping for POST /session - add new control
 
 	@PostMapping("/session")
