@@ -1,5 +1,6 @@
 package com.eniso.tama.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.Module;
@@ -34,6 +36,20 @@ public class ModuleController {
 		public List<Module> findAll() {
 			return moduleService.findAll();
 		}
+		@GetMapping("/theme/modules")
+		public List<Module> getThemeModules(@RequestParam("id") long id) {
+			List<Module> modulesPerTheme = new ArrayList<Module>();
+			for (Module theM : moduleService.findAll()) {
+			if(theM.getTheme()!=null) {
+				if (id == theM.getTheme().getId()) {
+
+					modulesPerTheme.add(theM);			
+				}
+			}
+			}
+			return modulesPerTheme;
+		}
+		
 		
 		@GetMapping("module/{moduleId}")
 		public Module getModule(@PathVariable int  moduleId) {

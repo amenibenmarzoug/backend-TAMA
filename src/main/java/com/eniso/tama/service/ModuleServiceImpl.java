@@ -1,5 +1,6 @@
 package com.eniso.tama.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.Module;
+import com.eniso.tama.entity.Theme;
 import com.eniso.tama.repository.ModuleRepository;
 @Service
 @ComponentScan(basePackageClasses = ModuleRepository.class )
@@ -51,6 +53,19 @@ public class ModuleServiceImpl  implements ModuleService{
 		@Override
 		public void deleteById(long    theId) {
 			moduleRepository.deleteById(theId);
+		}
+
+		@Override
+		public List<Module> findModuleByThemeId(long id) {
+			List<Module> list= moduleRepository.findAll();
+			List<Module> list1= new ArrayList<>();
+			for (Module m : list ) {
+				if (m.getTheme().getId()== id) {
+					 list1.add(m);
+				}
+				
+			}
+			return (list1);
 		}
 
 		

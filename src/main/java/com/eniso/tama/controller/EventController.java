@@ -64,10 +64,15 @@ public class EventController {
 	
 		@PutMapping("/event")
 		public Event updateEvent(@RequestBody Event event) {
+			Event updatedEvent=eventService.findById(event.getId());
+			updatedEvent.setSession(event.getSession());
+			updatedEvent.setEnd(event.getSession().getSessionEndDate());
+			updatedEvent.setStart(event.getSession().getSessionBeginDate());
+			updatedEvent.setTitle(event.getSession().getSessionName());
+		
+			eventService.save(updatedEvent);
 			
-			eventService.save(event);
-			
-			return event;
+			return updatedEvent;
 		}
 
 		@DeleteMapping("/event/{eventId}")

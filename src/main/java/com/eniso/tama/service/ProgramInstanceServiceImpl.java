@@ -49,8 +49,9 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	}
 
 	@Override
-	public void save(ProgramInstance theProgramInstance) {
-		programInstanceRepository.save(theProgramInstance);
+	public ProgramInstance save(ProgramInstance theProgramInstance) {
+		ProgramInstance p=programInstanceRepository.save(theProgramInstance);
+		return(p);
 	}
 
 	@Override
