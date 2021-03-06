@@ -116,24 +116,24 @@ public class ParticipantServiceImpl implements  ParticipantService {
 			participantRepository.deleteById(theId);
 		}
 
-		@Override
-		public List<Participant> findByGroup(long id) {
-				List<Participant> p1= null ;
-			
-			
-
-			for(Participant theP:participantRepository.findAll()) {
-				
-				
-			if  (theP.getGroup()!=null) {
-        	  
-				p1.add(theP) ;
-			
-          }
-			
-		}
-			return p1;
-		}
+//		@Override
+//		public List<Participant> findByGroup(long id) {
+//				List<Participant> p1= null ;
+//			
+//			
+//
+//			for(Participant theP:participantRepository.findAll()) {
+//				
+//				
+//			if  (theP.getGroup()!=null) {
+//        	  
+//				p1.add(theP) ;
+//			
+//          }
+//			
+//		}
+//			return p1;
+//		}
 
 		
 

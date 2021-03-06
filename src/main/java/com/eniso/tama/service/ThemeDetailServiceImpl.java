@@ -6,10 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
-
-import com.eniso.tama.entity.Group;
 import com.eniso.tama.entity.ThemeDetail;
-import com.eniso.tama.repository.GroupRepository;
 import com.eniso.tama.repository.ThemeDetailRepository;
 
 

@@ -79,13 +79,6 @@ public class Session {
 		this.themeDetailInstance = themeDetailInstance;
 	}
 
-	public Group getGroup() {
-		return group;
-	}
-
-	public void setGroup(Group group) {
-		this.group = group;
-	}
 
 	public ClassRoom getClassRoom() {
 		return classRoom;
@@ -101,8 +94,8 @@ public class Session {
 	@ManyToOne
 	private Trainer trainer;
 
-	@ManyToOne
-	private Group group;
+//	@ManyToOne
+//	private Group group;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "session")
