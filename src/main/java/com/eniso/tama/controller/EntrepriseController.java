@@ -114,77 +114,74 @@ public class EntrepriseController {
 
 		return "Deleted participant id - " + entrepriseId;
 	}
-	
-	
-	@GetMapping ("/NonValidEntreprise")
-	public List<Entreprise> getNonValid () {
-		
-			List<Entreprise> Entreprises = new ArrayList<Entreprise>();
 
-			for (Entreprise e : entrepriseService.findAll()) {
+	@GetMapping("/NonValidEntreprise")
+	public List<Entreprise> getNonValid() {
 
-				// System.out.println(theP.getEntreprise()) ;
-				if (!e.isValidated()) {
+		List<Entreprise> Entreprises = new ArrayList<Entreprise>();
 
-					Entreprises.add(e);
+		for (Entreprise e : entrepriseService.findAll()) {
 
-				}
+			// System.out.println(theP.getEntreprise()) ;
+			if (!e.isValidated()) {
+
+				Entreprises.add(e);
+
+			}
 
 //				if (theParticipant1 == null) {
 //					throw new RuntimeException("oops");
 //				}
 
-			}
-			return Entreprises;
-
 		}
-		
-	@GetMapping( "/sendMailToEntrep" )
-	private void sendmail(@RequestParam("id") long id  ) throws AddressException, MessagingException, IOException {
-		
-		Entreprise t =entrepriseService.findById(id);
-		System.out.println(t.getEnterpriseName()) ;
-		System.out.println(t.isValidated()) ;
+		return Entreprises;
+
+	}
+
+	@GetMapping("/sendMailToEntrep")
+	private void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException {
+
+		Entreprise t = entrepriseService.findById(id);
+		System.out.println(t.getEnterpriseName());
+		System.out.println(t.isValidated());
 		t.setValidated(true);
-		System.out.println(t.isValidated()) ;
-		   Properties props = new Properties();
-		   props.put("mail.smtp.auth", "true");
-		   props.put("mail.smtp.starttls.enable", "true");
-		   props.put("mail.smtp.host", "smtp.gmail.com");
-		   props.put("mail.smtp.port", "587");
-		   
-		   Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-		      protected PasswordAuthentication getPasswordAuthentication() {
-		         return new PasswordAuthentication("noreplybaeldung@gmail.com", "Admin*0000");
-		      }
-		   });
-		   Message msg = new MimeMessage(session);
-		   msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
+		System.out.println(t.isValidated());
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
 
-		   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(t.getEmail()));
-		   msg.setSubject("TAMA-Account Activation");
-		   msg.setContent("Your account is successfully activated, you can log in using your settings:<br>" + 
-		   		"Login:"+ t.getEmail() + "<br>"+
-		   		"Password:"+t.getPhoneNumber() +"", "text/html");
-		   msg.setSentDate(new Date(0));
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("noreplybaeldung@gmail.com", "Admin*0000");
+			}
+		});
+		Message msg = new MimeMessage(session);
+		msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
 
-		   MimeBodyPart messageBodyPart = new MimeBodyPart();
-		   messageBodyPart.setContent("Your account is successfully activated, you can log in using your settings:<br>" + 
-			   		"Login:"+ t.getEmail() + "<br>"+
-			   		"Password:"+t.getPhoneNumber() +"", "text/html");
+		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(t.getEmail()));
+		msg.setSubject("TAMA-Account Activation");
+		msg.setContent("Your account is successfully activated, you can log in using your settings:<br>" + "Login:"
+				+ t.getEmail() + "<br>" + "Password:" + t.getPhoneNumber() + "", "text/html");
+		msg.setSentDate(new Date(0));
+		
 
-		   Multipart multipart = new MimeMultipart();
-		   multipart.addBodyPart(messageBodyPart);
-		  // MimeBodyPart attachPart = new MimeBodyPart();
+		MimeBodyPart messageBodyPart = new MimeBodyPart();
+		messageBodyPart.setContent("Your account is successfully activated, you can log in using your settings:<br>"
+				+ "Login:" + t.getEmail() + "<br>" + "Password:" + t.getPhoneNumber() + "", "text/html");
 
-		  // attachPart.attachFile("/var/tmp/image19.png");
-		   //multipart.addBodyPart(attachPart);
-		   msg.setContent(multipart);
-		   t.setValidated(true);
-		   entrepriseService.save(t);
-		   System.out.println(t.isValidated()) ;
-		   Transport.send(msg);   
-		}
+		Multipart multipart = new MimeMultipart();
+		multipart.addBodyPart(messageBodyPart);
+		// MimeBodyPart attachPart = new MimeBodyPart();
 
+		// attachPart.attachFile("/var/tmp/image19.png");
+		// multipart.addBodyPart(attachPart);
+		msg.setContent(multipart);
+		t.setValidated(true);
+		entrepriseService.save(t);
+		System.out.println(t.isValidated());
+		Transport.send(msg);
+	}
 
 }
