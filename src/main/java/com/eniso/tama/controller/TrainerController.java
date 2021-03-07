@@ -1,7 +1,25 @@
 package com.eniso.tama.controller;
 
+import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
+
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
 import java.util.Set;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,11 +31,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.Day;
 import com.eniso.tama.entity.Days;
 import com.eniso.tama.entity.Trainer;
+import com.eniso.tama.entity.User;
 import com.eniso.tama.service.TrainerService;
 
 @RestController 
@@ -115,6 +135,56 @@ public class TrainerController {
 			
 			return "Deleted trainer id - " + trainerId;
 		}
+		@GetMapping( "/sendMailToTrainer" )
+		private void sendmail(@RequestParam("id") long id  ) throws AddressException, MessagingException, IOException {
+			
+			Trainer t = trainerService.findById(id ) ;
+			   Properties props = new Properties();
+			   props.put("mail.smtp.auth", "true");
+			   props.put("mail.smtp.starttls.enable", "true");
+			   props.put("mail.smtp.host", "smtp.gmail.com");
+			   props.put("mail.smtp.port", "587");
+			   
+			   Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			      protected PasswordAuthentication getPasswordAuthentication() {
+			         return new PasswordAuthentication("noreplybaeldung@gmail.com", "0000*admin");
+			      }
+			   });
+			   Message msg = new MimeMessage(session);
+			   msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
+
+			   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(t.getEmail()));
+			   msg.setSubject("Votre Compte Tama ");
+			   msg.setContent("Votre compte sur la plateforme Tama est créé avec succès. \n" + 
+			   		"Vous pouvez vous connecter en utilisant "
+			   		+ ":\n" + 
+					   
+			   		"E-mail:"+ t.getEmail() + "\n"
+			   				+ ""
+			   				+ ""+
+			   		"Mot de passe:"+t.getPhoneNumber() +"", "text/html");
+			   msg.setSentDate(new Date(0));
+
+			   MimeBodyPart messageBodyPart = new MimeBodyPart();
+			   messageBodyPart.setContent("Votre compte sur la plateforme Tama est créé avec succès. \n" + 
+				   		"Vous pouvez vous connecter en utilisant "
+				   		+ ":\n" + 
+						   
+				   		"E-mail:"+ t.getEmail() + "\n"
+				   				+ ""
+				   				+ ""+
+				   		"Mot de passe:"+t.getPhoneNumber() +"", "text/html");
+			   Multipart multipart = new MimeMultipart();
+			   multipart.addBodyPart(messageBodyPart);
+			  // MimeBodyPart attachPart = new MimeBodyPart();
+
+			  // attachPart.attachFile("/var/tmp/image19.png");
+			   //multipart.addBodyPart(attachPart);
+			   msg.setContent(multipart);
+			   Transport.send(msg);   
+				t.setValidated(true);
+				trainerService.save(t);
+			}
 	
 	
 

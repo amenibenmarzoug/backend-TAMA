@@ -32,7 +32,7 @@ import com.eniso.tama.service.ThemeDetailService;
 import com.eniso.tama.service.ThemeInstanceService;
 import com.eniso.tama.service.ThemeService;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 @ComponentScan(basePackageClasses = ProgramInstanceService.class)
 @RequestMapping(value = "/api")

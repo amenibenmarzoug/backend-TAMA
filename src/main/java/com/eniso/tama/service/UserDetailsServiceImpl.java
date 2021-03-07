@@ -27,15 +27,18 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String email) {
-		List<User> userlist = userRepository.findByEmail(email);
-		for (User user : userlist) {
-			System.out.println("user email");
-			System.out.println(user.getEmail());
-		}	
-		
-		
-		
-		return UserDetailsImpl.build(userlist.get(0));
-	}
-
+		User userlist = userRepository.findByEmail(email);
+//		for (User user : userlist) {
+//			System.out.println("user email");
+//			System.out.println(user.getEmail());
+//		}	
+//		
+//		
+//		
+//		return UserDetailsImpl.build(userlist.get(0));
+//	}
+		return UserDetailsImpl.build(userlist);
+}
+	
+	//User u = userRepository.findById(long id);
 }

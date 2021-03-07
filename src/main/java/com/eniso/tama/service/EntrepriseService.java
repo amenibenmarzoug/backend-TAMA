@@ -13,10 +13,7 @@ public interface EntrepriseService {
 		
 		public Entreprise findById(long theId);
 		
-		//public List<Entreprise>findByLevel(String theLevel);
-		//public List<Entreprise> findByEntreprise(Entreprise theParticipant);
-		
-		//public 	List<Entreprise> findByAbonadn(boolean theAbondan );
+		public Entreprise findByEmail(String email) ;
 		
 		
 		

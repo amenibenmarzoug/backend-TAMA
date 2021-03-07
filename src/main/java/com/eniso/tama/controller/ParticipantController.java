@@ -36,7 +36,7 @@ import com.eniso.tama.repository.RoleRepository;
 import com.eniso.tama.service.ParticipantService;
 import com.eniso.tama.service.ProgramInstanceService;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 @ComponentScan(basePackageClasses = ParticipantService.class)
 @RequestMapping(value = "/api")

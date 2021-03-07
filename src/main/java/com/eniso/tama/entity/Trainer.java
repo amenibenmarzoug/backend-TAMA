@@ -104,7 +104,10 @@ public class Trainer extends User {
 	}
 	public Trainer(@NotBlank @Size(max = 50) @Email String email,
 			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,
+
+
 			@NotBlank String lastName, String gender ) {
+
 		this.setId(super.getId());
 		super.setEmail(email);
 		super.setPassword(password);
@@ -118,6 +121,7 @@ public class Trainer extends User {
 		this.lastName  = lastName;
 		this.specifications = specifications;
 		this.gender = gender;
+		//super.setValidated(false);
 		
 	}
 
