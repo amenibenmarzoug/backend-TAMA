@@ -10,7 +10,7 @@ public interface ProgramInstanceService {
 
 	public ProgramInstance findById(long theId);
 
-	public void save(ProgramInstance theProgramInstance);
+	public ProgramInstance save(ProgramInstance theProgramInstance);
 
 	public void deleteById(long theId);
 

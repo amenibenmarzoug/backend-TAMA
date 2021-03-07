@@ -9,7 +9,7 @@ public interface ThemeInstanceService {
 
 	public ThemeInstance findById(long theId);
 
-	public void save(ThemeInstance theThemeInstance);
+	public ThemeInstance save(ThemeInstance theThemeInstance);
 
 	public void deleteById(long theId);
 }

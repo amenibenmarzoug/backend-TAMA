@@ -12,4 +12,5 @@ public interface ThemeDetailService {
 	public void save(ThemeDetail themeDetail);
 	
 	public void deleteById(long id);
+	public List<ThemeDetail> findByModuleId(long id);
 }

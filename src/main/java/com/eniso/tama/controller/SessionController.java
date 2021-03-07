@@ -1,5 +1,9 @@
 package com.eniso.tama.controller;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +60,74 @@ public class SessionController {
 		
 		return session;
 	}
+	
+	@GetMapping("/session/themeDetail")
+	public List<Session> findSessionByThemeDatail(@RequestParam("themeDetailId") long  themeDetailId) {
+		List<Session> listSession=sessionService.findAll();
+		List<Session> result=new ArrayList<>();
+		for (Session session : listSession) {
+			if(session.getThemeDetailInstance().getId()==themeDetailId) {
+				result.add(session);
+			}
+		}
+		return result;
+	}
+	
+	@GetMapping("/session/programInst")
+	public List<Session> findSessionByProgramInst(@RequestParam("programId") long  programId) {
+		List<Session> listSession=sessionService.findAll();
+		//System.out.println("by theme");
+		List<Session> result=new ArrayList<>();
+		for (Session session : listSession) {
+			if(session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance().getId()==programId) {
+				//System.out.println(session.getSessionBeginDate());
+				result.add(session);
+			}
+		}
+		//System.out.println(result.size());
+		return result;
+	}
+	
+	@GetMapping("/session/trainer")
+	public List<Session> calculateAllSessionsDurationByTrainer(@RequestParam("trainerId") long  trainerId) {
+		List<Session> listSession=sessionService.findAll();
+		List<Session> result=new ArrayList<>();
+		long sum=0;
+		//we should verify when the calculation will happen (at the end of the training?)
+		for (Session session : listSession) {
+			if(session.getTrainer().getId()==trainerId) {
+				Instant begin=session.getSessionBeginDate().toInstant();
+				Instant end=session.getSessionEndDate().toInstant();
+				Duration duration = Duration.between(end, begin);
+			    long diff = Math.abs(duration.toMinutes());
+			    sum+=diff;
+			    System.out.println(sum);
+				result.add(session);
+			}
+		}
+		return result;
+	}
+	
+	@GetMapping("/session/trainerAndProgram/")
+	public List<Session> calculateAllSessionsDurationByTrainerAndProgram(@RequestParam("trainerId") long  trainerId,@RequestParam("programId") long  programId) {
+		List<Session> listSession=sessionService.findAll();
+		List<Session> result=new ArrayList<>();
+		long sum=0;
+		//we should verify when the calculation will happen (at the end of the training?)
+		for (Session session : listSession) {
+			if((session.getTrainer().getId()==trainerId)&& (session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance().getId()==programId)) {
+				Instant begin=session.getSessionBeginDate().toInstant();
+				Instant end=session.getSessionEndDate().toInstant();
+				Duration duration = Duration.between(end, begin);
+			    long diff = Math.abs(duration.toMinutes());
+			    sum+=diff;
+			    System.out.println(sum);
+				result.add(session);
+			}
+		}
+		return result;
+	}
+	
 	// add mapping for POST /session - add new control
 
 	@PostMapping("/session")
@@ -76,9 +148,15 @@ public class SessionController {
 	@PutMapping("/session")
 	public Session updateSession(@RequestBody Session session) {
 		
-		sessionService.save(session);
+		Session updatedSession=sessionService.findById(session.getId());
+		updatedSession.setSessionName(session.getSessionName());
+		updatedSession.setSessionBeginDate(session.getSessionBeginDate());
+		updatedSession.setSessionEndDate(session.getSessionEndDate());
+		updatedSession.setClassRoom(session.getClassRoom());
+		updatedSession.setTrainer(session.getTrainer());
+		sessionService.save(updatedSession);
 		
-		return session;
+		return updatedSession;
 	}
 		
 		@DeleteMapping("/session/{sessionId}")
