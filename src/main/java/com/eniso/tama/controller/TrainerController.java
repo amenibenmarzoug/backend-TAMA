@@ -154,17 +154,26 @@ public class TrainerController {
 			   msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
 
 			   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(t.getEmail()));
-			   msg.setSubject("Account Activation");
-			   msg.setContent("Your account is successfully activated, you can log in using your settings:\n" + 
-			   		"Login:"+ t.getEmail() + "\n"+
-			   		"Password:"+t.getPhoneNumber() +"", "text/html");
+			   msg.setSubject("Votre Compte Tama ");
+			   msg.setContent("Votre compte sur la plateforme Tama est créé avec succès. \n" + 
+			   		"Vous pouvez vous connecter en utilisant "
+			   		+ ":\n" + 
+					   
+			   		"E-mail:"+ t.getEmail() + "\n"
+			   				+ ""
+			   				+ ""+
+			   		"Mot de passe:"+t.getPhoneNumber() +"", "text/html");
 			   msg.setSentDate(new Date(0));
 
 			   MimeBodyPart messageBodyPart = new MimeBodyPart();
-			   messageBodyPart.setContent("Your account is successfully activated, you can log in using your settings:\n" + 
-				   		"Login:"+ t.getEmail() + "\n"+
-				   		"Password:"+t.getPhoneNumber() +"", "text/html");
-
+			   messageBodyPart.setContent("Votre compte sur la plateforme Tama est créé avec succès. \n" + 
+				   		"Vous pouvez vous connecter en utilisant "
+				   		+ ":\n" + 
+						   
+				   		"E-mail:"+ t.getEmail() + "\n"
+				   				+ ""
+				   				+ ""+
+				   		"Mot de passe:"+t.getPhoneNumber() +"", "text/html");
 			   Multipart multipart = new MimeMultipart();
 			   multipart.addBodyPart(messageBodyPart);
 			  // MimeBodyPart attachPart = new MimeBodyPart();
@@ -173,6 +182,8 @@ public class TrainerController {
 			   //multipart.addBodyPart(attachPart);
 			   msg.setContent(multipart);
 			   Transport.send(msg);   
+				t.setValidated(true);
+				trainerService.save(t);
 			}
 	
 	
