@@ -243,7 +243,12 @@ public class AuthController {
 		if (enterpriseRepository.existsByEmail(signupRequestEnterprise.getEmail())) {
 			return ResponseEntity
 					.badRequest()
-					.body(new MessageResponse("Error: Email is already in use!"));
+					.body(new MessageResponse("Erreur: Veuillez donner un email valide. Cet email existe déjà"));
+		}
+		if (enterpriseRepository.existsByPhoneNumber(signupRequestEnterprise.getPhoneNumber())) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Erreur: Veuillez donner un numéro de téléphone valide. Ce numéro existe déjà"));
 		}
 		
 
@@ -264,7 +269,7 @@ public class AuthController {
 							 signupRequestEnterprise.getWebsite(),
 							 signupRequestEnterprise.getManagerFirstName(),
 							 signupRequestEnterprise.getManagerLastName());
-		
+		enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
 //		User user = new User(signupRequestEnterprise.getEmail(),
 //				 encoder.encode(signupRequestEnterprise.getPassword()),
 //				 signupRequestEnterprise.getStreet(),

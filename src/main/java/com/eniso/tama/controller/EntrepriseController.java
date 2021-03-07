@@ -75,7 +75,7 @@ public class EntrepriseController {
 		newEntreprise.setStreet(theEntreprise.getStreet());
 		newEntreprise.setPhoneNumber(theEntreprise.getPhoneNumber());
 		newEntreprise.setPostalCode(theEntreprise.getPostalCode());
-
+		newEntreprise.setProgramInstance(theEntreprise.getProgramInstance());
 		entrepriseService.save(newEntreprise);
 
 		return theEntreprise;
