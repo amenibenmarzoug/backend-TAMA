@@ -311,8 +311,9 @@ public class AuthController {
 							 encoder.encode(signupRequestParticipant.getPassword()),
 							 //signupRequestParticipant.getAddress(),
 							 signupRequestParticipant.getStreet(),
-							 signupRequestParticipant.getPostalCode(),
+							
 							 signupRequestParticipant.getCity(),
+							 signupRequestParticipant.getPostalCode(),
 							 
 							 signupRequestParticipant.getPhoneNumber(),
 							null,
