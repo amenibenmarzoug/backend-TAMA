@@ -67,6 +67,7 @@ public class EntrepriseController {
 
 	public Entreprise updateEntreprise(@RequestBody Entreprise theEntreprise) {
 
+		
 		Entreprise newEntreprise = entrepriseService.findById(theEntreprise.getId());
 		newEntreprise.setEnterpriseName(theEntreprise.getEnterpriseName());
 		newEntreprise.setEmail(theEntreprise.getEmail());
@@ -76,11 +77,44 @@ public class EntrepriseController {
 		newEntreprise.setPhoneNumber(theEntreprise.getPhoneNumber());
 		newEntreprise.setPostalCode(theEntreprise.getPostalCode());
 		newEntreprise.setProgramInstance(theEntreprise.getProgramInstance());
+		newEntreprise.setManagerFirstName(theEntreprise.getManagerFirstName());
+		newEntreprise.setManagerLastName(theEntreprise.getManagerLastName());
 		entrepriseService.save(newEntreprise);
 
 		return theEntreprise;
 	}
 
+	/*@PutMapping("/entreprises")
+
+	public  ResponseEntity<?>   updateEntreprise(@RequestBody Entreprise theEntreprise) {
+		if (enterpriseRepository.existsByEmail(theEntreprise.getEmail())) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Erreur: Veuillez donner un email valide. Cet email existe déjà"));
+		}
+		if (enterpriseRepository.existsByPhoneNumber(theEntreprise.getPhoneNumber())) {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Erreur: Veuillez donner un numéro de téléphone valide. Ce numéro existe déjà"));
+		}
+		
+		Entreprise newEntreprise = entrepriseService.findById(theEntreprise.getId());
+		newEntreprise.setEnterpriseName(theEntreprise.getEnterpriseName());
+		newEntreprise.setEmail(theEntreprise.getEmail());
+		newEntreprise.setWebsite(theEntreprise.getWebsite());
+		newEntreprise.setCity(theEntreprise.getCity());
+		newEntreprise.setStreet(theEntreprise.getStreet());
+		newEntreprise.setPhoneNumber(theEntreprise.getPhoneNumber());
+		newEntreprise.setPostalCode(theEntreprise.getPostalCode());
+		newEntreprise.setProgramInstance(theEntreprise.getProgramInstance());
+		newEntreprise.setManagerFirstName(theEntreprise.getManagerFirstName());
+		newEntreprise.setManagerLastName(theEntreprise.getManagerLastName());
+		entrepriseService.save(newEntreprise);
+
+		return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
+	}*/
+
+	
 	@DeleteMapping("/entreprises/{entrepriseId}")
 	public String deleteParticipant(@PathVariable int entrepriseId) {
 
