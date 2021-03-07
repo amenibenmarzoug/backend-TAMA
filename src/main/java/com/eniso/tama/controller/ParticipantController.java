@@ -34,6 +34,7 @@ import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.RoleRepository;
 import com.eniso.tama.service.ParticipantService;
+import com.eniso.tama.service.ProgramInstanceService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -50,8 +51,8 @@ public class ParticipantController {
 	PasswordEncoder encoder;
 	@Autowired
 	EnterpriseRepository enterpriseRepository;
-//	@Autowired
-//	CursusService cursusService;
+	@Autowired
+	ProgramInstanceService classeService;
 	
 	private ParticipantService participantService;
 	
@@ -221,6 +222,10 @@ public class ParticipantController {
 		p.setGender(theP.getGender());
 		p.setBirthday(theP.getBirthday());
 		p.setEntreprise(theP.getEntreprise());
+		p.setEducationLevel(theP.getEducationLevel());
+		p.setLevel(theP.getLevel());
+		p.setCurrentPosition(theP.getCurrentPosition());
+		p.setProgramInstance(theP.getProgramInstance());
 		// System.out.println(p.toString()) ;
 		participantRepository.save(p);
 
@@ -296,14 +301,14 @@ public class ParticipantController {
 		return theParticipant;
 	}
 	
-//	@PutMapping("/groupParticipant/{id}")
-//	public Participant updateGroupe(@RequestBody Participant theParticipant,@PathVariable long id) {
-//		Participant newParticipant = participantService.findById(theParticipant.getId());
-//		newParticipant.setGroup(groupService.findById(id));		
-//		participantService.save(newParticipant);
-//
-//		return theParticipant;
-//	}
+	@PutMapping("/classeParticipant/{id}")
+	public Participant updateClasse(@RequestBody Participant theParticipant,@PathVariable long id) {
+		Participant newParticipant = participantService.findById(theParticipant.getId());
+		newParticipant.setProgramInstance(classeService.findById(id));		
+		participantService.save(newParticipant);
+
+		return theParticipant;
+	}
 	@PutMapping("/updatePartEntr")
 	public Participant updateParticipantEntr(@RequestBody Participant theParticipant) {
 
