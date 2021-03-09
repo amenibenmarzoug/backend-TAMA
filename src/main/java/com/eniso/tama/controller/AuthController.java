@@ -106,27 +106,33 @@ public class AuthController {
 		User u = new User();
 		u = userRepository.findByEmail(loginRequest.getEmail());
 
-		System.out.println(u.toString());
-		if (u.isValidated()) {
-			Authentication authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-			UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-			// System.out.println("USER") ;
-			// System.out.println(userDetails.getEmail()) ;
-			// System.out.println(userDetails.getPassword()) ;
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-
-			String jwt = jwtUtils.generateJwtToken(authentication);
-
-			List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
-					.collect(Collectors.toList());
-
-			return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(),
-					userDetails.getEmail(), roles));
-		} else {
-
-			return ResponseEntity.ok(new MessageResponse("Your Account is not active yet !"));
+		//System.out.println(u.toString());
+		if(u==null) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Cet email n'existe pas!"));
 		}
+		else {
+			if (u.isValidated()) {
+				Authentication authentication = authenticationManager.authenticate(
+						new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+				UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+				// System.out.println("USER") ;
+				// System.out.println(userDetails.getEmail()) ;
+				// System.out.println(userDetails.getPassword()) ;
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+
+				String jwt = jwtUtils.generateJwtToken(authentication);
+
+				List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+						.collect(Collectors.toList());
+
+				return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(),
+						userDetails.getEmail(), roles));
+			} else {
+
+				return ResponseEntity.badRequest().body(new MessageResponse("Your Account is not active yet !"));
+			}
+		}
+		
 	}
 
 	@PostMapping("/signup")
