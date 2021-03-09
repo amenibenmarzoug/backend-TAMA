@@ -106,11 +106,10 @@ public class AuthController {
 		User u = new User();
 		u = userRepository.findByEmail(loginRequest.getEmail());
 
-		//System.out.println(u.toString());
-		if(u==null) {
+		// System.out.println(u.toString());
+		if (u == null) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Cet email n'existe pas!"));
-		}
-		else {
+		} else {
 			if (u.isValidated()) {
 				Authentication authentication = authenticationManager.authenticate(
 						new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -132,7 +131,7 @@ public class AuthController {
 				return ResponseEntity.badRequest().body(new MessageResponse("Your Account is not active yet !"));
 			}
 		}
-		
+
 	}
 
 	@PostMapping("/signup")
@@ -216,7 +215,7 @@ public class AuthController {
 				.orElseThrow(() -> new RuntimeException("Error: Role INSTITUTION is not found."));
 		roles.add(modRole);
 
-		// institution.setRoles(roles) ;
+		institution.setRoles(roles);
 
 		// userRepository.save(user);
 		institutionRepository.save(institution);
