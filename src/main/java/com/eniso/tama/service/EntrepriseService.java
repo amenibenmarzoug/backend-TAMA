@@ -16,7 +16,7 @@ public interface EntrepriseService {
 		public Entreprise findByEmail(String email) ;
 		
 		
-		
+		public Entreprise findByPhoneNumber(String email) ;
 
 		public void save(Entreprise theEntreprise);
 		

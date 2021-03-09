@@ -20,6 +20,7 @@ import javax.mail.internet.MimeMultipart;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Trainer;
+import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.service.EntrepriseService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -81,56 +83,80 @@ public class EntrepriseController {
 
 // add mapping for PUT /employees - update existing employee
 
-	@PutMapping("/entreprises")
+	/*@PutMapping("/entreprises")
 
 	public Entreprise updateEntreprise(@RequestBody Entreprise theEntreprise) {
 
 		
 		Entreprise newEntreprise = entrepriseService.findById(theEntreprise.getId());
-		newEntreprise.setEnterpriseName(theEntreprise.getEnterpriseName());
-		newEntreprise.setEmail(theEntreprise.getEmail());
-		newEntreprise.setWebsite(theEntreprise.getWebsite());
-		newEntreprise.setCity(theEntreprise.getCity());
-		newEntreprise.setStreet(theEntreprise.getStreet());
-		newEntreprise.setPhoneNumber(theEntreprise.getPhoneNumber());
-		newEntreprise.setPostalCode(theEntreprise.getPostalCode());
-		newEntreprise.setProgramInstance(theEntreprise.getProgramInstance());
-		newEntreprise.setManagerFirstName(theEntreprise.getManagerFirstName());
-		newEntreprise.setManagerLastName(theEntreprise.getManagerLastName());
-		entrepriseService.save(newEntreprise);
+		Entreprise verifEmailEntreprise =entrepriseService.findByEmail(theEntreprise.getEmail());
+		Entreprise verifPhoneNumberEntreprise =entrepriseService.findByPhoneNumber(theEntreprise.getPhoneNumber());
+	
+			if (((verifEmailEntreprise!=null) &&(verifEmailEntreprise.getId()==theEntreprise.getId()))||(verifEmailEntreprise==null) ) {
+				if(((verifPhoneNumberEntreprise!=null) &&(verifPhoneNumberEntreprise.getId()==theEntreprise.getId())) || (verifPhoneNumberEntreprise==null)) {
+					newEntreprise.setEnterpriseName(theEntreprise.getEnterpriseName());
+					newEntreprise.setEmail(theEntreprise.getEmail());
+					newEntreprise.setWebsite(theEntreprise.getWebsite());
+					newEntreprise.setCity(theEntreprise.getCity());
+					newEntreprise.setStreet(theEntreprise.getStreet());
+					newEntreprise.setPhoneNumber(theEntreprise.getPhoneNumber());
+					newEntreprise.setPostalCode(theEntreprise.getPostalCode());
+					newEntreprise.setProgramInstance(theEntreprise.getProgramInstance());
+					newEntreprise.setManagerFirstName(theEntreprise.getManagerFirstName());
+					newEntreprise.setManagerLastName(theEntreprise.getManagerLastName());
+					entrepriseService.save(newEntreprise);
+				}
+				else {
+					System.out.println("Phone number exists");
+				}}
+				else {
+					System.out.println("Email exists");	
+				}
+			
+			
+		
+	
 
 		return theEntreprise;
-	}
+	}*/
 
-	/*@PutMapping("/entreprises")
+	@PutMapping("/entreprises")
 
 	public  ResponseEntity<?>   updateEntreprise(@RequestBody Entreprise theEntreprise) {
-		if (enterpriseRepository.existsByEmail(theEntreprise.getEmail())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Erreur: Veuillez donner un email valide. Cet email existe déjà"));
-		}
-		if (enterpriseRepository.existsByPhoneNumber(theEntreprise.getPhoneNumber())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Erreur: Veuillez donner un numéro de téléphone valide. Ce numéro existe déjà"));
-		}
-		
 		Entreprise newEntreprise = entrepriseService.findById(theEntreprise.getId());
-		newEntreprise.setEnterpriseName(theEntreprise.getEnterpriseName());
-		newEntreprise.setEmail(theEntreprise.getEmail());
-		newEntreprise.setWebsite(theEntreprise.getWebsite());
-		newEntreprise.setCity(theEntreprise.getCity());
-		newEntreprise.setStreet(theEntreprise.getStreet());
-		newEntreprise.setPhoneNumber(theEntreprise.getPhoneNumber());
-		newEntreprise.setPostalCode(theEntreprise.getPostalCode());
-		newEntreprise.setProgramInstance(theEntreprise.getProgramInstance());
-		newEntreprise.setManagerFirstName(theEntreprise.getManagerFirstName());
-		newEntreprise.setManagerLastName(theEntreprise.getManagerLastName());
-		entrepriseService.save(newEntreprise);
-
-		return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
-	}*/
+		Entreprise verifEmailEntreprise =entrepriseService.findByEmail(theEntreprise.getEmail());
+		Entreprise verifPhoneNumberEntreprise =entrepriseService.findByPhoneNumber(theEntreprise.getPhoneNumber());
+	
+			if (((verifEmailEntreprise!=null) &&(verifEmailEntreprise.getId()==theEntreprise.getId()))||(verifEmailEntreprise==null) ) {
+				if(((verifPhoneNumberEntreprise!=null) &&(verifPhoneNumberEntreprise.getId()==theEntreprise.getId())) || (verifPhoneNumberEntreprise==null)) {
+					newEntreprise.setEnterpriseName(theEntreprise.getEnterpriseName());
+					newEntreprise.setEmail(theEntreprise.getEmail());
+					newEntreprise.setWebsite(theEntreprise.getWebsite());
+					newEntreprise.setCity(theEntreprise.getCity());
+					newEntreprise.setStreet(theEntreprise.getStreet());
+					newEntreprise.setPhoneNumber(theEntreprise.getPhoneNumber());
+					newEntreprise.setPostalCode(theEntreprise.getPostalCode());
+					newEntreprise.setProgramInstance(theEntreprise.getProgramInstance());
+					newEntreprise.setManagerFirstName(theEntreprise.getManagerFirstName());
+					newEntreprise.setManagerLastName(theEntreprise.getManagerLastName());
+					entrepriseService.save(newEntreprise);
+					return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
+				}
+				else {
+					return ResponseEntity
+							.badRequest()
+							.body(new MessageResponse("Erreur: Veuillez donner un numéro de téléphone valide. Ce numéro existe déjà"));
+				}}
+				else {
+					return ResponseEntity
+							.badRequest()
+							.body(new MessageResponse("Erreur: Veuillez donner un email valide. Cet email existe déjà"));
+				}
+			
+			
+		
+		
+	}
 
 	
 	@DeleteMapping("/entreprises/{entrepriseId}")

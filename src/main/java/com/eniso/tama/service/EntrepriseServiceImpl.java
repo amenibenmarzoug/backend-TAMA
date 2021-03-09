@@ -64,7 +64,22 @@ public class EntrepriseServiceImpl implements  EntrepriseService {
 		}
 		
 			
+		@Override
+		public Entreprise findByPhoneNumber(String phoneNumber) {
+			Optional<Entreprise> result = enterpriseRepository.findByPhoneNumber(phoneNumber);
 			
+			Entreprise entreprise = null;
+			
+			if (result.isPresent()) {
+				entreprise = result.get();
+			}
+			else {
+				// we didn't find the entreprise
+				throw new RuntimeException("Did not find - " + phoneNumber);
+			}
+			
+			return entreprise;
+		}	
 	
 				
 		
