@@ -249,7 +249,7 @@ public class ParticipantController {
 	
 	@PostMapping("/signupParticipantEntre")
 	public ResponseEntity<?> registerParticipantPerEntr(@Valid @RequestBody Participant theP,
-			@RequestParam("id") long id ,@RequestParam("cursusId") long cursusId ) {
+			@RequestParam("id") long id ) {
 		// System.out.println("participant") ;
 
 		if (participantRepository.existsByEmail(theP.getEmail())) {
@@ -281,7 +281,11 @@ public class ParticipantController {
 		p.setLastNameP(theP.getLastNameP());
 		p.setGender(theP.getGender());
 		p.setBirthday(theP.getBirthday());
+		p.setEducationLevel(theP.getEducationLevel());
+		p.setLevel(theP.getLevel());
+		p.setCurrentPosition(theP.getCurrentPosition());
 		p.setEntreprise(entreprise);
+		p.setProgramInstance(entreprise.getProgramInstance());
 		//p.setCursus(c);
 		// System.out.println(p.toString()) ;
 		participantRepository.save(p);
