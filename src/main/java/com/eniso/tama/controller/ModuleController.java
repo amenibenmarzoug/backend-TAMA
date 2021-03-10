@@ -3,6 +3,8 @@ package com.eniso.tama.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -75,6 +77,7 @@ public class ModuleController {
 	}
 	// add mapping for POST /Module - add new Module
 
+	@Transactional 
 	@PostMapping("/module")
 	public Module addModule(@RequestBody Module module) {
 		long id=module.getTheme().getId();
@@ -96,6 +99,7 @@ public class ModuleController {
 
 	// add mapping for PUT /module - update existing module
 
+	@Transactional 
 	@PutMapping("/module")
 	public Module updateModule(@RequestBody Module theModule) {
 		long id = theModule.getId();
