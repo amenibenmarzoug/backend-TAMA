@@ -26,6 +26,10 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	public ProgramInstanceServiceImpl(ProgramInstanceRepository theProgramInstanceRepository) {
 		programInstanceRepository = theProgramInstanceRepository;
 	}
+	
+	@PersistenceContext
+	EntityManager entityManager;
+
 
 	@Override
 	public List<ProgramInstance> findAll() {
@@ -57,7 +61,11 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	@Override
 
 	public void deleteById(long theId) {
-		programInstanceRepository.deleteById(theId);
+		//programInstanceRepository.deleteById(theId);
+		Optional<ProgramInstance> p= programInstanceRepository.findById(theId);
+		entityManager.remove(p);
+		
+		
 		
 	}
 	
@@ -66,6 +74,23 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	    @PersistenceContext
 	    private EntityManager em;
 
+	}
+
+	@Override
+	public ProgramInstance update(ProgramInstance theProgramInstance) {
+		ProgramInstance a=entityManager.merge(theProgramInstance);
+		return (a);
+		
+	}
+
+	@Override
+	public  void delete(ProgramInstance theProgramInstance) {
+
+	//	entityManager.getTransaction().begin();
+		//entityManager.refresh(theProgramInstance);
+		 entityManager.remove(theProgramInstance);
+		// entityManager.getTransaction().commit();
+		
 	}
 	
 }
