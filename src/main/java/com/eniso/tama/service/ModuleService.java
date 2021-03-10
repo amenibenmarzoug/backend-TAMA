@@ -9,8 +9,9 @@ public interface ModuleService {
 
 	public Module findById(long theId);
 
-	public void save(Module module);
+	public Module save(Module module);
 
 	public void deleteById(long id);
-public List<Module> findModuleByThemeId(long id);
+
+	public List<Module> findModuleByThemeId(long id);
 }

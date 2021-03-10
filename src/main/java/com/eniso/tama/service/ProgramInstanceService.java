@@ -10,6 +10,8 @@ public interface ProgramInstanceService {
 
 	public ProgramInstance findById(long theId);
 
+	public List<ProgramInstance> findByProgramId(long id);
+	
 	public ProgramInstance save(ProgramInstance theProgramInstance);
 	
 	public ProgramInstance update(ProgramInstance theProgramInstance);

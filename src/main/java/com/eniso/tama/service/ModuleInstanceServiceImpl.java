@@ -1,5 +1,6 @@
 package com.eniso.tama.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +54,18 @@ public class ModuleInstanceServiceImpl  implements ModuleInstanceService{
 			moduleInstanceRepository.deleteById(theId);
 		}
 
+		@Override
+		public List<ModuleInstance> findByModuleId(long id) {
+			List<ModuleInstance> list= moduleInstanceRepository.findAll();
+			List<ModuleInstance> list1= new ArrayList<>();
+			for (ModuleInstance modInst : list ) {
+				if (modInst.getModule().getId()== id) {
+					 list1.add(modInst);
+				}
+				
+			}
+			return (list1);
+		}
 		
 	
 }

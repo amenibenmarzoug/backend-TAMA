@@ -1,5 +1,6 @@
 package com.eniso.tama.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
-
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.ThemeInstance;
 
 import com.eniso.tama.repository.ThemeInstanceRepository;
@@ -58,6 +59,19 @@ public class ThemeInstanceServiceImpl implements ThemeInstanceService{
 	public void deleteById(long theId) {
 		themeInstanceRepository.deleteById(theId);
 		
+	}
+	
+	@Override
+	public List<ThemeInstance> findByThemeId(long id) {
+		List<ThemeInstance> list= themeInstanceRepository.findAll();
+		List<ThemeInstance> list1= new ArrayList<>();
+		for (ThemeInstance thInst : list ) {
+			if (thInst.getTheme().getId()== id) {
+				 list1.add(thInst);
+			}
+			
+		}
+		return (list1);
 	}
 
 }

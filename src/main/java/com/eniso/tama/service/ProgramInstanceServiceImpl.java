@@ -1,5 +1,6 @@
 package com.eniso.tama.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 
 import com.eniso.tama.entity.ProgramInstance;
+import com.eniso.tama.entity.Theme;
 import com.eniso.tama.repository.ProgramInstanceRepository;
 
 @Service
@@ -93,4 +95,17 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		
 	}
 	
+	
+	@Override
+	public List<ProgramInstance> findByProgramId(long id) {
+		List<ProgramInstance> list= programInstanceRepository.findAll();
+		List<ProgramInstance> list1= new ArrayList<>();
+		for (ProgramInstance prInst : list ) {
+			if (prInst.getProgram().getId()== id) {
+				 list1.add(prInst);
+			}
+			
+		}
+		return (list1);
+	}
 }

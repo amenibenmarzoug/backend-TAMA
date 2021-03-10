@@ -7,6 +7,8 @@ import com.eniso.tama.entity.ThemeDetailInstance;
 public interface ThemeDetailInstanceService {
 	public List<ThemeDetailInstance> findAll();
 
+	public List<ThemeDetailInstance> findByThemeDetId(long id);
+	
 	public ThemeDetailInstance findById(long theId);
 
 	public void save(ThemeDetailInstance theThemeDetailInstance);

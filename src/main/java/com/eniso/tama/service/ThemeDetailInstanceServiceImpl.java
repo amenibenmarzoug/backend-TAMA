@@ -1,5 +1,6 @@
 package com.eniso.tama.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.ThemeDetailInstance;
+import com.eniso.tama.entity.ThemeInstance;
 import com.eniso.tama.repository.ProgramInstanceRepository;
 import com.eniso.tama.repository.ThemeDetailInstanceRepository;
 
@@ -56,4 +58,16 @@ public class ThemeDetailInstanceServiceImpl implements ThemeDetailInstanceServic
 		
 	}
 
+	@Override
+	public List<ThemeDetailInstance> findByThemeDetId(long id) {
+		List<ThemeDetailInstance> list= themeDetailInstanceRepository.findAll();
+		List<ThemeDetailInstance> list1= new ArrayList<>();
+		for (ThemeDetailInstance thInst : list ) {
+			if (thInst.getThemeDetail().getId()== id) {
+				 list1.add(thInst);
+			}
+			
+		}
+		return (list1);
+	}
 }

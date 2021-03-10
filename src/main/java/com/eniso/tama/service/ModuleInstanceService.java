@@ -7,6 +7,8 @@ import com.eniso.tama.entity.ModuleInstance;
 public interface ModuleInstanceService {
 
 	public List<ModuleInstance> findAll();
+	
+	public List<ModuleInstance> findByModuleId(long id);
 
 	public ModuleInstance findById(long theId);
 
