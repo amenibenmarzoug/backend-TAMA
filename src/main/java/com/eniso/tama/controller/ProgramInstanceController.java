@@ -32,7 +32,7 @@ import com.eniso.tama.service.ThemeDetailService;
 import com.eniso.tama.service.ThemeInstanceService;
 import com.eniso.tama.service.ThemeService;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 @ComponentScan(basePackageClasses = ProgramInstanceService.class)
 @RequestMapping(value = "/api")
@@ -167,6 +167,7 @@ public class ProgramInstanceController {
 
 	// add mapping for PUT /employees - update existing employee
 
+	@Transactional 
 	@PutMapping("/programsInst")
 
 	public ProgramInstance updateProgram(@RequestBody ProgramInstance theProgram) {
@@ -177,11 +178,15 @@ public class ProgramInstanceController {
 		newProgram.setLocation(theProgram.getLocation());
 		newProgram.setProgram(theProgram.getProgram());
 
-		programService.save(newProgram);
+		//programService.save(newProgram);
+		
+		programService.update(newProgram);
 
 		return theProgram;
 	}
 
+	
+	@Transactional 
 	@DeleteMapping("programsInst/{programId}")
 	public String deleteProgram(@PathVariable int programId) {
 
@@ -193,7 +198,9 @@ public class ProgramInstanceController {
 			throw new RuntimeException("the Program id is not found - " + programId);
 		}
 
-		programService.deleteById(programId);
+		//programService.deleteById(programId);
+		
+		programService.delete(Program);
 
 		return "Deleted programId- " + programId;
 		

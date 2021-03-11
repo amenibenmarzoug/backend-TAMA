@@ -12,7 +12,7 @@ public interface SessionService {
 	
 	public Session findById(long theId);
 	
-	public void save(Session courseSession);
+	public Session save(Session courseSession);
 	
 	public void deleteById(long id);
 }

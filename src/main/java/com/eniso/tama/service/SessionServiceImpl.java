@@ -15,12 +15,13 @@ import com.eniso.tama.repository.SessionRepository;
 @Service
 @ComponentScan(basePackageClasses = SessionRepository.class) 
 public class SessionServiceImpl implements SessionService {
+	@Autowired
 	private SessionRepository sessionRepository;
 
 	public SessionServiceImpl() {
 	}
 
-	@Autowired
+	
 	public SessionServiceImpl(SessionRepository sessionRepository) {
 		this.sessionRepository = sessionRepository;
 	}
@@ -53,8 +54,8 @@ public class SessionServiceImpl implements SessionService {
 	}
 
 	@Override
-	public void save(Session courseSession) {
-		sessionRepository.save(courseSession);
+	public Session save(Session courseSession) {
+		return sessionRepository.save(courseSession);
 	}
 
 	@Override

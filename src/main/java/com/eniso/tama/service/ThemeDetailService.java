@@ -9,7 +9,7 @@ public interface ThemeDetailService {
 	
 	public ThemeDetail findById(long theId);
 	
-	public void save(ThemeDetail themeDetail);
+	public ThemeDetail save(ThemeDetail themeDetail);
 	
 	public void deleteById(long id);
 	public List<ThemeDetail> findByModuleId(long id);

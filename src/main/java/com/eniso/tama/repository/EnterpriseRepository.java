@@ -13,7 +13,9 @@ import com.eniso.tama.entity.Entreprise;
 public interface EnterpriseRepository extends JpaRepository<Entreprise, Long> {
 	
 	Optional<Entreprise> findByEmail(String email);
+	Optional<Entreprise> findByPhoneNumber(String email);
 	Boolean existsByEmail(String email);
+	Boolean existsByPhoneNumber(String phoneNumber);
 	Optional<Entreprise> findByEnterpriseName(String entrepriseName);
 	Boolean existsByEnterpriseName(String entrepriseName);
 }

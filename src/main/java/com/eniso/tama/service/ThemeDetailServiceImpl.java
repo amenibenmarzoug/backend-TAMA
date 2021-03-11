@@ -49,8 +49,8 @@ public class ThemeDetailServiceImpl implements ThemeDetailService {
 	}
 
 	@Override
-	public void save(ThemeDetail themeDetail) {
-		themeDetailRepository.save(themeDetail);
+	public ThemeDetail save(ThemeDetail themeDetail) {
+		return themeDetailRepository.save(themeDetail);
 
 	}
 

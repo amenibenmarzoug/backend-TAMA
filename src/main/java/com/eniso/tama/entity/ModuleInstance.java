@@ -33,7 +33,7 @@ public class ModuleInstance {
 	private Module module;
 	
 	
-	@ManyToOne 
+	@ManyToOne (cascade= {CascadeType.ALL})
 	private ThemeInstance themeInstance;
 	
 	

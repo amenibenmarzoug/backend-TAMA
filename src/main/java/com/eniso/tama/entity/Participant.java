@@ -20,20 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Participant extends User{
 	
-	//this variable is for validating the accounts
-		//@NotNull
-		@Column(name = "validated"  )
-		private boolean validated;
-
 	
-
-	public boolean isValidated() {
-			return validated;
-		}
-
-		public void setValidated(boolean validated) {
-			this.validated = validated;
-		}
 
 	@NotNull
 	@Column(name = "firstNameP")
@@ -216,7 +203,7 @@ public class Participant extends User{
 
 	@Override
 	public String toString() {
-		return "Participant [validated=" + validated + ", firstNameP=" + firstNameP + ", lastNameP=" + lastNameP
+		return "Participant [ firstNameP=" + firstNameP + ", lastNameP=" + lastNameP
 				+ ", gender=" + gender + ", birthday=" + birthday + ", currentPosition=" + currentPosition + ", level="
 				+ level + ", educationLevel=" + educationLevel + ", abandon=" + abandon + ", entreprise=" + entreprise
 				+ ", courseSessionParticipant=" + sessionParticipant + "]";

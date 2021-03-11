@@ -21,8 +21,9 @@ import com.eniso.tama.service.EventService;
 @ComponentScan(basePackageClasses = EventService.class )
 @RequestMapping(value="/api")
 public class EventController {
-	private EventService eventService;
 	@Autowired
+	private EventService eventService;
+	
 	public EventController(EventService eventService) {
 		this.eventService = eventService;
 	} 
@@ -47,7 +48,7 @@ public class EventController {
 	// add mapping for POST /Event - add new Event
 
 	@PostMapping("/event")
-	public  Event addCourse(@RequestBody Event event) {
+	public  Event addEvent(@RequestBody Event event) {
 	
 		
 		// also just in case they pass an id in JSON ... set id to 0

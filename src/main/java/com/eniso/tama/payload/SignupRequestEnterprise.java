@@ -8,6 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.eniso.tama.entity.ProgramInstance;
+
 
 
 public class SignupRequestEnterprise {
@@ -76,6 +78,8 @@ public class SignupRequestEnterprise {
 	
 	private Set<String> role;
 	
+	private ProgramInstance programInstance;
+	
 	public String getEmail() {
 		return email;
 	}
@@ -141,6 +145,15 @@ public class SignupRequestEnterprise {
 
 	public void setWebsite(String website) {
 		this.website = website;
+	}
+
+	
+	public ProgramInstance getProgramInstance() {
+		return programInstance;
+	}
+
+	public void setProgramInstance(ProgramInstance programInstance) {
+		this.programInstance = programInstance;
 	}
 
 	@Override
