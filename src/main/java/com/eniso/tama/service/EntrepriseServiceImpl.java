@@ -57,7 +57,7 @@ public class EntrepriseServiceImpl implements  EntrepriseService {
 			}
 			else {
 				// we didn't find the participant
-				throw new RuntimeException("Did not find - " + email);
+			//	throw new RuntimeException("Did not find - " + email);
 			}
 			
 			return entreprise;
@@ -75,7 +75,7 @@ public class EntrepriseServiceImpl implements  EntrepriseService {
 			}
 			else {
 				// we didn't find the entreprise
-				throw new RuntimeException("Did not find - " + phoneNumber);
+				//throw new RuntimeException("Did not find - " + phoneNumber);
 			}
 			
 			return entreprise;
