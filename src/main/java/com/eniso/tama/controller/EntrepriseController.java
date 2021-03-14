@@ -125,6 +125,7 @@ public class EntrepriseController {
 	public  ResponseEntity<?>   updateEntreprise(@RequestBody Entreprise theEntreprise) {
 		Entreprise newEntreprise = entrepriseService.findById(theEntreprise.getId());
 		Entreprise verifEmailEntreprise =entrepriseService.findByEmail(theEntreprise.getEmail());
+		System.out.println(verifEmailEntreprise);
 		Entreprise verifPhoneNumberEntreprise =entrepriseService.findByPhoneNumber(theEntreprise.getPhoneNumber());
 	
 			if (((verifEmailEntreprise!=null) &&(verifEmailEntreprise.getId()==theEntreprise.getId()))||(verifEmailEntreprise==null) ) {
