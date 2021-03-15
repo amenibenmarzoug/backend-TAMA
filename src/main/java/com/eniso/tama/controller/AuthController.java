@@ -129,7 +129,7 @@ public class AuthController {
 						userDetails.getEmail(), roles));
 			} else {
 
-				return ResponseEntity.badRequest().body(new MessageResponse("Your Account is not active yet !"));
+				return ResponseEntity.badRequest().body(new MessageResponse("Votre compte n'est pas encore activé !"));
 			}
 		}
 
