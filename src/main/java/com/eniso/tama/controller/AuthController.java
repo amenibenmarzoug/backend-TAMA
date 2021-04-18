@@ -249,7 +249,7 @@ public class AuthController {
 
 				signupRequestEnterprise.getPhoneNumber(), null, signupRequestEnterprise.getEnterpriseName(),
 				signupRequestEnterprise.getWebsite(), signupRequestEnterprise.getManagerFirstName(),
-				signupRequestEnterprise.getManagerLastName());
+				signupRequestEnterprise.getManagerLastName(),signupRequestEnterprise.getManagerPosition(),signupRequestEnterprise.getNbMinParticipants());
 
 		enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
 
