@@ -26,9 +26,12 @@ public class ProgramInstance {
 	@Column(name = "programInstName")
 	private String programInstName;
 	
-	@Column(name = "dateDebut")
-	private Date dateDebut;
+	@Column
+	private Date beginDate;
 	
+	
+	@Column
+	private Date endDate;
 	
 	@NotNull
 	@Column(name="ProgramInstDays")
@@ -48,12 +51,14 @@ public class ProgramInstance {
 	private Program program;
 	
 	
-	public Date getDateDebut() {
-		return dateDebut;
+
+
+	public Date getBeginDate() {
+		return beginDate;
 	}
 
-	public void setDateDebut(Date dateDebut) {
-		this.dateDebut = dateDebut;
+	public void setBeginDate(Date beginDate) {
+		beginDate = beginDate;
 	}
 
 	public String getProgramInstName() {
@@ -111,6 +116,18 @@ public class ProgramInstance {
 
 	public void setNbMinParticipants(int nbMinParticipants) {
 		this.nbMinParticipants = nbMinParticipants;
+	}
+	
+	
+
+
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public ProgramInstance() {}
