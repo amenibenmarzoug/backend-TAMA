@@ -58,7 +58,7 @@ public class ProgramInstance {
 	}
 
 	public void setBeginDate(Date beginDate) {
-		beginDate = beginDate;
+		this.beginDate = beginDate;
 	}
 
 	public String getProgramInstName() {
