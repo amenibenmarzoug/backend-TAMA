@@ -24,7 +24,7 @@ public class User {
 	// this variable is for validating the accounts
 	// @NotNull
 	@Column(name = "validated")
-	private Boolean validated;
+	private Boolean validated=false;
 
 	@Override
 	public String toString() {

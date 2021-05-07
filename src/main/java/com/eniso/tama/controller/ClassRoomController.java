@@ -115,6 +115,7 @@ public class ClassRoomController {
 	}
 	
 	
+	
 	// add mapping for PUT /classRoom - update existing classRoom
 	
 		@PutMapping("/classroomInstitution")
@@ -122,6 +123,7 @@ public class ClassRoomController {
 			ClassRoom newClassroom = classRoomService.findById(classRoom.getId());
 			newClassroom.setClassRoomName(classRoom.getClassRoomName());
 			newClassroom.setCapacity(classRoom.getCapacity());
+			newClassroom.setInstitution(classRoom.getInstitution());
 			classRoomService.save(newClassroom);
 			
 			return classRoom;

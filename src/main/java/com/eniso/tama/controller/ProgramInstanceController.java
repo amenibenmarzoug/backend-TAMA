@@ -177,6 +177,8 @@ public class ProgramInstanceController {
 		newProgram.setNbDaysProgInst(theProgram.getNbDaysProgInst());;
 		newProgram.setLocation(theProgram.getLocation());
 		newProgram.setProgram(theProgram.getProgram());
+		newProgram.setBeginDate(theProgram.getBeginDate());
+		newProgram.setEndDate(theProgram.getEndDate());
 
 		//programService.save(newProgram);
 		

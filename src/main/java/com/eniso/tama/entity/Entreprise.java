@@ -29,8 +29,14 @@ public class Entreprise extends User{
 	private String managerLastName;
 	
 	
+	@Column
+	private String managerPosition;
+	
 	@Column(name = "website")
 	private String website;
+	
+	@Column
+	private int nbMinParticipants;
 	
 	@ManyToOne
 	//@JsonIgnore
@@ -76,6 +82,24 @@ public class Entreprise extends User{
 	public void setManagerLastName(String managerLastName) {
 		this.managerLastName = managerLastName;
 	}
+	
+	
+
+	public String getManagerPosition() {
+		return managerPosition;
+	}
+
+	public int getNbMinParticipants() {
+		return nbMinParticipants;
+	}
+
+	public void setManagerPosition(String managerPosition) {
+		this.managerPosition = managerPosition;
+	}
+
+	public void setNbMinParticipants(int nbMinParticipants) {
+		this.nbMinParticipants = nbMinParticipants;
+	}
 
 	public Entreprise() {
 	}
@@ -88,7 +112,7 @@ public class Entreprise extends User{
 
 	public Entreprise(@NotBlank @Size(max = 50) @Email String email,
 			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,
-			String enterpriseName, String website, String managerFirstName, String managerLastName) {
+			String enterpriseName, String website, String managerFirstName, String managerLastName,String managerPosition, int nbParticip) {
 		super.setEmail(email);
 		super.setPassword(password);
 		//super.setAddress(address);
@@ -101,6 +125,8 @@ public class Entreprise extends User{
 		this.website=website;
 		this.managerFirstName=managerFirstName;
 		this.managerLastName=managerLastName;
+		this.managerPosition=managerPosition;
+		this.nbMinParticipants=nbParticip;
 	}
 	
 
