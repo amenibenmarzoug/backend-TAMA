@@ -22,11 +22,34 @@ public class Entreprise extends User{
 	@Column(name = "enterpriseName")
 	private String enterpriseName;
 	
-
+	@Column(name = "managerFirstName")
+	private String managerFirstName;
+	
+	@Column(name = "managerLastName")
+	private String managerLastName;
+	
+	
+	@Column
+	private String managerPosition;
 	
 	@Column(name = "website")
 	private String website;
 	
+	@Column
+	private int nbMinParticipants;
+	
+	@ManyToOne
+	//@JsonIgnore
+	private ProgramInstance programInstance;
+	
+	public ProgramInstance getProgramInstance() {
+		return programInstance;
+	}
+
+	public void setProgramInstance(ProgramInstance programInstance) {
+		this.programInstance = programInstance;
+	}
+
 	public String getEnterpriseName() {
 		return enterpriseName;
 	}
@@ -42,16 +65,54 @@ public class Entreprise extends User{
 	public void setWebsite(String website) {
 		this.website = website;
 	}
+	
+
+	public String getManagerFirstName() {
+		return managerFirstName;
+	}
+
+	public void setManagerFirstName(String managerFirstName) {
+		this.managerFirstName = managerFirstName;
+	}
+
+	public String getManagerLastName() {
+		return managerLastName;
+	}
+
+	public void setManagerLastName(String managerLastName) {
+		this.managerLastName = managerLastName;
+	}
+	
+	
+
+	public String getManagerPosition() {
+		return managerPosition;
+	}
+
+	public int getNbMinParticipants() {
+		return nbMinParticipants;
+	}
+
+	public void setManagerPosition(String managerPosition) {
+		this.managerPosition = managerPosition;
+	}
+
+	public void setNbMinParticipants(int nbMinParticipants) {
+		this.nbMinParticipants = nbMinParticipants;
+	}
 
 	public Entreprise() {
 	}
-	public Entreprise(String enterpriseName, String website) {
+	public Entreprise(String enterpriseName, String website, String managerFirstName, String managerLastName) {
 		this.enterpriseName = enterpriseName;
 		this.website=website;
+		this.managerFirstName=managerFirstName;
+		this.managerLastName=managerLastName;
 	}
 
 	public Entreprise(@NotBlank @Size(max = 50) @Email String email,
-			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,String enterpriseName, String website) {
+			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,
+			String enterpriseName, String website, String managerFirstName, String managerLastName,String managerPosition, int nbParticip) {
 		super.setEmail(email);
 		super.setPassword(password);
 		//super.setAddress(address);
@@ -62,6 +123,10 @@ public class Entreprise extends User{
 		this.enterpriseName = enterpriseName;
 		super.setRoles(roles);
 		this.website=website;
+		this.managerFirstName=managerFirstName;
+		this.managerLastName=managerLastName;
+		this.managerPosition=managerPosition;
+		this.nbMinParticipants=nbParticip;
 	}
 	
 

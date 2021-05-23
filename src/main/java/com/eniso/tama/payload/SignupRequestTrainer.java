@@ -1,8 +1,11 @@
 package com.eniso.tama.payload;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.constraints.*;
+
+import com.eniso.tama.entity.Days;
 
 
 public class SignupRequestTrainer {
@@ -63,10 +66,11 @@ public class SignupRequestTrainer {
 	private String gender;
 	
 
-	@NotBlank
-	private String specification;
 
- 
+	private Set<String> specifications;
+
+    private Set<Days> disponibilityDays;
+    
     private Set<String> role;
     
     @NotBlank
@@ -110,12 +114,12 @@ public class SignupRequestTrainer {
 
 
 
-	public String getSpecification() {
-		return specification;
+	public Set<String> getSpecifications() {
+		return specifications;
 	}
 
-	public void setSpecification(String specification) {
-		this.specification = specification;
+	public void setSpecifications(Set<String> specifications) {
+		this.specifications = specifications;
 	}
 
 	public String getFirstName() {
@@ -142,5 +146,14 @@ public class SignupRequestTrainer {
 		this.gender = gender;
 	}
 
+	public Set<Days> getDisponibilityDays() {
+		return disponibilityDays;
+	}
+
+	public void setDisponibilityDays(Set<Days> disponibilityDays) {
+		this.disponibilityDays = disponibilityDays;
+	}
+
+	
 }
 

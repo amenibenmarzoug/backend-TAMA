@@ -8,6 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.eniso.tama.entity.ProgramInstance;
+
 
 
 public class SignupRequestEnterprise {
@@ -65,10 +67,22 @@ public class SignupRequestEnterprise {
 	private String enterpriseName;
 
 	
-	@Column(name = "website")
+
 	private String website;
 	
+
+	private String managerFirstName;
+	
+
+	private String managerLastName;
+	
+	private String managerPosition;
+
+	private int nbMinParticipants;
+	
 	private Set<String> role;
+	
+	private ProgramInstance programInstance;
 	
 	public String getEmail() {
 		return email;
@@ -85,6 +99,24 @@ public class SignupRequestEnterprise {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+	
+	
+
+	public String getManagerFirstName() {
+		return managerFirstName;
+	}
+
+	public void setManagerFirstName(String managerFirstName) {
+		this.managerFirstName = managerFirstName;
+	}
+
+	public String getManagerLastName() {
+		return managerLastName;
+	}
+
+	public void setManagerLastName(String managerLastName) {
+		this.managerLastName = managerLastName;
 	}
 
 	public Set<String> getRole() {
@@ -119,11 +151,38 @@ public class SignupRequestEnterprise {
 		this.website = website;
 	}
 
+	
+	public ProgramInstance getProgramInstance() {
+		return programInstance;
+	}
+
+	public void setProgramInstance(ProgramInstance programInstance) {
+		this.programInstance = programInstance;
+	}
+	
+
+	public String getManagerPosition() {
+		return managerPosition;
+	}
+
+	public int getNbMinParticipants() {
+		return nbMinParticipants;
+	}
+
+	public void setManagerPosition(String managerPosition) {
+		this.managerPosition = managerPosition;
+	}
+
+	public void setNbMinParticipants(int nbMinParticipants) {
+		this.nbMinParticipants = nbMinParticipants;
+	}
+
 	@Override
 	public String toString() {
 		return "SignupRequestEnterprise [email=" + email + ", street=" + street + ", city=" + city + ", postalCode="
 				+ postalCode + ", phoneNumber=" + phoneNumber + ", password=" + password + ", enterpriseName="
-				+ enterpriseName + ", website=" + website + ", role=" + role + "]";
+				+ enterpriseName + ", website=" + website + ", Manager's First Name=" + managerFirstName +
+				", Manager's Last Name=" + managerLastName +", role=" + role + "]";
 	}
 	
 

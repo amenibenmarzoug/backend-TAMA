@@ -12,7 +12,8 @@ import com.eniso.tama.entity.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-	List<User> findByEmail(String email);
+        User findByEmail(String email);
+        User findById(long id );
 	Boolean existsByEmail(String email);
 
 }

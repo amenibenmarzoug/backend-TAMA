@@ -1,11 +1,9 @@
 package com.eniso.tama.entity;
+import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -55,18 +53,23 @@ public class Trainer extends User {
 	}
 
 
-	public String getSpecification() {
-		return specification;
-	}
 
-	public void setSpecification(String specification) {
-		this.specification = specification;
-	}
-
-//	//@NotNull
-//	@Column(name = "field")
-//	private String field;
 	
+    @ElementCollection
+    @CollectionTable(name = "trainer_disponibility_days", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "day")
+    private Set<Days> disponibilityDays = new HashSet<>();
+
+ 
+	
+	public Set<Days> getDisponibilityDays() {
+		return disponibilityDays;
+	}
+
+	public void setDisponibilityDays(Set<Days> disponibilityDays) {
+		this.disponibilityDays = disponibilityDays;
+	}
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "trainer")
     Set<TrainerDisponibility> trainerDisponibility;
@@ -81,15 +84,30 @@ public class Trainer extends User {
 		this.trainerDisponibility = trainerDisponibility;
 	}
 
-	@NotNull
-	@Column(name = "specification")
-	private String specification;
+	@ElementCollection
+    @CollectionTable(name = "trainer_specifications", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "specifications")
+    private Set<String> specifications = new HashSet<>();
+	
+	
+	public Set<String> getSpecifications() {
+		return specifications;
+	}
+
+	public void setSpecifications(Set<String> specifications) {
+		this.specifications = specifications;
+	}
+
+
 	
 	public Trainer() {
 	}
 	public Trainer(@NotBlank @Size(max = 50) @Email String email,
 			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,
-			@NotBlank String lastName,@NotBlank String specification, String gender ) {
+
+
+			@NotBlank String lastName, String gender ) {
+
 		this.setId(super.getId());
 		super.setEmail(email);
 		super.setPassword(password);
@@ -101,9 +119,30 @@ public class Trainer extends User {
 		super.setRoles(roles);
 		this.firstName = firstName;
 		this.lastName  = lastName;
-		this.specification = specification;
+		this.specifications = specifications;
 		this.gender = gender;
+		//super.setValidated(false);
 		
 	}
+
+	public Trainer(String email,
+			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotNull String firstName, @NotNull String lastName, @NotNull String gender,
+			Set<Days> disponibilityDays, Set<String>  specifications) {
+		this.setId(super.getId());
+		super.setEmail(email);
+		super.setPassword(password);
+		super.setStreet(street);
+		super.setCity(city);
+		super.setPostalCode(postalCode);
+		super.setPhoneNumber(phoneNumber);
+		super.setRoles(roles);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.gender = gender;
+		this.disponibilityDays = disponibilityDays;
+		this.specifications=specifications;
+	}
+	
+	
 	
 }

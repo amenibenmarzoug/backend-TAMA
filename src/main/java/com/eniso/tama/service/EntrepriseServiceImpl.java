@@ -46,10 +46,40 @@ public class EntrepriseServiceImpl implements  EntrepriseService {
 			
 			return theControl;
 		}
-
+		@Override
+		public Entreprise findByEmail(String email) {
+			Optional<Entreprise> result = enterpriseRepository.findByEmail(email);
+			
+			Entreprise entreprise = null;
+			
+			if (result.isPresent()) {
+				entreprise = result.get();
+			}
+			else {
+				// we didn't find the participant
+			//	throw new RuntimeException("Did not find - " + email);
+			}
+			
+			return entreprise;
+		}
 		
 			
+		@Override
+		public Entreprise findByPhoneNumber(String phoneNumber) {
+			Optional<Entreprise> result = enterpriseRepository.findByPhoneNumber(phoneNumber);
 			
+			Entreprise entreprise = null;
+			
+			if (result.isPresent()) {
+				entreprise = result.get();
+			}
+			else {
+				// we didn't find the entreprise
+				//throw new RuntimeException("Did not find - " + phoneNumber);
+			}
+			
+			return entreprise;
+		}	
 	
 				
 		

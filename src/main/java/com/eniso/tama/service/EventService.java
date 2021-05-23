@@ -9,6 +9,8 @@ public interface EventService {
 	
 	public Event findById(long theId);
 	
+	public Event findBySessionId(long id);
+	
 	public void save(Event event);
 	
 	public void deleteById(long id);
