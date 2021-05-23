@@ -72,4 +72,19 @@ public class EventServiceImpl implements EventService {
 		eventRepository.deleteById(theId);
 	}
 
+
+	@Override
+	public Event updateEvent(Event event) {
+		Event updatedEvent=findById(event.getId());
+		updatedEvent.setSession(event.getSession());
+		updatedEvent.setEnd(event.getSession().getSessionEndDate());
+		updatedEvent.setStart(event.getSession().getSessionBeginDate());
+		updatedEvent.setTitle(event.getSession().getSessionName());
+	
+		save(updatedEvent);
+		return updatedEvent;
+	}
+	
+	
+
 }

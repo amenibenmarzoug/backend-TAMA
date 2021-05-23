@@ -52,16 +52,8 @@ public class ModuleController {
 
 	@GetMapping("/theme/modules")
 	public List<Module> getThemeModules(@RequestParam("id") long id) {
-		List<Module> modulesPerTheme = new ArrayList<Module>();
-		for (Module theM : moduleService.findAll()) {
-			if (theM.getTheme() != null) {
-				if (id == theM.getTheme().getId()) {
-
-					modulesPerTheme.add(theM);
-				}
-			}
-		}
-		return modulesPerTheme;
+		return moduleService.findModulesByThemeId(id);
+		
 	}
 
 	@GetMapping("module/{moduleId}")
@@ -77,24 +69,13 @@ public class ModuleController {
 	}
 	// add mapping for POST /Module - add new Module
 
-	@Transactional 
+	
 	@PostMapping("/module")
 	public Module addModule(@RequestBody Module module) {
-		long id=module.getTheme().getId();
-		List<ThemeInstance> list = themeInstService.findByThemeId(id);
 		
-		Module mod=moduleService.save(module);
+		return moduleService.save(module);
 		
-		for (ThemeInstance themeInstance : list) {
-			ModuleInstance modInst= new ModuleInstance();
-			modInst.setModule(mod);
-			modInst.setModuleInstanceName(mod.getModuleName());
-			modInst.setNbDaysModuleInstance(mod.getNbDaysModule());
-			modInst.setThemeInstance(themeInstance);
-			moduleInstService.save(modInst);
-		}
 		
-		return module;
 	}
 
 	// add mapping for PUT /module - update existing module
@@ -102,20 +83,8 @@ public class ModuleController {
 	@Transactional 
 	@PutMapping("/module")
 	public Module updateModule(@RequestBody Module theModule) {
-		long id = theModule.getId();
-		List<ModuleInstance> list = moduleInstService.findByModuleId(id);
-
-		Module module = moduleService.findById(id);
-		module.setModuleName(theModule.getModuleName());
-		module.setNbDaysModule(theModule.getNbDaysModule());
-		module.setTheme(theModule.getTheme());
-		moduleService.save(module);
-		for (ModuleInstance moduleInstance : list) {
-			moduleInstance.setModuleInstanceName(theModule.getModuleName());
-			moduleInstance.setNbDaysModuleInstance(theModule.getNbDaysModule());
-			moduleInstService.save(moduleInstance);
-		}
-		return module;
+	
+		return moduleService.updateModule(theModule);
 	}
 
 	@DeleteMapping("/module/{moduleId}")

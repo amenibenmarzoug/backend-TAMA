@@ -21,7 +21,6 @@ public class Module {
     private Long id;
 	
 	@NotNull
-	@Column(name = "moduleName")
 	private String moduleName;
 	
 	

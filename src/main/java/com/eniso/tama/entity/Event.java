@@ -25,19 +25,18 @@ public class Event {
 	private Long id;
 
 	//@NotNull
-	@Column(name = "title")
 	private String title;
 
-	@Column(name = "start")
+
 	private Date start;
 
-	@Column(name = "end")
+
 	private Date end;
 	
-	@Column(name = "colorPrimary")
+
 	private String colorPrimary;
 	
-	@Column(name = "colorSecondary")
+
 	private String colorSecondary;
 	
 	@Column(name = "beforeStart",columnDefinition = "boolean default true")
