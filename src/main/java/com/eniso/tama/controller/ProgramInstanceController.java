@@ -1,11 +1,13 @@
 package com.eniso.tama.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.orm.hibernate5.HibernateOperations;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.Module;
@@ -67,8 +70,12 @@ public class ProgramInstanceController {
 	public List<ProgramInstance> findAll() {
 		return programService.findAll();
 	}
-
-	
+	/*
+	@GetMapping("/programsInst/date")
+	public List<ProgramInstance> findByBeginDate(@RequestParam("Date") @DateTimeFormat(pattern = "yyyy-MM-dd")  Date  date) {
+		return programService.findByBeginDate(date);
+	}
+	*/
 
 	@GetMapping("programsInst/{programId}")
 	public ProgramInstance getProgram(@PathVariable long programId) {
@@ -81,6 +88,8 @@ public class ProgramInstanceController {
 
 		return theProgram;
 	}
+	
+	
 	// add mapping for POST /participants - add new control
 
 	

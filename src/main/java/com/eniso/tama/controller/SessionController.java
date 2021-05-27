@@ -1,10 +1,14 @@
 package com.eniso.tama.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -12,6 +16,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.ClassRoom;
 import com.eniso.tama.entity.Event;
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Session;
 import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.payload.MessageResponse;
@@ -68,6 +74,39 @@ public class SessionController {
 		}
 		
 		return session;
+	}
+	
+	/*
+	@GetMapping("/session/date")
+	public List<Session> findBySessionBeginDate(@RequestParam("sessionBeginDate") @DateTimeFormat(pattern = "yyyy-MM-dd")  Date  date) {
+		//@DateTimeFormat(pattern = "yyyy-MM-dd")	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+		
+		return sessionService.findBySessionBeginDate(date);
+	}*/
+	
+	@GetMapping("/session/date")
+	public List<Session> findBySessionBeginDateBetween(@RequestParam("sessionBeginDate") @DateTimeFormat(pattern = "yyyy-MM-dd")  Date  dateInput) {
+		Date dateStart= new Date() ; Date dateEnd=new Date(); 
+		String date ; 
+		date=dateInput.toInstant()
+			      .atZone(ZoneId.systemDefault())
+			      .toLocalDateTime().toLocalDate().toString();
+		System.out.println("date to instant");
+		System.out.println(date); 
+		try {			
+			dateStart=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date+" 00:00:00");
+			dateEnd=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date+" 23:59:00");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return sessionService.findBySessionBeginDateBetween(dateStart, dateEnd);
+	}
+	
+	@GetMapping("/session/byTrainer")
+	public List<Session> findByTrainer(@RequestParam("trainerId") Trainer  trainer) {
+		
+		return sessionService.findByTrainer(trainer); 
 	}
 	
 	@GetMapping("/session/themeDetail")
@@ -128,7 +167,7 @@ public class SessionController {
 				Instant begin=session.getSessionBeginDate().toInstant();
 				Instant end=session.getSessionEndDate().toInstant();
 				Duration duration = Duration.between(end, begin);
-			    long diff = Math.abs(duration.toMinutes());
+			    long diff = Math.abs(duration.toMinutes()); 
 			    sum+=diff;
 			    System.out.println(sum);
 				result.add(session);
@@ -136,6 +175,11 @@ public class SessionController {
 		}
 		return result;
 	}
+	@GetMapping("/session/getProgram/")
+	public ProgramInstance findProgramInstance(@RequestParam("sessionId") long  sessionId) {
+		
+		return sessionService.findProgramInstance(sessionId);
+		}
 	
 	// add mapping for POST /session - add new control
 

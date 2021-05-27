@@ -26,7 +26,7 @@ public class SessionParticipant {
 	@JoinColumn(name = "session_id")
 	Session session;
 
-	boolean absent;
+	private PresenceStates presenceState;
 
 	public Long getId() {
 		return id;
@@ -44,15 +44,26 @@ public class SessionParticipant {
 		this.participant = participant;
 	}
 
-
-
-	public boolean isAbsent() {
-		return absent;
+	public PresenceStates getPresenceState() {
+		return presenceState;
 	}
 
-	public void setAbsent(boolean absent) {
-		this.absent = absent;
+	public void setPresenceState(PresenceStates presenceState) {
+		this.presenceState = presenceState;
 	}
+
+	public Session getSession() {
+		return session;
+	}
+
+	public void setSession(Session session) {
+		this.session = session;
+	}
+	
+
+
+
+	
 	
 	
 	//public SessionParticipant() {}

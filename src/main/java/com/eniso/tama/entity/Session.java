@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,9 +30,11 @@ public class Session {
 	@Column(name = "sessionName")
 	private String sessionName;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "session_begin_date")
 	private Date sessionBeginDate;
-
+ 
+    @Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "session_end_date")
 	private Date sessionEndDate;
 
