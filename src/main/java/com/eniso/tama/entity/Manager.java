@@ -10,13 +10,11 @@ import javax.validation.constraints.NotNull;
 public class Manager extends User{
 	
 	@NotNull
-	@Column(name = "firstNameM")
 	private String firstNameM;
 	
 
 
 	@NotNull
-	@Column(name = "lastNameM")
 	private String lastNameM;
 
 	public String getFirstNameM() {

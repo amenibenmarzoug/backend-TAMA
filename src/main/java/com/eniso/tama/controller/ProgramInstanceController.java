@@ -137,7 +137,7 @@ public class ProgramInstanceController {
 			themeInst.setNbDaysthemeInst(t.getNbDaysTheme());
 			ThemeInstance t1=this.themeInstanceService.save(themeInst);
 			
-			List<Module> listM= this.moduleService.findModuleByThemeId(t.getId());
+			List<Module> listM= this.moduleService.findModulesByThemeId(t.getId());
 			for (Module m :listM) {
 				System.out.println(m.getModuleName());
 				//traitement création moduleInst

@@ -66,6 +66,22 @@ public class ModuleInstanceServiceImpl  implements ModuleInstanceService{
 			}
 			return (list1);
 		}
+
+		@Override
+		public List<ModuleInstance> getThemeModules(long id) {
+			List<ModuleInstance> list= moduleInstanceRepository.findAll();
+			List<ModuleInstance> modulesPerTheme = new ArrayList<ModuleInstance>();
+			for (ModuleInstance theM : list) {
+				if (theM.getThemeInstance() != null) {
+					if (id == theM.getThemeInstance().getId()) {
+
+						modulesPerTheme.add(theM);
+					}
+				}
+			}
+			return modulesPerTheme;
+			
+		}
 		
 	
 }
