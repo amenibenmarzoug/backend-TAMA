@@ -7,28 +7,68 @@ import java.util.Optional;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.orm.hibernate5.HibernateOperations;
 import org.springframework.stereotype.Service;
 
-
+import com.eniso.tama.entity.Module;
+import com.eniso.tama.entity.ModuleInstance;
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Theme;
+import com.eniso.tama.entity.ThemeDetail;
+import com.eniso.tama.entity.ThemeDetailInstance;
+import com.eniso.tama.entity.ThemeInstance;
 import com.eniso.tama.repository.ProgramInstanceRepository;
 
 @Service
 @ComponentScan(basePackageClasses = ProgramInstanceRepository.class)
 public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 
-	private ProgramInstanceRepository programInstanceRepository;
-
-	@Autowired
-	public ProgramInstanceServiceImpl(ProgramInstanceRepository theProgramInstanceRepository) {
-		programInstanceRepository = theProgramInstanceRepository;
-	}
 	
+	@Autowired
+	private ProgramInstanceRepository programInstanceRepository;
+	@Autowired
+	private ThemeService themeService;
+	@Autowired
+	private ModuleService moduleService;
+	@Autowired
+	private ThemeDetailService themeDetailService;
+	@Autowired
+	private ThemeInstanceService themeInstanceService;
+	@Autowired
+	private ModuleInstanceService moduleInstanceService;
+	@Autowired
+	private ThemeDetailInstanceService themeDetailInstanceService;
+	
+	
+	
+	
+	/*public ProgramInstanceServiceImpl(ProgramInstanceRepository theProgramInstanceRepository) {
+		programInstanceRepository = theProgramInstanceRepository;
+	}*/
+	
+	
+	
+	public ProgramInstanceServiceImpl(ProgramInstanceRepository programInstanceRepository, ThemeService themeService,
+			ModuleService moduleService, ThemeDetailService themeDetailService,
+			ThemeInstanceService themeInstanceService, ModuleInstanceService moduleInstanceService,
+			ThemeDetailInstanceService themeDetailInstanceService, EntityManager entityManager) {
+		super();
+		this.programInstanceRepository = programInstanceRepository;
+		this.themeService = themeService;
+		this.moduleService = moduleService;
+		this.themeDetailService = themeDetailService;
+		this.themeInstanceService = themeInstanceService;
+		this.moduleInstanceService = moduleInstanceService;
+		this.themeDetailInstanceService = themeDetailInstanceService;
+		this.entityManager = entityManager;
+	}
+
+
+
 	@PersistenceContext
 	EntityManager entityManager;
 
@@ -107,5 +147,70 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 			
 		}
 		return (list1);
+	}
+
+	@Transactional 
+	@Override
+	public ProgramInstance addClass(ProgramInstance programInst) {
+		ProgramInstance p= save(programInst);
+		long id= programInst.getProgram().getId();
+		List<Theme> listT=this.themeService.findByProgId(id);
+		
+		for (Theme t : listT ) {
+			System.out.println(t.getThemeName());
+			//traitement création ThmeInst
+			ThemeInstance themeInst= new ThemeInstance();
+			themeInst.setProgramInstance(p);
+			themeInst.setTheme(t);
+			themeInst.setThemeInstName(t.getThemeName());
+			themeInst.setNbDaysthemeInst(t.getNbDaysTheme());
+			ThemeInstance t1=this.themeInstanceService.save(themeInst);
+			
+			List<Module> listM= this.moduleService.findModulesByThemeId(t.getId());
+			for (Module m :listM) {
+				System.out.println(m.getModuleName());
+				//traitement création moduleInst
+				ModuleInstance moduleInst= new ModuleInstance();
+				moduleInst.setModule(m);
+				moduleInst.setModuleInstanceName(m.getModuleName());
+				moduleInst.setNbDaysModuleInstance(m.getNbDaysModule());
+				moduleInst.setThemeInstance(t1);
+				ModuleInstance m1=this.moduleInstanceService.save(moduleInst);
+				
+				List<ThemeDetail> listTd= this.themeDetailService.findByModuleId(m.getId());
+				for (ThemeDetail td: listTd) {
+					System.out.println(td.getThemeDetailName());
+					//traitement 
+					ThemeDetailInstance themeDetailinst= new ThemeDetailInstance();
+					themeDetailinst.setModuleInstance(m1);
+					themeDetailinst.setThemeDetail(td);
+					themeDetailinst.setNbDaysthemeDetailInst(td.getNbDaysThemeDetail());
+					themeDetailinst.setThemeDetailInstName(td.getThemeDetailName());
+					this.themeDetailInstanceService.save(themeDetailinst);
+					
+				}
+			}
+			
+		}
+		return(programInst);
+		
+	}
+	
+	@Transactional 
+	@Override
+	public ProgramInstance updateProgramInst(ProgramInstance programInst) {
+		ProgramInstance newProgram = findById(programInst.getId());
+		newProgram.setProgramInstName(programInst.getProgramInstName());
+		newProgram.setNbDaysProgInst(programInst.getNbDaysProgInst());;
+		newProgram.setLocation(programInst.getLocation());
+		newProgram.setProgram(programInst.getProgram());
+		newProgram.setBeginDate(programInst.getBeginDate());
+		newProgram.setEndDate(programInst.getEndDate());
+
+		//programService.save(newProgram);
+		
+		return(update(newProgram));
+
+		
 	}
 }

@@ -1,5 +1,9 @@
 package com.eniso.tama.service;
+import java.util.Date;
+import java.time.LocalDate; 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,6 +118,27 @@ public class ParticipantServiceImpl implements  ParticipantService {
 
 
 			participantRepository.deleteById(theId);
+		}
+
+		@Override
+		public HashMap<Long, Integer> findAges() {
+			HashMap<Long, Integer> map = new HashMap<>();
+			   LocalDate d = LocalDate.now();  
+			int currentYear= d.getYear();
+			System.out.println(currentYear);
+		
+			List<Participant>  liste= findAll();
+			
+			for (Participant p : liste) {
+				Integer age = currentYear - p.getBirthday().getYear();
+				System.out.print(age);
+				Long l= new Long(p.getId());
+				map.put(l, age);
+			}
+			return (map);
+
+			
+			
 		}
 
 //		@Override

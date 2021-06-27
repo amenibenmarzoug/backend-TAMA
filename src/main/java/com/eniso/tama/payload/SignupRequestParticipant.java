@@ -6,6 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;  
 
 public class SignupRequestParticipant {
 	@NotBlank
@@ -51,7 +52,7 @@ public class SignupRequestParticipant {
 	private String password;
 
 	
-	private Date birthday;
+	private LocalDate birthday;
 
 	public String getEmail() {
 		return email;
@@ -144,12 +145,13 @@ public class SignupRequestParticipant {
 		this.gender = gender;
 	}
 
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
+
 
 }

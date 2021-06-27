@@ -1,6 +1,7 @@
 package com.eniso.tama.entity;
 
 import java.util.*;
+import java.time.LocalDate; 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -22,6 +23,7 @@ public class Participant extends User{
 	
 	
 
+
 	@NotNull
 	@Column(name = "firstNameP")
 	private String firstNameP;
@@ -39,11 +41,11 @@ public class Participant extends User{
 		this.gender = gender;
 	}
 
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 
@@ -94,10 +96,23 @@ public class Participant extends User{
 
 	@NotNull
 	@Column(name = "birthday")
-	private Date birthday;
+	private LocalDate birthday;
 
 	@Column(name = "currentPosition")
 	private String currentPosition;
+	
+	
+	@NotNull
+	@Column(name = "experience")
+	private int experience;
+
+	public int getExperience() {
+		return experience;
+	}
+
+	public void setExperience(int experience) {
+		this.experience = experience;
+	}
 
 	@Column(name = "level")
 	private String level;
@@ -163,7 +178,7 @@ public class Participant extends User{
 	
 	public Participant(@NotBlank @Size(max = 50) @Email String email,
 			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,
-			@NotBlank String lastName, @NotBlank String gender , Date birthday) {
+			@NotBlank String lastName, @NotBlank String gender , LocalDate birthday) {
 		//this.setId(super.getId());
 		super.setEmail(email);
 		super.setPassword(password);
@@ -182,7 +197,7 @@ public class Participant extends User{
 
 	public Participant(@NotBlank @Size(max = 50) @Email String email,
 	String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstNameP,
-	@NotBlank String lastNameP, @NotBlank String gender , Date birthday , Entreprise entreprise, ProgramInstance programInstance) {
+	@NotBlank String lastNameP, @NotBlank String gender , LocalDate birthday , Entreprise entreprise, ProgramInstance programInstance) {
 		this.setId(super.getId());
 		super.setEmail(email);
 		super.setPassword(password);
