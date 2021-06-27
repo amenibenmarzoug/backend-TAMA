@@ -82,5 +82,15 @@ public class EventController {
 			
 			return "Deleted Event id - " + eventId;
 		}
+		
+		@PostMapping("/event/freeDay")
+		public  Event addFreeDay(@RequestBody Event event) {
+		
+			
+			//stheControl.setId(0);
+			
+			eventService.addFreeDay(event);
+			return event;
+		}
 
 }
