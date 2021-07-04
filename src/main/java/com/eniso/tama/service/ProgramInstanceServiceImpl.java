@@ -52,13 +52,13 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	
 	
 	
-	public ProgramInstanceServiceImpl(ProgramInstanceRepository programInstanceRepository, ThemeService themeService,
+	public ProgramInstanceServiceImpl(ProgramInstanceRepository programInstanceRepository,
 			ModuleService moduleService, ThemeDetailService themeDetailService,
 			ThemeInstanceService themeInstanceService, ModuleInstanceService moduleInstanceService,
 			ThemeDetailInstanceService themeDetailInstanceService, EntityManager entityManager) {
 		super();
 		this.programInstanceRepository = programInstanceRepository;
-		this.themeService = themeService;
+		//this.themeService = themeService;
 		this.moduleService = moduleService;
 		this.themeDetailService = themeDetailService;
 		this.themeInstanceService = themeInstanceService;

@@ -12,11 +12,12 @@ import com.eniso.tama.repository.InstitutionRepository;
 @Service
 @ComponentScan(basePackageClasses = InstitutionRepository.class )
 public class InstitutionServiceImpl implements InstitutionService {
+	@Autowired
     private InstitutionRepository institutionRepository;
     
-    public InstitutionServiceImpl() {}
+   // public InstitutionServiceImpl() {}
     
-    @Autowired
+    
 	public InstitutionServiceImpl(InstitutionRepository institutionRepository) {
 		super();
 		this.institutionRepository = institutionRepository;

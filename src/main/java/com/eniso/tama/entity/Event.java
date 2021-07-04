@@ -45,7 +45,7 @@ public class Event {
 	@Column(name = "afterEnd",columnDefinition = "boolean default true")
 	private boolean resizeafterEnd;
 	
-	@Column(name = "draggable",columnDefinition = "boolean default true")
+	@Column(name = "draggable")
 	private boolean draggable;
 	
 	
