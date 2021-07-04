@@ -17,5 +17,7 @@ public interface ProgramInstanceService {
 	public ProgramInstance update(ProgramInstance theProgramInstance);
 	public void  delete(ProgramInstance theProgramInstance);
 	public void deleteById(long theId);
+	public ProgramInstance addClass(ProgramInstance programInst);
+	public ProgramInstance updateProgramInst (ProgramInstance programInst);
 
 }

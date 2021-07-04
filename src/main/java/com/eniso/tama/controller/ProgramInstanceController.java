@@ -39,33 +39,20 @@ import com.eniso.tama.service.ThemeService;
 
 public class ProgramInstanceController {
 
-	private ProgramInstanceService programService;
-	private ThemeService themeService;
-	private ModuleService moduleService;
-	private ThemeDetailService themeDetailService;
-	private ThemeInstanceService themeInstanceService;
-	private ModuleInstanceService moduleInstanceService;
-	private ThemeDetailInstanceService themeDetailInstanceService;
 	@Autowired
-	/*public ProgramInstanceController(ProgramInstanceService programService) {
+	private ProgramInstanceService programInstService;
+	
+
+	public ProgramInstanceController(ProgramInstanceService programService) {
 		super();
-		this.programService = programService;
-	}*/
-	public ProgramInstanceController(ProgramInstanceService programService, ThemeService themeService,ModuleService moduleService,ThemeDetailService themeDetailService,ThemeInstanceService themeInstanceService,ModuleInstanceService moduleInstanceService,ThemeDetailInstanceService themeDetailInstanceService) {
-		super();
-		this.programService = programService;
-		this.themeService = themeService;
-		this.moduleService=moduleService;
-		this.themeDetailService=themeDetailService;
-		this.themeInstanceService=themeInstanceService;
-		this.moduleInstanceService=moduleInstanceService;
-		this.themeDetailInstanceService=themeDetailInstanceService;
+		this.programInstService = programService;
 	}
+	
 	
 
 	@GetMapping("/programsInst")
 	public List<ProgramInstance> findAll() {
-		return programService.findAll();
+		return programInstService.findAll();
 	}
 
 	
@@ -73,7 +60,7 @@ public class ProgramInstanceController {
 	@GetMapping("programsInst/{programId}")
 	public ProgramInstance getProgram(@PathVariable long programId) {
 
-		ProgramInstance theProgram = programService.findById(programId);
+		ProgramInstance theProgram = programInstService.findById(programId);
 
 		if (theProgram == null) {
 			throw new RuntimeException("programId not found - " + programId);
@@ -93,7 +80,7 @@ public class ProgramInstanceController {
 
 		// stheControl.setId(0);
 
-		ProgramInstance p=programService.save(theProgram);
+		ProgramInstance p=programInstService.save(theProgram);
 		//System.out.print();
 		
 		return theProgram;
@@ -101,10 +88,7 @@ public class ProgramInstanceController {
 	
 	
 	
-	
-	
-	
-	@Transactional 
+
 	@PostMapping("/programsInst2")
 	public ProgramInstance addClass(@RequestBody ProgramInstance theProgram) {
 
@@ -113,53 +97,10 @@ public class ProgramInstanceController {
 
 		// stheControl.setId(0);
 
-		ProgramInstance p=programService.save(theProgram);
-		//System.out.print();
-		long id= theProgram.getProgram().getId();
-		List<Theme> listT=this.themeService.findByProgId(id);
-		
-		for (Theme t : listT ) {
-			System.out.println(t.getThemeName());
-			//traitement création ThmeInst
-			ThemeInstance themeInst= new ThemeInstance();
-			themeInst.setProgramInstance(p);
-			themeInst.setTheme(t);
-			themeInst.setThemeInstName(t.getThemeName());
-			themeInst.setNbDaysthemeInst(t.getNbDaysTheme());
-			ThemeInstance t1=this.themeInstanceService.save(themeInst);
-			
-			List<Module> listM= this.moduleService.findModulesByThemeId(t.getId());
-			for (Module m :listM) {
-				System.out.println(m.getModuleName());
-				//traitement création moduleInst
-				ModuleInstance moduleInst= new ModuleInstance();
-				moduleInst.setModule(m);
-				moduleInst.setModuleInstanceName(m.getModuleName());
-				moduleInst.setNbDaysModuleInstance(m.getNbDaysModule());
-				moduleInst.setThemeInstance(t1);
-				ModuleInstance m1=this.moduleInstanceService.save(moduleInst);
-				
-				List<ThemeDetail> listTd= this.themeDetailService.findByModuleId(m.getId());
-				for (ThemeDetail td: listTd) {
-					System.out.println(td.getThemeDetailName());
-					//traitement 
-					ThemeDetailInstance themeDetailinst= new ThemeDetailInstance();
-					themeDetailinst.setModuleInstance(m1);
-					themeDetailinst.setThemeDetail(td);
-					themeDetailinst.setNbDaysthemeDetailInst(td.getNbDaysThemeDetail());
-					themeDetailinst.setThemeDetailInstName(td.getThemeDetailName());
-					this.themeDetailInstanceService.save(themeDetailinst);
-					
-				}
-			}
-			
-		}
+		return(programInstService.addClass(theProgram));
 		
 		
-		return theProgram;
 	}
-	
-	
 	
 	
 	
@@ -167,24 +108,13 @@ public class ProgramInstanceController {
 
 	// add mapping for PUT /employees - update existing employee
 
-	@Transactional 
+
 	@PutMapping("/programsInst")
-
-	public ProgramInstance updateProgram(@RequestBody ProgramInstance theProgram) {
-
-		ProgramInstance newProgram = programService.findById(theProgram.getId());
-		newProgram.setProgramInstName(theProgram.getProgramInstName());
-		newProgram.setNbDaysProgInst(theProgram.getNbDaysProgInst());;
-		newProgram.setLocation(theProgram.getLocation());
-		newProgram.setProgram(theProgram.getProgram());
-		newProgram.setBeginDate(theProgram.getBeginDate());
-		newProgram.setEndDate(theProgram.getEndDate());
-
-		//programService.save(newProgram);
+    public ProgramInstance updateProgram(@RequestBody ProgramInstance theProgram) {
 		
-		programService.update(newProgram);
-
-		return theProgram;
+		return(programInstService.updateProgramInst(theProgram));
+		
+		
 	}
 
 	
@@ -192,7 +122,7 @@ public class ProgramInstanceController {
 	@DeleteMapping("programsInst/{programId}")
 	public String deleteProgram(@PathVariable int programId) {
 
-		ProgramInstance Program = programService.findById(programId);
+		ProgramInstance Program = programInstService.findById(programId);
 
 		// throw exception if null
 
@@ -202,7 +132,7 @@ public class ProgramInstanceController {
 
 		//programService.deleteById(programId);
 		
-		programService.delete(Program);
+		programInstService.delete(Program);
 
 		return "Deleted programId- " + programId;
 		

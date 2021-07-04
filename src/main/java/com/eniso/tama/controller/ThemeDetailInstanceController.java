@@ -26,8 +26,9 @@ import com.eniso.tama.service.ThemeDetailInstanceService;
 @RequestMapping(value = "/api")
 public class ThemeDetailInstanceController {
 	
-	private ThemeDetailInstanceService themeDetailInstanceService;
 	@Autowired
+	private ThemeDetailInstanceService themeDetailInstanceService;
+	
 	public ThemeDetailInstanceController(ThemeDetailInstanceService themeDetailInstanceService) {
 		super();
 		this.themeDetailInstanceService = themeDetailInstanceService;
@@ -39,16 +40,8 @@ public class ThemeDetailInstanceController {
 	
 	@GetMapping("/moduleInst/themesDetailsInst")
 	public List<ThemeDetailInstance> getModuleThemeDetails(@RequestParam("id") long id) {
-		List<ThemeDetailInstance> themeDetailsPerModule = new ArrayList<ThemeDetailInstance>();
-		for (ThemeDetailInstance theTD : themeDetailInstanceService.findAll()) {
-		if(theTD.getModuleInstance()!=null) {
-			if (id == theTD.getModuleInstance().getId()) {
-
-				themeDetailsPerModule.add(theTD);			
-			}
-		}
-		}
-		return themeDetailsPerModule;
+		return(themeDetailInstanceService.getModuleThemeDetails(id));
+		
 	}
 	@GetMapping("themeDetailInst/{themeDetailInstId}")
 	public ThemeDetailInstance getThemeDetailInst(@PathVariable int  themeDetailInstId) {
