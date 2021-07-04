@@ -118,6 +118,22 @@ public class ProgramInstanceController {
 	}
 
 	
+	@PutMapping("/programsInst/confirm")
+    public ProgramInstance confirm(@RequestBody ProgramInstance theProgram) {
+		
+		return(programInstService.confirm(theProgram));
+		
+		
+	}
+	
+	@PutMapping("/programsInst/cancel")
+    public ProgramInstance cancel(@RequestBody ProgramInstance theProgram) {
+		
+		return(programInstService.cancel(theProgram));
+		
+		
+	}
+	
 	@Transactional 
 	@DeleteMapping("programsInst/{programId}")
 	public String deleteProgram(@PathVariable int programId) {

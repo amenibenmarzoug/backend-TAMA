@@ -90,7 +90,7 @@ public class EventServiceImpl implements EventService {
 	public Event addFreeDay(Event event) {
 		System.out.println(event.getTitle());
 		System.out.println(event.getStart());
-		event.setDraggable(true);
+		event.setFreeDay(true);
 		event.setColorPrimary("#FF0000");
 		event.setColorSecondary("FF0000");
 		save(event);
