@@ -35,11 +35,7 @@ public class ModuleController {
 	@Autowired
 	private ModuleService moduleService;
 
-	@Autowired
-	private ModuleInstanceService moduleInstService;
 	
-	@Autowired
-	private ThemeInstanceService themeInstService;
 	
 	public ModuleController(ModuleService moduleService) {
 		this.moduleService = moduleService;

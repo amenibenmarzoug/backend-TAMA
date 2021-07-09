@@ -32,40 +32,31 @@ import com.eniso.tama.service.ClassRoomService;
 @ComponentScan(basePackageClasses = ClassRoomService.class )
 @RequestMapping(value="/api")
 public class ClassRoomController {
-	@Autowired
-	InstitutionRepository institutionRepository;
 	
+	
+	@Autowired
 	private ClassRoomService classRoomService;
 	
-	@Autowired
+
 	public ClassRoomController(ClassRoomService classRoomService) {
 		this.classRoomService = classRoomService;
 	} 
 	
 	
 	
-
-
 	@GetMapping("/classroom")
 	public List<ClassRoom> findAll() {
 		return classRoomService.findAll();
 	}
+	
+	
 	@GetMapping("/classroom/institution")
 	public List<ClassRoom> getClassroomsInstitution(@RequestParam("id") long id) {
-		List<ClassRoom> classroomsPerInstitution = new ArrayList<ClassRoom>();
-		for (ClassRoom theC : classRoomService.findAll()) {
-		if(theC.getInstitution()!=null) {
-			if (id == theC.getInstitution().getId()) {
-
-				classroomsPerInstitution.add(theC);
-				
-			}
-		}
-
-		}
-
-		return classroomsPerInstitution;
+		
+		return (classRoomService.getClassroomsInstitution(id));
+		
 	}
+	
 	
 	@GetMapping("classroom/{classroomId}")
 	public ClassRoom getClassRoom(@PathVariable long  classroomId) {
@@ -92,25 +83,13 @@ public class ClassRoomController {
 		classRoomService.save(classRoom);
 		return classRoom;
 	}
+	
+	
 	@PostMapping("/classroomInstitution")
 	public ResponseEntity<?> addClassRoomByInstitution(@Valid @RequestBody ClassRoom classRoom,@RequestParam("id") long id ) {
 	
+		return(classRoomService.addClassRoomByInstitution(classRoom,id));
 		
-		Institution institution = new Institution();
-		for (Institution i : institutionRepository.findAll()) {
-			if (id == i.getId()) {
-				institution = i;
-			}
-		}
-		
-		ClassRoom c = new ClassRoom();
-		c.setClassRoomName(classRoom.getClassRoomName());
-		c.setCapacity(classRoom.getCapacity());
-		c.setInstitution(institution);
-		
-		classRoomService.save(c);
-		return ResponseEntity.ok(new MessageResponse("Class added successfully!"));
-
 		
 	}
 	
@@ -120,13 +99,9 @@ public class ClassRoomController {
 	
 		@PutMapping("/classroomInstitution")
 		public ClassRoom updateClassRoomInstit(@RequestBody ClassRoom classRoom) {
-			ClassRoom newClassroom = classRoomService.findById(classRoom.getId());
-			newClassroom.setClassRoomName(classRoom.getClassRoomName());
-			newClassroom.setCapacity(classRoom.getCapacity());
-			newClassroom.setInstitution(classRoom.getInstitution());
-			classRoomService.save(newClassroom);
+			return (classRoomService.updateClassRoomInstit(classRoom));
 			
-			return classRoom;
+			
 		}
 		
 		@DeleteMapping("/classroom/{classroomId}")

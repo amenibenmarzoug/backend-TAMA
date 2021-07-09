@@ -12,5 +12,7 @@ public interface ProgramService {
 	public void save(Program theProgram);
 
 	public void deleteById(long theId);
+	
+	public Program updateProgram (Program theProgram);
 
 }

@@ -18,14 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eniso.tama.entity.Module;
 import com.eniso.tama.entity.ModuleInstance;
-import com.eniso.tama.entity.Program;
-import com.eniso.tama.entity.ProgramInstance;
-import com.eniso.tama.entity.Theme;
 import com.eniso.tama.entity.ThemeDetail;
 import com.eniso.tama.entity.ThemeDetailInstance;
-import com.eniso.tama.entity.ThemeInstance;
 import com.eniso.tama.service.ModuleInstanceService;
 import com.eniso.tama.service.ThemeDetailInstanceService;
 import com.eniso.tama.service.ThemeDetailService;
@@ -36,14 +31,12 @@ import com.eniso.tama.service.ThemeDetailService;
 @RequestMapping(value="/api")
 public class ThemeDetailController {
 	
-	@Autowired
-	private ThemeDetailInstanceService themeDetailInstService;
+	
 	
 	@Autowired
 	private ThemeDetailService themeDetailService;
 	
-	@Autowired
-	private ModuleInstanceService moduleInstanceService;
+	
 	
 	public ThemeDetailController(ThemeDetailService themeDetailService) {
 		super();
@@ -80,47 +73,22 @@ public class ThemeDetailController {
 		return theThemeDetail;
 	}
 	
-	@Transactional
+	
 	@PostMapping("/themeDetail")
 	public  ThemeDetail addThemeDetail(@RequestBody ThemeDetail theThemeDetail) {
-		long id=theThemeDetail.getModule().getId();
-		List<ModuleInstance> list = moduleInstanceService.findByModuleId(id);
 		
-		ThemeDetail t = new ThemeDetail();
-		t.setThemeDetailName(theThemeDetail.getThemeDetailName());
-		t.setNbDaysThemeDetail(theThemeDetail.getNbDaysThemeDetail());
-		t.setModule(theThemeDetail.getModule());
+		return(themeDetailService.addThemeDetail(theThemeDetail));
 		
-		ThemeDetail them=themeDetailService.save(t);
-		for (ModuleInstance modInstance : list) {
-			ThemeDetailInstance themeInst= new ThemeDetailInstance();
-			themeInst.setThemeDetail(them);
-			themeInst.setModuleInstance(modInstance);
-			themeInst.setThemeDetailInstName(theThemeDetail.getThemeDetailName());
-			themeInst.setNbDaysthemeDetailInst(theThemeDetail.getNbDaysThemeDetail());
-			themeDetailInstService.save(themeInst);
-		}
-		return theThemeDetail;
+		
 	}
 	
-	@Transactional
+	
 	@PutMapping("/themeDetail")
 	public ThemeDetail updateThemeDetail (@RequestBody ThemeDetail theThemeDetail) {
-		long id=theThemeDetail.getId();
-		List<ThemeDetailInstance> list= themeDetailInstService.findByThemeDetId(id);
-
-		ThemeDetail newTheme = themeDetailService.findById(id);
-		newTheme.setNbDaysThemeDetail(theThemeDetail.getNbDaysThemeDetail());
-		newTheme.setThemeDetailName(theThemeDetail.getThemeDetailName());
 		
-		for (ThemeDetailInstance themeInstance : list) {
-			themeInstance.setThemeDetailInstName(theThemeDetail.getThemeDetailName());
-			themeInstance.setNbDaysthemeDetailInst(theThemeDetail.getNbDaysThemeDetail());
-			themeDetailInstService.save(themeInstance);
-		}
-		themeDetailService.save(theThemeDetail);
+		return(themeDetailService.updateThemeDetail(theThemeDetail));
 		
-		return theThemeDetail;
+		
 	}
 	
 	@DeleteMapping("/themeDetail/{themeDetailId}")
