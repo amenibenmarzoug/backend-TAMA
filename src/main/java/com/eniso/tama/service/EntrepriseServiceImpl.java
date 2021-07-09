@@ -1,98 +1,221 @@
 package com.eniso.tama.service;
+
+import java.io.IOException;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
+import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.repository.EnterpriseRepository;
 
-
 @Service
-@ComponentScan(basePackageClasses = EnterpriseRepository.class )
+@ComponentScan(basePackageClasses = EnterpriseRepository.class)
 
-public class EntrepriseServiceImpl implements  EntrepriseService {
+public class EntrepriseServiceImpl implements EntrepriseService {
 
+	@Autowired
+	private EnterpriseRepository enterpriseRepository;
 
+	public EntrepriseServiceImpl(EnterpriseRepository theEnterpriseRepository) {
+		enterpriseRepository = theEnterpriseRepository;
+	}
 
-		private EnterpriseRepository enterpriseRepository;
+	@Override
+	public List<Entreprise> findAll() {
+		return enterpriseRepository.findAll();
+	}
 
-		
-		@Autowired
-		public EntrepriseServiceImpl(EnterpriseRepository theEnterpriseRepository) {
-			enterpriseRepository = theEnterpriseRepository;
-		}
-		
-		@Override
-		public List<Entreprise> findAll() {
-			return enterpriseRepository.findAll();
-		}
+	@Override
+	public Entreprise findById(long theId) {
+		Optional<Entreprise> result = enterpriseRepository.findById(theId);
 
-		@Override
-		public Entreprise findById(long theId) {
-			Optional<Entreprise> result = enterpriseRepository.findById(theId);
-			
-			Entreprise theControl = null;
-			
-			if (result.isPresent()) {
-				theControl = result.get();
-			}
-			else {
-				// we didn't find the participant
-				throw new RuntimeException("Did not find participant id - " + theId);
-			}
-			
-			return theControl;
-		}
-		@Override
-		public Entreprise findByEmail(String email) {
-			Optional<Entreprise> result = enterpriseRepository.findByEmail(email);
-			
-			Entreprise entreprise = null;
-			
-			if (result.isPresent()) {
-				entreprise = result.get();
-			}
-			else {
-				// we didn't find the participant
-			//	throw new RuntimeException("Did not find - " + email);
-			}
-			
-			return entreprise;
-		}
-		
-			
-		@Override
-		public Entreprise findByPhoneNumber(String phoneNumber) {
-			Optional<Entreprise> result = enterpriseRepository.findByPhoneNumber(phoneNumber);
-			
-			Entreprise entreprise = null;
-			
-			if (result.isPresent()) {
-				entreprise = result.get();
-			}
-			else {
-				// we didn't find the entreprise
-				//throw new RuntimeException("Did not find - " + phoneNumber);
-			}
-			
-			return entreprise;
-		}	
-	
-				
-		
-		@Override
-		public void save(Entreprise theControl) {
-			enterpriseRepository.save(theControl);
+		Entreprise theControl = null;
+
+		if (result.isPresent()) {
+			theControl = result.get();
+		} else {
+			// we didn't find the participant
+			throw new RuntimeException("Did not find participant id - " + theId);
 		}
 
-	
-		@Override
+		return theControl;
+	}
 
-		public void deleteById(long    theId) {
+	@Override
+	public Entreprise findByEmail(String email) {
+		Optional<Entreprise> result = enterpriseRepository.findByEmail(email);
 
-			enterpriseRepository.deleteById(theId);
+		Entreprise entreprise = null;
+
+		if (result.isPresent()) {
+			entreprise = result.get();
+		} else {
+			// we didn't find the participant
+			// throw new RuntimeException("Did not find - " + email);
 		}
+
+		return entreprise;
+	}
+
+	@Override
+	public Entreprise findByPhoneNumber(String phoneNumber) {
+		Optional<Entreprise> result = enterpriseRepository.findByPhoneNumber(phoneNumber);
+
+		Entreprise entreprise = null;
+
+		if (result.isPresent()) {
+			entreprise = result.get();
+		} else {
+			// we didn't find the entreprise
+			// throw new RuntimeException("Did not find - " + phoneNumber);
+		}
+
+		return entreprise;
+	}
+
+	@Override
+	public void save(Entreprise theControl) {
+		enterpriseRepository.save(theControl);
+	}
+
+	@Override
+
+	public void deleteById(long theId) {
+
+		enterpriseRepository.deleteById(theId);
+	}
+
+	public Entreprise getParticipant(@PathVariable long entrepriseId) {
+
+		Entreprise theEntreprise = findById(entrepriseId);
+
+		if (theEntreprise == null) {
+			throw new RuntimeException("Entreprise id not found - " + entrepriseId);
+		}
+
+		return theEntreprise;
+	}
+
+	public ResponseEntity<?> updateEntreprise(@RequestBody Entreprise theEntreprise) {
+		Entreprise newEntreprise = findById(theEntreprise.getId());
+		Entreprise verifEmailEntreprise = findByEmail(theEntreprise.getEmail());
+		System.out.println(verifEmailEntreprise);
+		Entreprise verifPhoneNumberEntreprise = findByPhoneNumber(theEntreprise.getPhoneNumber());
+
+		if (((verifEmailEntreprise != null) && (verifEmailEntreprise.getId() == theEntreprise.getId()))
+				|| (verifEmailEntreprise == null)) {
+			if (((verifPhoneNumberEntreprise != null) && (verifPhoneNumberEntreprise.getId() == theEntreprise.getId()))
+					|| (verifPhoneNumberEntreprise == null)) {
+				newEntreprise.setEnterpriseName(theEntreprise.getEnterpriseName());
+				newEntreprise.setEmail(theEntreprise.getEmail());
+				newEntreprise.setWebsite(theEntreprise.getWebsite());
+				newEntreprise.setCity(theEntreprise.getCity());
+				newEntreprise.setStreet(theEntreprise.getStreet());
+				newEntreprise.setPhoneNumber(theEntreprise.getPhoneNumber());
+				newEntreprise.setPostalCode(theEntreprise.getPostalCode());
+				newEntreprise.setProgramInstance(theEntreprise.getProgramInstance());
+				newEntreprise.setManagerFirstName(theEntreprise.getManagerFirstName());
+				newEntreprise.setManagerLastName(theEntreprise.getManagerLastName());
+				save(newEntreprise);
+				return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
+			} else {
+				return ResponseEntity.badRequest().body(new MessageResponse(
+						"Erreur: Veuillez donner un numéro de téléphone valide. Ce numéro existe déjà"));
+			}
+		} else {
+			return ResponseEntity.badRequest()
+					.body(new MessageResponse("Erreur: Veuillez donner un email valide. Cet email existe déjà"));
+		}
+
+	}
+
+	public List<Entreprise> getNonValid() {
+
+		List<Entreprise> Entreprises = new ArrayList<Entreprise>();
+
+		for (Entreprise e : findAll()) {
+
+			// System.out.println(theP.getEntreprise()) ;
+			if (!e.isValidated()) {
+
+				Entreprises.add(e);
+
+			}
+
+//					if (theParticipant1 == null) {
+//						throw new RuntimeException("oops");
+//					}
+
+		}
+		return Entreprises;
+
+	}
+
+	public void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException {
+
+		Entreprise t = findById(id);
+		System.out.println(t.getEnterpriseName());
+		System.out.println(t.isValidated());
+		t.setValidated(true);
+		System.out.println(t.isValidated());
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("noreplybaeldung@gmail.com", "0000*admin");
+			}
+		});
+		Message msg = new MimeMessage(session);
+		msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
+
+		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(t.getEmail()));
+		msg.setSubject("TAMA-Account Activation");
+		msg.setContent("Your account is successfully activated, you can log in using your settings:<br>" + "Login:"
+				+ t.getEmail() + "<br>" + "Password:" + t.getPhoneNumber() + "", "text/html");
+		msg.setSentDate(new Date(0));
+
+		MimeBodyPart messageBodyPart = new MimeBodyPart();
+		messageBodyPart.setContent("Your account is successfully activated, you can log in using your settings:<br>"
+				+ "Login:" + t.getEmail() + "<br>" + "Password:" + t.getPhoneNumber() + "", "text/html");
+
+		Multipart multipart = new MimeMultipart();
+		multipart.addBodyPart(messageBodyPart);
+		// MimeBodyPart attachPart = new MimeBodyPart();
+
+		// attachPart.attachFile("/var/tmp/image19.png");
+		// multipart.addBodyPart(attachPart);
+		msg.setContent(multipart);
+		t.setValidated(true);
+		save(t);
+		System.out.println(t.isValidated());
+		Transport.send(msg);
+	}
 }
