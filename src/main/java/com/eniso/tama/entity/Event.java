@@ -45,8 +45,8 @@ public class Event {
 	@Column(name = "afterEnd",columnDefinition = "boolean default true")
 	private boolean resizeafterEnd;
 	
-	@Column(name = "draggable")
-	private boolean draggable;
+	
+	private boolean freeDay;
 	
 	
 
@@ -106,9 +106,7 @@ public class Event {
 	}
 
 
-	public boolean isDraggable() {
-		return draggable;
-	}
+	
 
 
 
@@ -155,9 +153,17 @@ public class Event {
 	}
 
 
-	public void setDraggable(boolean draggable) {
-		this.draggable = draggable;
+	public boolean isFreeDay() {
+		return freeDay;
 	}
+
+
+	public void setFreeDay(boolean freeDay) {
+		this.freeDay = freeDay;
+	}
+
+
+	
 
 
 }

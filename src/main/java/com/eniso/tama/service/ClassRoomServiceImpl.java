@@ -1,25 +1,36 @@
 package com.eniso.tama.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.ClassRoom;
+import com.eniso.tama.entity.Institution;
 import com.eniso.tama.entity.Participant;
+import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.repository.ClassRoomRepository;
+import com.eniso.tama.repository.InstitutionRepository;
 
 
 @Service
 @ComponentScan(basePackageClasses = ClassRoomRepository.class )
 public class ClassRoomServiceImpl  implements ClassRoomService{
-private ClassRoomRepository classRoomRepository;
+	
+	@Autowired
+    private ClassRoomRepository classRoomRepository;
+	
+	
+	@Autowired
+	private InstitutionRepository institutionRepository;
 	
 	public ClassRoomServiceImpl() {}
 
-	@Autowired
+	
 	public ClassRoomServiceImpl(ClassRoomRepository classRoomRepository) {
 		this.classRoomRepository = classRoomRepository;
 	}
@@ -58,6 +69,7 @@ private ClassRoomRepository classRoomRepository;
 
 	@Override
 	public List<ClassRoom> findByInstitution(ClassRoom theClassroom) {
+		
 		List<ClassRoom> classroom= null ;
 		
 		
@@ -73,5 +85,54 @@ private ClassRoomRepository classRoomRepository;
            	
 	}
 		return classroom;
+	}
+
+
+	@Override
+	public List<ClassRoom> getClassroomsInstitution(long id) {
+		List<ClassRoom> classroomsPerInstitution = new ArrayList<ClassRoom>();
+		for (ClassRoom theC : this.findAll()) {
+		if(theC.getInstitution()!=null) {
+			if (id == theC.getInstitution().getId()) {
+
+				classroomsPerInstitution.add(theC);
+				
+			}
+		}
+
+		}
+
+		return classroomsPerInstitution;
+	}
+
+
+	@Override
+	public ResponseEntity<?> addClassRoomByInstitution(ClassRoom classRoom, long id) {
+		Institution institution = new Institution();
+		for (Institution i : institutionRepository.findAll()) {
+			if (id == i.getId()) {
+				institution = i;
+			}
+		}
+		
+		ClassRoom c = new ClassRoom();
+		c.setClassRoomName(classRoom.getClassRoomName());
+		c.setCapacity(classRoom.getCapacity());
+		c.setInstitution(institution);
+		
+		save(c);
+		return ResponseEntity.ok(new MessageResponse("Class added successfully!"));
+	}
+
+
+	@Override
+	public ClassRoom updateClassRoomInstit (ClassRoom classRoom) {
+		ClassRoom newClassroom = findById(classRoom.getId());
+		newClassroom.setClassRoomName(classRoom.getClassRoomName());
+		newClassroom.setCapacity(classRoom.getCapacity());
+		newClassroom.setInstitution(classRoom.getInstitution());
+	     save(newClassroom);
+		
+		return classRoom;
 	}
 }
