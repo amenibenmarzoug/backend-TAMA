@@ -131,6 +131,7 @@ public class ClassRoomServiceImpl  implements ClassRoomService{
 		newClassroom.setClassRoomName(classRoom.getClassRoomName());
 		newClassroom.setCapacity(classRoom.getCapacity());
 		newClassroom.setInstitution(classRoom.getInstitution());
+		newClassroom.setFees(classRoom.getFees());
 	     save(newClassroom);
 		
 		return classRoom;
