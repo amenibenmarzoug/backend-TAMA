@@ -23,14 +23,14 @@ public class ClassRoom {
 	
 	
 	@NotNull
-	@Column(name = "classRoomName")
+	@Column
 	private String classRoomName;
 	
 //	
 //	@Column(name="disponibility")
 //	private boolean disponibility;
 	
-	@Column(name="capacity")
+	@Column
 	private int capacity;
 	
 //	@OneToMany(mappedBy="classroom" ,cascade = {CascadeType.ALL})

@@ -23,11 +23,11 @@ public class Participant extends User{
 	
 
 	@NotNull
-	@Column(name = "firstNameP")
+	@Column
 	private String firstNameP;
 
 	@NotNull
-	@Column(name = "lastNameP")
+	@Column
 	private String lastNameP;
 	
 	

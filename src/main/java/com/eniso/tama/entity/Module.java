@@ -21,12 +21,12 @@ public class Module {
     private Long id;
 	
 	@NotNull
-	@Column(name = "moduleName")
+	@Column
 	private String moduleName;
 	
 	
 	@NotNull
-	@Column(name="moduleDays")
+	@Column
 	private int nbDaysModule;
 	
 	@ManyToOne

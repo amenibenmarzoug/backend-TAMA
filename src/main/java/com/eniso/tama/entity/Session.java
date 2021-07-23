@@ -25,7 +25,7 @@ public class Session {
 	private Long id;
 
 	@NotNull
-	@Column(name = "sessionName")
+	@Column
 	private String sessionName;
 
 	@Column(name = "session_begin_date")

@@ -23,10 +23,10 @@ public class EntrepriseDisponibility {
 	Long id;
 	
 	
-	@Column(name = "day")
+	@Column
 	private String day;
 
-	@Column(name = "time")
+	@Column
 	private String time ;
   
 	@ManyToOne(cascade=CascadeType.MERGE)

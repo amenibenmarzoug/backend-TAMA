@@ -19,20 +19,20 @@ public class Entreprise extends User{
 	
 
 	//@NotNull
-	@Column(name = "enterpriseName")
+	@Column
 	private String enterpriseName;
 	
-	@Column(name = "managerFirstName")
+	@Column
 	private String managerFirstName;
 	
-	@Column(name = "managerLastName")
+	@Column
 	private String managerLastName;
 	
 	
 	@Column
 	private String managerPosition;
 	
-	@Column(name = "website")
+	@Column
 	private String website;
 	
 	@Column

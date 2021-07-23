@@ -19,11 +19,11 @@ public class Equipments {
     private Long id;
 	
 	//@NotNull
-	@Column(name = "equipmentName")
+	@Column
 	private String equipmentName;
 	
 	
-	@Column(name = "quantity")
+	@Column
 	private int quantity;
 	
 	public ClassRoom getClassroom() {

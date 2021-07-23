@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 public class Institution extends User{
 	
 	@NotNull
-	@Column(name = "institutionName")
+	@Column
 	private String institutionName;
 	
 	

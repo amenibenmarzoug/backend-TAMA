@@ -22,12 +22,12 @@ public class ThemeInstance {
     private Long id;
 	
 	@NotNull
-	@Column(name = "themeInstName")
+	@Column
 	private String themeInstName;
 	
 	
 	@NotNull
-	@Column(name="themeInstDays")
+	@Column
 	private int nbDaysthemeInst;
 	
 	public String getThemeInstName() {

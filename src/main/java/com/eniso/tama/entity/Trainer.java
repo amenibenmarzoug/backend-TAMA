@@ -17,15 +17,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Trainer extends User {
 	
 	@NotNull
-	@Column(name = "firstName")
+	@Column
 	private String firstName;
 	
 	@NotNull
-	@Column(name = "lastName")
+	@Column
 	private String lastName;
 	
 	@NotNull
-	@Column(name = "gender")
+	@Column
 	private String gender;
 	
 	public String getGender() {

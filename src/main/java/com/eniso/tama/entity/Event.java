@@ -25,19 +25,19 @@ public class Event {
 	private Long id;
 
 	//@NotNull
-	@Column(name = "title")
+	@Column
 	private String title;
 
-	@Column(name = "start")
+	@Column
 	private Date start;
 
-	@Column(name = "end")
+	@Column
 	private Date end;
 	
-	@Column(name = "colorPrimary")
+	@Column
 	private String colorPrimary;
 	
-	@Column(name = "colorSecondary")
+	@Column
 	private String colorSecondary;
 	
 	@Column(name = "beforeStart",columnDefinition = "boolean default true")
@@ -46,7 +46,7 @@ public class Event {
 	@Column(name = "afterEnd",columnDefinition = "boolean default true")
 	private boolean resizeafterEnd;
 	
-	@Column(name = "draggable",columnDefinition = "boolean default true")
+	@Column(columnDefinition = "boolean default true")
 	private boolean draggable;
 	
 	

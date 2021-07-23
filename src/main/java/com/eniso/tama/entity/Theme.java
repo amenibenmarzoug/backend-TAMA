@@ -20,7 +20,7 @@ public class Theme {
     private Long id;
 	
 	@NotNull
-	@Column(name = "themeName")
+	@Column
 	private String themeName;
 	
 	

@@ -17,7 +17,7 @@ public class Program {
     private Long id;
 	
 	@NotNull
-	@Column(name = "programName")
+	@Column
 	private String programName;
 	
 	@NotNull

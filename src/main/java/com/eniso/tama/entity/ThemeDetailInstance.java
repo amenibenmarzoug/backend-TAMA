@@ -29,10 +29,10 @@ public class ThemeDetailInstance {
 	/*@Column(name = "themeDetailInst_begin_date")
 	private Date themeDetailInstBeginDate;*/
 	
-	@Column(name = "themeDetailInstName")
+	@Column
 	private String themeDetailInstName;
 	
-	@Column(name = "nbDaysthemeDetailInst")
+	@Column
 	private int nbDaysthemeDetailInst;
 	
 	

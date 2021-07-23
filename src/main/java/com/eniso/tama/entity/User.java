@@ -23,7 +23,7 @@ public class User {
 	private Long id;
 	// this variable is for validating the accounts
 	// @NotNull
-	@Column(name = "validated")
+	@Column
 	private Boolean validated=false;
 
 	@Override
