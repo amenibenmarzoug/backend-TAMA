@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "ThemeInstance")
 public class ThemeInstance {
 	@Id
     @Column(name = "themeInst_id", updatable = false, nullable = false)

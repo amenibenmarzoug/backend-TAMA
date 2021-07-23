@@ -16,7 +16,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="participant")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Participant extends User{
 	

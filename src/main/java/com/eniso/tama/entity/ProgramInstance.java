@@ -13,8 +13,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "programInstance")
-
 public class ProgramInstance {
 
 	@Id

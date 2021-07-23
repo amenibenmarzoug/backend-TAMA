@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name="module")
 public class Module {
 	
 	@Id

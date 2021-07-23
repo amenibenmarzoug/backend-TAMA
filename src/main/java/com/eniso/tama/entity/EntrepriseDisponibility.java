@@ -13,8 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-@Entity
 
+@Entity
 public class EntrepriseDisponibility {
 	
 	@Id

@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="classroom")
 public class ClassRoom {
 	@Id
     @Column(name = "classRoom_id", updatable = false, nullable = false)

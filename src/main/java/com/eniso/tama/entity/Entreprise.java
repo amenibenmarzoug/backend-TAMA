@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 
 
 @Entity
-@Table(name="entreprise")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Entreprise extends User{
 	

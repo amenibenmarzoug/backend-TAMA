@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "event")
 public class Event {
 	@Id
 	@Column(name = "event_id", updatable = false, nullable = false)

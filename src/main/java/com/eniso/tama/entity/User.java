@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
-@Table(name = "user")
 //@MappedSuperclass
 public class User {
 	@Id

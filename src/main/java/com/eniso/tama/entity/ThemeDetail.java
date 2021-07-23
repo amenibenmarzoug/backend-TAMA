@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name="themeDetail")
 public class ThemeDetail {
 	@Id
     @Column(name = "themeDetail_id", updatable = false, nullable = false)

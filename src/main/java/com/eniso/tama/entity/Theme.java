@@ -11,7 +11,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="theme")
 public class Theme {
 	
 	@Id
