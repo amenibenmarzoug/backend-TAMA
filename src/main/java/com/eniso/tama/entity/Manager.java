@@ -5,16 +5,17 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="manager")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Manager extends User{
 	
 	@NotNull
+	@Column
 	private String firstNameM;
 	
 
 
 	@NotNull
+	@Column
 	private String lastNameM;
 
 	public String getFirstNameM() {

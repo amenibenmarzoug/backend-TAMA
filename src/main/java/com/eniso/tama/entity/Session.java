@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "session")
 public class Session {
 	@Id
 	@Column(name = "session_id", updatable = false, nullable = false)
@@ -25,7 +24,7 @@ public class Session {
 	private Long id;
 
 	@NotNull
-	@Column(name = "sessionName")
+	@Column
 	private String sessionName;
 
 	@Column(name = "session_begin_date")

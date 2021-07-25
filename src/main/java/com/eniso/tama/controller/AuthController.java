@@ -226,7 +226,7 @@ public class AuthController {
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
 
-	@Transactional 
+	@Transactional
 	@PostMapping("/signupEnterprise")
 	public ResponseEntity<?> registerEnterprise(@Valid @RequestBody SignupRequestEnterprise signupRequestEnterprise) {
 
@@ -249,7 +249,8 @@ public class AuthController {
 
 				signupRequestEnterprise.getPhoneNumber(), null, signupRequestEnterprise.getEnterpriseName(),
 				signupRequestEnterprise.getWebsite(), signupRequestEnterprise.getManagerFirstName(),
-				signupRequestEnterprise.getManagerLastName(),signupRequestEnterprise.getManagerPosition(),signupRequestEnterprise.getNbMinParticipants());
+				signupRequestEnterprise.getManagerLastName(), signupRequestEnterprise.getManagerPosition(),
+				signupRequestEnterprise.getNbMinParticipants());
 
 		enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
 
@@ -296,10 +297,10 @@ public class AuthController {
 			throws AddressException, MessagingException, IOException {
 
 		Entreprise t = entrepriseService.findByEmail(email);
-		//System.out.println(t.getEnterpriseName());
-		//System.out.println(t.isValidated());
+		// System.out.println(t.getEnterpriseName());
+		// System.out.println(t.isValidated());
 		// t.setValidated(true);
-		//System.out.println(t.isValidated());
+		// System.out.println(t.isValidated());
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -313,12 +314,13 @@ public class AuthController {
 		});
 		Message msg = new MimeMessage(session);
 		msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
-		//il faut changer l email par celui d'un manager!!!!!!
+		// il faut changer l email par celui d'un manager!!!!!!
 		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("noreplybaeldung@gmail.com"));
 		msg.setSubject("Program-Registration");
-		msg.setContent("An enterprise wants to participate in your program \" "+ t.getProgramInstance().getProgramInstName()+ " "+ t.getProgramInstance().getLocation()
-				+ " \" :<br>" + "Enterprise Name :"
-				+ t.getEnterpriseName() + "<br>" + "Enterprise :" + t.getPhoneNumber() + "", "text/html");
+		msg.setContent("An enterprise wants to participate in your program \" "
+				+ t.getProgramInstance().getProgramInstName() + " " + t.getProgramInstance().getLocation() + " \" :<br>"
+				+ "Enterprise Name :" + t.getEnterpriseName() + "<br>" + "Enterprise :" + t.getPhoneNumber() + "",
+				"text/html");
 		msg.setSentDate(new Date(0));
 
 		MimeBodyPart messageBodyPart = new MimeBodyPart();
@@ -333,7 +335,7 @@ public class AuthController {
 		// multipart.addBodyPart(attachPart);
 		msg.setContent(multipart);
 		// t.setValidated(true);
-		//entrepriseService.save(t);
+		// entrepriseService.save(t);
 		// System.out.println(t.isValidated()) ;
 		Transport.send(msg);
 	}
@@ -356,9 +358,13 @@ public class AuthController {
 
 				signupRequestParticipant.getPhoneNumber(), null, signupRequestParticipant.getFirstName(),
 				signupRequestParticipant.getLastName(), signupRequestParticipant.getGender(),
-				signupRequestParticipant.getBirthday());
+				signupRequestParticipant.getBirthday(), signupRequestParticipant.getEntreprise(),
+				signupRequestParticipant.getProgramInstance());
 		participant.setValidated(false);
-
+		participant.setEducationLevel(signupRequestParticipant.getEducationLevel());
+		participant.setLevel(signupRequestParticipant.getLevel());
+		participant.setCurrentPosition(signupRequestParticipant.getCurrentPosition());
+		participant.setExperience(signupRequestParticipant.getExperience());
 //		User user = new User(signupRequestParticipant.getEmail(),
 //				 encoder.encode(signupRequestParticipant.getPassword()),
 //				 signupRequestParticipant.getStreet(),

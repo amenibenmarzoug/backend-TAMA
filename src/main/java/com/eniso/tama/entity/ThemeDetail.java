@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name="themeDetail")
 public class ThemeDetail {
 	@Id
     @Column(name = "themeDetail_id", updatable = false, nullable = false)
@@ -20,7 +19,7 @@ public class ThemeDetail {
     private Long id;
 	
 	@NotNull
-	@Column(name = "themeDetailName")
+	@Column
 	private String themeDetailName;
 	
 	@NotNull

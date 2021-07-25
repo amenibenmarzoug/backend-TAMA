@@ -13,8 +13,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "programInstance")
-
 public class ProgramInstance {
 
 	@Id
@@ -23,7 +21,7 @@ public class ProgramInstance {
 	private Long id;
 	
 	@NotNull
-	@Column(name = "programInstName")
+	@Column
 	private String programInstName;
 	
 	@Column
@@ -38,7 +36,7 @@ public class ProgramInstance {
 	private int nbDaysProgInst;
 	
 	@NotNull
-	@Column(name = "location")
+	@Column
 	private String location;
 
 	@Column

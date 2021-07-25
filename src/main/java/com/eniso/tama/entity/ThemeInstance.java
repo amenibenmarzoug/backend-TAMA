@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "ThemeInstance")
 public class ThemeInstance {
 	@Id
     @Column(name = "themeInst_id", updatable = false, nullable = false)
@@ -22,12 +21,12 @@ public class ThemeInstance {
     private Long id;
 	
 	@NotNull
-	@Column(name = "themeInstName")
+	@Column
 	private String themeInstName;
 	
 	
 	@NotNull
-	@Column(name="themeInstDays")
+	@Column
 	private int nbDaysthemeInst;
 	
 	public String getThemeInstName() {

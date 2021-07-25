@@ -2,11 +2,18 @@ package com.eniso.tama.payload;
 
 import java.util.Date;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;  
+
+import com.eniso.tama.entity.Entreprise;
+import com.eniso.tama.entity.ProgramInstance;
+
+import java.time.LocalDate;
 
 public class SignupRequestParticipant {
 	@NotBlank
@@ -14,16 +21,15 @@ public class SignupRequestParticipant {
 	@Email
 	private String email;
 
-
 //	@NotBlank
 //	@Size(min = 3, max = 20)
 //	private String address;
 	@NotNull
 	private String street;
-	
+
 	@NotNull
 	private String city;
-	
+
 	@NotNull
 	private String postalCode;
 
@@ -51,8 +57,19 @@ public class SignupRequestParticipant {
 	@Size(min = 8, max = 40)
 	private String password;
 
-	
 	private LocalDate birthday;
+
+	private String currentPosition;
+
+	private int experience;
+
+	private String level;
+
+	private String educationLevel;
+
+	private Entreprise entreprise;
+
+	private ProgramInstance programInstance;
 
 	public String getEmail() {
 		return email;
@@ -61,9 +78,6 @@ public class SignupRequestParticipant {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-
-	
 
 	public String getStreet() {
 		return street;
@@ -92,6 +106,7 @@ public class SignupRequestParticipant {
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
+
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
@@ -119,7 +134,6 @@ public class SignupRequestParticipant {
 	public void setField(String field) {
 		this.field = field;
 	}
-
 
 	public String getFirstName() {
 		return firstName;
@@ -153,5 +167,52 @@ public class SignupRequestParticipant {
 		this.birthday = birthday;
 	}
 
+	public String getCurrentPosition() {
+		return currentPosition;
+	}
+
+	public int getExperience() {
+		return experience;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public String getEducationLevel() {
+		return educationLevel;
+	}
+
+	public void setCurrentPosition(String currentPosition) {
+		this.currentPosition = currentPosition;
+	}
+
+	public void setExperience(int experience) {
+		this.experience = experience;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public void setEducationLevel(String educationLevel) {
+		this.educationLevel = educationLevel;
+	}
+
+	public Entreprise getEntreprise() {
+		return entreprise;
+	}
+
+	public ProgramInstance getProgramInstance() {
+		return programInstance;
+	}
+
+	public void setEntreprise(Entreprise entreprise) {
+		this.entreprise = entreprise;
+	}
+
+	public void setProgramInstance(ProgramInstance programInstance) {
+		this.programInstance = programInstance;
+	}
 
 }

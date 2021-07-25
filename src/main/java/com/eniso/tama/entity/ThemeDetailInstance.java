@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ThemeDetailInstance")
 public class ThemeDetailInstance {
 	
 	@Id
@@ -29,10 +28,10 @@ public class ThemeDetailInstance {
 	/*@Column(name = "themeDetailInst_begin_date")
 	private Date themeDetailInstBeginDate;*/
 	
-	@Column(name = "themeDetailInstName")
+	@Column
 	private String themeDetailInstName;
 	
-	@Column(name = "nbDaysthemeDetailInst")
+	@Column
 	private int nbDaysthemeDetailInst;
 	
 	

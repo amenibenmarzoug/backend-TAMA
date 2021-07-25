@@ -17,7 +17,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="participant")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Participant extends User{
 	
@@ -25,11 +24,11 @@ public class Participant extends User{
 
 
 	@NotNull
-	@Column(name = "firstNameP")
+	@Column
 	private String firstNameP;
 
 	@NotNull
-	@Column(name = "lastNameP")
+	@Column
 	private String lastNameP;
 	
 	

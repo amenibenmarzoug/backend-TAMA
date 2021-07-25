@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "event")
 public class Event {
 	@Id
 	@Column(name = "event_id", updatable = false, nullable = false)
@@ -25,18 +24,21 @@ public class Event {
 	private Long id;
 
 	//@NotNull
+
+
+	@Column
 	private String title;
 
-
+	@Column
 	private Date start;
 
-
+	@Column
 	private Date end;
 	
-
+	@Column
 	private String colorPrimary;
 	
-
+	@Column
 	private String colorSecondary;
 	
 	@Column(name = "beforeStart",columnDefinition = "boolean default true")
@@ -45,8 +47,12 @@ public class Event {
 	@Column(name = "afterEnd",columnDefinition = "boolean default true")
 	private boolean resizeafterEnd;
 	
-	
+
+	@Column
 	private boolean freeDay;
+
+	@Column(columnDefinition = "boolean default true")
+	private boolean draggable;
 	
 	
 

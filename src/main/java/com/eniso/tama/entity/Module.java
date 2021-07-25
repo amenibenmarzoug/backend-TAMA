@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name="module")
 public class Module {
 	
 	@Id
@@ -21,11 +20,12 @@ public class Module {
     private Long id;
 	
 	@NotNull
+	@Column
 	private String moduleName;
 	
 	
 	@NotNull
-	@Column(name="moduleDays")
+	@Column
 	private int nbDaysModule;
 	
 	@ManyToOne

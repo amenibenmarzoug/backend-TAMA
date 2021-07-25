@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="classroom")
 public class ClassRoom {
 	@Id
     @Column(name = "classRoom_id", updatable = false, nullable = false)
@@ -23,14 +22,14 @@ public class ClassRoom {
 	
 	
 	@NotNull
-	@Column(name = "classRoomName")
+	@Column
 	private String classRoomName;
 	
 //	
 //	@Column(name="disponibility")
 //	private boolean disponibility;
 	
-	@Column(name="capacity")
+	@Column
 	private int capacity;
 	
 	@Column(name="fees")
