@@ -101,6 +101,7 @@ public class AuthController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		System.out.println(encoder.encode(loginRequest.getPassword()));
 		System.out.println(loginRequest.getPassword());
 		System.out.println(loginRequest.getEmail());
 
