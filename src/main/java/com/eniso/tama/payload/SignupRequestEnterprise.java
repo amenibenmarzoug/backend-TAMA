@@ -67,14 +67,18 @@ public class SignupRequestEnterprise {
 	private String enterpriseName;
 
 	
-	@Column(name = "website")
+
 	private String website;
 	
-	@Column(name = "managerFirstName")
+
 	private String managerFirstName;
 	
-	@Column(name = "managerLastName")
+
 	private String managerLastName;
+	
+	private String managerPosition;
+
+	private int nbMinParticipants;
 	
 	private Set<String> role;
 	
@@ -154,6 +158,23 @@ public class SignupRequestEnterprise {
 
 	public void setProgramInstance(ProgramInstance programInstance) {
 		this.programInstance = programInstance;
+	}
+	
+
+	public String getManagerPosition() {
+		return managerPosition;
+	}
+
+	public int getNbMinParticipants() {
+		return nbMinParticipants;
+	}
+
+	public void setManagerPosition(String managerPosition) {
+		this.managerPosition = managerPosition;
+	}
+
+	public void setNbMinParticipants(int nbMinParticipants) {
+		this.nbMinParticipants = nbMinParticipants;
 	}
 
 	@Override

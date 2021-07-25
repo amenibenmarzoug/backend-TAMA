@@ -130,7 +130,7 @@ public class AuthController {
 						userDetails.getEmail(), roles));
 			} else {
 
-				return ResponseEntity.badRequest().body(new MessageResponse("Your Account is not active yet !"));
+				return ResponseEntity.badRequest().body(new MessageResponse("Votre compte n'est pas encore activé !"));
 			}
 		}
 
@@ -250,7 +250,7 @@ public class AuthController {
 
 				signupRequestEnterprise.getPhoneNumber(), null, signupRequestEnterprise.getEnterpriseName(),
 				signupRequestEnterprise.getWebsite(), signupRequestEnterprise.getManagerFirstName(),
-				signupRequestEnterprise.getManagerLastName());
+				signupRequestEnterprise.getManagerLastName(),signupRequestEnterprise.getManagerPosition(),signupRequestEnterprise.getNbMinParticipants());
 
 		enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
 

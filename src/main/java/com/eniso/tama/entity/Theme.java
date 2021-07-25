@@ -11,7 +11,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="theme")
 public class Theme {
 	
 	@Id
@@ -20,7 +19,7 @@ public class Theme {
     private Long id;
 	
 	@NotNull
-	@Column(name = "themeName")
+	@Column
 	private String themeName;
 	
 	

@@ -9,7 +9,6 @@ import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="role")
 public class Role {
 	
 	 @Id

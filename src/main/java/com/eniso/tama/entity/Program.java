@@ -9,7 +9,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="program")
 public class Program {
 	@Id
     @Column(name = "program_id", updatable = false, nullable = false)
@@ -17,7 +16,7 @@ public class Program {
     private Long id;
 	
 	@NotNull
-	@Column(name = "programName")
+	@Column
 	private String programName;
 	
 	@NotNull

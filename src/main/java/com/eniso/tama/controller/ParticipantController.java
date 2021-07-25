@@ -288,6 +288,7 @@ public class ParticipantController {
 		p.setProgramInstance(entreprise.getProgramInstance());
 		//p.setCursus(c);
 		// System.out.println(p.toString()) ;
+		p.setValidated(false);
 		participantRepository.save(p);
 
 

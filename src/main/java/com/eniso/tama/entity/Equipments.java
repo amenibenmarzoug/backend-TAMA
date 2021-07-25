@@ -11,7 +11,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="equipments")
 public class Equipments {
 	@Id
     @Column(name = "equipment_id", updatable = false, nullable = false)
@@ -19,11 +18,11 @@ public class Equipments {
     private Long id;
 	
 	//@NotNull
-	@Column(name = "equipmentName")
+	@Column
 	private String equipmentName;
 	
 	
-	@Column(name = "quantity")
+	@Column
 	private int quantity;
 	
 	public ClassRoom getClassroom() {

@@ -13,8 +13,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "programInstance")
-
 public class ProgramInstance {
 
 	@Id
@@ -23,18 +21,42 @@ public class ProgramInstance {
 	private Long id;
 	
 	@NotNull
-	@Column(name = "programInstName")
+	@Column
 	private String programInstName;
 	
-	@Column(name = "dateDebut")
-	private Date dateDebut;
+	@Column
+	private Date beginDate;
 	
-	public Date getDateDebut() {
-		return dateDebut;
+	
+	@Column
+	private Date endDate;
+	
+	@NotNull
+	@Column(name="ProgramInstDays")
+	private int nbDaysProgInst;
+	
+	@NotNull
+	@Column
+	private String location;
+
+	@Column
+	private boolean validated=false;
+	
+	@Column
+	private int nbMinParticipants;
+	
+	@ManyToOne
+	private Program program;
+	
+	
+
+
+	public Date getBeginDate() {
+		return beginDate;
 	}
 
-	public void setDateDebut(Date dateDebut) {
-		this.dateDebut = dateDebut;
+	public void setBeginDate(Date beginDate) {
+		this.beginDate = beginDate;
 	}
 
 	public String getProgramInstName() {
@@ -54,20 +76,6 @@ public class ProgramInstance {
 	public void setNbDaysProgInst(int nbDaysProgInst) {
 		this.nbDaysProgInst = nbDaysProgInst;
 	}
-	@NotNull
-	@Column(name="ProgramInstDays")
-	private int nbDaysProgInst;
-	
-	@NotNull
-	@Column(name = "location")
-	private String location;
-
-	public Long getId() {
-		return id;
-	}  
-	@ManyToOne
-	private Program program;
-	
 	
 	public Program getProgram() {
 		return program;
@@ -76,7 +84,9 @@ public class ProgramInstance {
 	public void setProgram(Program program) {
 		this.program = program;
 	}
-	
+	public Long getId() {
+		return id;
+	}  
 
 	public void setId(Long id) {
 		this.id = id;
@@ -88,8 +98,38 @@ public class ProgramInstance {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}	
+
+	public boolean isValidated() {
+		return validated;
 	}
+
+	public void setValidated(boolean validated) {
+		this.validated = validated;
+	}
+
+	public int getNbMinParticipants() {
+		return nbMinParticipants;
+	}
+
+	public void setNbMinParticipants(int nbMinParticipants) {
+		this.nbMinParticipants = nbMinParticipants;
+	}
+	
+	
+
+
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
 	public ProgramInstance() {}
+	
 	public ProgramInstance(Long id, @NotNull String programInstName, @NotNull int nbDaysProgInst,
 			@NotNull String location, Program program) {
 		super();
