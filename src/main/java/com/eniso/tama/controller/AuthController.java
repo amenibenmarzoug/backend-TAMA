@@ -107,8 +107,6 @@ public class AuthController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		System.out.println(loginRequest.getPassword());
-		System.out.println(loginRequest.getEmail());
 
 		User u = new User();
 		u = userRepository.findByEmail(loginRequest.getEmail());
@@ -236,7 +234,6 @@ public class AuthController {
 
 		Entreprise enterprise = new Entreprise(signupRequestEnterprise.getEmail(),
 				encoder.encode(signupRequestEnterprise.getPassword()),
-				// signupRequestEnterprise.getAddress(),
 				signupRequestEnterprise.getStreet(), signupRequestEnterprise.getCity(),
 				signupRequestEnterprise.getPostalCode(),
 
@@ -295,22 +292,12 @@ public class AuthController {
 
 		Participant participant = new Participant(signupRequestParticipant.getEmail(),
 				encoder.encode(signupRequestParticipant.getPassword()),
-				// signupRequestParticipant.getAddress(),
 				signupRequestParticipant.getStreet(),
-
 				signupRequestParticipant.getCity(), signupRequestParticipant.getPostalCode(),
-
 				signupRequestParticipant.getPhoneNumber(), null, signupRequestParticipant.getFirstName(),
 				signupRequestParticipant.getLastName(), signupRequestParticipant.getGender(),
 				signupRequestParticipant.getBirthday());
 		participant.setValidated(false);
-
-//		User user = new User(signupRequestParticipant.getEmail(),
-//				 encoder.encode(signupRequestParticipant.getPassword()),
-//				 signupRequestParticipant.getStreet(),
-//				 signupRequestParticipant.getCity(),
-//				 signupRequestParticipant.getPostalCode(),
-//				 signupRequestParticipant.getPhoneNumber(),null);
 
 		Set<String> strRoles = signupRequestParticipant.getRole();
 
