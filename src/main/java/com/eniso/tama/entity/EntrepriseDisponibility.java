@@ -13,8 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-@Entity
 
+@Entity
 public class EntrepriseDisponibility {
 	
 	@Id
@@ -23,10 +23,10 @@ public class EntrepriseDisponibility {
 	Long id;
 	
 	
-	@Column(name = "day")
+	@Column
 	private String day;
 
-	@Column(name = "time")
+	@Column
 	private String time ;
   
 	@ManyToOne(cascade=CascadeType.MERGE)

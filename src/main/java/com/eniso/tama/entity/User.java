@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
-@Table(name = "user")
 //@MappedSuperclass
 public class User {
 	@Id
@@ -23,7 +22,7 @@ public class User {
 	private Long id;
 	// this variable is for validating the accounts
 	// @NotNull
-	@Column(name = "validated")
+	@Column
 	private Boolean validated=false;
 
 	@Override

@@ -26,7 +26,7 @@ public class TrainerDisponibility {
 	@JoinColumn(name = "courseSession_id")
 	Session courseSession;*/
 
-	@Column(name = "disponibility")
+	@Column
 	boolean disponibility;
 
 	public Long getIdTrainerDisponibility() {

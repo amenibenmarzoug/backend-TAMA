@@ -12,20 +12,19 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="trainer")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Trainer extends User {
 	
 	@NotNull
-	@Column(name = "firstName")
+	@Column
 	private String firstName;
 	
 	@NotNull
-	@Column(name = "lastName")
+	@Column
 	private String lastName;
 	
 	@NotNull
-	@Column(name = "gender")
+	@Column
 	private String gender;
 	
 	public String getGender() {
