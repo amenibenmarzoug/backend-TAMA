@@ -6,13 +6,13 @@ import com.eniso.tama.entity.ModuleInstance;
 
 public interface ModuleInstanceService {
 
-	public List<ModuleInstance> findAll();
-	
-	public List<ModuleInstance> findByModuleId(long id);
+    public List<ModuleInstance> findAll();
 
-	public ModuleInstance findById(long theId);
+    public List<ModuleInstance> findByModuleId(long id);
 
-	public ModuleInstance save(ModuleInstance module);
+    public ModuleInstance findById(long theId);
 
-	public void deleteById(long id);
+    public ModuleInstance save(ModuleInstance module);
+
+    public void deleteById(long id);
 }

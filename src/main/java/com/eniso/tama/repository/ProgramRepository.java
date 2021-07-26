@@ -13,12 +13,12 @@ import com.eniso.tama.entity.Program;
 
 public interface ProgramRepository extends JpaRepository<Program, Long> {
 
-   // @PersistenceContext EntityManager entityManager ;
+    // @PersistenceContext EntityManager entityManager ;
 //	
 //	@Modifying
 //	@Query(value="DELETE program , module , theme   FROM program  INNER JOIN module  INNER JOIN theme WHERE messages.messageid= usersmessages.messageid and messages.messageid = '1'")
 //			
 //	void deleteBooks(@Param("id") Long id);
 
-	
+
 }

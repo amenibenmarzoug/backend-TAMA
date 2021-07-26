@@ -13,57 +13,52 @@ import com.eniso.tama.repository.EntrepriseDisponibilityRepository;
 
 
 @Service
-@ComponentScan(basePackageClasses = EntrepriseDisponibilityRepository.class )
+@ComponentScan(basePackageClasses = EntrepriseDisponibilityRepository.class)
 public class EntrepriseDisponibilityServiceImpl implements EntrepriseDisponibilityService {
-	
-
-	private   EntrepriseDisponibilityRepository  entrepriseDisponibilityRepository;
-
-	
-	@Autowired
-	public EntrepriseDisponibilityServiceImpl(EntrepriseDisponibilityRepository theEnterpriseRepository) {
-		entrepriseDisponibilityRepository = theEnterpriseRepository;
-	}
-	
-	@Override
-	public List<EntrepriseDisponibility> findAll() {
-		return entrepriseDisponibilityRepository.findAll();
-	}
-
-	@Override
-	public EntrepriseDisponibility findById(long theId) {
-		Optional<EntrepriseDisponibility> result = entrepriseDisponibilityRepository.findById(theId);
-		
-		EntrepriseDisponibility theControl = null;
-		
-		if (result.isPresent()) {
-			theControl = result.get();
-		}
-		else {
-			// we didn't find the participant
-			throw new RuntimeException("Did not find participant id - " + theId);
-		}
-		
-		return theControl;
-	}
-	
-		
-		
-
-			
-	
-	@Override
-	public  EntrepriseDisponibility save(EntrepriseDisponibility theControl) {
-		return entrepriseDisponibilityRepository.save(theControl) ;
-	
-	}
 
 
-	@Override
+    private EntrepriseDisponibilityRepository entrepriseDisponibilityRepository;
 
-	public void deleteById(long    theId) {
 
-		entrepriseDisponibilityRepository.deleteById(theId);
-	}
+    @Autowired
+    public EntrepriseDisponibilityServiceImpl(EntrepriseDisponibilityRepository theEnterpriseRepository) {
+        entrepriseDisponibilityRepository = theEnterpriseRepository;
+    }
+
+    @Override
+    public List<EntrepriseDisponibility> findAll() {
+        return entrepriseDisponibilityRepository.findAll();
+    }
+
+    @Override
+    public EntrepriseDisponibility findById(long theId) {
+        Optional<EntrepriseDisponibility> result = entrepriseDisponibilityRepository.findById(theId);
+
+        EntrepriseDisponibility theControl = null;
+
+        if (result.isPresent()) {
+            theControl = result.get();
+        } else {
+            // we didn't find the participant
+            throw new RuntimeException("Did not find participant id - " + theId);
+        }
+
+        return theControl;
+    }
+
+
+    @Override
+    public EntrepriseDisponibility save(EntrepriseDisponibility theControl) {
+        return entrepriseDisponibilityRepository.save(theControl);
+
+    }
+
+
+    @Override
+
+    public void deleteById(long theId) {
+
+        entrepriseDisponibilityRepository.deleteById(theId);
+    }
 
 }

@@ -13,55 +13,55 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Module {
-	
-	@Id
+
+    @Id
     @Column(name = "module_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-	
-	@NotNull
-	@Column
-	private String moduleName;
-	
-	
-	@NotNull
-	@Column
-	private int nbDaysModule;
-	
-	@ManyToOne
-	private Theme theme;
 
-	public Long getId() {
-		return id;
-	}
+    @NotNull
+    @Column
+    private String moduleName;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
-	public String getModuleName() {
-		return moduleName;
-	}
+    @NotNull
+    @Column
+    private int nbDaysModule;
 
-	public void setModuleName(String moduleName) {
-		this.moduleName = moduleName;
-	}
+    @ManyToOne
+    private Theme theme;
 
-	public int getNbDaysModule() {
-		return nbDaysModule;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setNbDaysModule(int nbDaysModule) {
-		this.nbDaysModule = nbDaysModule;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Theme getTheme() {
-		return theme;
-	}
+    public String getModuleName() {
+        return moduleName;
+    }
 
-	public void setTheme(Theme theme) {
-		this.theme = theme;
-	}
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
 
-	
+    public int getNbDaysModule() {
+        return nbDaysModule;
+    }
+
+    public void setNbDaysModule(int nbDaysModule) {
+        this.nbDaysModule = nbDaysModule;
+    }
+
+    public Theme getTheme() {
+        return theme;
+    }
+
+    public void setTheme(Theme theme) {
+        this.theme = theme;
+    }
+
+
 }

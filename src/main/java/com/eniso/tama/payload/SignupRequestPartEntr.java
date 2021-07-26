@@ -1,4 +1,5 @@
 package com.eniso.tama.payload;
+
 import java.util.Date;
 import java.util.Set;
 
@@ -13,63 +14,60 @@ import com.eniso.tama.entity.Entreprise;
 public class SignupRequestPartEntr {
 
 
+    @NotBlank
+    @Size(max = 50)
+    @Email
+    private String email;
 
 
+    private Entreprise entreprise;
 
-	@NotBlank
-	@Size(max = 50)
-	@Email
-	private String email;
-	
-
-	private Entreprise entreprise;
-
-//	@NotBlank
+    //	@NotBlank
 //	@Size(min = 3, max = 20)
 //	private String address;
-	@NotNull
-	private String street;
-	
-	@NotNull
-	private String city;
-	
-	@NotNull
-	private String postalCode;
-	
-	@NotBlank
-	@Size(min = 3, max = 20)
-	private String phoneNumber;
+    @NotNull
+    private String street;
 
-	@NotBlank
-	@Size(max = 20)
-	private String firstName;
+    @NotNull
+    private String city;
 
-	@NotBlank
-	@Size(max = 30)
-	private String lastName;
+    @NotNull
+    private String postalCode;
 
-	@NotBlank
-	private String gender;
+    @NotBlank
+    @Size(min = 3, max = 20)
+    private String phoneNumber;
 
-	// @NotBlank
-	private String field;
+    @NotBlank
+    @Size(max = 20)
+    private String firstName;
 
-	private Set<String> role;
+    @NotBlank
+    @Size(max = 30)
+    private String lastName;
 
-	@NotBlank
-	@Size(min = 8, max = 40)
-	private String password;
+    @NotBlank
+    private String gender;
 
-	
-	private Date birthday;
+    // @NotBlank
+    private String field;
 
-	public String getEmail() {
-		return email;
-	}
+    private Set<String> role;
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    @NotBlank
+    @Size(min = 8, max = 40)
+    private String password;
+
+
+    private Date birthday;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 //	public String getAddress() {
 //		return address;
@@ -79,100 +77,100 @@ public class SignupRequestPartEntr {
 //		this.address = address;
 //	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-	public String getStreet() {
-		return street;
-	}
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+    public String getStreet() {
+        return street;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public String getPostalCode() {
-		return postalCode;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
+    public String getPostalCode() {
+        return postalCode;
+    }
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
 
-	public Set<String> getRole() {
-		return role;
-	}
+    public Set<String> getRole() {
+        return role;
+    }
 
-	public void setRole(Set<String> role) {
-		this.role = role;
-	}
+    public void setRole(Set<String> role) {
+        this.role = role;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getField() {
-		return field;
-	}
+    public String getField() {
+        return field;
+    }
 
-	public void setField(String field) {
-		this.field = field;
-	}
+    public void setField(String field) {
+        this.field = field;
+    }
 
-	public Entreprise getEntreprise() {
-		return entreprise;
-	}
+    public Entreprise getEntreprise() {
+        return entreprise;
+    }
 
-	public void setEntreprise(Entreprise entreprise) {
-		this.entreprise = entreprise;
-	}
+    public void setEntreprise(Entreprise entreprise) {
+        this.entreprise = entreprise;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public String getGender() {
-		return gender;
-	}
+    public String getGender() {
+        return gender;
+    }
 
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
-	public Date getBirthday() {
-		return birthday;
-	}
+    public Date getBirthday() {
+        return birthday;
+    }
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
-	}
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 
 }

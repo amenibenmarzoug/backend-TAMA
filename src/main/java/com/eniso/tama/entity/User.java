@@ -16,174 +16,163 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 //@MappedSuperclass
 public class User {
-	@Id
-	@Column(name = "user_id", updatable = false, nullable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	// this variable is for validating the accounts
-	// @NotNull
-	@Column
-	private Boolean validated=false;
+    @Id
+    @Column(name = "user_id", updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    // this variable is for validating the accounts
+    // @NotNull
+    @Column
+    private Boolean validated = false;
+    @NotNull
+    @Column(name = "email")
+    @Email(message = "{errors.invalid_email}")
+    private String email;
+    @NotNull
+    @Column(name = "password", insertable = true, updatable = true, nullable = false)
+    // @Size(min=8, max=40)
+    private String password;
+    @NotNull
+    @Column(name = "street")
+    private String street;
+    @NotNull
+    @Column(name = "city")
+    private String city;
+    @NotNull
+    @Column(name = "postalCode")
+    private String postalCode;
+    //@NotNull
+    //@Column(name = "phoneNumber",unique=true)
+    @Column(name = "phoneNumber")
+    private String phoneNumber;
+    @CreatedDate
+    @Column(name = "created_date")
+    @JsonIgnore
+    private Instant createdDate = Instant.now();
+    @LastModifiedDate
+    @Column(name = "last_modified_date")
+    @JsonIgnore
+    private Instant lastModifiedDate = Instant.now();
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", validated=" + validated + ", email=" + email + ", password=" + password
-				+ ", street=" + street + ", city=" + city + ", postalCode=" + postalCode + ", phoneNumber="
-				+ phoneNumber + ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + ", roles="
-				+ roles + "]";
-	}
+    public User() {
+    }
 
-	public Boolean isValidated() {
-		return validated;
-	}
+    public User(@NotBlank @Size(max = 50) @Email String email, String password, @NotBlank String street,
+                @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber, Set<Role> roles) {
+        // super();
+        this.email = email;
+        this.password = password;
+        // this.address = address;
+        this.street = street;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.phoneNumber = phoneNumber;
+        this.roles = roles;
+    }
 
-	public void setValidated(Boolean validated) {
-		this.validated = validated;
-	}
+    public User(String email, String password, Boolean validated) {
+        this.email = email;
+        this.password = password;
+        this.validated = false;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", validated=" + validated + ", email=" + email + ", password=" + password
+                + ", street=" + street + ", city=" + city + ", postalCode=" + postalCode + ", phoneNumber="
+                + phoneNumber + ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + ", roles="
+                + roles + "]";
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Boolean isValidated() {
+        return validated;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setValidated(Boolean validated) {
+        this.validated = validated;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public Instant getCreatedDate() {
-		return createdDate;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setCreatedDate(Instant createdDate) {
-		this.createdDate = createdDate;
-	}
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-	public Instant getLastModifiedDate() {
-		return lastModifiedDate;
-	}
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-	public void setLastModifiedDate(Instant lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
 
-	@NotNull
-	@Column(name = "email")
-	@Email(message = "{errors.invalid_email}")
-	private String email;
-	@NotNull
-	@Column(name = "password", insertable = true, updatable = true, nullable = false)
-	// @Size(min=8, max=40)
-	private String password;
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
 
-	@NotNull
-	@Column(name = "street")
-	private String street;
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
 
-	@NotNull
-	@Column(name = "city")
-	private String city;
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
 
-	@NotNull
-	@Column(name = "postalCode")
-	private String postalCode;
+    public String getStreet() {
+        return street;
+    }
 
-	public String getStreet() {
-		return street;
-	}
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public String getPostalCode() {
+        return postalCode;
+    }
 
-	public String getPostalCode() {
-		return postalCode;
-	}
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
-
-	//@NotNull
-	//@Column(name = "phoneNumber",unique=true)
-	@Column(name = "phoneNumber")
-	private String phoneNumber;  
-	
-	
-	
-	@CreatedDate 
-	@Column(name = "created_date")
-	@JsonIgnore
-	private Instant createdDate = Instant.now();
-
-	@LastModifiedDate
-	@Column(name = "last_modified_date")
-	@JsonIgnore
-	private Instant lastModifiedDate = Instant.now();
-
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles = new HashSet<>();
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-
-	public User() {
-	}
-
-	public User(@NotBlank @Size(max = 50) @Email String email, String password, @NotBlank String street,
-			@NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber, Set<Role> roles) {
-		// super();
-		this.email = email;
-		this.password = password;
-		// this.address = address;
-		this.street = street;
-		this.city = city;
-		this.postalCode = postalCode;
-		this.phoneNumber = phoneNumber;
-		this.roles = roles;
-	}
-
-	public User(String email, String password, Boolean validated) {
-		this.email = email;
-		this.password = password;
-		this.validated = false;
-	}
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
 }

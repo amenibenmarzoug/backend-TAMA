@@ -12,46 +12,46 @@ import com.eniso.tama.entity.TrainerDisponibility;
 import com.eniso.tama.repository.TrainerDisponibilityRepository;
 
 @Service
-@ComponentScan(basePackageClasses = TrainerDisponibilityRepository.class )
+@ComponentScan(basePackageClasses = TrainerDisponibilityRepository.class)
 public class TrainerDisponibilityServiceImpl implements TrainerDisponibilityService {
-private TrainerDisponibilityRepository trainerDisponibilityRepository;
-	
-	public TrainerDisponibilityServiceImpl() {}
+    private TrainerDisponibilityRepository trainerDisponibilityRepository;
 
-	@Autowired
-	public TrainerDisponibilityServiceImpl(TrainerDisponibilityRepository trainerDisponibilityRepository) {
-		this.trainerDisponibilityRepository = trainerDisponibilityRepository;
-	}
-	
-	@Override
-	public List<TrainerDisponibility> findAll() {
-		return trainerDisponibilityRepository.findAll();
-	}
+    public TrainerDisponibilityServiceImpl() {
+    }
 
-	@Override
-	public TrainerDisponibility findById(long theId) {
-		Optional<TrainerDisponibility> result = trainerDisponibilityRepository.findById(theId);
-		
-		TrainerDisponibility trainerDisponibility = null;
-		
-		if (result.isPresent()) {
-			trainerDisponibility = result.get();
-		}
-		else {
-			// we didn't find the TrainerDisponibility
-			throw new RuntimeException("Did not find TrainerDisponibility id - " + theId);
-		}
-		
-		return trainerDisponibility;
-	}
+    @Autowired
+    public TrainerDisponibilityServiceImpl(TrainerDisponibilityRepository trainerDisponibilityRepository) {
+        this.trainerDisponibilityRepository = trainerDisponibilityRepository;
+    }
 
-	@Override
-	public void save(TrainerDisponibility trainerDisponibility) {
-		trainerDisponibilityRepository.save(trainerDisponibility);
-	}
+    @Override
+    public List<TrainerDisponibility> findAll() {
+        return trainerDisponibilityRepository.findAll();
+    }
 
-	@Override
-	public void deleteById(long    theId) {
-		trainerDisponibilityRepository.deleteById(theId);
-	}
+    @Override
+    public TrainerDisponibility findById(long theId) {
+        Optional<TrainerDisponibility> result = trainerDisponibilityRepository.findById(theId);
+
+        TrainerDisponibility trainerDisponibility = null;
+
+        if (result.isPresent()) {
+            trainerDisponibility = result.get();
+        } else {
+            // we didn't find the TrainerDisponibility
+            throw new RuntimeException("Did not find TrainerDisponibility id - " + theId);
+        }
+
+        return trainerDisponibility;
+    }
+
+    @Override
+    public void save(TrainerDisponibility trainerDisponibility) {
+        trainerDisponibilityRepository.save(trainerDisponibility);
+    }
+
+    @Override
+    public void deleteById(long theId) {
+        trainerDisponibilityRepository.deleteById(theId);
+    }
 }

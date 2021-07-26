@@ -11,49 +11,50 @@ import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.repository.TrainerRepository;
 
 @Service
-@ComponentScan(basePackageClasses = TrainerRepository.class )
+@ComponentScan(basePackageClasses = TrainerRepository.class)
 public class TrainerServiceImpl implements TrainerService {
-	
-	private TrainerRepository trainerRepository;
-	
-	public TrainerServiceImpl() {}
-	
-	@Autowired
-	public TrainerServiceImpl(TrainerRepository theTrainerRepository) {
-		trainerRepository = theTrainerRepository;
-	}
 
-	@Override
-	public List<Trainer> findAll() {
-		return trainerRepository.findAll();
-	}
+    private TrainerRepository trainerRepository;
 
-	@Override
-	public Trainer findById(long theId) {
-		Optional<Trainer> result = trainerRepository.findById(theId);
-		
-		Trainer theControl = null;
-		
-		if (result.isPresent()) {
-			theControl = result.get();
-		}
-		else {
-			// we didn't find the trainer
-			throw new RuntimeException("Did not find trainer id - " + theId);
-		}
-		
-		return theControl;	}
+    public TrainerServiceImpl() {
+    }
 
-	@Override
-	public void save(Trainer trainer) {
-		trainerRepository.save(trainer);
+    @Autowired
+    public TrainerServiceImpl(TrainerRepository theTrainerRepository) {
+        trainerRepository = theTrainerRepository;
+    }
 
-	}
+    @Override
+    public List<Trainer> findAll() {
+        return trainerRepository.findAll();
+    }
 
-	@Override
-	public void deleteById(long theId) {
-		trainerRepository.deleteById(theId);
+    @Override
+    public Trainer findById(long theId) {
+        Optional<Trainer> result = trainerRepository.findById(theId);
 
-	}
+        Trainer theControl = null;
+
+        if (result.isPresent()) {
+            theControl = result.get();
+        } else {
+            // we didn't find the trainer
+            throw new RuntimeException("Did not find trainer id - " + theId);
+        }
+
+        return theControl;
+    }
+
+    @Override
+    public void save(Trainer trainer) {
+        trainerRepository.save(trainer);
+
+    }
+
+    @Override
+    public void deleteById(long theId) {
+        trainerRepository.deleteById(theId);
+
+    }
 
 }

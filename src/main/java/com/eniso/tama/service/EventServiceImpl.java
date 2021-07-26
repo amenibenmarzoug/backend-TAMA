@@ -13,63 +13,63 @@ import com.eniso.tama.repository.EventRepository;
 @Service
 @ComponentScan(basePackageClasses = EventRepository.class)
 public class EventServiceImpl implements EventService {
-	@Autowired
-	private EventRepository eventRepository;
+    @Autowired
+    private EventRepository eventRepository;
 
-	public EventServiceImpl() {
-	}
+    public EventServiceImpl() {
+    }
 
-	
-	public EventServiceImpl(EventRepository eventRepository) {
-		this.eventRepository = eventRepository;
-	}
 
-	@Override
-	public List<Event> findAll() {
-		return eventRepository.findAll();
-	}
+    public EventServiceImpl(EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
+    }
 
-	
-	@Override
-	public Event findBySessionId(long theId) {
-		Optional<Event> result = eventRepository.findBySessionId(theId);
+    @Override
+    public List<Event> findAll() {
+        return eventRepository.findAll();
+    }
 
-		Event event = null;
 
-		if (result.isPresent()) {
-			event = result.get();
-		} else {
-			// we didn't find the event
-			throw new RuntimeException("Did not find event with session id - " + theId);
-		}
+    @Override
+    public Event findBySessionId(long theId) {
+        Optional<Event> result = eventRepository.findBySessionId(theId);
 
-		return event;
-	}
-	
-	@Override
-	public Event findById(long theId) {
-		Optional<Event> result = eventRepository.findById(theId);
+        Event event = null;
 
-		Event event = null;
+        if (result.isPresent()) {
+            event = result.get();
+        } else {
+            // we didn't find the event
+            throw new RuntimeException("Did not find event with session id - " + theId);
+        }
 
-		if (result.isPresent()) {
-			event = result.get();
-		} else {
-			// we didn't find the event
-			throw new RuntimeException("Did not find event id - " + theId);
-		}
+        return event;
+    }
 
-		return event;
-	}
+    @Override
+    public Event findById(long theId) {
+        Optional<Event> result = eventRepository.findById(theId);
 
-	@Override
-	public void save(Event event) {
-		eventRepository.save(event);
-	}
+        Event event = null;
 
-	@Override
-	public void deleteById(long theId) {
-		eventRepository.deleteById(theId);
-	}
+        if (result.isPresent()) {
+            event = result.get();
+        } else {
+            // we didn't find the event
+            throw new RuntimeException("Did not find event id - " + theId);
+        }
+
+        return event;
+    }
+
+    @Override
+    public void save(Event event) {
+        eventRepository.save(event);
+    }
+
+    @Override
+    public void deleteById(long theId) {
+        eventRepository.deleteById(theId);
+    }
 
 }

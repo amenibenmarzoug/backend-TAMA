@@ -15,33 +15,31 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class ClassRoom {
-	@Id
+    @Id
     @Column(name = "classRoom_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-	
-	
-	@NotNull
-	@Column
-	private String classRoomName;
-	
+
+
+    @NotNull
+    @Column
+    private String classRoomName;
+
 //	
 //	@Column(name="disponibility")
 //	private boolean disponibility;
-	
-	@Column
-	private int capacity;
-	
+
+    @Column
+    private int capacity;
+
 //	@OneToMany(mappedBy="classroom" ,cascade = {CascadeType.ALL})
 //	private Set<Equipments> equipements;
+    @ManyToOne
+    private Institution institution;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
 //	public Set<Equipments> getEquipements() {
 //		return equipements;
@@ -51,13 +49,13 @@ public class ClassRoom {
 //		this.equipements = equipements;
 //	}
 
-	public String getClassRoomName() {
-		return classRoomName;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setClassRoomName(String classRoomName) {
-		this.classRoomName = classRoomName;
-	}
+    public String getClassRoomName() {
+        return classRoomName;
+    }
 
 //	public boolean isDisponibility() {
 //		return disponibility;
@@ -67,24 +65,25 @@ public class ClassRoom {
 //		this.disponibility = disponibility;
 //	}
 
-	public int getCapacity() {
-		return capacity;
-	}
+    public void setClassRoomName(String classRoomName) {
+        this.classRoomName = classRoomName;
+    }
 
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
-	}
-	
-	@ManyToOne
-	private Institution institution;
+    public int getCapacity() {
+        return capacity;
+    }
 
-	public Institution getInstitution() {
-		return institution;
-	}
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
 
-	public void setInstitution(Institution institution) {
-		this.institution = institution;
-	}
-	
-	
+    public Institution getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(Institution institution) {
+        this.institution = institution;
+    }
+
+
 }

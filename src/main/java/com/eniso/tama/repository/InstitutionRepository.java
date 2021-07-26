@@ -10,9 +10,12 @@ import com.eniso.tama.entity.Institution;
 
 @Repository
 public interface InstitutionRepository extends JpaRepository<Institution, Long> {
-	
-	Optional<Institution> findByEmail(String email);
-	Boolean existsByEmail(String email);
-	Optional<Institution> findByInstitutionName(String institutionName);
-	Boolean existsByInstitutionName(String institutionName);
+
+    Optional<Institution> findByEmail(String email);
+
+    Boolean existsByEmail(String email);
+
+    Optional<Institution> findByInstitutionName(String institutionName);
+
+    Boolean existsByInstitutionName(String institutionName);
 }

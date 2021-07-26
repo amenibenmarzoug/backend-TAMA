@@ -37,89 +37,91 @@ import com.eniso.tama.service.InstitutionService;
 @ComponentScan(basePackageClasses = InstitutionService.class)
 @RequestMapping(value = "/api")
 public class InstitutionController {
-	@Autowired
-	InstitutionRepository institutionRepository;
-	@Autowired
-	RoleRepository roleRepository;
-	@Autowired
-	PasswordEncoder encoder;
-	
-	private InstitutionService institutionService;
-	
-	@Autowired
-	public InstitutionController(InstitutionService theInstitutionService) {
-		institutionService = theInstitutionService;
-	}
-	
-	@GetMapping("/institutions")
-	public List<Institution> findAll() {
-		return institutionService.findAll();
-	}
-	
-	@GetMapping("institutions/{institutionId}")
-	public Institution getInstitution(@PathVariable long institutionId) {
+    @Autowired
+    InstitutionRepository institutionRepository;
+    @Autowired
+    RoleRepository roleRepository;
+    @Autowired
+    PasswordEncoder encoder;
 
-		Institution theInstitution = institutionService.findById(institutionId);
+    private InstitutionService institutionService;
 
-		if (theInstitution == null) {
-			throw new RuntimeException("Participant id not found - " + institutionId);
-		}
+    @Autowired
+    public InstitutionController(InstitutionService theInstitutionService) {
+        institutionService = theInstitutionService;
+    }
 
-		return theInstitution;
-	}
-	
-	@PostMapping("/signupInstituionManag")
-	public ResponseEntity<?> registerInstitutionParManager(@Valid @RequestBody Institution theI) {
+    @GetMapping("/institutions")
+    public List<Institution> findAll() {
+        return institutionService.findAll();
+    }
 
-		if (institutionRepository.existsByEmail(theI.getEmail())) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-		}
-	
-		Set<Role> roles = new HashSet<>();
-		Role modRole = roleRepository.findByRole(Roles.INSTITUTION)
-				.orElseThrow(() -> new RuntimeException("Error: Role Institution is not found."));
-		roles.add(modRole);
+    @GetMapping("institutions/{institutionId}")
+    public Institution getInstitution(@PathVariable long institutionId) {
 
-		Institution inst = new Institution();
-		inst.setEmail(theI.getEmail());
-		inst.setPassword(encoder.encode(theI.getPassword()));
-		inst.setStreet(theI.getStreet());
-		inst.setCity(theI.getCity());
-		inst.setPostalCode(theI.getPostalCode());
-		inst.setPhoneNumber(theI.getPhoneNumber());
-		inst.setRoles(roles);
-		inst.setInstitutionName(theI.getInstitutionName());
+        Institution theInstitution = institutionService.findById(institutionId);
 
-		institutionRepository.save(inst);
-		
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-	}
-	@PutMapping("/institution")
-	public Institution updateParticipant(@RequestBody Institution theInstitution) {
-		Institution newInstitution = institutionService.findById(theInstitution.getId());
-		
-		newInstitution.setCity(theInstitution.getCity());
-		newInstitution.setStreet(theInstitution.getStreet());
-		newInstitution.setPostalCode(theInstitution.getPostalCode());
-		newInstitution.setPhoneNumber(theInstitution.getPhoneNumber());
-		newInstitution.setInstitutionName(theInstitution.getInstitutionName());	
-		institutionService.save(newInstitution);
+        if (theInstitution == null) {
+            throw new RuntimeException("Participant id not found - " + institutionId);
+        }
 
-		return theInstitution;
-	}
-	@DeleteMapping("/institution/{id}")
-	public String deleteInstitution(@PathVariable long id) {
+        return theInstitution;
+    }
 
-		Institution inst= institutionService.findById(id);
+    @PostMapping("/signupInstituionManag")
+    public ResponseEntity<?> registerInstitutionParManager(@Valid @RequestBody Institution theI) {
 
-		// throw exception if null
+        if (institutionRepository.existsByEmail(theI.getEmail())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+        }
 
-		if (inst == null) {
-			throw new RuntimeException("the institution id is not found - " + id);
-		}
+        Set<Role> roles = new HashSet<>();
+        Role modRole = roleRepository.findByRole(Roles.INSTITUTION)
+                .orElseThrow(() -> new RuntimeException("Error: Role Institution is not found."));
+        roles.add(modRole);
 
-		institutionService.deleteById(id);
+        Institution inst = new Institution();
+        inst.setEmail(theI.getEmail());
+        inst.setPassword(encoder.encode(theI.getPassword()));
+        inst.setStreet(theI.getStreet());
+        inst.setCity(theI.getCity());
+        inst.setPostalCode(theI.getPostalCode());
+        inst.setPhoneNumber(theI.getPhoneNumber());
+        inst.setRoles(roles);
+        inst.setInstitutionName(theI.getInstitutionName());
 
-		return "Deleted institution id - " + id;
-}
+        institutionRepository.save(inst);
+
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @PutMapping("/institution")
+    public Institution updateParticipant(@RequestBody Institution theInstitution) {
+        Institution newInstitution = institutionService.findById(theInstitution.getId());
+
+        newInstitution.setCity(theInstitution.getCity());
+        newInstitution.setStreet(theInstitution.getStreet());
+        newInstitution.setPostalCode(theInstitution.getPostalCode());
+        newInstitution.setPhoneNumber(theInstitution.getPhoneNumber());
+        newInstitution.setInstitutionName(theInstitution.getInstitutionName());
+        institutionService.save(newInstitution);
+
+        return theInstitution;
+    }
+
+    @DeleteMapping("/institution/{id}")
+    public String deleteInstitution(@PathVariable long id) {
+
+        Institution inst = institutionService.findById(id);
+
+        // throw exception if null
+
+        if (inst == null) {
+            throw new RuntimeException("the institution id is not found - " + id);
+        }
+
+        institutionService.deleteById(id);
+
+        return "Deleted institution id - " + id;
+    }
 }

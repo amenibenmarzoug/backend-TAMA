@@ -13,37 +13,36 @@ import javax.persistence.MapsId;
 @Entity
 public class TrainerDisponibility {
 
-	@Id
+    @Id
     @Column(name = "trainerDispo_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
-	Long idTrainerDisponibility;
+    Long idTrainerDisponibility;
 
-	@ManyToOne
-	@JoinColumn(name = "trainer_id")
-	Trainer trainer;
+    @ManyToOne
+    @JoinColumn(name = "trainer_id")
+    Trainer trainer;
 
 	/*@ManyToOne
 	@JoinColumn(name = "courseSession_id")
 	Session courseSession;*/
 
-	@Column
-	boolean disponibility;
+    @Column
+    boolean disponibility;
 
-	public Long getIdTrainerDisponibility() {
-		return idTrainerDisponibility;
-	}
+    public TrainerDisponibility() {
+    }
 
-	public void setIdTrainerDisponibility(Long idTrainerDisponibility) {
-		this.idTrainerDisponibility = idTrainerDisponibility;
-	}
+    public Long getIdTrainerDisponibility() {
+        return idTrainerDisponibility;
+    }
 
-	public Trainer getTrainer() {
-		return trainer;
-	}
+    public void setIdTrainerDisponibility(Long idTrainerDisponibility) {
+        this.idTrainerDisponibility = idTrainerDisponibility;
+    }
 
-	public void setTrainer(Trainer trainer) {
-		this.trainer = trainer;
-	}
+    public Trainer getTrainer() {
+        return trainer;
+    }
 
 	/*public Session getCourseSession() {
 		return courseSession;
@@ -53,13 +52,15 @@ public class TrainerDisponibility {
 		this.courseSession = courseSession;
 	}*/
 
-	public boolean isDisponibility() {
-		return disponibility;
-	}
+    public void setTrainer(Trainer trainer) {
+        this.trainer = trainer;
+    }
 
-	public void setDisponibility(boolean disponibility) {
-		this.disponibility = disponibility;
-	}
-	
-	public TrainerDisponibility() {}
+    public boolean isDisponibility() {
+        return disponibility;
+    }
+
+    public void setDisponibility(boolean disponibility) {
+        this.disponibility = disponibility;
+    }
 }

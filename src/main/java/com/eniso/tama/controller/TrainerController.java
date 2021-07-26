@@ -40,152 +40,151 @@ import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.entity.User;
 import com.eniso.tama.service.TrainerService;
 
-@RestController 
+@RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@ComponentScan(basePackageClasses = TrainerService.class )
+@ComponentScan(basePackageClasses = TrainerService.class)
 @RequestMapping("/api")
 public class TrainerController {
-	
-	
-	
-	private TrainerService trainerService;
-	
-	@Autowired
-	public TrainerController(TrainerService theTrainerService) {
-		trainerService = theTrainerService;
-	}
-	
-	@GetMapping("/trainers")
+
+
+    private TrainerService trainerService;
+
+    @Autowired
+    public TrainerController(TrainerService theTrainerService) {
+        trainerService = theTrainerService;
+    }
+
+    @GetMapping("/trainers")
     public List<Trainer> getAllTrainers() {
         return trainerService.findAll();
     }
-	
-	@GetMapping("trainers/{trainerId}")
-	public Trainer getTrainer(@PathVariable int  trainerId) {
-		
-		Trainer theTrainer = trainerService.findById(trainerId);
-		
-		if (theTrainer == null) {
-			throw new RuntimeException("Trainer id not found - " + trainerId);
-		}
-		
-		return theTrainer;
-	}
-	
-	@GetMapping("trainerDisponi/{trainerId}")
-	public Set<Days> getTrainerDisponibilities(@PathVariable int  trainerId) {
-		
-		Trainer theTrainer = trainerService.findById(trainerId);
-		
-		if (theTrainer == null) {
-			throw new RuntimeException("Trainer id not found - " + trainerId);
-		}
-		
-		return theTrainer.getDisponibilityDays();
-	}
-	// add mapping for POST /participants - add new control
 
-	@PostMapping("/trainers")
-	public  Trainer addTrainer(@RequestBody Trainer theTrainer) {
-	
-		
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
-		
-		//stheControl.setId(0);
-		
-		trainerService.save(theTrainer);
-		return theTrainer;
-	}
-	
-	
-	// add mapping for PUT /employees - update existing employee
-	
-		@PutMapping("/trainers")
-		public Trainer updateTrainer(@RequestBody Trainer theTrainer) {
-			
-			Trainer newTrainer = trainerService.findById(theTrainer.getId());
-			newTrainer.setEmail(theTrainer.getEmail());
-			newTrainer.setCity(theTrainer.getCity());
-			newTrainer.setStreet(theTrainer.getStreet());
-			newTrainer.setPhoneNumber(theTrainer.getPhoneNumber());
-			newTrainer.setPostalCode(theTrainer.getPostalCode());
-			newTrainer.setFirstName(theTrainer.getFirstName());
-			newTrainer.setLastName(theTrainer.getLastName());
-			newTrainer.setSpecifications(theTrainer.getSpecifications());
-			newTrainer.setDisponibilityDays(theTrainer.getDisponibilityDays());
-			System.out.println(theTrainer.getDisponibilityDays());
-			System.out.println(newTrainer.getDisponibilityDays());
-			trainerService.save(newTrainer);
-			return theTrainer;
-		}
+    @GetMapping("trainers/{trainerId}")
+    public Trainer getTrainer(@PathVariable int trainerId) {
 
-		@DeleteMapping("/trainers/{trainerId}")
-		public String deleteTrainer(@PathVariable int  trainerId) {
-			
-			Trainer tempTrainer = trainerService.findById(trainerId);
-			
-			// throw exception if null
-			
-			if (tempTrainer == null) {
-				throw new RuntimeException("the trainer id is not found - " + trainerId);
-			}
-			
-			trainerService.deleteById(trainerId);
-			
-			return "Deleted trainer id - " + trainerId;
-		}
-		@GetMapping( "/sendMailToTrainer" )
-		private void sendmail(@RequestParam("id") long id  ) throws AddressException, MessagingException, IOException {
-			
-			Trainer t = trainerService.findById(id ) ;
-			   Properties props = new Properties();
-			   props.put("mail.smtp.auth", "true");
-			   props.put("mail.smtp.starttls.enable", "true");
-			   props.put("mail.smtp.host", "smtp.gmail.com");
-			   props.put("mail.smtp.port", "587");
-			   
-			   Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-			      protected PasswordAuthentication getPasswordAuthentication() {
-			         return new PasswordAuthentication("noreplybaeldung@gmail.com", "0000*admin");
-			      }
-			   });
-			   Message msg = new MimeMessage(session);
-			   msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
+        Trainer theTrainer = trainerService.findById(trainerId);
 
-			   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(t.getEmail()));
-			   msg.setSubject("Votre Compte Tama ");
-			   msg.setContent("Votre compte sur la plateforme Tama est créé avec succès. \n" + 
-			   		"Vous pouvez vous connecter en utilisant "
-			   		+ ":\n" + 
-					   
-			   		"E-mail:"+ t.getEmail() + "\n"
-			   				+ ""
-			   				+ ""+
-			   		"Mot de passe:"+t.getPhoneNumber() +"", "text/html");
-			   msg.setSentDate(new Date(0));
+        if (theTrainer == null) {
+            throw new RuntimeException("Trainer id not found - " + trainerId);
+        }
 
-			   MimeBodyPart messageBodyPart = new MimeBodyPart();
-			   messageBodyPart.setContent("Votre compte sur la plateforme Tama est créé avec succès. \n" + 
-				   		"Vous pouvez vous connecter en utilisant "
-				   		+ ":\n" + 
-						   
-				   		"E-mail:"+ t.getEmail() + "\n"
-				   				+ ""
-				   				+ ""+
-				   		"Mot de passe:"+t.getPhoneNumber() +"", "text/html");
-			   Multipart multipart = new MimeMultipart();
-			   multipart.addBodyPart(messageBodyPart);
-			  // MimeBodyPart attachPart = new MimeBodyPart();
+        return theTrainer;
+    }
 
-			  // attachPart.attachFile("/var/tmp/image19.png");
-			   //multipart.addBodyPart(attachPart);
-			   msg.setContent(multipart);
-			   Transport.send(msg);   
-				t.setValidated(true);
-				trainerService.save(t);
-			}
-	
-	
+    @GetMapping("trainerDisponi/{trainerId}")
+    public Set<Days> getTrainerDisponibilities(@PathVariable int trainerId) {
+
+        Trainer theTrainer = trainerService.findById(trainerId);
+
+        if (theTrainer == null) {
+            throw new RuntimeException("Trainer id not found - " + trainerId);
+        }
+
+        return theTrainer.getDisponibilityDays();
+    }
+    // add mapping for POST /participants - add new control
+
+    @PostMapping("/trainers")
+    public Trainer addTrainer(@RequestBody Trainer theTrainer) {
+
+
+        // also just in case they pass an id in JSON ... set id to 0
+        // this is to force a save of new item ... instead of update
+
+        //stheControl.setId(0);
+
+        trainerService.save(theTrainer);
+        return theTrainer;
+    }
+
+
+    // add mapping for PUT /employees - update existing employee
+
+    @PutMapping("/trainers")
+    public Trainer updateTrainer(@RequestBody Trainer theTrainer) {
+
+        Trainer newTrainer = trainerService.findById(theTrainer.getId());
+        newTrainer.setEmail(theTrainer.getEmail());
+        newTrainer.setCity(theTrainer.getCity());
+        newTrainer.setStreet(theTrainer.getStreet());
+        newTrainer.setPhoneNumber(theTrainer.getPhoneNumber());
+        newTrainer.setPostalCode(theTrainer.getPostalCode());
+        newTrainer.setFirstName(theTrainer.getFirstName());
+        newTrainer.setLastName(theTrainer.getLastName());
+        newTrainer.setSpecifications(theTrainer.getSpecifications());
+        newTrainer.setDisponibilityDays(theTrainer.getDisponibilityDays());
+        System.out.println(theTrainer.getDisponibilityDays());
+        System.out.println(newTrainer.getDisponibilityDays());
+        trainerService.save(newTrainer);
+        return theTrainer;
+    }
+
+    @DeleteMapping("/trainers/{trainerId}")
+    public String deleteTrainer(@PathVariable int trainerId) {
+
+        Trainer tempTrainer = trainerService.findById(trainerId);
+
+        // throw exception if null
+
+        if (tempTrainer == null) {
+            throw new RuntimeException("the trainer id is not found - " + trainerId);
+        }
+
+        trainerService.deleteById(trainerId);
+
+        return "Deleted trainer id - " + trainerId;
+    }
+
+    @GetMapping("/sendMailToTrainer")
+    private void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException {
+
+        Trainer t = trainerService.findById(id);
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("noreplybaeldung@gmail.com", "0000*admin");
+            }
+        });
+        Message msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
+
+        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(t.getEmail()));
+        msg.setSubject("Votre Compte Tama ");
+        msg.setContent("Votre compte sur la plateforme Tama est créé avec succès. \n" +
+                "Vous pouvez vous connecter en utilisant "
+                + ":\n" +
+
+                "E-mail:" + t.getEmail() + "\n"
+                + ""
+                + "" +
+                "Mot de passe:" + t.getPhoneNumber() + "", "text/html");
+        msg.setSentDate(new Date(0));
+
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setContent("Votre compte sur la plateforme Tama est créé avec succès. \n" +
+                "Vous pouvez vous connecter en utilisant "
+                + ":\n" +
+
+                "E-mail:" + t.getEmail() + "\n"
+                + ""
+                + "" +
+                "Mot de passe:" + t.getPhoneNumber() + "", "text/html");
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
+        // MimeBodyPart attachPart = new MimeBodyPart();
+
+        // attachPart.attachFile("/var/tmp/image19.png");
+        //multipart.addBodyPart(attachPart);
+        msg.setContent(multipart);
+        Transport.send(msg);
+        t.setValidated(true);
+        trainerService.save(t);
+    }
+
 
 }

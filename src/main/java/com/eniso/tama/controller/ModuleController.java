@@ -32,105 +32,105 @@ import com.eniso.tama.service.ThemeInstanceService;
 @RequestMapping(value = "/api")
 public class ModuleController {
 
-	@Autowired
-	private ModuleService moduleService;
+    @Autowired
+    private ModuleService moduleService;
 
-	@Autowired
-	private ModuleInstanceService moduleInstService;
-	
-	@Autowired
-	private ThemeInstanceService themeInstService;
-	
-	public ModuleController(ModuleService moduleService) {
-		this.moduleService = moduleService;
-	}
+    @Autowired
+    private ModuleInstanceService moduleInstService;
 
-	@GetMapping("/module")
-	public List<Module> findAll() {
-		return moduleService.findAll();
-	}
+    @Autowired
+    private ThemeInstanceService themeInstService;
 
-	@GetMapping("/theme/modules")
-	public List<Module> getThemeModules(@RequestParam("id") long id) {
-		List<Module> modulesPerTheme = new ArrayList<Module>();
-		for (Module theM : moduleService.findAll()) {
-			if (theM.getTheme() != null) {
-				if (id == theM.getTheme().getId()) {
+    public ModuleController(ModuleService moduleService) {
+        this.moduleService = moduleService;
+    }
 
-					modulesPerTheme.add(theM);
-				}
-			}
-		}
-		return modulesPerTheme;
-	}
+    @GetMapping("/module")
+    public List<Module> findAll() {
+        return moduleService.findAll();
+    }
 
-	@GetMapping("module/{moduleId}")
-	public Module getModule(@PathVariable int moduleId) {
+    @GetMapping("/theme/modules")
+    public List<Module> getThemeModules(@RequestParam("id") long id) {
+        List<Module> modulesPerTheme = new ArrayList<Module>();
+        for (Module theM : moduleService.findAll()) {
+            if (theM.getTheme() != null) {
+                if (id == theM.getTheme().getId()) {
 
-		Module module = moduleService.findById(moduleId);
+                    modulesPerTheme.add(theM);
+                }
+            }
+        }
+        return modulesPerTheme;
+    }
 
-		if (module == null) {
-			throw new RuntimeException("module id not found - " + moduleId);
-		}
+    @GetMapping("module/{moduleId}")
+    public Module getModule(@PathVariable int moduleId) {
 
-		return module;
-	}
-	// add mapping for POST /Module - add new Module
+        Module module = moduleService.findById(moduleId);
 
-	@Transactional 
-	@PostMapping("/module")
-	public Module addModule(@RequestBody Module module) {
-		long id=module.getTheme().getId();
-		List<ThemeInstance> list = themeInstService.findByThemeId(id);
-		
-		Module mod=moduleService.save(module);
-		
-		for (ThemeInstance themeInstance : list) {
-			ModuleInstance modInst= new ModuleInstance();
-			modInst.setModule(mod);
-			modInst.setModuleInstanceName(mod.getModuleName());
-			modInst.setNbDaysModuleInstance(mod.getNbDaysModule());
-			modInst.setThemeInstance(themeInstance);
-			moduleInstService.save(modInst);
-		}
-		
-		return module;
-	}
+        if (module == null) {
+            throw new RuntimeException("module id not found - " + moduleId);
+        }
 
-	// add mapping for PUT /module - update existing module
+        return module;
+    }
+    // add mapping for POST /Module - add new Module
 
-	@Transactional 
-	@PutMapping("/module")
-	public Module updateModule(@RequestBody Module theModule) {
-		long id = theModule.getId();
-		List<ModuleInstance> list = moduleInstService.findByModuleId(id);
+    @Transactional
+    @PostMapping("/module")
+    public Module addModule(@RequestBody Module module) {
+        long id = module.getTheme().getId();
+        List<ThemeInstance> list = themeInstService.findByThemeId(id);
 
-		Module module = moduleService.findById(id);
-		module.setModuleName(theModule.getModuleName());
-		module.setNbDaysModule(theModule.getNbDaysModule());
-		module.setTheme(theModule.getTheme());
-		moduleService.save(module);
-		for (ModuleInstance moduleInstance : list) {
-			moduleInstance.setModuleInstanceName(theModule.getModuleName());
-			moduleInstance.setNbDaysModuleInstance(theModule.getNbDaysModule());
-			moduleInstService.save(moduleInstance);
-		}
-		return module;
-	}
+        Module mod = moduleService.save(module);
 
-	@DeleteMapping("/module/{moduleId}")
-	public String deleteModule(@PathVariable int moduleId) {
+        for (ThemeInstance themeInstance : list) {
+            ModuleInstance modInst = new ModuleInstance();
+            modInst.setModule(mod);
+            modInst.setModuleInstanceName(mod.getModuleName());
+            modInst.setNbDaysModuleInstance(mod.getNbDaysModule());
+            modInst.setThemeInstance(themeInstance);
+            moduleInstService.save(modInst);
+        }
 
-		Module module = moduleService.findById(moduleId);
+        return module;
+    }
 
-		// throw exception if null
+    // add mapping for PUT /module - update existing module
 
-		if (module == null) {
-			throw new RuntimeException("the Module id is not found - " + moduleId);
-		}
+    @Transactional
+    @PutMapping("/module")
+    public Module updateModule(@RequestBody Module theModule) {
+        long id = theModule.getId();
+        List<ModuleInstance> list = moduleInstService.findByModuleId(id);
 
-		moduleService.deleteById(moduleId);
+        Module module = moduleService.findById(id);
+        module.setModuleName(theModule.getModuleName());
+        module.setNbDaysModule(theModule.getNbDaysModule());
+        module.setTheme(theModule.getTheme());
+        moduleService.save(module);
+        for (ModuleInstance moduleInstance : list) {
+            moduleInstance.setModuleInstanceName(theModule.getModuleName());
+            moduleInstance.setNbDaysModuleInstance(theModule.getNbDaysModule());
+            moduleInstService.save(moduleInstance);
+        }
+        return module;
+    }
 
-		return "Deleted Module id - " + moduleId;
-	}
+    @DeleteMapping("/module/{moduleId}")
+    public String deleteModule(@PathVariable int moduleId) {
+
+        Module module = moduleService.findById(moduleId);
+
+        // throw exception if null
+
+        if (module == null) {
+            throw new RuntimeException("the Module id is not found - " + moduleId);
+        }
+
+        moduleService.deleteById(moduleId);
+
+        return "Deleted Module id - " + moduleId;
+    }
 }

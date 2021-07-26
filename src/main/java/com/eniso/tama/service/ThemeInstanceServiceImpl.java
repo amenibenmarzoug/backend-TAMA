@@ -16,62 +16,62 @@ import com.eniso.tama.repository.ThemeInstanceRepository;
 
 @Service
 @ComponentScan(basePackageClasses = ThemeInstanceRepository.class)
-public class ThemeInstanceServiceImpl implements ThemeInstanceService{
-
-	
-	private ThemeInstanceRepository themeInstanceRepository;
-
-	@Autowired
-	public ThemeInstanceServiceImpl(ThemeInstanceRepository themeInstanceRepository) {
-		super();
-		this.themeInstanceRepository = themeInstanceRepository;
-	}
+public class ThemeInstanceServiceImpl implements ThemeInstanceService {
 
 
-	@Override
-	public List<ThemeInstance> findAll() {
-		return themeInstanceRepository.findAll();
-	}
+    private ThemeInstanceRepository themeInstanceRepository;
 
-	
-	@Override
-	public ThemeInstance findById(long theId) {
-		Optional<ThemeInstance> result = themeInstanceRepository.findById(theId);
+    @Autowired
+    public ThemeInstanceServiceImpl(ThemeInstanceRepository themeInstanceRepository) {
+        super();
+        this.themeInstanceRepository = themeInstanceRepository;
+    }
 
-		ThemeInstance theThemeInstance = null;
 
-		if (result.isPresent()) {
-			theThemeInstance = result.get();
-		} else {
-			// we didn't find the participant
-			throw new RuntimeException("Did not find theme id - " + theId);
-		}
+    @Override
+    public List<ThemeInstance> findAll() {
+        return themeInstanceRepository.findAll();
+    }
 
-		return theThemeInstance;
-	}
 
-	@Override
-	public ThemeInstance save(ThemeInstance theThemeInstance) {
-		return(themeInstanceRepository.save(theThemeInstance));	
-	}
+    @Override
+    public ThemeInstance findById(long theId) {
+        Optional<ThemeInstance> result = themeInstanceRepository.findById(theId);
 
-	@Override
-	public void deleteById(long theId) {
-		themeInstanceRepository.deleteById(theId);
-		
-	}
-	
-	@Override
-	public List<ThemeInstance> findByThemeId(long id) {
-		List<ThemeInstance> list= themeInstanceRepository.findAll();
-		List<ThemeInstance> list1= new ArrayList<>();
-		for (ThemeInstance thInst : list ) {
-			if (thInst.getTheme().getId()== id) {
-				 list1.add(thInst);
-			}
-			
-		}
-		return (list1);
-	}
+        ThemeInstance theThemeInstance = null;
+
+        if (result.isPresent()) {
+            theThemeInstance = result.get();
+        } else {
+            // we didn't find the participant
+            throw new RuntimeException("Did not find theme id - " + theId);
+        }
+
+        return theThemeInstance;
+    }
+
+    @Override
+    public ThemeInstance save(ThemeInstance theThemeInstance) {
+        return (themeInstanceRepository.save(theThemeInstance));
+    }
+
+    @Override
+    public void deleteById(long theId) {
+        themeInstanceRepository.deleteById(theId);
+
+    }
+
+    @Override
+    public List<ThemeInstance> findByThemeId(long id) {
+        List<ThemeInstance> list = themeInstanceRepository.findAll();
+        List<ThemeInstance> list1 = new ArrayList<>();
+        for (ThemeInstance thInst : list) {
+            if (thInst.getTheme().getId() == id) {
+                list1.add(thInst);
+            }
+
+        }
+        return (list1);
+    }
 
 }

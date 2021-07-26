@@ -9,151 +9,137 @@ import com.eniso.tama.entity.Days;
 
 
 public class SignupRequestTrainer {
-	@NotBlank
+    @NotBlank
     @Size(max = 50)
     @Email
     private String email;
 
-//	@NotBlank
+    //	@NotBlank
 //    @Size(min = 3, max = 20)
 //    private String address;
-	@NotNull
-	private String street;
-	
-	public String getStreet() {
-		return street;
-	}
-
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getPostalCode() {
-		return postalCode;
-	}
-
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
-
-	@NotNull
-	private String city;
-	
-	@NotNull
-	private String postalCode;
-	
-	@NotBlank
-	@Size(min = 3, max = 20)
+    @NotNull
+    private String street;
+    @NotNull
+    private String city;
+    @NotNull
+    private String postalCode;
+    @NotBlank
+    @Size(min = 3, max = 20)
     private String phoneNumber;
-    
-	@NotBlank
-	@Size(max = 20)
-	private String firstName;
-	
-	@NotBlank
-	@Size(max = 30)
-	private String lastName;
-	
-	@NotBlank
-	private String gender;
-	
-
-
-	private Set<String> specifications;
-
+    @NotBlank
+    @Size(max = 20)
+    private String firstName;
+    @NotBlank
+    @Size(max = 30)
+    private String lastName;
+    @NotBlank
+    private String gender;
+    private Set<String> specifications;
     private Set<Days> disponibilityDays;
-    
     private Set<String> role;
-    
     @NotBlank
 
-   // @Size(min = 8, max = 40)
+    // @Size(min = 8, max = 40)
     private String password;
-  
-	public String getEmail() {
-		return email;
-	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getStreet() {
+        return street;
+    }
 
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
+    public String getCity() {
+        return city;
+    }
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    public String getPostalCode() {
+        return postalCode;
+    }
 
-	public Set<String> getRole() {
-		return role;
-	}
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
 
-	public void setRole(Set<String> role) {
-		this.role = role;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-	public Set<String> getSpecifications() {
-		return specifications;
-	}
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-	public void setSpecifications(Set<String> specifications) {
-		this.specifications = specifications;
-	}
+    public Set<String> getRole() {
+        return role;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setRole(Set<String> role) {
+        this.role = role;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
 
-	public String getGender() {
-		return gender;
-	}
+    public Set<String> getSpecifications() {
+        return specifications;
+    }
 
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
+    public void setSpecifications(Set<String> specifications) {
+        this.specifications = specifications;
+    }
 
-	public Set<Days> getDisponibilityDays() {
-		return disponibilityDays;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public void setDisponibilityDays(Set<Days> disponibilityDays) {
-		this.disponibilityDays = disponibilityDays;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Set<Days> getDisponibilityDays() {
+        return disponibilityDays;
+    }
+
+    public void setDisponibilityDays(Set<Days> disponibilityDays) {
+        this.disponibilityDays = disponibilityDays;
+    }
+
+
 }
 

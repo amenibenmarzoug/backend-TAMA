@@ -1,4 +1,5 @@
 package com.eniso.tama.service;
+
 import java.util.List;
 
 import java.util.List;
@@ -19,15 +20,16 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import com.eniso.tama.configuration.jwt.AuthEntryPointJwt;
 import com.eniso.tama.entity.User;
 import com.eniso.tama.repository.UserRepository;
-@Service
-public class UserDetailsServiceImpl implements UserDetailsService{
-	@Autowired
-	UserRepository userRepository;
 
-	@Override
-	@Transactional
-	public UserDetails loadUserByUsername(String email) {
-		User userlist = userRepository.findByEmail(email);
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
+    @Autowired
+    UserRepository userRepository;
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String email) {
+        User userlist = userRepository.findByEmail(email);
 //		for (User user : userlist) {
 //			System.out.println("user email");
 //			System.out.println(user.getEmail());
@@ -37,8 +39,8 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 //		
 //		return UserDetailsImpl.build(userlist.get(0));
 //	}
-		return UserDetailsImpl.build(userlist);
-}
-	
-	//User u = userRepository.findById(long id);
+        return UserDetailsImpl.build(userlist);
+    }
+
+    //User u = userRepository.findById(long id);
 }
