@@ -14,63 +14,62 @@ import com.eniso.tama.repository.ThemeDetailRepository;
 
 
 @Service
-@ComponentScan(basePackageClasses = ThemeDetailRepository.class )
+@ComponentScan(basePackageClasses = ThemeDetailRepository.class)
 public class ThemeDetailServiceImpl implements ThemeDetailService {
-	
-	private ThemeDetailRepository themeDetailRepository;
-    
-    
+
+    private ThemeDetailRepository themeDetailRepository;
+
+
     @Autowired
-	public ThemeDetailServiceImpl(ThemeDetailRepository themeDetailRepository) {
-		//super();
-		this.themeDetailRepository = themeDetailRepository;
-	}
-    
-	@Override
-	public List<ThemeDetail> findAll() {
-		return themeDetailRepository.findAll();
-	}
+    public ThemeDetailServiceImpl(ThemeDetailRepository themeDetailRepository) {
+        //super();
+        this.themeDetailRepository = themeDetailRepository;
+    }
 
-	@Override
-	public ThemeDetail findById(long theId) {
-		Optional<ThemeDetail> result = themeDetailRepository.findById(theId);
-		
-		ThemeDetail theControl = null;
-		
-		if (result.isPresent()) {
-			theControl = result.get();
-		}
-		else {
-			// we didn't find the theme Detail
-			throw new RuntimeException("Did not find THeme Detail id - " + theId);
-		}
-		
-		return theControl;
-	}
+    @Override
+    public List<ThemeDetail> findAll() {
+        return themeDetailRepository.findAll();
+    }
 
-	@Override
-	public ThemeDetail save(ThemeDetail themeDetail) {
-		return themeDetailRepository.save(themeDetail);
+    @Override
+    public ThemeDetail findById(long theId) {
+        Optional<ThemeDetail> result = themeDetailRepository.findById(theId);
 
-	}
+        ThemeDetail theControl = null;
 
-	@Override
-	public void deleteById(long id) {
-		themeDetailRepository.deleteById(id);
+        if (result.isPresent()) {
+            theControl = result.get();
+        } else {
+            // we didn't find the theme Detail
+            throw new RuntimeException("Did not find THeme Detail id - " + theId);
+        }
 
-	}
+        return theControl;
+    }
 
-	@Override
-	public List<ThemeDetail> findByModuleId(long id) {
-		List<ThemeDetail> list= themeDetailRepository.findAll();
-		List<ThemeDetail> list1= new ArrayList<>();
-		for (ThemeDetail t : list ) {
-			if (t.getModule().getId()== id) {
-				 list1.add(t);
-			}
-			
-		}
-		return (list1);
-	}
+    @Override
+    public ThemeDetail save(ThemeDetail themeDetail) {
+        return themeDetailRepository.save(themeDetail);
+
+    }
+
+    @Override
+    public void deleteById(long id) {
+        themeDetailRepository.deleteById(id);
+
+    }
+
+    @Override
+    public List<ThemeDetail> findByModuleId(long id) {
+        List<ThemeDetail> list = themeDetailRepository.findAll();
+        List<ThemeDetail> list1 = new ArrayList<>();
+        for (ThemeDetail t : list) {
+            if (t.getModule().getId() == id) {
+                list1.add(t);
+            }
+
+        }
+        return (list1);
+    }
 
 }

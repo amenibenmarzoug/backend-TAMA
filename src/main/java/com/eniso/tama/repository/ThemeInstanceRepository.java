@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.eniso.tama.entity.ThemeInstance;
 
 @Repository
-public interface ThemeInstanceRepository extends JpaRepository<ThemeInstance, Long>{
+public interface ThemeInstanceRepository extends JpaRepository<ThemeInstance, Long> {
 
 }

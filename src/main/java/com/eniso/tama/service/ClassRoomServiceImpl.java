@@ -13,65 +13,64 @@ import com.eniso.tama.repository.ClassRoomRepository;
 
 
 @Service
-@ComponentScan(basePackageClasses = ClassRoomRepository.class )
-public class ClassRoomServiceImpl  implements ClassRoomService{
-private ClassRoomRepository classRoomRepository;
-	
-	public ClassRoomServiceImpl() {}
+@ComponentScan(basePackageClasses = ClassRoomRepository.class)
+public class ClassRoomServiceImpl implements ClassRoomService {
+    private ClassRoomRepository classRoomRepository;
 
-	@Autowired
-	public ClassRoomServiceImpl(ClassRoomRepository classRoomRepository) {
-		this.classRoomRepository = classRoomRepository;
-	}
-	
-	@Override
-	public List<ClassRoom> findAll() {
-		return classRoomRepository.findAll();
-	}
+    public ClassRoomServiceImpl() {
+    }
 
-	@Override
-	public ClassRoom findById(long theId) {
-		Optional<ClassRoom> result = classRoomRepository.findById(theId);
-		
-		ClassRoom classRoom = null;
-		
-		if (result.isPresent()) {
-			classRoom = result.get();
-		}
-		else {
-			// we didn't find the classRoom
-			throw new RuntimeException("Did not find classRoom id - " + theId);
-		}
-		
-		return classRoom;
-	}
+    @Autowired
+    public ClassRoomServiceImpl(ClassRoomRepository classRoomRepository) {
+        this.classRoomRepository = classRoomRepository;
+    }
 
-	@Override
-	public void save(ClassRoom classRoom) {
-		classRoomRepository.save(classRoom);
-	}
+    @Override
+    public List<ClassRoom> findAll() {
+        return classRoomRepository.findAll();
+    }
 
-	@Override
-	public void deleteById(long    theId) {
-		classRoomRepository.deleteById(theId);
-	}
+    @Override
+    public ClassRoom findById(long theId) {
+        Optional<ClassRoom> result = classRoomRepository.findById(theId);
 
-	@Override
-	public List<ClassRoom> findByInstitution(ClassRoom theClassroom) {
-		List<ClassRoom> classroom= null ;
-		
-		
+        ClassRoom classRoom = null;
 
-		for(ClassRoom theC:classRoomRepository.findAll()) {
-			
-			
-		if  (theC.getInstitution()!=null) {
-    	  
-			classroom.add(theC) ;
-		
-      }
-           	
-	}
-		return classroom;
-	}
+        if (result.isPresent()) {
+            classRoom = result.get();
+        } else {
+            // we didn't find the classRoom
+            throw new RuntimeException("Did not find classRoom id - " + theId);
+        }
+
+        return classRoom;
+    }
+
+    @Override
+    public void save(ClassRoom classRoom) {
+        classRoomRepository.save(classRoom);
+    }
+
+    @Override
+    public void deleteById(long theId) {
+        classRoomRepository.deleteById(theId);
+    }
+
+    @Override
+    public List<ClassRoom> findByInstitution(ClassRoom theClassroom) {
+        List<ClassRoom> classroom = null;
+
+
+        for (ClassRoom theC : classRoomRepository.findAll()) {
+
+
+            if (theC.getInstitution() != null) {
+
+                classroom.add(theC);
+
+            }
+
+        }
+        return classroom;
+    }
 }

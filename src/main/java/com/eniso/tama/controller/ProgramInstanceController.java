@@ -39,173 +39,164 @@ import com.eniso.tama.service.ThemeService;
 
 public class ProgramInstanceController {
 
-	private ProgramInstanceService programService;
-	private ThemeService themeService;
-	private ModuleService moduleService;
-	private ThemeDetailService themeDetailService;
-	private ThemeInstanceService themeInstanceService;
-	private ModuleInstanceService moduleInstanceService;
-	private ThemeDetailInstanceService themeDetailInstanceService;
-	@Autowired
+    private ProgramInstanceService programService;
+    private ThemeService themeService;
+    private ModuleService moduleService;
+    private ThemeDetailService themeDetailService;
+    private ThemeInstanceService themeInstanceService;
+    private ModuleInstanceService moduleInstanceService;
+    private ThemeDetailInstanceService themeDetailInstanceService;
+
+    @Autowired
 	/*public ProgramInstanceController(ProgramInstanceService programService) {
 		super();
 		this.programService = programService;
 	}*/
-	public ProgramInstanceController(ProgramInstanceService programService, ThemeService themeService,ModuleService moduleService,ThemeDetailService themeDetailService,ThemeInstanceService themeInstanceService,ModuleInstanceService moduleInstanceService,ThemeDetailInstanceService themeDetailInstanceService) {
-		super();
-		this.programService = programService;
-		this.themeService = themeService;
-		this.moduleService=moduleService;
-		this.themeDetailService=themeDetailService;
-		this.themeInstanceService=themeInstanceService;
-		this.moduleInstanceService=moduleInstanceService;
-		this.themeDetailInstanceService=themeDetailInstanceService;
-	}
-	
+    public ProgramInstanceController(ProgramInstanceService programService, ThemeService themeService, ModuleService moduleService, ThemeDetailService themeDetailService, ThemeInstanceService themeInstanceService, ModuleInstanceService moduleInstanceService, ThemeDetailInstanceService themeDetailInstanceService) {
+        super();
+        this.programService = programService;
+        this.themeService = themeService;
+        this.moduleService = moduleService;
+        this.themeDetailService = themeDetailService;
+        this.themeInstanceService = themeInstanceService;
+        this.moduleInstanceService = moduleInstanceService;
+        this.themeDetailInstanceService = themeDetailInstanceService;
+    }
 
-	@GetMapping("/programsInst")
-	public List<ProgramInstance> findAll() {
-		return programService.findAll();
-	}
 
-	
+    @GetMapping("/programsInst")
+    public List<ProgramInstance> findAll() {
+        return programService.findAll();
+    }
 
-	@GetMapping("programsInst/{programId}")
-	public ProgramInstance getProgram(@PathVariable long programId) {
 
-		ProgramInstance theProgram = programService.findById(programId);
+    @GetMapping("programsInst/{programId}")
+    public ProgramInstance getProgram(@PathVariable long programId) {
 
-		if (theProgram == null) {
-			throw new RuntimeException("programId not found - " + programId);
-		}
+        ProgramInstance theProgram = programService.findById(programId);
 
-		return theProgram;
-	}
-	// add mapping for POST /participants - add new control
+        if (theProgram == null) {
+            throw new RuntimeException("programId not found - " + programId);
+        }
 
-	
-	
-	@PostMapping("/programsInst")
-	public ProgramInstance addcontrol(@RequestBody ProgramInstance theProgram) {
+        return theProgram;
+    }
+    // add mapping for POST /participants - add new control
 
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
 
-		// stheControl.setId(0);
+    @PostMapping("/programsInst")
+    public ProgramInstance addcontrol(@RequestBody ProgramInstance theProgram) {
 
-		ProgramInstance p=programService.save(theProgram);
-		//System.out.print();
-		
-		return theProgram;
-	}
-	
-	
-	
-	
-	
-	
-	@Transactional 
-	@PostMapping("/programsInst2")
-	public ProgramInstance addClass(@RequestBody ProgramInstance theProgram) {
+        // also just in case they pass an id in JSON ... set id to 0
+        // this is to force a save of new item ... instead of update
 
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
+        // stheControl.setId(0);
 
-		// stheControl.setId(0);
+        ProgramInstance p = programService.save(theProgram);
+        //System.out.print();
 
-		ProgramInstance p=programService.save(theProgram);
-		//System.out.print();
-		long id= theProgram.getProgram().getId();
-		List<Theme> listT=this.themeService.findByProgId(id);
-		
-		for (Theme t : listT ) {
-			System.out.println(t.getThemeName());
-			//traitement création ThmeInst
-			ThemeInstance themeInst= new ThemeInstance();
-			themeInst.setProgramInstance(p);
-			themeInst.setTheme(t);
-			themeInst.setThemeInstName(t.getThemeName());
-			themeInst.setNbDaysthemeInst(t.getNbDaysTheme());
-			ThemeInstance t1=this.themeInstanceService.save(themeInst);
-			
-			List<Module> listM= this.moduleService.findModuleByThemeId(t.getId());
-			for (Module m :listM) {
-				System.out.println(m.getModuleName());
-				//traitement création moduleInst
-				ModuleInstance moduleInst= new ModuleInstance();
-				moduleInst.setModule(m);
-				moduleInst.setModuleInstanceName(m.getModuleName());
-				moduleInst.setNbDaysModuleInstance(m.getNbDaysModule());
-				moduleInst.setThemeInstance(t1);
-				ModuleInstance m1=this.moduleInstanceService.save(moduleInst);
-				
-				List<ThemeDetail> listTd= this.themeDetailService.findByModuleId(m.getId());
-				for (ThemeDetail td: listTd) {
-					System.out.println(td.getThemeDetailName());
-					//traitement 
-					ThemeDetailInstance themeDetailinst= new ThemeDetailInstance();
-					themeDetailinst.setModuleInstance(m1);
-					themeDetailinst.setThemeDetail(td);
-					themeDetailinst.setNbDaysthemeDetailInst(td.getNbDaysThemeDetail());
-					themeDetailinst.setThemeDetailInstName(td.getThemeDetailName());
-					this.themeDetailInstanceService.save(themeDetailinst);
-					
-				}
-			}
-			
-		}
-		
-		
-		return theProgram;
-	}
-	
-	
-	
-	
-	
-	
+        return theProgram;
+    }
 
-	// add mapping for PUT /employees - update existing employee
 
-	@Transactional 
-	@PutMapping("/programsInst")
+    @Transactional
+    @PostMapping("/programsInst2")
+    public ProgramInstance addClass(@RequestBody ProgramInstance theProgram) {
 
-	public ProgramInstance updateProgram(@RequestBody ProgramInstance theProgram) {
+        // also just in case they pass an id in JSON ... set id to 0
+        // this is to force a save of new item ... instead of update
 
-		ProgramInstance newProgram = programService.findById(theProgram.getId());
-		newProgram.setProgramInstName(theProgram.getProgramInstName());
-		newProgram.setNbDaysProgInst(theProgram.getNbDaysProgInst());;
-		newProgram.setLocation(theProgram.getLocation());
-		newProgram.setProgram(theProgram.getProgram());
-		newProgram.setBeginDate(theProgram.getBeginDate());
-		newProgram.setEndDate(theProgram.getEndDate());
+        // stheControl.setId(0);
 
-		//programService.save(newProgram);
-		
-		programService.update(newProgram);
+        ProgramInstance p = programService.save(theProgram);
+        //System.out.print();
+        long id = theProgram.getProgram().getId();
+        List<Theme> listT = this.themeService.findByProgId(id);
 
-		return theProgram;
-	}
+        for (Theme t : listT) {
+            System.out.println(t.getThemeName());
+            //traitement création ThmeInst
+            ThemeInstance themeInst = new ThemeInstance();
+            themeInst.setProgramInstance(p);
+            themeInst.setTheme(t);
+            themeInst.setThemeInstName(t.getThemeName());
+            themeInst.setNbDaysthemeInst(t.getNbDaysTheme());
+            ThemeInstance t1 = this.themeInstanceService.save(themeInst);
 
-	
-	@Transactional 
-	@DeleteMapping("programsInst/{programId}")
-	public String deleteProgram(@PathVariable int programId) {
+            List<Module> listM = this.moduleService.findModuleByThemeId(t.getId());
+            for (Module m : listM) {
+                System.out.println(m.getModuleName());
+                //traitement création moduleInst
+                ModuleInstance moduleInst = new ModuleInstance();
+                moduleInst.setModule(m);
+                moduleInst.setModuleInstanceName(m.getModuleName());
+                moduleInst.setNbDaysModuleInstance(m.getNbDaysModule());
+                moduleInst.setThemeInstance(t1);
+                ModuleInstance m1 = this.moduleInstanceService.save(moduleInst);
 
-		ProgramInstance Program = programService.findById(programId);
+                List<ThemeDetail> listTd = this.themeDetailService.findByModuleId(m.getId());
+                for (ThemeDetail td : listTd) {
+                    System.out.println(td.getThemeDetailName());
+                    //traitement
+                    ThemeDetailInstance themeDetailinst = new ThemeDetailInstance();
+                    themeDetailinst.setModuleInstance(m1);
+                    themeDetailinst.setThemeDetail(td);
+                    themeDetailinst.setNbDaysthemeDetailInst(td.getNbDaysThemeDetail());
+                    themeDetailinst.setThemeDetailInstName(td.getThemeDetailName());
+                    this.themeDetailInstanceService.save(themeDetailinst);
 
-		// throw exception if null
+                }
+            }
 
-		if (Program == null) {
-			throw new RuntimeException("the Program id is not found - " + programId);
-		}
+        }
 
-		//programService.deleteById(programId);
-		
-		programService.delete(Program);
 
-		return "Deleted programId- " + programId;
-		
-	}
+        return theProgram;
+    }
+
+
+    // add mapping for PUT /employees - update existing employee
+
+    @Transactional
+    @PutMapping("/programsInst")
+
+    public ProgramInstance updateProgram(@RequestBody ProgramInstance theProgram) {
+
+        ProgramInstance newProgram = programService.findById(theProgram.getId());
+        newProgram.setProgramInstName(theProgram.getProgramInstName());
+        newProgram.setNbDaysProgInst(theProgram.getNbDaysProgInst());
+        ;
+        newProgram.setLocation(theProgram.getLocation());
+        newProgram.setProgram(theProgram.getProgram());
+        newProgram.setBeginDate(theProgram.getBeginDate());
+        newProgram.setEndDate(theProgram.getEndDate());
+
+        //programService.save(newProgram);
+
+        programService.update(newProgram);
+
+        return theProgram;
+    }
+
+
+    @Transactional
+    @DeleteMapping("programsInst/{programId}")
+    public String deleteProgram(@PathVariable int programId) {
+
+        ProgramInstance Program = programService.findById(programId);
+
+        // throw exception if null
+
+        if (Program == null) {
+            throw new RuntimeException("the Program id is not found - " + programId);
+        }
+
+        //programService.deleteById(programId);
+
+        programService.delete(Program);
+
+        return "Deleted programId- " + programId;
+
+    }
 
 }

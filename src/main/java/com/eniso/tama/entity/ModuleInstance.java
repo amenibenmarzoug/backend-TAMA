@@ -13,78 +13,72 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class ModuleInstance {
 
-	@Id
+    @Id
     @Column(name = "module_instance_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-	
-	@NotNull
-	@Column(name = "moduleName")
-	private String moduleInstanceName;
-	
-	
-	@NotNull
-	@Column(name="moduleDays")
-	private int nbDaysModuleInstance;
+
+    @NotNull
+    @Column(name = "moduleName")
+    private String moduleInstanceName;
 
 
-	@ManyToOne
-	private Module module;
-	
-	
-	@ManyToOne (cascade= {CascadeType.ALL})
-	private ThemeInstance themeInstance;
-	
-	
-	public Long getId() {
-		return id;
-	}
+    @NotNull
+    @Column(name = "moduleDays")
+    private int nbDaysModuleInstance;
 
 
-	public String getModuleInstanceName() {
-		return moduleInstanceName;
-	}
+    @ManyToOne
+    private Module module;
 
 
-	public int getNbDaysModuleInstance() {
-		return nbDaysModuleInstance;
-	}
+    @ManyToOne(cascade = {CascadeType.ALL})
+    private ThemeInstance themeInstance;
 
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getModuleInstanceName() {
+        return moduleInstanceName;
+    }
+
+    public void setModuleInstanceName(String moduleInstanceName) {
+        this.moduleInstanceName = moduleInstanceName;
+    }
+
+    public int getNbDaysModuleInstance() {
+        return nbDaysModuleInstance;
+    }
+
+    public void setNbDaysModuleInstance(int nbDaysModuleInstance) {
+        this.nbDaysModuleInstance = nbDaysModuleInstance;
+    }
 
 
-	public void setModuleInstanceName(String moduleInstanceName) {
-		this.moduleInstanceName = moduleInstanceName;
-	}
+    public Module getModule() {
+        return module;
+    }
 
 
-	public void setNbDaysModuleInstance(int nbDaysModuleInstance) {
-		this.nbDaysModuleInstance = nbDaysModuleInstance;
-	}
+    public void setModule(Module module) {
+        this.module = module;
+    }
 
 
-	public Module getModule() {
-		return module;
-	}
+    public ThemeInstance getThemeInstance() {
+        return themeInstance;
+    }
 
 
-	public void setModule(Module module) {
-		this.module = module;
-	}
+    public void setThemeInstance(ThemeInstance themeInstance) {
+        this.themeInstance = themeInstance;
+    }
 
 
-	public ThemeInstance getThemeInstance() {
-		return themeInstance;
-	}
-
-
-	public void setThemeInstance(ThemeInstance themeInstance) {
-		this.themeInstance = themeInstance;
-	}
-	
-	
-	
 }

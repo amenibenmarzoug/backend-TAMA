@@ -56,363 +56,360 @@ import com.eniso.tama.service.ProgramInstanceService;
 public class ParticipantController {
 
 
-	@Autowired
-	RoleRepository roleRepository;
-	@Autowired
-	ParticipantRepository participantRepository;
-	@Autowired
-	PasswordEncoder encoder;
-	@Autowired
-	EnterpriseRepository enterpriseRepository;
-	@Autowired
-	ProgramInstanceService classeService;
-	
-	private ParticipantService participantService;
-	
+    @Autowired
+    RoleRepository roleRepository;
+    @Autowired
+    ParticipantRepository participantRepository;
+    @Autowired
+    PasswordEncoder encoder;
+    @Autowired
+    EnterpriseRepository enterpriseRepository;
+    @Autowired
+    ProgramInstanceService classeService;
 
-	@Autowired
-	public ParticipantController(ParticipantService theParticipantService) {
-		participantService = theParticipantService;
-	}
-	// public ControlController () {}
+    private ParticipantService participantService;
 
-	@GetMapping("/participants")
-	public List<Participant> findAll() {
-		return participantService.findAll();
-	}
 
-	@GetMapping("participants/{participantId}")
-	public Participant getParticipant(@PathVariable long participantId) {
+    @Autowired
+    public ParticipantController(ParticipantService theParticipantService) {
+        participantService = theParticipantService;
+    }
+    // public ControlController () {}
 
-		Participant theParticipant = participantService.findById(participantId);
+    @GetMapping("/participants")
+    public List<Participant> findAll() {
+        return participantService.findAll();
+    }
 
-		if (theParticipant == null) {
-			throw new RuntimeException("Participant id not found - " + participantId);
-		}
+    @GetMapping("participants/{participantId}")
+    public Participant getParticipant(@PathVariable long participantId) {
 
-		return theParticipant;
-	}
+        Participant theParticipant = participantService.findById(participantId);
 
-	// get participants by level
+        if (theParticipant == null) {
+            throw new RuntimeException("Participant id not found - " + participantId);
+        }
 
-	@GetMapping("participants/level/{participantLevel}")
-	public List<Participant> getParticipant(@PathVariable String participantLevel) {
+        return theParticipant;
+    }
 
-		List<Participant> theParticipant = participantService.findByLevel(participantLevel);
+    // get participants by level
 
-		if (theParticipant == null) {
-			throw new RuntimeException("Participant id not found - " + participantLevel);
-		}
+    @GetMapping("participants/level/{participantLevel}")
+    public List<Participant> getParticipant(@PathVariable String participantLevel) {
 
-		return theParticipant;
-	}
+        List<Participant> theParticipant = participantService.findByLevel(participantLevel);
 
-	// les participants du pilier1
-	@GetMapping("participants/pilier1")
-	public List<Participant> getParticipantPilier1() {
+        if (theParticipant == null) {
+            throw new RuntimeException("Participant id not found - " + participantLevel);
+        }
 
-		// List <Participant> theParticipant=
-		// participantService.findByEntreprise(participant);
-		List<Participant> theParticipant1 = new ArrayList<Participant>();
+        return theParticipant;
+    }
 
-		for (Participant theP : participantService.findAll()) {
+    // les participants du pilier1
+    @GetMapping("participants/pilier1")
+    public List<Participant> getParticipantPilier1() {
 
-			System.out.println(theP.getEntreprise());
-			if (theP.getEntreprise() != null) {
+        // List <Participant> theParticipant=
+        // participantService.findByEntreprise(participant);
+        List<Participant> theParticipant1 = new ArrayList<Participant>();
 
-				theParticipant1.add(theP);
-			}
+        for (Participant theP : participantService.findAll()) {
+
+            System.out.println(theP.getEntreprise());
+            if (theP.getEntreprise() != null) {
+
+                theParticipant1.add(theP);
+            }
 //
 //				if (theParticipant1 == null) {
 //					throw new RuntimeException("oops");
 //				}
 //				
-		}
-		return theParticipant1;
+        }
+        return theParticipant1;
 
-	}
+    }
 
-	// les participants du pilier2
-	@GetMapping("participants/pilier2")
-	public List<Participant> getParticipantPilier2() {
+    // les participants du pilier2
+    @GetMapping("participants/pilier2")
+    public List<Participant> getParticipantPilier2() {
 
-		// List <Participant> theParticipant=
-		// participantService.findByEntreprise(participant);
-		List<Participant> theParticipant1 = new ArrayList<Participant>();
+        // List <Participant> theParticipant=
+        // participantService.findByEntreprise(participant);
+        List<Participant> theParticipant1 = new ArrayList<Participant>();
 
-		for (Participant theP : participantService.findAll()) {
+        for (Participant theP : participantService.findAll()) {
 
-			// System.out.println(theP.getEntreprise()) ;
-			if (theP.getEntreprise() == null) {
+            // System.out.println(theP.getEntreprise()) ;
+            if (theP.getEntreprise() == null) {
 
-				theParticipant1.add(theP);
+                theParticipant1.add(theP);
 
-			}
+            }
 
 //			if (theParticipant1 == null) {
 //				throw new RuntimeException("oops");
 //			}
 
-		}
-		return theParticipant1;
+        }
+        return theParticipant1;
 
-	}
-		
-		
-	
-		
-
-		//POST FOR ADDING PARTICIPANTS IN CRUD , IT REQUERS THE ID OF THE ENTERPRISE
-		
-		
-		@PostMapping("/participants")
-		public  Participant addParticipant(@RequestBody Participant theParticipant) {
-		
-			
-			participantService.save(theParticipant);
-			return theParticipant;
-		}
-		
-
-	// get participants by abandon
-	@GetMapping("participants/isAbandon/{abandon}")
-	public List<Participant> getParticipantByAbandon(@PathVariable boolean abandon) {
-
-		List<Participant> theParticipant = participantService.findByAbonadn(abandon);
-
-		if (theParticipant == null) {
-			throw new RuntimeException("Theres no abandon");
-		}
-
-		return theParticipant;
-	}
-
-	@GetMapping("participants/entreprise")
-	public List<Participant> getParticipantEntreprise(@RequestParam("id") long id) {
-
-		List<Participant> participantsPerEntr = new ArrayList<Participant>();
-
-		for (Participant theP : getParticipantPilier1()) {
-
-			if (id == theP.getEntreprise().getId()) {
-
-				participantsPerEntr.add(theP);
-				
-			}
+    }
 
 
-		}
+    //POST FOR ADDING PARTICIPANTS IN CRUD , IT REQUERS THE ID OF THE ENTERPRISE
 
-		return participantsPerEntr;
-	}
-	
 
-	// POST FOR ADDING PARTICIPANTS IN CRUD , IT REQUERS THE ID OF THE ENTERPRISE
+    @PostMapping("/participants")
+    public Participant addParticipant(@RequestBody Participant theParticipant) {
 
-	@PostMapping("/signupParticipantManag")
-	public ResponseEntity<?> registerParticipantParManager(@Valid @RequestBody Participant theP) {
-		// System.out.println("participant") ;
 
-		if (participantRepository.existsByEmail(theP.getEmail())) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-		}
-	
-		Set<Role> roles = new HashSet<>();
-		Role modRole = roleRepository.findByRole(Roles.PARTICIPANT)
-				.orElseThrow(() -> new RuntimeException("Error: Role PARTICIPANT is not found."));
-		roles.add(modRole);
+        participantService.save(theParticipant);
+        return theParticipant;
+    }
 
-		Participant p = new Participant();
-		p.setEmail(theP.getEmail());
-		p.setPassword(encoder.encode(theP.getPassword()));
-		p.setStreet(theP.getStreet());
-		p.setCity(theP.getCity());
-		p.setPostalCode(theP.getPostalCode());
-		p.setPhoneNumber(theP.getPhoneNumber());
-		p.setRoles(roles);
-		p.setFirstNameP(theP.getFirstNameP());
-		p.setLastNameP(theP.getLastNameP());
-		p.setGender(theP.getGender());
-		p.setBirthday(theP.getBirthday());
-		p.setEntreprise(theP.getEntreprise());
-		p.setEducationLevel(theP.getEducationLevel());
-		p.setLevel(theP.getLevel());
-		p.setCurrentPosition(theP.getCurrentPosition());
-		p.setProgramInstance(theP.getProgramInstance());
-		// System.out.println(p.toString()) ;
-		participantRepository.save(p);
+
+    // get participants by abandon
+    @GetMapping("participants/isAbandon/{abandon}")
+    public List<Participant> getParticipantByAbandon(@PathVariable boolean abandon) {
+
+        List<Participant> theParticipant = participantService.findByAbonadn(abandon);
+
+        if (theParticipant == null) {
+            throw new RuntimeException("Theres no abandon");
+        }
+
+        return theParticipant;
+    }
+
+    @GetMapping("participants/entreprise")
+    public List<Participant> getParticipantEntreprise(@RequestParam("id") long id) {
+
+        List<Participant> participantsPerEntr = new ArrayList<Participant>();
+
+        for (Participant theP : getParticipantPilier1()) {
+
+            if (id == theP.getEntreprise().getId()) {
+
+                participantsPerEntr.add(theP);
+
+            }
+
+
+        }
+
+        return participantsPerEntr;
+    }
+
+
+    // POST FOR ADDING PARTICIPANTS IN CRUD , IT REQUERS THE ID OF THE ENTERPRISE
+
+    @PostMapping("/signupParticipantManag")
+    public ResponseEntity<?> registerParticipantParManager(@Valid @RequestBody Participant theP) {
+        // System.out.println("participant") ;
+
+        if (participantRepository.existsByEmail(theP.getEmail())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+        }
+
+        Set<Role> roles = new HashSet<>();
+        Role modRole = roleRepository.findByRole(Roles.PARTICIPANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role PARTICIPANT is not found."));
+        roles.add(modRole);
+
+        Participant p = new Participant();
+        p.setEmail(theP.getEmail());
+        p.setPassword(encoder.encode(theP.getPassword()));
+        p.setStreet(theP.getStreet());
+        p.setCity(theP.getCity());
+        p.setPostalCode(theP.getPostalCode());
+        p.setPhoneNumber(theP.getPhoneNumber());
+        p.setRoles(roles);
+        p.setFirstNameP(theP.getFirstNameP());
+        p.setLastNameP(theP.getLastNameP());
+        p.setGender(theP.getGender());
+        p.setBirthday(theP.getBirthday());
+        p.setEntreprise(theP.getEntreprise());
+        p.setEducationLevel(theP.getEducationLevel());
+        p.setLevel(theP.getLevel());
+        p.setCurrentPosition(theP.getCurrentPosition());
+        p.setProgramInstance(theP.getProgramInstance());
+        // System.out.println(p.toString()) ;
+        participantRepository.save(p);
 
 
 //			
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-	}
-	
-	@PostMapping("/signupParticipantEntre")
-	public ResponseEntity<?> registerParticipantPerEntr(@Valid @RequestBody Participant theP,
-			@RequestParam("id") long id ) {
-		// System.out.println("participant") ;
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
 
-		if (participantRepository.existsByEmail(theP.getEmail())) {
-			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-		}
-		Entreprise entreprise = new Entreprise();
-		for (Entreprise e : enterpriseRepository.findAll()) {
-			if (id == e.getId()) {
-				entreprise = e;
-			}
-		}
-		
+    @PostMapping("/signupParticipantEntre")
+    public ResponseEntity<?> registerParticipantPerEntr(@Valid @RequestBody Participant theP,
+                                                        @RequestParam("id") long id) {
+        // System.out.println("participant") ;
+
+        if (participantRepository.existsByEmail(theP.getEmail())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+        }
+        Entreprise entreprise = new Entreprise();
+        for (Entreprise e : enterpriseRepository.findAll()) {
+            if (id == e.getId()) {
+                entreprise = e;
+            }
+        }
+
 //		Cursus c = new Cursus() ;
 //		c= cursusService.findById(cursusId);
-		Set<Role> roles = new HashSet<>();
-		Role modRole = roleRepository.findByRole(Roles.PARTICIPANT)
-				.orElseThrow(() -> new RuntimeException("Error: Role PARTICIPANT is not found."));
-		roles.add(modRole);
+        Set<Role> roles = new HashSet<>();
+        Role modRole = roleRepository.findByRole(Roles.PARTICIPANT)
+                .orElseThrow(() -> new RuntimeException("Error: Role PARTICIPANT is not found."));
+        roles.add(modRole);
 
-		Participant p = new Participant();
-		p.setEmail(theP.getEmail());
-		p.setPassword(encoder.encode(theP.getPassword()));
-		p.setStreet(theP.getStreet());
-		p.setCity(theP.getCity());
-		p.setPostalCode(theP.getPostalCode());
-		p.setPhoneNumber(theP.getPhoneNumber());
-		p.setRoles(roles);
-		p.setFirstNameP(theP.getFirstNameP());
-		p.setLastNameP(theP.getLastNameP());
-		p.setGender(theP.getGender());
-		p.setBirthday(theP.getBirthday());
-		p.setEducationLevel(theP.getEducationLevel());
-		p.setLevel(theP.getLevel());
-		p.setCurrentPosition(theP.getCurrentPosition());
-		p.setEntreprise(entreprise);
-		p.setProgramInstance(entreprise.getProgramInstance());
-		//p.setCursus(c);
-		// System.out.println(p.toString()) ;
-		p.setValidated(false);
-		participantRepository.save(p);
+        Participant p = new Participant();
+        p.setEmail(theP.getEmail());
+        p.setPassword(encoder.encode(theP.getPassword()));
+        p.setStreet(theP.getStreet());
+        p.setCity(theP.getCity());
+        p.setPostalCode(theP.getPostalCode());
+        p.setPhoneNumber(theP.getPhoneNumber());
+        p.setRoles(roles);
+        p.setFirstNameP(theP.getFirstNameP());
+        p.setLastNameP(theP.getLastNameP());
+        p.setGender(theP.getGender());
+        p.setBirthday(theP.getBirthday());
+        p.setEducationLevel(theP.getEducationLevel());
+        p.setLevel(theP.getLevel());
+        p.setCurrentPosition(theP.getCurrentPosition());
+        p.setEntreprise(entreprise);
+        p.setProgramInstance(entreprise.getProgramInstance());
+        //p.setCursus(c);
+        // System.out.println(p.toString()) ;
+        p.setValidated(false);
+        participantRepository.save(p);
 
 
 //			
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-	}
-	// add mapping for PUT /employees - update existing employee
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+    // add mapping for PUT /employees - update existing employee
 
-	@PutMapping("/participants")
-	public Participant updateParticipant(@RequestBody Participant theParticipant) {
-		Participant newParticipant = participantService.findById(theParticipant.getId());
-		newParticipant.setFirstNameP(theParticipant.getFirstNameP());
-		newParticipant.setLastNameP(theParticipant.getLastNameP());
-		newParticipant.setBirthday(theParticipant.getBirthday());
-		newParticipant.setCity(theParticipant.getCity());
-		newParticipant.setCity(theParticipant.getStreet());
-		newParticipant.setCity(theParticipant.getPostalCode());
-		newParticipant.setGender(theParticipant.getGender());
-		newParticipant.setCurrentPosition(theParticipant.getCurrentPosition());
-		newParticipant.setEducationLevel(theParticipant.getEducationLevel());
-		newParticipant.setEmail(theParticipant.getEmail());
-		newParticipant.setLevel(theParticipant.getLevel());
-		newParticipant.setEntreprise(theParticipant.getEntreprise());
-		newParticipant.setProgramInstance(theParticipant.getProgramInstance());
-		//newParticipant.setCursus(theParticipant.getCursus());
-		participantService.save(newParticipant);
+    @PutMapping("/participants")
+    public Participant updateParticipant(@RequestBody Participant theParticipant) {
+        Participant newParticipant = participantService.findById(theParticipant.getId());
+        newParticipant.setFirstNameP(theParticipant.getFirstNameP());
+        newParticipant.setLastNameP(theParticipant.getLastNameP());
+        newParticipant.setBirthday(theParticipant.getBirthday());
+        newParticipant.setCity(theParticipant.getCity());
+        newParticipant.setCity(theParticipant.getStreet());
+        newParticipant.setCity(theParticipant.getPostalCode());
+        newParticipant.setGender(theParticipant.getGender());
+        newParticipant.setCurrentPosition(theParticipant.getCurrentPosition());
+        newParticipant.setEducationLevel(theParticipant.getEducationLevel());
+        newParticipant.setEmail(theParticipant.getEmail());
+        newParticipant.setLevel(theParticipant.getLevel());
+        newParticipant.setEntreprise(theParticipant.getEntreprise());
+        newParticipant.setProgramInstance(theParticipant.getProgramInstance());
+        //newParticipant.setCursus(theParticipant.getCursus());
+        participantService.save(newParticipant);
 
-		return theParticipant;
-	}
-	
-	@PutMapping("/classeParticipant/{id}")
-	public Participant updateClasse(@RequestBody Participant theParticipant,@PathVariable long id) {
-		Participant newParticipant = participantService.findById(theParticipant.getId());
-		newParticipant.setProgramInstance(classeService.findById(id));		
-		participantService.save(newParticipant);
+        return theParticipant;
+    }
 
-		return theParticipant;
-	}
-	@PutMapping("/updatePartEntr")
-	public Participant updateParticipantEntr(@RequestBody Participant theParticipant) {
+    @PutMapping("/classeParticipant/{id}")
+    public Participant updateClasse(@RequestBody Participant theParticipant, @PathVariable long id) {
+        Participant newParticipant = participantService.findById(theParticipant.getId());
+        newParticipant.setProgramInstance(classeService.findById(id));
+        participantService.save(newParticipant);
 
-		Participant newParticipant = participantService.findById(theParticipant.getId());
-		newParticipant.setFirstNameP(theParticipant.getFirstNameP());
-		newParticipant.setLastNameP(theParticipant.getLastNameP());
-		newParticipant.setBirthday(theParticipant.getBirthday());
-		newParticipant.setCity(theParticipant.getStreet());
-		newParticipant.setCity(theParticipant.getPostalCode());
-		newParticipant.setCity(theParticipant.getCity());
-		newParticipant.setGender(theParticipant.getGender());
-		newParticipant.setCurrentPosition(theParticipant.getCurrentPosition());
-		newParticipant.setEducationLevel(theParticipant.getEducationLevel());
-		newParticipant.setEmail(theParticipant.getEmail());
-		newParticipant.setLevel(theParticipant.getLevel());
-		//newParticipant.setEntreprise(theParticipant.getEntreprise());
-		participantService.save(newParticipant);
+        return theParticipant;
+    }
 
-		return theParticipant;
-	}
-			
-			
-	
-	@PutMapping("/participants/validate")
-	public Participant ValidateParticipant(@RequestBody Participant theParticipant) throws AddressException, MessagingException {
-		Participant newParticipant = participantService.findById(theParticipant.getId());
-		newParticipant.setValidated(true);
-		participantService.save(newParticipant);
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
+    @PutMapping("/updatePartEntr")
+    public Participant updateParticipantEntr(@RequestBody Participant theParticipant) {
 
-		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("noreplybaeldung@gmail.com", "0000*admin");
-			}
-		});
-		Message msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
+        Participant newParticipant = participantService.findById(theParticipant.getId());
+        newParticipant.setFirstNameP(theParticipant.getFirstNameP());
+        newParticipant.setLastNameP(theParticipant.getLastNameP());
+        newParticipant.setBirthday(theParticipant.getBirthday());
+        newParticipant.setCity(theParticipant.getStreet());
+        newParticipant.setCity(theParticipant.getPostalCode());
+        newParticipant.setCity(theParticipant.getCity());
+        newParticipant.setGender(theParticipant.getGender());
+        newParticipant.setCurrentPosition(theParticipant.getCurrentPosition());
+        newParticipant.setEducationLevel(theParticipant.getEducationLevel());
+        newParticipant.setEmail(theParticipant.getEmail());
+        newParticipant.setLevel(theParticipant.getLevel());
+        //newParticipant.setEntreprise(theParticipant.getEntreprise());
+        participantService.save(newParticipant);
 
-		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(newParticipant.getEmail()));
-		msg.setSubject("TAMA-Account Activation");
-		msg.setContent("Your account is successfully activated, you can log in using your settings:<br>" + "Login:"
-				+ newParticipant.getEmail() + "<br>" + "Password:" + newParticipant.getPhoneNumber() + "", "text/html");
-		msg.setSentDate(new Date(0));
-		
-
-		MimeBodyPart messageBodyPart = new MimeBodyPart();
-		messageBodyPart.setContent("Your account is successfully activated, you can log in using your settings:<br>"
-				+ "Login:" + newParticipant.getEmail() + "<br>" + "Password:" + newParticipant.getPhoneNumber() + "", "text/html");
-
-		Multipart multipart = new MimeMultipart();
-		multipart.addBodyPart(messageBodyPart);
-		// MimeBodyPart attachPart = new MimeBodyPart();
-
-		// attachPart.attachFile("/var/tmp/image19.png");
-		// multipart.addBodyPart(attachPart);
-		msg.setContent(multipart);
-		
-		Transport.send(msg);
-
-		participantService.save(newParticipant);
+        return theParticipant;
+    }
 
 
-		return theParticipant;
-	}
+    @PutMapping("/participants/validate")
+    public Participant ValidateParticipant(@RequestBody Participant theParticipant) throws AddressException, MessagingException {
+        Participant newParticipant = participantService.findById(theParticipant.getId());
+        newParticipant.setValidated(true);
+        participantService.save(newParticipant);
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
 
-	@DeleteMapping("/participants/{participantId}")
-	public String deleteParticipant(@PathVariable long participantId) {
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("noreplybaeldung@gmail.com", "0000*admin");
+            }
+        });
+        Message msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
 
-		Participant tempParticipant = participantService.findById(participantId);
+        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(newParticipant.getEmail()));
+        msg.setSubject("TAMA-Account Activation");
+        msg.setContent("Your account is successfully activated, you can log in using your settings:<br>" + "Login:"
+                + newParticipant.getEmail() + "<br>" + "Password:" + newParticipant.getPhoneNumber() + "", "text/html");
+        msg.setSentDate(new Date(0));
 
-		// throw exception if null
 
-		if (tempParticipant == null) {
-			throw new RuntimeException("the participant id is not found - " + participantId);
-		}
+        MimeBodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setContent("Your account is successfully activated, you can log in using your settings:<br>"
+                + "Login:" + newParticipant.getEmail() + "<br>" + "Password:" + newParticipant.getPhoneNumber() + "", "text/html");
 
-		participantService.deleteById(participantId);
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
+        // MimeBodyPart attachPart = new MimeBodyPart();
 
-		return "Deleted participant id - " + participantId;
-	}
-	//les participants du groupe
-	
+        // attachPart.attachFile("/var/tmp/image19.png");
+        // multipart.addBodyPart(attachPart);
+        msg.setContent(multipart);
+
+        Transport.send(msg);
+
+        participantService.save(newParticipant);
+
+
+        return theParticipant;
+    }
+
+    @DeleteMapping("/participants/{participantId}")
+    public String deleteParticipant(@PathVariable long participantId) {
+
+        Participant tempParticipant = participantService.findById(participantId);
+
+        // throw exception if null
+
+        if (tempParticipant == null) {
+            throw new RuntimeException("the participant id is not found - " + participantId);
+        }
+
+        participantService.deleteById(participantId);
+
+        return "Deleted participant id - " + participantId;
+    }
+    //les participants du groupe
+
 //	@GetMapping("participants/group")
 //	public List <Participant> getGroupParticipant(@RequestParam("id") long  id) {
 //	 
@@ -450,9 +447,8 @@ public class ParticipantController {
 //		participantService.save(tempParticipant);
 //		return "Deleted participant id - " + participantId;
 //	}
-	
-	
-	
+
+
 }
 
 

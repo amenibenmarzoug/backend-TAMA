@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class TamaApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TamaApplication.class, args);
-		
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TamaApplication.class, args);
+
+    }
 
 }

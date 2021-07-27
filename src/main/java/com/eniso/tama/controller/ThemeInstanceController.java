@@ -33,114 +33,116 @@ import com.eniso.tama.service.ThemeInstanceService;
 @ComponentScan(basePackageClasses = ThemeInstanceService.class)
 @RequestMapping(value = "/api")
 public class ThemeInstanceController {
-	@Autowired
-	ProgramInstanceRepository programInstRepository;
-	
-	private ThemeInstanceService themeInstanceService;
+    @Autowired
+    ProgramInstanceRepository programInstRepository;
 
-	@Autowired
-	public ThemeInstanceController(ThemeInstanceService themeInstanceService) {
-		super();
-		this.themeInstanceService = themeInstanceService;
-	}
-	
-	@GetMapping("/themesInst")
-	public List<ThemeInstance> findAll() {
-		return themeInstanceService.findAll();
-	}
-	@GetMapping("/program/themesInst")
-	public List<ThemeInstance> getProgramThemesInst(@RequestParam("id") long id) {
-		System.out.println(id);
-		List<ThemeInstance> themesPerProgram = new ArrayList<ThemeInstance>();
-		for (ThemeInstance theT : themeInstanceService.findAll()) {
-		if(theT.getProgramInstance()!=null) {
-			if (id == theT.getProgramInstance().getId()) {
+    private ThemeInstanceService themeInstanceService;
 
-				themesPerProgram.add(theT);			
-			}
-		}
-		}
-		return themesPerProgram;
-	}
+    @Autowired
+    public ThemeInstanceController(ThemeInstanceService themeInstanceService) {
+        super();
+        this.themeInstanceService = themeInstanceService;
+    }
 
-	@GetMapping("themeInst/{themeId}")
-	public ThemeInstance getThemeInst(@PathVariable long themeInstId) {
+    @GetMapping("/themesInst")
+    public List<ThemeInstance> findAll() {
+        return themeInstanceService.findAll();
+    }
 
-		ThemeInstance theThemeInst = themeInstanceService.findById(themeInstId);
+    @GetMapping("/program/themesInst")
+    public List<ThemeInstance> getProgramThemesInst(@RequestParam("id") long id) {
+        System.out.println(id);
+        List<ThemeInstance> themesPerProgram = new ArrayList<ThemeInstance>();
+        for (ThemeInstance theT : themeInstanceService.findAll()) {
+            if (theT.getProgramInstance() != null) {
+                if (id == theT.getProgramInstance().getId()) {
 
-		if (theThemeInst == null) {
-			throw new RuntimeException("themeInst not found - " + themeInstId);
-		}
+                    themesPerProgram.add(theT);
+                }
+            }
+        }
+        return themesPerProgram;
+    }
 
-		return theThemeInst;
-	}
-	
+    @GetMapping("themeInst/{themeId}")
+    public ThemeInstance getThemeInst(@PathVariable long themeInstId) {
 
-	@PostMapping("/themeInst")
-	public ThemeInstance addThemeInst(@RequestBody ThemeInstance thethemeInst) {
+        ThemeInstance theThemeInst = themeInstanceService.findById(themeInstId);
 
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
+        if (theThemeInst == null) {
+            throw new RuntimeException("themeInst not found - " + themeInstId);
+        }
 
-		// stheControl.setId(0);
+        return theThemeInst;
+    }
 
-		themeInstanceService.save(thethemeInst);
-		return thethemeInst;
-	}
-	@PostMapping("/themeProgramInst")
-	public ResponseEntity<?> addThemeProgram(@Valid @RequestBody ThemeInstance theme,@RequestParam("id") long id ) {
-	
-		ProgramInstance program = new ProgramInstance();
-		for (ProgramInstance p : programInstRepository.findAll()) {
-			if (id == p.getId()) {
-				program = p;
-			}
-		}
-		
-		ThemeInstance t = new ThemeInstance();
-		t.setThemeInstName(theme.getThemeInstName());;
-		t.setNbDaysthemeInst(theme.getNbDaysthemeInst());
-		t.setTheme(theme.getTheme());
-		t.setProgramInstance(program);
-		
-		themeInstanceService.save(t);
-		return ResponseEntity.ok(new MessageResponse("Theme Instance added successfully!"));
 
-		
-	}
+    @PostMapping("/themeInst")
+    public ThemeInstance addThemeInst(@RequestBody ThemeInstance thethemeInst) {
 
-	
+        // also just in case they pass an id in JSON ... set id to 0
+        // this is to force a save of new item ... instead of update
 
-	@PutMapping("/themeInst")
+        // stheControl.setId(0);
 
-	public ThemeInstance updateThemeInst(@RequestBody ThemeInstance theThemeInst) {
+        themeInstanceService.save(thethemeInst);
+        return thethemeInst;
+    }
 
-		ThemeInstance newthemeInst = themeInstanceService.findById(theThemeInst.getId());
-		newthemeInst.setThemeInstName(theThemeInst.getThemeInstName());
-		newthemeInst.setNbDaysthemeInst(theThemeInst.getNbDaysthemeInst());
-		//newthemeInst.setThemeInstBeginDate(theThemeInst.getThemeInstBeginDate());
-		//newthemeInst.setThemeInstEndDate(theThemeInst.getThemeInstEndDate());
-		newthemeInst.setTheme(theThemeInst.getTheme());
-		themeInstanceService.save(newthemeInst);
+    @PostMapping("/themeProgramInst")
+    public ResponseEntity<?> addThemeProgram(@Valid @RequestBody ThemeInstance theme, @RequestParam("id") long id) {
 
-		return newthemeInst;
-	}
+        ProgramInstance program = new ProgramInstance();
+        for (ProgramInstance p : programInstRepository.findAll()) {
+            if (id == p.getId()) {
+                program = p;
+            }
+        }
 
-	@DeleteMapping("themeInst/{themeId}")
-	public String deleteThemeInst(@PathVariable int themInstId) {
+        ThemeInstance t = new ThemeInstance();
+        t.setThemeInstName(theme.getThemeInstName());
+        ;
+        t.setNbDaysthemeInst(theme.getNbDaysthemeInst());
+        t.setTheme(theme.getTheme());
+        t.setProgramInstance(program);
 
-		ThemeInstance themeInst = themeInstanceService.findById(themInstId);
+        themeInstanceService.save(t);
+        return ResponseEntity.ok(new MessageResponse("Theme Instance added successfully!"));
 
-		// throw exception if null
 
-		if (themeInst == null) {
-			throw new RuntimeException("the ThemeInst id is not found - " + themInstId);
-		}
+    }
 
-		themeInstanceService.deleteById(themInstId);
 
-		return "Deleted programId- " + themInstId;
-	}
+    @PutMapping("/themeInst")
+
+    public ThemeInstance updateThemeInst(@RequestBody ThemeInstance theThemeInst) {
+
+        ThemeInstance newthemeInst = themeInstanceService.findById(theThemeInst.getId());
+        newthemeInst.setThemeInstName(theThemeInst.getThemeInstName());
+        newthemeInst.setNbDaysthemeInst(theThemeInst.getNbDaysthemeInst());
+        //newthemeInst.setThemeInstBeginDate(theThemeInst.getThemeInstBeginDate());
+        //newthemeInst.setThemeInstEndDate(theThemeInst.getThemeInstEndDate());
+        newthemeInst.setTheme(theThemeInst.getTheme());
+        themeInstanceService.save(newthemeInst);
+
+        return newthemeInst;
+    }
+
+    @DeleteMapping("themeInst/{themeId}")
+    public String deleteThemeInst(@PathVariable int themInstId) {
+
+        ThemeInstance themeInst = themeInstanceService.findById(themInstId);
+
+        // throw exception if null
+
+        if (themeInst == null) {
+            throw new RuntimeException("the ThemeInst id is not found - " + themInstId);
+        }
+
+        themeInstanceService.deleteById(themInstId);
+
+        return "Deleted programId- " + themInstId;
+    }
 
 
 }

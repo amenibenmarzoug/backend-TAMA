@@ -16,53 +16,49 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class EntrepriseDisponibility {
-	
-	@Id
+
+    @Id
     @Column(name = "EntrepriseDispo_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
-	Long id;
-	
-	
-	@Column
-	private String day;
+    Long id;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "Entre_id")
+    Entreprise entreprise;
+    @Column
+    private String day;
+    @Column
+    private String time;
 
-	@Column
-	private String time ;
-  
-	@ManyToOne(cascade=CascadeType.MERGE)
-	@JoinColumn(name = "Entre_id")
-	Entreprise entreprise;
+    public Long getId() {
+        return id;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public String getDay() {
+        return day;
+    }
 
-	public String getDay() {
-		return day;
-	}
+    public void setDay(String day) {
+        this.day = day;
+    }
 
-	public void setDay(String day) {
-		this.day = day;
-	}
+    public String getTime() {
+        return time;
+    }
 
-	public String getTime() {
-		return time;
-	}
+    public void setTime(String time) {
+        this.time = time;
+    }
 
-	public void setTime(String time) {
-		this.time = time;
-	}
+    public Entreprise getEntreprise() {
+        return entreprise;
+    }
 
-	public Entreprise getEntreprise() {
-		return entreprise;
-	}
-
-	public void setEntreprise(Entreprise entreprise2) {
-		this.entreprise = entreprise2;
-	}
+    public void setEntreprise(Entreprise entreprise2) {
+        this.entreprise = entreprise2;
+    }
 
 }

@@ -1,8 +1,6 @@
 package com.eniso.tama.repository;
 
 
-
-
 import java.util.List;
 
 import java.util.Optional;

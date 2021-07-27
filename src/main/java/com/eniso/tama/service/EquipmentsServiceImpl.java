@@ -14,67 +14,67 @@ import com.eniso.tama.repository.EquipmentsRepository;
 
 
 @Service
-@ComponentScan(basePackageClasses = EquipmentsRepository.class )
+@ComponentScan(basePackageClasses = EquipmentsRepository.class)
 public class EquipmentsServiceImpl implements EquipmentsService {
 
-	private EquipmentsRepository equipmentsRepository;
-	public EquipmentsServiceImpl() {}
+    private EquipmentsRepository equipmentsRepository;
 
-	@Autowired
-	public EquipmentsServiceImpl(EquipmentsRepository equipmentsRepository) {
-		this.equipmentsRepository = equipmentsRepository;
-	}
-	
-	@Override
-	public List<Equipments> findAll() {
-		return equipmentsRepository.findAll();
-	}
+    public EquipmentsServiceImpl() {
+    }
 
-	@Override
-	public Equipments findById(long theId) {
-		Optional<Equipments> result = equipmentsRepository.findById(theId);
-		
-		Equipments equipments = null;
-		
-		if (result.isPresent()) {
-			equipments = result.get();
-		}
-		else {
-			// we didn't find the classRoom
-			throw new RuntimeException("Did not find equipment id - " + theId);
-		}
-		
-		return equipments;
-	}
+    @Autowired
+    public EquipmentsServiceImpl(EquipmentsRepository equipmentsRepository) {
+        this.equipmentsRepository = equipmentsRepository;
+    }
 
-	@Override
-	public void save(Equipments equipment) {
-		equipmentsRepository.save(equipment);
-	}
+    @Override
+    public List<Equipments> findAll() {
+        return equipmentsRepository.findAll();
+    }
 
-	@Override
-	public void deleteById(long id) {
-		equipmentsRepository.deleteById(id);	
-	}
+    @Override
+    public Equipments findById(long theId) {
+        Optional<Equipments> result = equipmentsRepository.findById(theId);
 
-	@Override
-	public List<Equipments> findByClassroom(Equipments theEquipment) {
-		List<Equipments> equipments= null ;
-		
-		
+        Equipments equipments = null;
 
-		for(Equipments theE:equipmentsRepository.findAll()) {
-			
-			
-		if  (theE.getClassroom()!=null) {
-    	  
-			equipments.add(theE) ;
-		
-      }
-           	
-	}
-		return equipments;
-	}
-	
+        if (result.isPresent()) {
+            equipments = result.get();
+        } else {
+            // we didn't find the classRoom
+            throw new RuntimeException("Did not find equipment id - " + theId);
+        }
+
+        return equipments;
+    }
+
+    @Override
+    public void save(Equipments equipment) {
+        equipmentsRepository.save(equipment);
+    }
+
+    @Override
+    public void deleteById(long id) {
+        equipmentsRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Equipments> findByClassroom(Equipments theEquipment) {
+        List<Equipments> equipments = null;
+
+
+        for (Equipments theE : equipmentsRepository.findAll()) {
+
+
+            if (theE.getClassroom() != null) {
+
+                equipments.add(theE);
+
+            }
+
+        }
+        return equipments;
+    }
+
 
 }

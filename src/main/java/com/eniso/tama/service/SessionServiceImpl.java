@@ -13,23 +13,23 @@ import com.eniso.tama.repository.SessionRepository;
 
 
 @Service
-@ComponentScan(basePackageClasses = SessionRepository.class) 
+@ComponentScan(basePackageClasses = SessionRepository.class)
 public class SessionServiceImpl implements SessionService {
-	@Autowired
-	private SessionRepository sessionRepository;
+    @Autowired
+    private SessionRepository sessionRepository;
 
-	public SessionServiceImpl() {
-	}
+    public SessionServiceImpl() {
+    }
 
-	
-	public SessionServiceImpl(SessionRepository sessionRepository) {
-		this.sessionRepository = sessionRepository;
-	}
 
-	@Override
-	public List<Session> findAll() {
-		return sessionRepository.findAll();
-	}
+    public SessionServiceImpl(SessionRepository sessionRepository) {
+        this.sessionRepository = sessionRepository;
+    }
+
+    @Override
+    public List<Session> findAll() {
+        return sessionRepository.findAll();
+    }
 	
 /*	@Override
 	public List<Session> findAllByCourseId(long id) {
@@ -37,31 +37,31 @@ public class SessionServiceImpl implements SessionService {
 		return courseSessionRepository.findByCourseId(id);
 	}*/
 
-	@Override
-	public Session findById(long theId) {
-		Optional<Session> result = sessionRepository.findById(theId);
+    @Override
+    public Session findById(long theId) {
+        Optional<Session> result = sessionRepository.findById(theId);
 
-		Session courseSession = null;
+        Session courseSession = null;
 
-		if (result.isPresent()) {
-			courseSession = result.get();
-		} else {
-			// we didn't find the courseSession
-			throw new RuntimeException("Did not find courseSession id - " + theId);
-		}
+        if (result.isPresent()) {
+            courseSession = result.get();
+        } else {
+            // we didn't find the courseSession
+            throw new RuntimeException("Did not find courseSession id - " + theId);
+        }
 
-		return courseSession;
-	}
+        return courseSession;
+    }
 
-	@Override
-	public Session save(Session courseSession) {
-		return sessionRepository.save(courseSession);
-	}
+    @Override
+    public Session save(Session courseSession) {
+        return sessionRepository.save(courseSession);
+    }
 
-	@Override
-	public void deleteById(long theId) {
-		sessionRepository.deleteById(theId);
-	}
+    @Override
+    public void deleteById(long theId) {
+        sessionRepository.deleteById(theId);
+    }
 
 
 }

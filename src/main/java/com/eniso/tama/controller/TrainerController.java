@@ -40,64 +40,63 @@ import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.entity.User;
 import com.eniso.tama.service.TrainerService;
 
-@RestController 
+@RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@ComponentScan(basePackageClasses = TrainerService.class )
+@ComponentScan(basePackageClasses = TrainerService.class)
 @RequestMapping("/api")
 public class TrainerController {
-	
-	
-	
-	private TrainerService trainerService;
-	
-	@Autowired
-	public TrainerController(TrainerService theTrainerService) {
-		trainerService = theTrainerService;
-	}
-	
-	@GetMapping("/trainers")
+
+
+    private TrainerService trainerService;
+
+    @Autowired
+    public TrainerController(TrainerService theTrainerService) {
+        trainerService = theTrainerService;
+    }
+
+    @GetMapping("/trainers")
     public List<Trainer> getAllTrainers() {
         return trainerService.findAll();
     }
-	
+
 	@GetMapping("trainers/{trainerId}")
 	public Trainer getTrainer(@PathVariable int  trainerId) {
-		
+
 		Trainer theTrainer = trainerService.findById(trainerId);
-		
+
 		if (theTrainer == null) {
 			throw new RuntimeException("Trainer id not found - " + trainerId);
 		}
-		
+
 		return theTrainer;
 	}
-	
+
 	@GetMapping("trainerDisponi/{trainerId}")
 	public Set<Days> getTrainerDisponibilities(@PathVariable int  trainerId) {
-		
+
 		Trainer theTrainer = trainerService.findById(trainerId);
-		
+
 		if (theTrainer == null) {
 			throw new RuntimeException("Trainer id not found - " + trainerId);
 		}
-		
+
 		return theTrainer.getDisponibilityDays();
 	}
 	// add mapping for POST /participants - add new control
 
 	@PostMapping("/trainers")
 	public  Trainer addTrainer(@RequestBody Trainer theTrainer) {
-		
+
 		trainerService.save(theTrainer);
 		return theTrainer;
 	}
-	
-	
+
+
 	// add mapping for PUT /employees - update existing employee
-	
+
 		@PutMapping("/trainers")
 		public Trainer updateTrainer(@RequestBody Trainer theTrainer) {
-			
+
 			Trainer newTrainer = trainerService.findById(theTrainer.getId());
 			newTrainer.setEmail(theTrainer.getEmail());
 			newTrainer.setCity(theTrainer.getCity());
@@ -114,21 +113,18 @@ public class TrainerController {
 
 		@DeleteMapping("/trainers/{trainerId}")
 		public String deleteTrainer(@PathVariable int  trainerId) {
-			
+
 			Trainer tempTrainer = trainerService.findById(trainerId);
-			
+
 			// throw exception if null
-			
+
 			if (tempTrainer == null) {
 				throw new RuntimeException("the trainer id is not found - " + trainerId);
 			}
-			
+
 			trainerService.deleteById(trainerId);
-			
+
 			return "Deleted trainer id - " + trainerId;
 		}
-
-	
-	
 
 }

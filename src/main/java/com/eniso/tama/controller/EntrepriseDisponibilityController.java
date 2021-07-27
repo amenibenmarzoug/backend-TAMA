@@ -36,95 +36,95 @@ import com.eniso.tama.service.EntrepriseService;
 @RequestMapping(value = "/api")
 public class EntrepriseDisponibilityController {
 
-	private EntrepriseDisponibilityService entrepriseDisponibilityService;
-	@Autowired
-	private EntrepriseDisponibilityRepository entrepriseDisponibilityRepository;
-	@Autowired
-	private EnterpriseRepository enterpriseRepository;
-	@Autowired
-	private EntrepriseService entrepriseService;
+    private EntrepriseDisponibilityService entrepriseDisponibilityService;
+    @Autowired
+    private EntrepriseDisponibilityRepository entrepriseDisponibilityRepository;
+    @Autowired
+    private EnterpriseRepository enterpriseRepository;
+    @Autowired
+    private EntrepriseService entrepriseService;
 
-	@Autowired
-	public EntrepriseDisponibilityController(EntrepriseDisponibilityService entrepriseDisponibilityService) {
-		super();
-		this.entrepriseDisponibilityService = entrepriseDisponibilityService;
-	}
+    @Autowired
+    public EntrepriseDisponibilityController(EntrepriseDisponibilityService entrepriseDisponibilityService) {
+        super();
+        this.entrepriseDisponibilityService = entrepriseDisponibilityService;
+    }
 
-	@GetMapping("/disponibilities")
-	public List<EntrepriseDisponibility> findAll() {
-		return entrepriseDisponibilityService.findAll();
-	}
+    @GetMapping("/disponibilities")
+    public List<EntrepriseDisponibility> findAll() {
+        return entrepriseDisponibilityService.findAll();
+    }
 
-	@GetMapping("disponibilities/{disponibilitiesId}")
-	public EntrepriseDisponibility getParticipant(@PathVariable long entrepriseId) {
+    @GetMapping("disponibilities/{disponibilitiesId}")
+    public EntrepriseDisponibility getParticipant(@PathVariable long entrepriseId) {
 
-		EntrepriseDisponibility theEntreprise = entrepriseDisponibilityService.findById(entrepriseId);
+        EntrepriseDisponibility theEntreprise = entrepriseDisponibilityService.findById(entrepriseId);
 
-		if (theEntreprise == null) {
-			throw new RuntimeException("Entreprise id not found - " + entrepriseId);
-		}
+        if (theEntreprise == null) {
+            throw new RuntimeException("Entreprise id not found - " + entrepriseId);
+        }
 
-		return theEntreprise;
-	}
-	// add mapping for POST /participants - add new control
+        return theEntreprise;
+    }
+    // add mapping for POST /participants - add new control
 
-	@PostMapping("/disponibility")
-	public EntrepriseDisponibility addcontrol(@RequestBody EntrepriseDisponibility disponibility,
-			@RequestParam("id") long id) {
+    @PostMapping("/disponibility")
+    public EntrepriseDisponibility addcontrol(@RequestBody EntrepriseDisponibility disponibility,
+                                              @RequestParam("id") long id) {
 
-		Entreprise entreprise = new Entreprise();
-		System.out.println("1");
-		entreprise = entrepriseService.findById(id);
-		System.out.println("2");
+        Entreprise entreprise = new Entreprise();
+        System.out.println("1");
+        entreprise = entrepriseService.findById(id);
+        System.out.println("2");
 
-		if (disponibility == null) {
-			throw new RuntimeException("hell no");
-		}
-		if (entreprise == null) {
-			throw new RuntimeException("Entreprise id not found - " + id);
-		}
+        if (disponibility == null) {
+            throw new RuntimeException("hell no");
+        }
+        if (entreprise == null) {
+            throw new RuntimeException("Entreprise id not found - " + id);
+        }
 
-		System.out.println(entreprise.toString());
+        System.out.println(entreprise.toString());
 
-		EntrepriseDisponibility d = new EntrepriseDisponibility();
-		d.setEntreprise(entreprise);
+        EntrepriseDisponibility d = new EntrepriseDisponibility();
+        d.setEntreprise(entreprise);
 
-		d.setDay(disponibility.getDay());
-		d.setTime(disponibility.getTime());
-		// System.out.println(enterpriseRepository.findById(1L));
+        d.setDay(disponibility.getDay());
+        d.setTime(disponibility.getTime());
+        // System.out.println(enterpriseRepository.findById(1L));
 
-		return entrepriseDisponibilityService.save(d);
+        return entrepriseDisponibilityService.save(d);
 
-	}
+    }
 
-	// add mapping for PUT /employees - update existing employee
+    // add mapping for PUT /employees - update existing employee
 
-	@PutMapping("/disponibilities")
+    @PutMapping("/disponibilities")
 
-	public EntrepriseDisponibility updateEntreprise(@RequestBody EntrepriseDisponibility theEntreprise) {
+    public EntrepriseDisponibility updateEntreprise(@RequestBody EntrepriseDisponibility theEntreprise) {
 
-		EntrepriseDisponibility newEntreprise = entrepriseDisponibilityService.findById(theEntreprise.getId());
-		newEntreprise.setDay(theEntreprise.getDay());
+        EntrepriseDisponibility newEntreprise = entrepriseDisponibilityService.findById(theEntreprise.getId());
+        newEntreprise.setDay(theEntreprise.getDay());
 
-		entrepriseDisponibilityService.save(newEntreprise);
+        entrepriseDisponibilityService.save(newEntreprise);
 
-		return theEntreprise;
-	}
+        return theEntreprise;
+    }
 
-	@DeleteMapping("/disponibilities/{disponibilitiesId}")
-	public String deleteParticipant(@PathVariable int entrepriseId) {
+    @DeleteMapping("/disponibilities/{disponibilitiesId}")
+    public String deleteParticipant(@PathVariable int entrepriseId) {
 
-		EntrepriseDisponibility tempEntreprise = entrepriseDisponibilityService.findById(entrepriseId);
+        EntrepriseDisponibility tempEntreprise = entrepriseDisponibilityService.findById(entrepriseId);
 
-		// throw exception if null
+        // throw exception if null
 
-		if (tempEntreprise == null) {
-			throw new RuntimeException("the participant id is not found - " + entrepriseId);
-		}
+        if (tempEntreprise == null) {
+            throw new RuntimeException("the participant id is not found - " + entrepriseId);
+        }
 
-		entrepriseDisponibilityService.deleteById(entrepriseId);
+        entrepriseDisponibilityService.deleteById(entrepriseId);
 
-		return "Deleted participant id - " + entrepriseId;
-	}
+        return "Deleted participant id - " + entrepriseId;
+    }
 
 }
