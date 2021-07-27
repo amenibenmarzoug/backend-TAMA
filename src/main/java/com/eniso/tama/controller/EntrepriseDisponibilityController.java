@@ -36,15 +36,9 @@ import com.eniso.tama.service.EntrepriseService;
 @RequestMapping(value = "/api")
 public class EntrepriseDisponibilityController {
 
+	@Autowired
 	private EntrepriseDisponibilityService entrepriseDisponibilityService;
-	@Autowired
-	private EntrepriseDisponibilityRepository entrepriseDisponibilityRepository;
-	@Autowired
-	private EnterpriseRepository enterpriseRepository;
-	@Autowired
-	private EntrepriseService entrepriseService;
-
-	@Autowired
+	
 	public EntrepriseDisponibilityController(EntrepriseDisponibilityService entrepriseDisponibilityService) {
 		super();
 		this.entrepriseDisponibilityService = entrepriseDisponibilityService;
@@ -58,42 +52,14 @@ public class EntrepriseDisponibilityController {
 	@GetMapping("disponibilities/{disponibilitiesId}")
 	public EntrepriseDisponibility getParticipant(@PathVariable long entrepriseId) {
 
-		EntrepriseDisponibility theEntreprise = entrepriseDisponibilityService.findById(entrepriseId);
-
-		if (theEntreprise == null) {
-			throw new RuntimeException("Entreprise id not found - " + entrepriseId);
-		}
-
-		return theEntreprise;
+		return entrepriseDisponibilityService.getParticipant(entrepriseId);
 	}
 	// add mapping for POST /participants - add new control
 
 	@PostMapping("/disponibility")
-	public EntrepriseDisponibility addcontrol(@RequestBody EntrepriseDisponibility disponibility,
+	public EntrepriseDisponibility addDisponibility(@RequestBody EntrepriseDisponibility disponibility,
 			@RequestParam("id") long id) {
-
-		Entreprise entreprise = new Entreprise();
-		System.out.println("1");
-		entreprise = entrepriseService.findById(id);
-		System.out.println("2");
-
-		if (disponibility == null) {
-			throw new RuntimeException("hell no");
-		}
-		if (entreprise == null) {
-			throw new RuntimeException("Entreprise id not found - " + id);
-		}
-
-		System.out.println(entreprise.toString());
-
-		EntrepriseDisponibility d = new EntrepriseDisponibility();
-		d.setEntreprise(entreprise);
-
-		d.setDay(disponibility.getDay());
-		d.setTime(disponibility.getTime());
-		// System.out.println(enterpriseRepository.findById(1L));
-
-		return entrepriseDisponibilityService.save(d);
+		return entrepriseDisponibilityService.addDisponibility(disponibility, id);
 
 	}
 
@@ -103,12 +69,7 @@ public class EntrepriseDisponibilityController {
 
 	public EntrepriseDisponibility updateEntreprise(@RequestBody EntrepriseDisponibility theEntreprise) {
 
-		EntrepriseDisponibility newEntreprise = entrepriseDisponibilityService.findById(theEntreprise.getId());
-		newEntreprise.setDay(theEntreprise.getDay());
-
-		entrepriseDisponibilityService.save(newEntreprise);
-
-		return theEntreprise;
+		return entrepriseDisponibilityService.updateEntreprise(theEntreprise);
 	}
 
 	@DeleteMapping("/disponibilities/{disponibilitiesId}")

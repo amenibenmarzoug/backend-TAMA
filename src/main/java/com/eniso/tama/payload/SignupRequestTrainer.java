@@ -14,12 +14,41 @@ public class SignupRequestTrainer {
     @Email
     private String email;
 
-//	@NotBlank
-//    @Size(min = 3, max = 20)
-//    private String address;
+
 	@NotNull
 	private String street;
 	
+	@NotNull
+	private String city;
+	
+	@NotNull
+	private String postalCode;
+	
+	@NotBlank
+	@Size(min = 3, max = 20)
+    private String phoneNumber;
+    
+	@NotBlank
+	@Size(max = 20)
+	private String firstName;
+	
+	@NotBlank
+	@Size(max = 30)
+	private String lastName;
+	
+	@NotBlank
+	private String gender;
+
+	private Set<String> specifications;
+
+    private Set<Days> disponibilityDays;
+    
+    private Set<String> role;
+    
+   // @Size(min = 8, max = 40)
+    private String password;
+	
+    
 	public String getStreet() {
 		return street;
 	}
@@ -44,40 +73,7 @@ public class SignupRequestTrainer {
 		this.postalCode = postalCode;
 	}
 
-	@NotNull
-	private String city;
 	
-	@NotNull
-	private String postalCode;
-	
-	@NotBlank
-	@Size(min = 3, max = 20)
-    private String phoneNumber;
-    
-	@NotBlank
-	@Size(max = 20)
-	private String firstName;
-	
-	@NotBlank
-	@Size(max = 30)
-	private String lastName;
-	
-	@NotBlank
-	private String gender;
-	
-
-
-	private Set<String> specifications;
-
-    private Set<Days> disponibilityDays;
-    
-    private Set<String> role;
-    
-    @NotBlank
-
-   // @Size(min = 8, max = 40)
-    private String password;
-  
 	public String getEmail() {
 		return email;
 	}
@@ -85,7 +81,6 @@ public class SignupRequestTrainer {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 
 
 	public String getPhoneNumber() {

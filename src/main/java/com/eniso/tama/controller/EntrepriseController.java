@@ -43,9 +43,11 @@ import com.eniso.tama.service.EntrepriseService;
 @ComponentScan(basePackageClasses = EntrepriseService.class)
 @RequestMapping(value = "/api")
 public class EntrepriseController {
+	
+	@Autowired
 	private EntrepriseService entrepriseService;
 
-	@Autowired
+
 	public EntrepriseController(EntrepriseService entrepriseService) {
 		super();
 		this.entrepriseService = entrepriseService;
@@ -71,12 +73,9 @@ public class EntrepriseController {
 // add mapping for POST /participants - add new control
 
 	@PostMapping("/entreprises")
-	public Entreprise addcontrol(@RequestBody Entreprise theParticipant) {
+	public Entreprise addEnterprise(@RequestBody Entreprise theParticipant) {
 
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
-
-		// stheControl.setId(0);
+		
 
 		entrepriseService.save(theParticipant);
 		return theParticipant;
@@ -122,41 +121,8 @@ public class EntrepriseController {
 	}*/
 
 	@PutMapping("/entreprises")
-
 	public  ResponseEntity<?>   updateEntreprise(@RequestBody Entreprise theEntreprise) {
-		Entreprise newEntreprise = entrepriseService.findById(theEntreprise.getId());
-		Entreprise verifEmailEntreprise =entrepriseService.findByEmail(theEntreprise.getEmail());
-		System.out.println(verifEmailEntreprise);
-		Entreprise verifPhoneNumberEntreprise =entrepriseService.findByPhoneNumber(theEntreprise.getPhoneNumber());
-	
-			if (((verifEmailEntreprise!=null) &&(verifEmailEntreprise.getId()==theEntreprise.getId()))||(verifEmailEntreprise==null) ) {
-				if(((verifPhoneNumberEntreprise!=null) &&(verifPhoneNumberEntreprise.getId()==theEntreprise.getId())) || (verifPhoneNumberEntreprise==null)) {
-					newEntreprise.setEnterpriseName(theEntreprise.getEnterpriseName());
-					newEntreprise.setEmail(theEntreprise.getEmail());
-					newEntreprise.setWebsite(theEntreprise.getWebsite());
-					newEntreprise.setCity(theEntreprise.getCity());
-					newEntreprise.setStreet(theEntreprise.getStreet());
-					newEntreprise.setPhoneNumber(theEntreprise.getPhoneNumber());
-					newEntreprise.setPostalCode(theEntreprise.getPostalCode());
-					newEntreprise.setProgramInstance(theEntreprise.getProgramInstance());
-					newEntreprise.setManagerFirstName(theEntreprise.getManagerFirstName());
-					newEntreprise.setManagerLastName(theEntreprise.getManagerLastName());
-					entrepriseService.save(newEntreprise);
-					return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
-				}
-				else {
-					return ResponseEntity
-							.badRequest()
-							.body(new MessageResponse("Erreur: Veuillez donner un numéro de téléphone valide. Ce numéro existe déjà"));
-				}}
-				else {
-					return ResponseEntity
-							.badRequest()
-							.body(new MessageResponse("Erreur: Veuillez donner un email valide. Cet email existe déjà"));
-				}
-			
-			
-		
+		return entrepriseService.updateEntreprise(theEntreprise);
 		
 	}
 
@@ -180,70 +146,16 @@ public class EntrepriseController {
 	@GetMapping("/NonValidEntreprise")
 	public List<Entreprise> getNonValid() {
 
-		List<Entreprise> Entreprises = new ArrayList<Entreprise>();
-
-		for (Entreprise e : entrepriseService.findAll()) {
-
-			// System.out.println(theP.getEntreprise()) ;
-			if (!e.isValidated()) {
-
-				Entreprises.add(e);
-
-			}
-
-//				if (theParticipant1 == null) {
-//					throw new RuntimeException("oops");
-//				}
-
-		}
-		return Entreprises;
+		
+		return entrepriseService.getNonValid();
 
 	}
 
 	@GetMapping("/sendMailToEntrep")
 	private void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException {
 
-		Entreprise t = entrepriseService.findById(id);
-		System.out.println(t.getEnterpriseName());
-		System.out.println(t.isValidated());
-		t.setValidated(true);
-		System.out.println(t.isValidated());
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
-
-		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("noreplybaeldung@gmail.com", "0000*admin");
-			}
-		});
-		Message msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
-
-		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(t.getEmail()));
-		msg.setSubject("TAMA-Account Activation");
-		msg.setContent("Your account is successfully activated, you can log in using your settings:<br>" + "Login:"
-				+ t.getEmail() + "<br>" + "Password:" + t.getPhoneNumber() + "", "text/html");
-		msg.setSentDate(new Date(0));
+		entrepriseService.sendmail(id);;
 		
-
-		MimeBodyPart messageBodyPart = new MimeBodyPart();
-		messageBodyPart.setContent("Your account is successfully activated, you can log in using your settings:<br>"
-				+ "Login:" + t.getEmail() + "<br>" + "Password:" + t.getPhoneNumber() + "", "text/html");
-
-		Multipart multipart = new MimeMultipart();
-		multipart.addBodyPart(messageBodyPart);
-		// MimeBodyPart attachPart = new MimeBodyPart();
-
-		// attachPart.attachFile("/var/tmp/image19.png");
-		// multipart.addBodyPart(attachPart);
-		msg.setContent(multipart);
-		t.setValidated(true);
-		entrepriseService.save(t);
-		System.out.println(t.isValidated());
-		Transport.send(msg);
 	}
 
 }

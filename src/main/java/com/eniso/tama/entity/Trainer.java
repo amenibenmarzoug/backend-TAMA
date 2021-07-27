@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Trainer extends User {
 	
+
 	@NotNull
 	@Column
 	private String firstName;
@@ -26,6 +27,20 @@ public class Trainer extends User {
 	@NotNull
 	@Column
 	private String gender;
+	
+    @ElementCollection
+    @CollectionTable(name = "trainer_disponibility_days", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "day")
+    private Set<Days> disponibilityDays = new HashSet<>();
+    
+	@ElementCollection
+    @CollectionTable(name = "trainer_specifications", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "specifications")
+    private Set<String> specifications = new HashSet<>();
+    
+	@JsonIgnore
+	@OneToMany(mappedBy = "trainer")
+    Set<TrainerDisponibility> trainerDisponibility;
 	
 	public String getGender() {
 		return gender;
@@ -52,15 +67,6 @@ public class Trainer extends User {
 	}
 
 
-
-	
-    @ElementCollection
-    @CollectionTable(name = "trainer_disponibility_days", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "day")
-    private Set<Days> disponibilityDays = new HashSet<>();
-
- 
-	
 	public Set<Days> getDisponibilityDays() {
 		return disponibilityDays;
 	}
@@ -69,11 +75,7 @@ public class Trainer extends User {
 		this.disponibilityDays = disponibilityDays;
 	}
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "trainer")
-    Set<TrainerDisponibility> trainerDisponibility;
-	
-	
+
 	
 	public Set<TrainerDisponibility> getTrainerDisponibility() {
 		return trainerDisponibility;
@@ -83,11 +85,7 @@ public class Trainer extends User {
 		this.trainerDisponibility = trainerDisponibility;
 	}
 
-	@ElementCollection
-    @CollectionTable(name = "trainer_specifications", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "specifications")
-    private Set<String> specifications = new HashSet<>();
-	
+
 	
 	public Set<String> getSpecifications() {
 		return specifications;
@@ -102,10 +100,7 @@ public class Trainer extends User {
 	public Trainer() {
 	}
 	public Trainer(@NotBlank @Size(max = 50) @Email String email,
-			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,
-
-
-			@NotBlank String lastName, String gender ) {
+			String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,@NotBlank String lastName, String gender ) {
 
 		this.setId(super.getId());
 		super.setEmail(email);
@@ -118,7 +113,6 @@ public class Trainer extends User {
 		super.setRoles(roles);
 		this.firstName = firstName;
 		this.lastName  = lastName;
-		this.specifications = specifications;
 		this.gender = gender;
 		//super.setValidated(false);
 		

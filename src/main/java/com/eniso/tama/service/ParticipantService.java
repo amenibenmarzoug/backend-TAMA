@@ -1,5 +1,7 @@
 package com.eniso.tama.service;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.eniso.tama.entity.Participant;
@@ -26,5 +28,6 @@ public interface ParticipantService {
 		public void save(Participant theParticipant);
 		
 		public void deleteById(long theId);
+		public HashMap<Long, Integer> findAges();
 		
 	}

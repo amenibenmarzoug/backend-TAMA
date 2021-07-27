@@ -72,4 +72,31 @@ public class EventServiceImpl implements EventService {
 		eventRepository.deleteById(theId);
 	}
 
+
+	@Override
+	public Event updateEvent(Event event) {
+		Event updatedEvent=findById(event.getId());
+		updatedEvent.setSession(event.getSession());
+		updatedEvent.setEnd(event.getSession().getSessionEndDate());
+		updatedEvent.setStart(event.getSession().getSessionBeginDate());
+		updatedEvent.setTitle(event.getSession().getSessionName());
+	
+		save(updatedEvent);
+		return updatedEvent;
+	}
+
+
+	@Override
+	public Event addFreeDay(Event event) {
+		System.out.println(event.getTitle());
+		System.out.println(event.getStart());
+		event.setFreeDay(true);
+		event.setColorPrimary("#FF0000");
+		event.setColorSecondary("FF0000");
+		save(event);
+		return event;
+	}
+	
+	
+
 }

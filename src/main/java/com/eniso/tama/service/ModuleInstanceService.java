@@ -2,6 +2,7 @@ package com.eniso.tama.service;
 
 import java.util.List;
 
+
 import com.eniso.tama.entity.ModuleInstance;
 
 public interface ModuleInstanceService {
@@ -15,4 +16,6 @@ public interface ModuleInstanceService {
 	public ModuleInstance save(ModuleInstance module);
 
 	public void deleteById(long id);
+	
+	public List<ModuleInstance> getThemeModules(long id);
 }

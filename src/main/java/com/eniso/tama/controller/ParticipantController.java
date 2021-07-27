@@ -2,6 +2,7 @@ package com.eniso.tama.controller;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
@@ -41,6 +42,7 @@ import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
+import com.eniso.tama.entity.Status;
 import com.eniso.tama.payload.MessageResponse;
 
 import com.eniso.tama.repository.EnterpriseRepository;
@@ -67,10 +69,11 @@ public class ParticipantController {
 	@Autowired
 	ProgramInstanceService classeService;
 	
+	@Autowired
 	private ParticipantService participantService;
 	
 
-	@Autowired
+	
 	public ParticipantController(ParticipantService theParticipantService) {
 		participantService = theParticipantService;
 	}
@@ -93,6 +96,14 @@ public class ParticipantController {
 		return theParticipant;
 	}
 
+	
+	@GetMapping("participants/ages")
+	public HashMap<Long, Integer> findAges(){
+		return participantService.findAges();
+	}
+	
+	
+	
 	// get participants by level
 
 	@GetMapping("participants/level/{participantLevel}")
@@ -238,7 +249,9 @@ public class ParticipantController {
 		p.setEducationLevel(theP.getEducationLevel());
 		p.setLevel(theP.getLevel());
 		p.setCurrentPosition(theP.getCurrentPosition());
+		p.setExperience(theP.getExperience());
 		p.setProgramInstance(theP.getProgramInstance());
+		p.setStatus(Status.WAITING);
 		// System.out.println(p.toString()) ;
 		participantRepository.save(p);
 
@@ -288,6 +301,7 @@ public class ParticipantController {
 		p.setProgramInstance(entreprise.getProgramInstance());
 		//p.setCursus(c);
 		// System.out.println(p.toString()) ;
+		p.setStatus(Status.WAITING);
 		p.setValidated(false);
 		participantRepository.save(p);
 
@@ -450,6 +464,7 @@ public class ParticipantController {
 //		participantService.save(tempParticipant);
 //		return "Deleted participant id - " + participantId;
 //	}
+	
 	
 	
 	

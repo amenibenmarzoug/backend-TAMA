@@ -32,8 +32,21 @@ public class ClassRoom {
 	@Column
 	private int capacity;
 	
+	@Column(name="fees")
+	private int fees;
+	
+	
+	
 //	@OneToMany(mappedBy="classroom" ,cascade = {CascadeType.ALL})
 //	private Set<Equipments> equipements;
+
+	public int getFees() {
+		return fees;
+	}
+
+	public void setFees(int fees) {
+		this.fees = fees;
+	}
 
 	public Long getId() {
 		return id;

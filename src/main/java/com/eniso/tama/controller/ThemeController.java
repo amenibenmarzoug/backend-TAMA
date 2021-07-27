@@ -35,17 +35,7 @@ import com.eniso.tama.service.ThemeService;
 @RestController
 @ComponentScan(basePackageClasses = ThemeService.class )
 @RequestMapping(value="/api")
-public class ThemeController {
-	
-	@Autowired
-	ProgramRepository programRepository;
-	
-	@Autowired
-	private ProgramInstanceService programInsService;
-
-	@Autowired
-	private ThemeInstanceService themeInstService;
-	
+public class ThemeController {	
 	@Autowired
 	private ThemeService themeService;
 	
@@ -92,57 +82,20 @@ public class ThemeController {
 		return theTheme;
 	}
 	
-	@Transactional 
+	
 	@PostMapping("/themeProgram")
 	public ResponseEntity<?> addThemeProgram(@Valid @RequestBody Theme theme,@RequestParam("id") long id ) {
-
-		List<ProgramInstance> list = programInsService.findByProgramId(id);
-		System.out.println("chnw lid" + id);
-		Program program = new Program();
-		for (Program p : programRepository.findAll()) {
-			if (id == p.getId()) {
-				program = p;
-			}
-		}
 		
-		Theme t = new Theme();
-		t.setThemeName(theme.getThemeName());
-		t.setNbDaysTheme(theme.getNbDaysTheme());;
-		t.setProgram(program);
-		
-		themeService.save(t);
-		for (ProgramInstance programInstance : list) {
-			ThemeInstance themeInst= new ThemeInstance();
-			themeInst.setProgramInstance(programInstance);
-			themeInst.setTheme(t);
-			themeInst.setThemeInstName(t.getThemeName());
-			themeInst.setNbDaysthemeInst(t.getNbDaysTheme());
-			ThemeInstance t1=themeInstService.save(themeInst);
-		}
-		
-		return ResponseEntity.ok(new MessageResponse("Theme added successfully!"));
-
-		
+		return(themeService.addThemeProgram(theme,id));
+	
 	}
 	
-	@Transactional 
+
 	@PutMapping("/theme")
 	public Theme updateTheme (@RequestBody Theme theTheme) {
-		long id=theTheme.getId();
-		List<ThemeInstance> list= themeInstService.findByThemeId(id);
-
-		Theme newTheme = themeService.findById(id);
-		newTheme.setThemeName(theTheme.getThemeName());
-		newTheme.setNbDaysTheme(theTheme.getNbDaysTheme());
-		newTheme.setProgram(theTheme.getProgram());
-		for (ThemeInstance themeInstance : list) {
-			themeInstance.setThemeInstName(theTheme.getThemeName());
-			themeInstance.setNbDaysthemeInst(theTheme.getNbDaysTheme());
-			themeInstService.save(themeInstance);
-		}
-		themeService.save(theTheme);
 		
-		return theTheme;
+		return(themeService.updateTheme(theTheme));
+		
 	}
 	
 	@DeleteMapping("/theme/{themeId}")

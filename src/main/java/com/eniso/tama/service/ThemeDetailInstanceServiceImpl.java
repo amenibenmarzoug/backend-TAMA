@@ -18,9 +18,10 @@ import com.eniso.tama.repository.ThemeDetailInstanceRepository;
 @ComponentScan(basePackageClasses = ThemeDetailInstanceRepository.class)
 public class ThemeDetailInstanceServiceImpl implements ThemeDetailInstanceService{
 	
+	@Autowired
 	private ThemeDetailInstanceRepository themeDetailInstanceRepository;
 
-	@Autowired
+	
 	public ThemeDetailInstanceServiceImpl(ThemeDetailInstanceRepository theThemeDetailInstanceRepository) {
 		themeDetailInstanceRepository = theThemeDetailInstanceRepository;
 	}
@@ -69,5 +70,19 @@ public class ThemeDetailInstanceServiceImpl implements ThemeDetailInstanceServic
 			
 		}
 		return (list1);
+	}
+
+	@Override
+	public List<ThemeDetailInstance> getModuleThemeDetails(long id) {
+		List<ThemeDetailInstance> themeDetailsPerModule = new ArrayList<ThemeDetailInstance>();
+		for (ThemeDetailInstance theTD : findAll()) {
+		if(theTD.getModuleInstance()!=null) {
+			if (id == theTD.getModuleInstance().getId()) {
+
+				themeDetailsPerModule.add(theTD);			
+			}
+		}
+		}
+		return themeDetailsPerModule;
 	}
 }

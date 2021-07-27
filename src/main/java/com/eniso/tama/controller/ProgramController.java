@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.Program;
-import com.eniso.tama.entity.ProgramInstance;
-import com.eniso.tama.service.ProgramInstanceService;
 import com.eniso.tama.service.ProgramService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -31,8 +29,7 @@ public class ProgramController {
 	@Autowired
 	private ProgramService programService;
 
-	@Autowired
-	private ProgramInstanceService programInsService;
+	
 	
 	public ProgramController(ProgramService programService) {
 		super();
@@ -70,25 +67,12 @@ public class ProgramController {
 	}
 
 // add mapping for PUT /employees - update existing employee
-	@Transactional 
+
 	@PutMapping("/programEdit")
 	public Program updateProgram(@RequestBody Program theProgram) {
-		long id=theProgram.getId();
-		Program newProgram = programService.findById(id);
-		newProgram.setProgramName(theProgram.getProgramName());
-		newProgram.setNbDaysProg(theProgram.getNbDaysProg());
 		
-		List<ProgramInstance> list = programInsService.findByProgramId(id);
-		for (ProgramInstance programInstance : list) {
-			programInstance.setProgramInstName(theProgram.getProgramName());
-			System.out.println(programInstance.getLocation());
-			
-			programInstance.setNbDaysProgInst(theProgram.getNbDaysProg());
-			System.out.println(programInstance.getNbDaysProgInst());
-			programInsService.save(programInstance);
-		}
-		programService.save(theProgram);
-		return theProgram;
+		return(programService.updateProgram(theProgram));
+		
 	}
 
 	@DeleteMapping("programs/{programId}")

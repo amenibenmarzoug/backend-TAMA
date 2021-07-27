@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
+import com.eniso.tama.entity.ModuleInstance;
 import com.eniso.tama.entity.Theme;
 import com.eniso.tama.entity.ThemeDetail;
+import com.eniso.tama.entity.ThemeDetailInstance;
 import com.eniso.tama.repository.ThemeDetailRepository;
 
 
@@ -17,10 +21,16 @@ import com.eniso.tama.repository.ThemeDetailRepository;
 @ComponentScan(basePackageClasses = ThemeDetailRepository.class )
 public class ThemeDetailServiceImpl implements ThemeDetailService {
 	
+	@Autowired
 	private ThemeDetailRepository themeDetailRepository;
     
+	@Autowired
+	private ModuleInstanceService moduleInstanceService;
+	
+	@Autowired
+	private ThemeDetailInstanceService themeDetailInstService;
     
-    @Autowired
+    
 	public ThemeDetailServiceImpl(ThemeDetailRepository themeDetailRepository) {
 		//super();
 		this.themeDetailRepository = themeDetailRepository;
@@ -71,6 +81,49 @@ public class ThemeDetailServiceImpl implements ThemeDetailService {
 			
 		}
 		return (list1);
+	}
+
+	@Override
+	@Transactional
+	public ThemeDetail addThemeDetail(ThemeDetail theThemeDetail) {
+		long id=theThemeDetail.getModule().getId();
+		List<ModuleInstance> list = moduleInstanceService.findByModuleId(id);
+		
+		ThemeDetail t = new ThemeDetail();
+		t.setThemeDetailName(theThemeDetail.getThemeDetailName());
+		t.setNbDaysThemeDetail(theThemeDetail.getNbDaysThemeDetail());
+		t.setModule(theThemeDetail.getModule());
+		
+		ThemeDetail them=save(t);
+		for (ModuleInstance modInstance : list) {
+			ThemeDetailInstance themeInst= new ThemeDetailInstance();
+			themeInst.setThemeDetail(them);
+			themeInst.setModuleInstance(modInstance);
+			themeInst.setThemeDetailInstName(theThemeDetail.getThemeDetailName());
+			themeInst.setNbDaysthemeDetailInst(theThemeDetail.getNbDaysThemeDetail());
+			themeDetailInstService.save(themeInst);
+		}
+		return theThemeDetail;
+	}
+
+	@Override
+	@Transactional
+	public ThemeDetail updateThemeDetail(ThemeDetail theThemeDetail) {
+		long id=theThemeDetail.getId();
+		List<ThemeDetailInstance> list= themeDetailInstService.findByThemeDetId(id);
+
+		ThemeDetail newTheme = findById(id);
+		newTheme.setNbDaysThemeDetail(theThemeDetail.getNbDaysThemeDetail());
+		newTheme.setThemeDetailName(theThemeDetail.getThemeDetailName());
+		
+		for (ThemeDetailInstance themeInstance : list) {
+			themeInstance.setThemeDetailInstName(theThemeDetail.getThemeDetailName());
+			themeInstance.setNbDaysthemeDetailInst(theThemeDetail.getNbDaysThemeDetail());
+			themeDetailInstService.save(themeInstance);
+		}
+		save(theThemeDetail);
+		
+		return theThemeDetail;
 	}
 
 }
