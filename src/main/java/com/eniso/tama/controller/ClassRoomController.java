@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,13 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.ClassRoom;
-import com.eniso.tama.entity.Entreprise;
-import com.eniso.tama.entity.Equipments;
 import com.eniso.tama.entity.Institution;
-import com.eniso.tama.entity.Participant;
 import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.repository.InstitutionRepository;
-import com.eniso.tama.service.ClassRoomService;
 import com.eniso.tama.service.ClassRoomService;
 
 @RestController
@@ -44,6 +41,7 @@ public class ClassRoomController {
 
 
     @GetMapping("/classroom")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public List<ClassRoom> findAll() {
         return classRoomService.findAll();
     }

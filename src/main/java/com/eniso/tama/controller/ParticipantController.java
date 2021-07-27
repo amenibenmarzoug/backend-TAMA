@@ -23,9 +23,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,8 +39,8 @@ import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
+import com.eniso.tama.entity.Status;
 import com.eniso.tama.payload.MessageResponse;
-
 import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.RoleRepository;
@@ -236,6 +234,7 @@ public class ParticipantController {
         p.setLevel(theP.getLevel());
         p.setCurrentPosition(theP.getCurrentPosition());
         p.setProgramInstance(theP.getProgramInstance());
+		p.setStatus(Status.WAITING);
         // System.out.println(p.toString()) ;
         participantRepository.save(p);
 
@@ -286,6 +285,7 @@ public class ParticipantController {
         //p.setCursus(c);
         // System.out.println(p.toString()) ;
         p.setValidated(false);
+		p.setStatus(Status.WAITING);
         participantRepository.save(p);
 
 

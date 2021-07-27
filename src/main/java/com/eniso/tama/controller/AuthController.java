@@ -5,11 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import com.eniso.tama.service.MailServiceImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,12 +24,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.eniso.tama.configuration.jwt.JwtUtils;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Institution;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
+import com.eniso.tama.entity.Status;
 import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.entity.User;
 import com.eniso.tama.payload.JwtResponse;
@@ -45,6 +48,7 @@ import com.eniso.tama.repository.RoleRepository;
 import com.eniso.tama.repository.TrainerRepository;
 import com.eniso.tama.repository.UserRepository;
 import com.eniso.tama.service.EntrepriseService;
+import com.eniso.tama.service.MailServiceImpl;
 import com.eniso.tama.service.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -277,6 +281,7 @@ public class AuthController {
                 signupRequestParticipant.getLastName(), signupRequestParticipant.getGender(),
                 signupRequestParticipant.getBirthday());
         participant.setValidated(false);
+		participant.setStatus(Status.WAITING);
 
         Set<String> strRoles = signupRequestParticipant.getRole();
 

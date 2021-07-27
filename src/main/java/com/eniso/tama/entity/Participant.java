@@ -49,6 +49,8 @@ public class Participant extends User {
     @ManyToOne
     //@JsonIgnore
     private ProgramInstance programInstance;
+	@Enumerated(EnumType.STRING)
+	private Status status;
 
     public Participant() {
 
@@ -183,7 +185,18 @@ public class Participant extends User {
         this.sessionParticipant = sessionParticipant;
     }
 
-    @Override
+
+    public Status getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+
+	@Override
     public String toString() {
         return "Participant [ firstNameP=" + firstNameP + ", lastNameP=" + lastNameP
                 + ", gender=" + gender + ", birthday=" + birthday + ", currentPosition=" + currentPosition + ", level="

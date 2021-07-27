@@ -21,6 +21,7 @@ import javax.mail.internet.MimeMultipart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +53,7 @@ public class EntrepriseController {
     }
 
     @GetMapping("/entreprises")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public List<Entreprise> findAll() {
         return entrepriseService.findAll();
     }
