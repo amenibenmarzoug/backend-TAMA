@@ -18,78 +18,79 @@ import com.eniso.tama.service.EventService;
 
 
 @RestController
-@ComponentScan(basePackageClasses = EventService.class)
-@RequestMapping(value = "/api")
+@ComponentScan(basePackageClasses = EventService.class )
+@RequestMapping(value="/api")
 public class EventController {
-    @Autowired
-    private EventService eventService;
-
-    public EventController(EventService eventService) {
-        this.eventService = eventService;
-    }
-
-
-    @GetMapping("/event")
-    public List<Event> findAll() {
-        return eventService.findAll();
-    }
-
-    @GetMapping("event/{eventId}")
-    public Event getCourse(@PathVariable int eventId) {
-
-        Event event = eventService.findById(eventId);
-
-        if (event == null) {
-            throw new RuntimeException("Event id not found - " + eventId);
-        }
-
-        return event;
-    }
-    // add mapping for POST /Event - add new Event
-
-    @PostMapping("/event")
-    public Event addEvent(@RequestBody Event event) {
+	@Autowired
+	private EventService eventService;
+	
+	public EventController(EventService eventService) {
+		this.eventService = eventService;
+	} 
 
 
-        // also just in case they pass an id in JSON ... set id to 0
-        // this is to force a save of new item ... instead of update
+	@GetMapping("/event")
+	public List<Event> findAll() {
+		return eventService.findAll();
+	}
+	
+	@GetMapping("event/{eventId}")
+	public Event getCourse(@PathVariable int  eventId) {
+		
+		Event event = eventService.findById(eventId);
+		
+		if (event == null) {
+			throw new RuntimeException("Event id not found - " + eventId);
+		}
+		
+		return event;
+	}
+	// add mapping for POST /Event - add new Event
 
-        //stheControl.setId(0);
+	@PostMapping("/event")
+	public  Event addEvent(@RequestBody Event event) {
+	
+		
+		//stheControl.setId(0);
+		
+		eventService.save(event);
+		return event;
+	}
+	
+	
+	// add mapping for PUT /event - update existing event
+	
+		@PutMapping("/event")
+		public Event updateEvent(@RequestBody Event event) {
+			Event updatedEvent=eventService.updateEvent(event);
+			
+			return updatedEvent;
+		}
 
-        eventService.save(event);
-        return event;
-    }
-
-
-    // add mapping for PUT /event - update existing event
-
-    @PutMapping("/event")
-    public Event updateEvent(@RequestBody Event event) {
-        Event updatedEvent = eventService.findById(event.getId());
-        updatedEvent.setSession(event.getSession());
-        updatedEvent.setEnd(event.getSession().getSessionEndDate());
-        updatedEvent.setStart(event.getSession().getSessionBeginDate());
-        updatedEvent.setTitle(event.getSession().getSessionName());
-
-        eventService.save(updatedEvent);
-
-        return updatedEvent;
-    }
-
-    @DeleteMapping("/event/{eventId}")
-    public String deleteEvent(@PathVariable int eventId) {
-
-        Event event = eventService.findById(eventId);
-
-        // throw exception if null
-
-        if (event == null) {
-            throw new RuntimeException("the event id is not found - " + eventId);
-        }
-
-        eventService.deleteById(eventId);
-
-        return "Deleted Event id - " + eventId;
-    }
+		@DeleteMapping("/event/{eventId}")
+		public String deleteEvent(@PathVariable int  eventId) {
+			
+			Event event = eventService.findById(eventId);
+			
+			// throw exception if null
+			
+			if (event == null) {
+				throw new RuntimeException("the event id is not found - " + eventId);
+			}
+			
+			eventService.deleteById(eventId);
+			
+			return "Deleted Event id - " + eventId;
+		}
+		
+		@PostMapping("/event/freeDay")
+		public  Event addFreeDay(@RequestBody Event event) {
+		
+			
+			//stheControl.setId(0);
+			
+			eventService.addFreeDay(event);
+			return event;
+		}
 
 }

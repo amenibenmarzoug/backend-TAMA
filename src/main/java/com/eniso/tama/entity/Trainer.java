@@ -1,5 +1,4 @@
 package com.eniso.tama.entity;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,70 +15,32 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Trainer extends User {
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "trainer")
-    Set<TrainerDisponibility> trainerDisponibility;
+
     @NotNull
     @Column
     private String firstName;
+
     @NotNull
     @Column
     private String lastName;
+
     @NotNull
     @Column
     private String gender;
+
     @ElementCollection
     @CollectionTable(name = "trainer_disponibility_days", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "day")
     private Set<Days> disponibilityDays = new HashSet<>();
+
     @ElementCollection
     @CollectionTable(name = "trainer_specifications", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "specifications")
     private Set<String> specifications = new HashSet<>();
 
-    public Trainer() {
-    }
-
-    public Trainer(@NotBlank @Size(max = 50) @Email String email,
-                   String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber, Set<Role> roles, @NotBlank @Size(max = 20) String firstName,
-
-
-                   @NotBlank String lastName, String gender) {
-
-        this.setId(super.getId());
-        super.setEmail(email);
-        super.setPassword(password);
-        //super.setAddress(address);
-        super.setStreet(street);
-        super.setCity(city);
-        super.setPostalCode(postalCode);
-        super.setPhoneNumber(phoneNumber);
-        super.setRoles(roles);
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.specifications = specifications;
-        this.gender = gender;
-        //super.setValidated(false);
-
-    }
-
-    public Trainer(String email,
-                   String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber, Set<Role> roles, @NotNull String firstName, @NotNull String lastName, @NotNull String gender,
-                   Set<Days> disponibilityDays, Set<String> specifications) {
-        this.setId(super.getId());
-        super.setEmail(email);
-        super.setPassword(password);
-        super.setStreet(street);
-        super.setCity(city);
-        super.setPostalCode(postalCode);
-        super.setPhoneNumber(phoneNumber);
-        super.setRoles(roles);
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.disponibilityDays = disponibilityDays;
-        this.specifications = specifications;
-    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "trainer")
+    Set<TrainerDisponibility> trainerDisponibility;
 
     public String getGender() {
         return gender;
@@ -105,6 +66,7 @@ public class Trainer extends User {
         this.lastName = lastName;
     }
 
+
     public Set<Days> getDisponibilityDays() {
         return disponibilityDays;
     }
@@ -112,6 +74,8 @@ public class Trainer extends User {
     public void setDisponibilityDays(Set<Days> disponibilityDays) {
         this.disponibilityDays = disponibilityDays;
     }
+
+
 
     public Set<TrainerDisponibility> getTrainerDisponibility() {
         return trainerDisponibility;
@@ -121,6 +85,8 @@ public class Trainer extends User {
         this.trainerDisponibility = trainerDisponibility;
     }
 
+
+
     public Set<String> getSpecifications() {
         return specifications;
     }
@@ -128,6 +94,48 @@ public class Trainer extends User {
     public void setSpecifications(Set<String> specifications) {
         this.specifications = specifications;
     }
+
+
+
+    public Trainer() {
+    }
+    public Trainer(@NotBlank @Size(max = 50) @Email String email,
+                   String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,@NotBlank String lastName, String gender ) {
+
+        this.setId(super.getId());
+        super.setEmail(email);
+        super.setPassword(password);
+        //super.setAddress(address);
+        super.setStreet(street);
+        super.setCity(city);
+        super.setPostalCode(postalCode);
+        super.setPhoneNumber(phoneNumber);
+        super.setRoles(roles);
+        this.firstName = firstName;
+        this.lastName  = lastName;
+        this.gender = gender;
+        //super.setValidated(false);
+
+    }
+
+    public Trainer(String email,
+                   String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotNull String firstName, @NotNull String lastName, @NotNull String gender,
+                   Set<Days> disponibilityDays, Set<String>  specifications) {
+        this.setId(super.getId());
+        super.setEmail(email);
+        super.setPassword(password);
+        super.setStreet(street);
+        super.setCity(city);
+        super.setPostalCode(postalCode);
+        super.setPhoneNumber(phoneNumber);
+        super.setRoles(roles);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.disponibilityDays = disponibilityDays;
+        this.specifications=specifications;
+    }
+
 
 
 }

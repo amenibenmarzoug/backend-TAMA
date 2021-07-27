@@ -24,6 +24,8 @@ public class Event {
     private Long id;
 
     //@NotNull
+
+
     @Column
     private String title;
 
@@ -39,14 +41,19 @@ public class Event {
     @Column
     private String colorSecondary;
 
-    @Column(name = "beforeStart", columnDefinition = "boolean default true")
+    @Column(name = "beforeStart",columnDefinition = "boolean default true")
     private boolean resizebeforeStart;
 
-    @Column(name = "afterEnd", columnDefinition = "boolean default true")
+    @Column(name = "afterEnd",columnDefinition = "boolean default true")
     private boolean resizeafterEnd;
+
+
+    @Column
+    private boolean freeDay;
 
     @Column(columnDefinition = "boolean default true")
     private boolean draggable;
+
 
 
     //@JsonIgnore
@@ -69,73 +76,100 @@ public class Event {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public Date getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
-        this.start = start;
-    }
 
     public Date getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
-    }
 
     public String getColorPrimary() {
         return colorPrimary;
     }
 
-    public void setColorPrimary(String colorPrimary) {
-        this.colorPrimary = colorPrimary;
-    }
 
     public String getColorSecondary() {
         return colorSecondary;
     }
 
-    public void setColorSecondary(String colorSecondary) {
-        this.colorSecondary = colorSecondary;
-    }
 
     public boolean isResizebeforeStart() {
         return resizebeforeStart;
     }
 
-    public void setResizebeforeStart(boolean resizebeforeStart) {
-        this.resizebeforeStart = resizebeforeStart;
-    }
 
     public boolean isResizeafterEnd() {
         return resizeafterEnd;
     }
 
+
+
+
+
+
+
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
+
+    public void setColorPrimary(String colorPrimary) {
+        this.colorPrimary = colorPrimary;
+    }
+
+
+    public void setColorSecondary(String colorSecondary) {
+        this.colorSecondary = colorSecondary;
+    }
+
+
+    public void setResizebeforeStart(boolean resizebeforeStart) {
+        this.resizebeforeStart = resizebeforeStart;
+    }
+
+
     public void setResizeafterEnd(boolean resizeafterEnd) {
         this.resizeafterEnd = resizeafterEnd;
     }
 
-    public boolean isDraggable() {
-        return draggable;
+
+    public boolean isFreeDay() {
+        return freeDay;
     }
 
-    public void setDraggable(boolean draggable) {
-        this.draggable = draggable;
+
+    public void setFreeDay(boolean freeDay) {
+        this.freeDay = freeDay;
     }
+
+
+
 
 
 }

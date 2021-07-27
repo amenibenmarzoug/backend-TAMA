@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.eniso.tama.entity.ThemeDetail;
 import com.eniso.tama.entity.ThemeDetailInstance;
 import com.eniso.tama.service.ThemeDetailInstanceService;
 
@@ -25,74 +23,63 @@ import com.eniso.tama.service.ThemeDetailInstanceService;
 @ComponentScan(basePackageClasses = ThemeDetailInstanceService.class)
 @RequestMapping(value = "/api")
 public class ThemeDetailInstanceController {
-
-    private ThemeDetailInstanceService themeDetailInstanceService;
-
-    @Autowired
-    public ThemeDetailInstanceController(ThemeDetailInstanceService themeDetailInstanceService) {
-        super();
-        this.themeDetailInstanceService = themeDetailInstanceService;
-    }
-
-    @GetMapping("/themeDetailInst")
-    public List<ThemeDetailInstance> findAll() {
-        return themeDetailInstanceService.findAll();
-    }
-
-    @GetMapping("/moduleInst/themesDetailsInst")
-    public List<ThemeDetailInstance> getModuleThemeDetails(@RequestParam("id") long id) {
-        List<ThemeDetailInstance> themeDetailsPerModule = new ArrayList<ThemeDetailInstance>();
-        for (ThemeDetailInstance theTD : themeDetailInstanceService.findAll()) {
-            if (theTD.getModuleInstance() != null) {
-                if (id == theTD.getModuleInstance().getId()) {
-
-                    themeDetailsPerModule.add(theTD);
-                }
-            }
-        }
-        return themeDetailsPerModule;
-    }
-
-    @GetMapping("themeDetailInst/{themeDetailInstId}")
-    public ThemeDetailInstance getThemeDetailInst(@PathVariable int themeDetailInstId) {
-
-        ThemeDetailInstance theThemeDetailInst = themeDetailInstanceService.findById(themeDetailInstId);
-
-        if (theThemeDetailInst == null) {
-            throw new RuntimeException("themeDetailInst id not found - " + themeDetailInstId);
-        }
-
-        return theThemeDetailInst;
-    }
-
-    @PostMapping("/themeDetailInst")
-    public ThemeDetailInstance addThemeDetailInst(@RequestBody ThemeDetailInstance theThemeDetailInst) {
-
-        themeDetailInstanceService.save(theThemeDetailInst);
-        return theThemeDetailInst;
-    }
-
-    @PutMapping("/themeDetailInst")
-    public ThemeDetailInstance updateThemeDetailInst(@RequestBody ThemeDetailInstance theThemeDetailInst) {
-
-        themeDetailInstanceService.save(theThemeDetailInst);
-
-        return theThemeDetailInst;
-    }
-
-    @DeleteMapping("/themeDetailInst/{themeDetailInstId}")
-    public String deleteThemeDetailInst(@PathVariable int themeDetailInstId) {
-
-        ThemeDetailInstance themeDetailInst = themeDetailInstanceService.findById(themeDetailInstId);
-
-        // throw exception if null
-
-        if (themeDetailInst == null) {
-            throw new RuntimeException("the themeDetailInst id is not found - " + themeDetailInstId);
-        }
-
-        themeDetailInstanceService.deleteById(themeDetailInstId);
-
-        return "Deleted themeDetailInst id - " + themeDetailInstId;
-    }
+	
+	@Autowired
+	private ThemeDetailInstanceService themeDetailInstanceService;
+	
+	public ThemeDetailInstanceController(ThemeDetailInstanceService themeDetailInstanceService) {
+		super();
+		this.themeDetailInstanceService = themeDetailInstanceService;
+	}
+	@GetMapping("/themeDetailInst")
+	public List<ThemeDetailInstance> findAll() {
+		return themeDetailInstanceService.findAll();
+	}
+	
+	@GetMapping("/moduleInst/themesDetailsInst")
+	public List<ThemeDetailInstance> getModuleThemeDetails(@RequestParam("id") long id) {
+		return(themeDetailInstanceService.getModuleThemeDetails(id));
+		
+	}
+	@GetMapping("themeDetailInst/{themeDetailInstId}")
+	public ThemeDetailInstance getThemeDetailInst(@PathVariable int  themeDetailInstId) {
+		
+		ThemeDetailInstance theThemeDetailInst = themeDetailInstanceService.findById(themeDetailInstId);
+		
+		if (theThemeDetailInst == null) {
+			throw new RuntimeException("themeDetailInst id not found - " + themeDetailInstId);
+		}
+		
+		return theThemeDetailInst;
+	}
+	
+	@PostMapping("/themeDetailInst")
+	public  ThemeDetailInstance addThemeDetailInst(@RequestBody ThemeDetailInstance theThemeDetailInst) {
+		
+		themeDetailInstanceService.save(theThemeDetailInst);
+		return theThemeDetailInst;
+	}
+	@PutMapping("/themeDetailInst")
+	public ThemeDetailInstance updateThemeDetailInst (@RequestBody ThemeDetailInstance theThemeDetailInst) {
+		
+		themeDetailInstanceService.save(theThemeDetailInst);
+		
+		return theThemeDetailInst;
+	}
+	
+	@DeleteMapping("/themeDetailInst/{themeDetailInstId}")
+	public String deleteThemeDetailInst(@PathVariable int  themeDetailInstId) {
+		
+		ThemeDetailInstance themeDetailInst = themeDetailInstanceService.findById(themeDetailInstId);
+		
+		// throw exception if null
+		
+		if (themeDetailInst == null) {
+			throw new RuntimeException("the themeDetailInst id is not found - " + themeDetailInstId);
+		}
+		
+		themeDetailInstanceService.deleteById(themeDetailInstId);
+		
+		return "Deleted themeDetailInst id - " + themeDetailInstId;
+	}
 }

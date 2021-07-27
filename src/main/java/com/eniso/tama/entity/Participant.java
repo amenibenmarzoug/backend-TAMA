@@ -1,6 +1,7 @@
 package com.eniso.tama.entity;
 
 import java.util.*;
+import java.time.LocalDate;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,54 +13,112 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "user_id")
-public class Participant extends User {
+public class Participant extends User{
+
+    @NotNull
+    @Column
+    private String firstNameP;
+
+    @NotNull
+    @Column
+    private String lastNameP;
+
+    @NotNull
+    @Column
+    private String gender;
+
+    @NotNull
+    @Column
+    private LocalDate birthday;
+
+    @Column
+    private String currentPosition;
+
+
+    @NotNull
+    @Column
+    private int experience;
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    @Column
+    private String level;
+
+    @Column
+    private String educationLevel;
+
+    public String getEducationLevel() {
+        return educationLevel;
+    }
+
+    public void setEducationLevel(String educationLevel) {
+        this.educationLevel = educationLevel;
+    }
+
+    @NotNull
+    @Column
+    private boolean abandon;
+
+    @ManyToOne
+    //@JsonIgnore
+    private Entreprise entreprise;
+
+
+    @ManyToOne
+    //@JsonIgnore
+    private ProgramInstance programInstance;
+    
+    @Enumerated(EnumType.STRING)
+	private Status status;
+
+    public ProgramInstance getProgramInstance() {
+        return programInstance;
+    }
+
+    public void setProgramInstance(ProgramInstance programInstance) {
+        this.programInstance = programInstance;
+    }
+
+    public Entreprise getEntreprise() {
+        return entreprise;
+    }
+
+    public void setEntreprise(Entreprise entreprise) {
+        this.entreprise = entreprise;
+    }
 
 
     @JsonIgnore
     @OneToMany(mappedBy = "participant")
     Set<SessionParticipant> sessionParticipant;
-    @NotNull
-    @Column
-    private String firstNameP;
-    @NotNull
-    @Column
-    private String lastNameP;
-    @NotNull
-    @Column(name = "gender")
-    private String gender;
-    @NotNull
-    @Column(name = "birthday")
-    private Date birthday;
-    @Column(name = "currentPosition")
-    private String currentPosition;
-    @Column(name = "level")
-    private String level;
-    @Column(name = "educationLevel")
-    private String educationLevel;
-    @NotNull
-    @Column(name = "abandon")
-    private boolean abandon;
-    @ManyToOne
-    //@JsonIgnore
-    private Entreprise entreprise;
-    @ManyToOne
-    //@JsonIgnore
-    private ProgramInstance programInstance;
-	@Enumerated(EnumType.STRING)
-	private Status status;
+
+
+    public Set<SessionParticipant> getSessionParticipant() {
+        return sessionParticipant;
+    }
+
+    public void setSessionParticipant(Set<SessionParticipant> sessionParticipant) {
+        this.sessionParticipant = sessionParticipant;
+    }
 
     public Participant() {
 
     }
 
-
     public Participant(@NotBlank @Size(max = 50) @Email String email,
-                       String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber, Set<Role> roles, @NotBlank @Size(max = 20) String firstName,
-                       @NotBlank String lastName, @NotBlank String gender, Date birthday) {
+                       String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,
+                       @NotBlank String lastName, @NotBlank String gender , LocalDate birthday) {
         //this.setId(super.getId());
         super.setEmail(email);
         super.setPassword(password);
@@ -70,15 +129,15 @@ public class Participant extends User {
         super.setPhoneNumber(phoneNumber);
         super.setRoles(roles);
         this.firstNameP = firstName;
-        this.lastNameP = lastName;
+        this.lastNameP  = lastName;
         this.gender = gender;
-        this.birthday = birthday;
+        this.birthday= birthday;
 
     }
 
     public Participant(@NotBlank @Size(max = 50) @Email String email,
-                       String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber, Set<Role> roles, @NotBlank @Size(max = 20) String firstNameP,
-                       @NotBlank String lastNameP, @NotBlank String gender, Date birthday, Entreprise entreprise, ProgramInstance programInstance) {
+                       String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstNameP,
+                       @NotBlank String lastNameP, @NotBlank String gender , LocalDate birthday , Entreprise entreprise, ProgramInstance programInstance) {
         this.setId(super.getId());
         super.setEmail(email);
         super.setPassword(password);
@@ -89,13 +148,14 @@ public class Participant extends User {
         super.setPhoneNumber(phoneNumber);
         super.setRoles(roles);
         this.firstNameP = firstNameP;
-        this.lastNameP = lastNameP;
+        this.lastNameP  = lastNameP;
         this.gender = gender;
-        this.birthday = birthday;
-        this.entreprise = entreprise;
-        this.programInstance = programInstance;
+        this.birthday= birthday;
+        this.entreprise=entreprise ;
+        this.programInstance=programInstance;
 
     }
+    
 
     public String getGender() {
         return gender;
@@ -105,11 +165,11 @@ public class Participant extends User {
         this.gender = gender;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
@@ -137,6 +197,7 @@ public class Participant extends User {
         this.abandon = abandon;
     }
 
+
     public String getFirstNameP() {
         return firstNameP;
     }
@@ -152,49 +213,15 @@ public class Participant extends User {
     public void setLastNameP(String lastNameP) {
         this.lastNameP = lastNameP;
     }
-
-    public String getEducationLevel() {
-        return educationLevel;
-    }
-
-    public void setEducationLevel(String educationLevel) {
-        this.educationLevel = educationLevel;
-    }
-
-    public ProgramInstance getProgramInstance() {
-        return programInstance;
-    }
-
-    public void setProgramInstance(ProgramInstance programInstance) {
-        this.programInstance = programInstance;
-    }
-
-    public Entreprise getEntreprise() {
-        return entreprise;
-    }
-
-    public void setEntreprise(Entreprise entreprise) {
-        this.entreprise = entreprise;
-    }
-
-    public Set<SessionParticipant> getSessionParticipant() {
-        return sessionParticipant;
-    }
-
-    public void setSessionParticipant(Set<SessionParticipant> sessionParticipant) {
-        this.sessionParticipant = sessionParticipant;
-    }
-
+   
 
     public Status getStatus() {
 		return status;
 	}
 
-
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-
 
 	@Override
     public String toString() {
@@ -203,6 +230,7 @@ public class Participant extends User {
                 + level + ", educationLevel=" + educationLevel + ", abandon=" + abandon + ", entreprise=" + entreprise
                 + ", courseSessionParticipant=" + sessionParticipant + "]";
     }
+
 
 
 }

@@ -1,13 +1,8 @@
 package com.eniso.tama.controller;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,17 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.EntrepriseDisponibility;
-import com.eniso.tama.entity.Participant;
-import com.eniso.tama.entity.Role;
-import com.eniso.tama.entity.Roles;
-import com.eniso.tama.payload.MessageResponse;
-import com.eniso.tama.repository.EnterpriseRepository;
-import com.eniso.tama.repository.EntrepriseDisponibilityRepository;
 import com.eniso.tama.service.EntrepriseDisponibilityService;
-import com.eniso.tama.service.EntrepriseService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -36,95 +22,56 @@ import com.eniso.tama.service.EntrepriseService;
 @RequestMapping(value = "/api")
 public class EntrepriseDisponibilityController {
 
-    private EntrepriseDisponibilityService entrepriseDisponibilityService;
-    @Autowired
-    private EntrepriseDisponibilityRepository entrepriseDisponibilityRepository;
-    @Autowired
-    private EnterpriseRepository enterpriseRepository;
-    @Autowired
-    private EntrepriseService entrepriseService;
+	@Autowired
+	private EntrepriseDisponibilityService entrepriseDisponibilityService;
+	
+	public EntrepriseDisponibilityController(EntrepriseDisponibilityService entrepriseDisponibilityService) {
+		super();
+		this.entrepriseDisponibilityService = entrepriseDisponibilityService;
+	}
 
-    @Autowired
-    public EntrepriseDisponibilityController(EntrepriseDisponibilityService entrepriseDisponibilityService) {
-        super();
-        this.entrepriseDisponibilityService = entrepriseDisponibilityService;
-    }
+	@GetMapping("/disponibilities")
+	public List<EntrepriseDisponibility> findAll() {
+		return entrepriseDisponibilityService.findAll();
+	}
 
-    @GetMapping("/disponibilities")
-    public List<EntrepriseDisponibility> findAll() {
-        return entrepriseDisponibilityService.findAll();
-    }
+	@GetMapping("disponibilities/{disponibilitiesId}")
+	public EntrepriseDisponibility getParticipant(@PathVariable long entrepriseId) {
 
-    @GetMapping("disponibilities/{disponibilitiesId}")
-    public EntrepriseDisponibility getParticipant(@PathVariable long entrepriseId) {
+		return entrepriseDisponibilityService.getParticipant(entrepriseId);
+	}
+	// add mapping for POST /participants - add new control
 
-        EntrepriseDisponibility theEntreprise = entrepriseDisponibilityService.findById(entrepriseId);
+	@PostMapping("/disponibility")
+	public EntrepriseDisponibility addDisponibility(@RequestBody EntrepriseDisponibility disponibility,
+			@RequestParam("id") long id) {
+		return entrepriseDisponibilityService.addDisponibility(disponibility, id);
 
-        if (theEntreprise == null) {
-            throw new RuntimeException("Entreprise id not found - " + entrepriseId);
-        }
+	}
 
-        return theEntreprise;
-    }
-    // add mapping for POST /participants - add new control
+	// add mapping for PUT /employees - update existing employee
 
-    @PostMapping("/disponibility")
-    public EntrepriseDisponibility addcontrol(@RequestBody EntrepriseDisponibility disponibility,
-                                              @RequestParam("id") long id) {
+	@PutMapping("/disponibilities")
 
-        Entreprise entreprise = new Entreprise();
-        System.out.println("1");
-        entreprise = entrepriseService.findById(id);
-        System.out.println("2");
+	public EntrepriseDisponibility updateEntreprise(@RequestBody EntrepriseDisponibility theEntreprise) {
 
-        if (disponibility == null) {
-            throw new RuntimeException("hell no");
-        }
-        if (entreprise == null) {
-            throw new RuntimeException("Entreprise id not found - " + id);
-        }
+		return entrepriseDisponibilityService.updateEntreprise(theEntreprise);
+	}
 
-        System.out.println(entreprise.toString());
+	@DeleteMapping("/disponibilities/{disponibilitiesId}")
+	public String deleteParticipant(@PathVariable int entrepriseId) {
 
-        EntrepriseDisponibility d = new EntrepriseDisponibility();
-        d.setEntreprise(entreprise);
+		EntrepriseDisponibility tempEntreprise = entrepriseDisponibilityService.findById(entrepriseId);
 
-        d.setDay(disponibility.getDay());
-        d.setTime(disponibility.getTime());
-        // System.out.println(enterpriseRepository.findById(1L));
+		// throw exception if null
 
-        return entrepriseDisponibilityService.save(d);
+		if (tempEntreprise == null) {
+			throw new RuntimeException("the participant id is not found - " + entrepriseId);
+		}
 
-    }
+		entrepriseDisponibilityService.deleteById(entrepriseId);
 
-    // add mapping for PUT /employees - update existing employee
-
-    @PutMapping("/disponibilities")
-
-    public EntrepriseDisponibility updateEntreprise(@RequestBody EntrepriseDisponibility theEntreprise) {
-
-        EntrepriseDisponibility newEntreprise = entrepriseDisponibilityService.findById(theEntreprise.getId());
-        newEntreprise.setDay(theEntreprise.getDay());
-
-        entrepriseDisponibilityService.save(newEntreprise);
-
-        return theEntreprise;
-    }
-
-    @DeleteMapping("/disponibilities/{disponibilitiesId}")
-    public String deleteParticipant(@PathVariable int entrepriseId) {
-
-        EntrepriseDisponibility tempEntreprise = entrepriseDisponibilityService.findById(entrepriseId);
-
-        // throw exception if null
-
-        if (tempEntreprise == null) {
-            throw new RuntimeException("the participant id is not found - " + entrepriseId);
-        }
-
-        entrepriseDisponibilityService.deleteById(entrepriseId);
-
-        return "Deleted participant id - " + entrepriseId;
-    }
+		return "Deleted participant id - " + entrepriseId;
+	}
 
 }

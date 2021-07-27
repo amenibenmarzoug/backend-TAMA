@@ -25,20 +25,35 @@ public class ClassRoom {
     @Column
     private String classRoomName;
 
-//	
+//
 //	@Column(name="disponibility")
 //	private boolean disponibility;
 
     @Column
     private int capacity;
 
+    @Column
+    private int fees;
+
+
+
 //	@OneToMany(mappedBy="classroom" ,cascade = {CascadeType.ALL})
 //	private Set<Equipments> equipements;
-    @ManyToOne
-    private Institution institution;
+
+    public int getFees() {
+        return fees;
+    }
+
+    public void setFees(int fees) {
+        this.fees = fees;
+    }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 //	public Set<Equipments> getEquipements() {
@@ -49,12 +64,12 @@ public class ClassRoom {
 //		this.equipements = equipements;
 //	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getClassRoomName() {
         return classRoomName;
+    }
+
+    public void setClassRoomName(String classRoomName) {
+        this.classRoomName = classRoomName;
     }
 
 //	public boolean isDisponibility() {
@@ -65,10 +80,6 @@ public class ClassRoom {
 //		this.disponibility = disponibility;
 //	}
 
-    public void setClassRoomName(String classRoomName) {
-        this.classRoomName = classRoomName;
-    }
-
     public int getCapacity() {
         return capacity;
     }
@@ -76,6 +87,9 @@ public class ClassRoom {
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
+
+    @ManyToOne
+    private Institution institution;
 
     public Institution getInstitution() {
         return institution;

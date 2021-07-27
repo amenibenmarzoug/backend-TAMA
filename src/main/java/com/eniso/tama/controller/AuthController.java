@@ -146,88 +146,98 @@ public class AuthController {
 //				 signupRequestTrainer.getPostalCode(),
 //				 signupRequestTrainer.getPhoneNumber(),null);
 
-        Set<String> strRoles = signupRequestTrainer.getRole();
-        // Set<String> strDisponibilities=signupRequestTrainer.getDisponibilityDays();
-        Set<Role> roles = new HashSet<>();
+		// User user=trainer;
+		Set<String> strRoles = signupRequestTrainer.getRole();
+		// Set<String> strDisponibilities=signupRequestTrainer.getDisponibilityDays();
+		Set<Role> roles = new HashSet<>();
 
-        /*
-         * Set<Day> disponibilities= new HashSet<>(); for (String day :
-         * strDisponibilities) { Day d=new Day();
-         *
-         * switch (day) { case "LUNDI": d.setDay(Days.LUNDI); break;
-         *
-         * case "MARDI": d.setDay(Days.MARDI); break; case "MERCREDI":
-         * d.setDay(Days.MERCREDI); break; case "JEUDI": d.setDay(Days.JEUDI); break;
-         * case "VENDREDI": d.setDay(Days.VENDREDI); break; case "SAMEDI":
-         * d.setDay(Days.SAMEDI); break; case "DIMANCHE": d.setDay(Days.DIMANCHE);
-         * break; } disponibilities.add(d); System.out.println(Days.valueOf(day)); }
-         */
-        Role modRole = roleRepository.findByRole(Roles.TRAINER)
-                .orElseThrow(() -> new RuntimeException("Error: Role Trainer is not found."));
-        roles.add(modRole);
-        trainer.setRoles(roles);
-        trainerRepository.save(trainer);
+		/*
+		 * Set<Day> disponibilities= new HashSet<>(); for (String day :
+		 * strDisponibilities) { Day d=new Day();
+		 * 
+		 * switch (day) { case "LUNDI": d.setDay(Days.LUNDI); break;
+		 * 
+		 * case "MARDI": d.setDay(Days.MARDI); break; case "MERCREDI":
+		 * d.setDay(Days.MERCREDI); break; case "JEUDI": d.setDay(Days.JEUDI); break;
+		 * case "VENDREDI": d.setDay(Days.VENDREDI); break; case "SAMEDI":
+		 * d.setDay(Days.SAMEDI); break; case "DIMANCHE": d.setDay(Days.DIMANCHE);
+		 * break; } disponibilities.add(d); System.out.println(Days.valueOf(day)); }
+		 */
+		Role modRole = roleRepository.findByRole(Roles.TRAINER)
+				.orElseThrow(() -> new RuntimeException("Error: Role Trainer is not found."));
+		roles.add(modRole);
+		// trainer.setDisponibilityDays(disponibilities);
+		trainer.setRoles(roles);
+		// User.setRoles(roles);
+		// userRepository.save(user);
+		trainerRepository.save(trainer);
 
-        System.out.println(trainer.getPhoneNumber());
+		System.out.println(trainer.getPhoneNumber());
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-    }
+		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
 
-    @PostMapping("/signupInstitution")
-    public ResponseEntity<?> registerInstitution(
-            @Valid @RequestBody SignupRequestInstitution signupRequestInstitution) {
+	@PostMapping("/signupInstitution")
+	public ResponseEntity<?> registerInstitution(
+			@Valid @RequestBody SignupRequestInstitution signupRequestInstitution) {
 
-        if (institutionRepository.existsByEmail(signupRequestInstitution.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-        }
+		if (institutionRepository.existsByEmail(signupRequestInstitution.getEmail())) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+		}
 
-        // Create new user's account
+		// Create new user's account
 
-        Institution institution = new Institution(signupRequestInstitution.getEmail(),
-                encoder.encode(signupRequestInstitution.getPassword()),
-                signupRequestInstitution.getStreet(), signupRequestInstitution.getCity(),
-                signupRequestInstitution.getPostalCode(), signupRequestInstitution.getPhoneNumber(), null,
-                signupRequestInstitution.getInstitutionName());
-        institution.setValidated(false);
-        Set<Role> roles = new HashSet<>();
-        Role modRole = roleRepository.findByRole(Roles.INSTITUTION)
-                .orElseThrow(() -> new RuntimeException("Error: Role INSTITUTION is not found."));
-        roles.add(modRole);
+		Institution institution = new Institution(signupRequestInstitution.getEmail(),
+				encoder.encode(signupRequestInstitution.getPassword()),
+				// signupRequestInstitution.getAddress(),
+				signupRequestInstitution.getStreet(), signupRequestInstitution.getCity(),
+				signupRequestInstitution.getPostalCode(), signupRequestInstitution.getPhoneNumber(), null,
+				signupRequestInstitution.getInstitutionName());
+		institution.setValidated(false);
+		Set<Role> roles = new HashSet<>();
+		Role modRole = roleRepository.findByRole(Roles.INSTITUTION)
+				.orElseThrow(() -> new RuntimeException("Error: Role INSTITUTION is not found."));
+		roles.add(modRole);
 
-        institution.setRoles(roles);
+		institution.setRoles(roles);
 
-        institutionRepository.save(institution);
+		// userRepository.save(user);
+		institutionRepository.save(institution);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-    }
+		// System.out.println(institution.getPhoneNumber()) ;
 
-    @Transactional
-    @PostMapping("/signupEnterprise")
-    public ResponseEntity<?> registerEnterprise(@Valid @RequestBody SignupRequestEnterprise signupRequestEnterprise) {
+		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
 
-        if (enterpriseRepository.existsByEmail(signupRequestEnterprise.getEmail())) {
-            return ResponseEntity.badRequest()
-                    .body(new MessageResponse("Erreur: Veuillez donner un email valide. Cet email existe déjà"));
-        }
-        if (enterpriseRepository.existsByPhoneNumber(signupRequestEnterprise.getPhoneNumber())) {
-            return ResponseEntity.badRequest().body(new MessageResponse(
-                    "Erreur: Veuillez donner un numéro de téléphone valide. Ce numéro existe déjà"));
-        }
+	@Transactional
+	@PostMapping("/signupEnterprise")
+	public ResponseEntity<?> registerEnterprise(@Valid @RequestBody SignupRequestEnterprise signupRequestEnterprise) {
 
-        // Create new user's account
+		if (enterpriseRepository.existsByEmail(signupRequestEnterprise.getEmail())) {
+			return ResponseEntity.badRequest()
+					.body(new MessageResponse("Erreur: Veuillez donner un email valide. Cet email existe déjà"));
+		}
+		if (enterpriseRepository.existsByPhoneNumber(signupRequestEnterprise.getPhoneNumber())) {
+			return ResponseEntity.badRequest().body(new MessageResponse(
+					"Erreur: Veuillez donner un numéro de téléphone valide. Ce numéro existe déjà"));
+		}
 
-        Entreprise enterprise = new Entreprise(signupRequestEnterprise.getEmail(),
-                encoder.encode(signupRequestEnterprise.getPassword()),
-                signupRequestEnterprise.getStreet(), signupRequestEnterprise.getCity(),
-                signupRequestEnterprise.getPostalCode(),
+		// Create new user's account
 
-                signupRequestEnterprise.getPhoneNumber(), null, signupRequestEnterprise.getEnterpriseName(),
-                signupRequestEnterprise.getWebsite(), signupRequestEnterprise.getManagerFirstName(),
-                signupRequestEnterprise.getManagerLastName(), signupRequestEnterprise.getManagerPosition(), signupRequestEnterprise.getNbMinParticipants());
+		Entreprise enterprise = new Entreprise(signupRequestEnterprise.getEmail(),
+				encoder.encode(signupRequestEnterprise.getPassword()),
+				// signupRequestEnterprise.getAddress(),
+				signupRequestEnterprise.getStreet(), signupRequestEnterprise.getCity(),
+				signupRequestEnterprise.getPostalCode(),
 
-        enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
+				signupRequestEnterprise.getPhoneNumber(), null, signupRequestEnterprise.getEnterpriseName(),
+				signupRequestEnterprise.getWebsite(), signupRequestEnterprise.getManagerFirstName(),
+				signupRequestEnterprise.getManagerLastName(), signupRequestEnterprise.getManagerPosition(),
+				signupRequestEnterprise.getNbMinParticipants());
 
-        enterprise.setValidated(false);
+		enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
+
+		enterprise.setValidated(false);
 
 //		User user = new User(signupRequestEnterprise.getEmail(),
 //				 encoder.encode(signupRequestEnterprise.getPassword()),
@@ -297,5 +307,6 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+
 
 }

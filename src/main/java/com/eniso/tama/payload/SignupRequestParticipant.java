@@ -2,153 +2,217 @@ package com.eniso.tama.payload;
 
 import java.util.Date;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.eniso.tama.entity.Entreprise;
+import com.eniso.tama.entity.ProgramInstance;
+
+import java.time.LocalDate;
+
 public class SignupRequestParticipant {
-    @NotBlank
-    @Size(max = 50)
-    @Email
-    private String email;
+	@NotBlank
+	@Size(max = 50)
+	@Email
+	private String email;
 
-
-    //	@NotBlank
+//	@NotBlank
 //	@Size(min = 3, max = 20)
 //	private String address;
-    @NotNull
-    private String street;
+	@NotNull
+	private String street;
 
-    @NotNull
-    private String city;
+	@NotNull
+	private String city;
 
-    @NotNull
-    private String postalCode;
+	@NotNull
+	private String postalCode;
 
-    @NotBlank
-    @Size(min = 3, max = 20)
-    private String phoneNumber;
+	@NotBlank
+	@Size(min = 3, max = 20)
+	private String phoneNumber;
 
-    @NotBlank
-    @Size(max = 20)
-    private String firstName;
+	@NotBlank
+	@Size(max = 20)
+	private String firstName;
 
-    @NotBlank
-    @Size(max = 30)
-    private String lastName;
+	@NotBlank
+	@Size(max = 30)
+	private String lastName;
 
-    @NotBlank
-    private String gender;
+	@NotBlank
+	private String gender;
 
-    // @NotBlank
-    private String field;
+	// @NotBlank
+	private String field;
 
-    private Set<String> role;
+	private Set<String> role;
 
-    @NotBlank
-    @Size(min = 8, max = 40)
-    private String password;
+	@NotBlank
+	@Size(min = 8, max = 40)
+	private String password;
 
+	private LocalDate birthday;
 
-    private Date birthday;
+	private String currentPosition;
 
-    public String getEmail() {
-        return email;
-    }
+	private int experience;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	private String level;
 
+	private String educationLevel;
 
-    public String getStreet() {
-        return street;
-    }
+	private Entreprise entreprise;
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
+	private ProgramInstance programInstance;
 
-    public String getCity() {
-        return city;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getPostalCode() {
-        return postalCode;
-    }
+	public String getStreet() {
+		return street;
+	}
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
+	public void setStreet(String street) {
+		this.street = street;
+	}
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+	public String getCity() {
+		return city;
+	}
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-    public Set<String> getRole() {
-        return role;
-    }
+	public String getPostalCode() {
+		return postalCode;
+	}
 
-    public void setRole(Set<String> role) {
-        this.role = role;
-    }
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 
-    public String getField() {
-        return field;
-    }
+	public Set<String> getRole() {
+		return role;
+	}
 
-    public void setField(String field) {
-        this.field = field;
-    }
+	public void setRole(Set<String> role) {
+		this.role = role;
+	}
 
+	public String getPassword() {
+		return password;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public String getField() {
+		return field;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setField(String field) {
+		this.field = field;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public String getGender() {
-        return gender;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public Date getBirthday() {
-        return birthday;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public LocalDate getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(LocalDate birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getCurrentPosition() {
+		return currentPosition;
+	}
+
+	public int getExperience() {
+		return experience;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public String getEducationLevel() {
+		return educationLevel;
+	}
+
+	public void setCurrentPosition(String currentPosition) {
+		this.currentPosition = currentPosition;
+	}
+
+	public void setExperience(int experience) {
+		this.experience = experience;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public void setEducationLevel(String educationLevel) {
+		this.educationLevel = educationLevel;
+	}
+
+	public Entreprise getEntreprise() {
+		return entreprise;
+	}
+
+	public ProgramInstance getProgramInstance() {
+		return programInstance;
+	}
+
+	public void setEntreprise(Entreprise entreprise) {
+		this.entreprise = entreprise;
+	}
+
+	public void setProgramInstance(ProgramInstance programInstance) {
+		this.programInstance = programInstance;
+	}
 
 }

@@ -1,6 +1,9 @@
 package com.eniso.tama.service;
-
+import java.util.Date;
+import java.time.LocalDate; 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,128 +15,111 @@ import com.eniso.tama.repository.ParticipantRepository;
 
 
 @Service
-@ComponentScan(basePackageClasses = ParticipantRepository.class)
+@ComponentScan(basePackageClasses = ParticipantRepository.class )
 
-public class ParticipantServiceImpl implements ParticipantService {
-
-
-    private ParticipantRepository participantRepository;
+public class ParticipantServiceImpl implements  ParticipantService {
 
 
-    @Autowired
-    public ParticipantServiceImpl(ParticipantRepository theParticipantRepository) {
-        participantRepository = theParticipantRepository;
-    }
+		private ParticipantRepository participantRepository;
 
-    @Override
-    public List<Participant> findAll() {
-        return participantRepository.findAll();
-    }
+		
+		@Autowired
+		public ParticipantServiceImpl(ParticipantRepository theParticipantRepository) {
+			participantRepository = theParticipantRepository;
+		}
+		
+		@Override
+		public List<Participant> findAll() {
+			return participantRepository.findAll();
+		}
 
-    @Override
-    public Participant findById(long theId) {
-        Optional<Participant> result = participantRepository.findById(theId);
+		@Override
+		public Participant findById(long theId) {
+			Optional<Participant> result = participantRepository.findById(theId);
+			
+			Participant theControl = null;
+			
+			if (result.isPresent()) {
+				theControl = result.get();
+			}
+			else {
+				// we didn't find the participant
+				throw new RuntimeException("Did not find participant id - " + theId);
+			}
+			
+			return theControl;
+		}
 
-        Participant theControl = null;
+		//find By level 
+		@Override
+		public List<Participant> findByLevel(String theLevel) {
+		
+			
+			return participantRepository.findByLevel(theLevel);
 
-        if (result.isPresent()) {
-            theControl = result.get();
-        } else {
-            // we didn't find the participant
-            throw new RuntimeException("Did not find participant id - " + theId);
-        }
+		}
+		
+		//find by Company
+		@Override
+		
+		public List<Participant>  findByEntreprise (Participant theParticipant) {
+         
+			List<Participant> p1= null ;
+			
+			
 
-        return theControl;
-    }
+			for(Participant theP:participantRepository.findAll()) {
+				
+				
+			if  (theP.getEntreprise()!=null) {
+        	  
+				p1.add(theP) ;
+			
+          }
+		            	
+		}
+			return p1;
+			
+		}
 
-    //find By level
-    @Override
-    public List<Participant> findByLevel(String theLevel) {
-        //List <Participant> result = participanRepository.findByLevel(theLevel);
+		//find by abondan 
+		@Override
+		public 	List<Participant> findByAbonadn(boolean theAbondan ){
+					
+			return participantRepository.findByAbandon(theAbondan);
+		}
 
-//			Optional <Participant>  theParticipant = null;
-//			
-//			if (result.isPresent()) {
-//				theParticipant = result.get();
-//			}
-//			else {
-//				// we didn't find the participants
-//				throw new RuntimeException("Did not find participants with level - " + theLevel);
-//			}
+		@Override
+		public void save(Participant theParticipant) {
+			participantRepository.save(theParticipant);
+		}
 
-        return participantRepository.findByLevel(theLevel);
-
-    }
-
-    //find by Company
-    @Override
-
-    public List<Participant> findByEntreprise(Participant theParticipant) {
-        //List<Participant> result = participanRepository.findByEntreprise(theParticipant);
-
-        List<Participant> p1 = null;
-
-
-        for (Participant theP : participantRepository.findAll()) {
-
-
-            if (theP.getEntreprise() != null) {
-
-                p1.add(theP);
-
-            }
-
-
-//			else {
-//				p2.add(theP);
-//				return p2 ;
-//			}
-//			
-
-
-        }
-        return p1;
-
-    }
-
-    //find by abondan
-    @Override
-    public List<Participant> findByAbonadn(boolean theAbondan) {
-
-        return participantRepository.findByAbandon(theAbondan);
-    }
-
-    @Override
-    public void save(Participant theParticipant) {
-        participantRepository.save(theParticipant);
-    }
+	
+		@Override
+		public void deleteById(long theId) {
 
 
-    @Override
-    public void deleteById(long theId) {
+			participantRepository.deleteById(theId);
+		}
 
+		@Override
+		public HashMap<Long, Integer> findAges() {
+			HashMap<Long, Integer> map = new HashMap<>();
+			   LocalDate d = LocalDate.now();  
+			int currentYear= d.getYear();
+		
+			List<Participant>  liste= findAll();
+			
+			for (Participant p : liste) {
+				Integer age = currentYear - p.getBirthday().getYear();
+				System.out.print(age);
+				Long l= new Long(p.getId());
+				map.put(l, age);
+			}
+			return (map);
 
-        participantRepository.deleteById(theId);
-    }
-
-//		@Override
-//		public List<Participant> findByGroup(long id) {
-//				List<Participant> p1= null ;
-//			
-//			
-//
-//			for(Participant theP:participantRepository.findAll()) {
-//				
-//				
-//			if  (theP.getGroup()!=null) {
-//        	  
-//				p1.add(theP) ;
-//			
-//          }
-//			
-//		}
-//			return p1;
-//		}
-
-
+			
+			
+		}
+	
 }
