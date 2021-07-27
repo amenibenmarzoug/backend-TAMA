@@ -44,14 +44,6 @@ public class TrainerDisponibility {
         return trainer;
     }
 
-	/*public Session getCourseSession() {
-		return courseSession;
-	}
-
-	public void setCourseSession(Session courseSession) {
-		this.courseSession = courseSession;
-	}*/
-
     public void setTrainer(Trainer trainer) {
         this.trainer = trainer;
     }

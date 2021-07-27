@@ -19,19 +19,24 @@ public class Trainer extends User {
     @JsonIgnore
     @OneToMany(mappedBy = "trainer")
     Set<TrainerDisponibility> trainerDisponibility;
+
     @NotNull
     @Column
     private String firstName;
+
     @NotNull
     @Column
     private String lastName;
+
     @NotNull
     @Column
     private String gender;
+
     @ElementCollection
     @CollectionTable(name = "trainer_disponibility_days", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "day")
     private Set<Days> disponibilityDays = new HashSet<>();
+
     @ElementCollection
     @CollectionTable(name = "trainer_specifications", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "specifications")

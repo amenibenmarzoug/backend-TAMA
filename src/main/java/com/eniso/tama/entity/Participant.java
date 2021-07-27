@@ -29,23 +29,29 @@ public class Participant extends User {
     @Column
     private String lastNameP;
     @NotNull
-    @Column(name = "gender")
+    @Column
     private String gender;
     @NotNull
-    @Column(name = "birthday")
+    @Column
     private Date birthday;
-    @Column(name = "currentPosition")
+
+    @Column
     private String currentPosition;
-    @Column(name = "level")
+
+    @Column
     private String level;
-    @Column(name = "educationLevel")
+
+    @Column
     private String educationLevel;
+
     @NotNull
-    @Column(name = "abandon")
+    @Column
     private boolean abandon;
+
     @ManyToOne
     //@JsonIgnore
     private Entreprise entreprise;
+
     @ManyToOne
     //@JsonIgnore
     private ProgramInstance programInstance;
@@ -54,14 +60,11 @@ public class Participant extends User {
 
     }
 
-
     public Participant(@NotBlank @Size(max = 50) @Email String email,
                        String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber, Set<Role> roles, @NotBlank @Size(max = 20) String firstName,
                        @NotBlank String lastName, @NotBlank String gender, Date birthday) {
-        //this.setId(super.getId());
         super.setEmail(email);
         super.setPassword(password);
-        //super.setAddress(address);
         super.setStreet(street);
         super.setCity(city);
         super.setPostalCode(postalCode);
@@ -80,7 +83,6 @@ public class Participant extends User {
         this.setId(super.getId());
         super.setEmail(email);
         super.setPassword(password);
-        //super.setAddress(address);
         super.setStreet(street);
         super.setCity(city);
         super.setPostalCode(postalCode);
