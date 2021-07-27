@@ -18,7 +18,5 @@ import com.eniso.tama.entity.Trainer;
 public interface TrainerRepository extends JpaRepository<Trainer, Long> {
 	List<Trainer> findByEmail(String email);
 	Boolean existsByEmail(String email);
-	List<Trainer> findByFirstName(String firstName);
 
-	Boolean existsByFirstName(String firstName);
 }

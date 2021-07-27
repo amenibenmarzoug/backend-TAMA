@@ -87,12 +87,6 @@ public class TrainerController {
 
 	@PostMapping("/trainers")
 	public  Trainer addTrainer(@RequestBody Trainer theTrainer) {
-	
-		
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
-		
-		//stheControl.setId(0);
 		
 		trainerService.save(theTrainer);
 		return theTrainer;
@@ -114,8 +108,6 @@ public class TrainerController {
 			newTrainer.setLastName(theTrainer.getLastName());
 			newTrainer.setSpecifications(theTrainer.getSpecifications());
 			newTrainer.setDisponibilityDays(theTrainer.getDisponibilityDays());
-			System.out.println(theTrainer.getDisponibilityDays());
-			System.out.println(newTrainer.getDisponibilityDays());
 			trainerService.save(newTrainer);
 			return theTrainer;
 		}
@@ -135,56 +127,7 @@ public class TrainerController {
 			
 			return "Deleted trainer id - " + trainerId;
 		}
-		@GetMapping( "/sendMailToTrainer" )
-		private void sendmail(@RequestParam("id") long id  ) throws AddressException, MessagingException, IOException {
-			
-			Trainer t = trainerService.findById(id ) ;
-			   Properties props = new Properties();
-			   props.put("mail.smtp.auth", "true");
-			   props.put("mail.smtp.starttls.enable", "true");
-			   props.put("mail.smtp.host", "smtp.gmail.com");
-			   props.put("mail.smtp.port", "587");
-			   
-			   Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-			      protected PasswordAuthentication getPasswordAuthentication() {
-			         return new PasswordAuthentication("noreplybaeldung@gmail.com", "0000*admin");
-			      }
-			   });
-			   Message msg = new MimeMessage(session);
-			   msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
 
-			   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(t.getEmail()));
-			   msg.setSubject("Votre Compte Tama ");
-			   msg.setContent("Votre compte sur la plateforme Tama est créé avec succès. \n" + 
-			   		"Vous pouvez vous connecter en utilisant "
-			   		+ ":\n" + 
-					   
-			   		"E-mail:"+ t.getEmail() + "\n"
-			   				+ ""
-			   				+ ""+
-			   		"Mot de passe:"+t.getPhoneNumber() +"", "text/html");
-			   msg.setSentDate(new Date(0));
-
-			   MimeBodyPart messageBodyPart = new MimeBodyPart();
-			   messageBodyPart.setContent("Votre compte sur la plateforme Tama est créé avec succès. \n" + 
-				   		"Vous pouvez vous connecter en utilisant "
-				   		+ ":\n" + 
-						   
-				   		"E-mail:"+ t.getEmail() + "\n"
-				   				+ ""
-				   				+ ""+
-				   		"Mot de passe:"+t.getPhoneNumber() +"", "text/html");
-			   Multipart multipart = new MimeMultipart();
-			   multipart.addBodyPart(messageBodyPart);
-			  // MimeBodyPart attachPart = new MimeBodyPart();
-
-			  // attachPart.attachFile("/var/tmp/image19.png");
-			   //multipart.addBodyPart(attachPart);
-			   msg.setContent(multipart);
-			   Transport.send(msg);   
-				t.setValidated(true);
-				trainerService.save(t);
-			}
 	
 	
 
