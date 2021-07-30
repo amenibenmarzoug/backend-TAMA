@@ -25,32 +25,33 @@ public class User {
     @Column
     private Boolean validated = false;
     @NotNull
-    @Column(name = "email")
+    @Column
     @Email(message = "{errors.invalid_email}")
     private String email;
     @NotNull
-    @Column(name = "password", insertable = true, updatable = true, nullable = false)
+    @Column( insertable = true, updatable = true, nullable = false)
     // @Size(min=8, max=40)
     private String password;
     @NotNull
-    @Column(name = "street")
+    @Column
     private String street;
     @NotNull
-    @Column(name = "city")
+    @Column
     private String city;
     @NotNull
-    @Column(name = "postalCode")
+    @Column
     private String postalCode;
-    //@NotNull
-    //@Column(name = "phoneNumber",unique=true)
-    @Column(name = "phoneNumber")
+
+    @Column
     private String phoneNumber;
+
     @CreatedDate
-    @Column(name = "created_date")
+    @Column
     @JsonIgnore
     private Instant createdDate = Instant.now();
+
     @LastModifiedDate
-    @Column(name = "last_modified_date")
+    @Column
     @JsonIgnore
     private Instant lastModifiedDate = Instant.now();
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
