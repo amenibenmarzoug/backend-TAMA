@@ -22,6 +22,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.validation.Valid;
 
 import com.eniso.tama.entity.*;
+import com.eniso.tama.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
@@ -71,6 +72,9 @@ public class ParticipantController {
 	
 	@Autowired
 	private ParticipantService participantService;
+
+	@Autowired
+	private MailService mailService;
 	
 
 	
@@ -355,37 +359,7 @@ public class ParticipantController {
 		Participant newParticipant = participantService.findById(theParticipant.getId());
 		newParticipant.setValidated(true);
 		participantService.save(newParticipant);
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
-
-		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("noreplybaeldung@gmail.com", "0000*admin");
-			}
-		});
-		Message msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
-
-		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(newParticipant.getEmail()));
-		msg.setSubject("TAMA-Account Activation");
-		msg.setContent("Your account is successfully activated, you can log in using your settings:<br>" + "Login:"
-				+ newParticipant.getEmail() + "<br>" + "Password:" + newParticipant.getPhoneNumber() + "", "text/html");
-		msg.setSentDate(new Date(0));
-		
-
-		MimeBodyPart messageBodyPart = new MimeBodyPart();
-		messageBodyPart.setContent("Your account is successfully activated, you can log in using your settings:<br>"
-				+ "Login:" + newParticipant.getEmail() + "<br>" + "Password:" + newParticipant.getPhoneNumber() + "", "text/html");
-
-		Multipart multipart = new MimeMultipart();
-		multipart.addBodyPart(messageBodyPart);
-
-		msg.setContent(multipart);
-		
-		Transport.send(msg);
+		mailService.sendParticipantValidationMail(newParticipant);
 
 		participantService.save(newParticipant);
 

@@ -72,11 +72,6 @@ public class ProgramInstanceController {
 	@PostMapping("/programsInst2")
 	public ProgramInstance addClass(@RequestBody ProgramInstance theProgram) {
 
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
-
-		// stheControl.setId(0);
-
 		return(programInstService.addClass(theProgram));
 		
 		

@@ -1,12 +1,14 @@
 package com.eniso.tama.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.*;
 import javax.mail.internet.*;
 
 import com.eniso.tama.entity.Entreprise;
+import com.eniso.tama.entity.Participant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +19,7 @@ public class MailServiceImpl implements MailService {
 
     @Autowired
     private EntrepriseService entrepriseService;
+
 
     // Send an email to the manager to validate the account
 
@@ -60,6 +63,43 @@ public class MailServiceImpl implements MailService {
         msg.setContent(multipart);
 
         Transport.send(msg);
+    }
+
+    @Override
+    public void sendParticipantValidationMail(Participant newParticipant) throws MessagingException {
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("noreplybaeldung@gmail.com", "0000*admin");
+            }
+        });
+        Message msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
+
+
+        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(newParticipant.getEmail()));
+		msg.setSubject("TAMA-Account Activation");
+		msg.setContent("Your account is successfully activated, you can log in using your settings:<br>" + "Login:"
+				+ newParticipant.getEmail() + "<br>" + "Password:" + newParticipant.getPhoneNumber() + "", "text/html");
+		msg.setSentDate(new Date(0));
+		
+
+		MimeBodyPart messageBodyPart = new MimeBodyPart();
+		messageBodyPart.setContent("Your account is successfully activated, you can log in using your settings:<br>"
+				+ "Login:" + newParticipant.getEmail() + "<br>" + "Password:" + newParticipant.getPhoneNumber() + "", "text/html");
+
+		Multipart multipart = new MimeMultipart();
+		multipart.addBodyPart(messageBodyPart);
+
+		msg.setContent(multipart);
+		
+		Transport.send(msg);
     }
 
 }

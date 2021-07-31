@@ -85,11 +85,6 @@ public class TrainerController {
     @PostMapping("/trainers")
     public Trainer addTrainer(@RequestBody Trainer theTrainer) {
 
-        // also just in case they pass an id in JSON ... set id to 0
-        // this is to force a save of new item ... instead of update
-
-        // stheControl.setId(0);
-
         trainerService.save(theTrainer);
         return theTrainer;
     }

@@ -70,13 +70,7 @@ public class ClassRoomController {
 
 	@PostMapping("/classroom")
 	public  ClassRoom addClassRoom(@RequestBody ClassRoom classRoom) {
-	
-		
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
-		
-		//stheControl.setId(0);
-		
+
 		classRoomService.save(classRoom);
 		return classRoom;
 	}

@@ -86,11 +86,9 @@ public class SessionController {
         List<Session> result = new ArrayList<>();
         for (Session session : listSession) {
             if (session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance().getId() == programId) {
-                //System.out.println(session.getSessionBeginDate());
                 result.add(session);
             }
         }
-        //System.out.println(result.size());
         return result;
     }
 
@@ -134,19 +132,6 @@ public class SessionController {
         return result;
     }
 
-    // add mapping for POST /session - add new control
-
-	/*@PostMapping("/session")
-	public  Session addSession(@RequestBody Session session) {
-	
-		
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
-		
-		
-		sessionService.save(session);
-		return session;
-	}*/
 
     @Transactional
     @PostMapping("/session")
@@ -188,26 +173,6 @@ public class SessionController {
         return updatedSession;
     }
 	
-	/*@Transactional
-	@PutMapping("/session")
-	public Session updateSession(@RequestBody Session session,@RequestBody Trainer trainer,@RequestBody ClassRoom classRoom) {
-		
-		Session updatedSession=sessionService.findById(session.getId());
-		updatedSession.setTrainer(trainer);
-		updatedSession.setClassRoom(classRoom);
-		Event event=eventService.findBySessionId(session.getId());
-		event.setTitle(session.getSessionName());
-		event.setStart(session.getSessionBeginDate());
-		event.setEnd(session.getSessionEndDate());
-		updatedSession.setSessionName(session.getSessionName());
-		updatedSession.setSessionBeginDate(session.getSessionBeginDate());
-		updatedSession.setSessionEndDate(session.getSessionEndDate());
-		updatedSession.setClassRoom(session.getClassRoom());
-		updatedSession.setTrainer(session.getTrainer());
-		sessionService.save(updatedSession);
-		eventService.save(event);
-		return updatedSession;
-	}*/
 
     @DeleteMapping("/session/{sessionId}")
     public String deleteSession(@PathVariable long sessionId) {
