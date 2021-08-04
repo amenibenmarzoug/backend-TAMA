@@ -175,10 +175,9 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 	public void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException {
 
 		Entreprise t = findById(id);
-		System.out.println(t.getEnterpriseName());
-		System.out.println(t.isValidated());
+		
 		t.setValidated(true);
-		System.out.println(t.isValidated());
+		/*System.out.println(t.isValidated());
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -209,9 +208,9 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 		// attachPart.attachFile("/var/tmp/image19.png");
 		// multipart.addBodyPart(attachPart);
-		msg.setContent(multipart);
+		msg.setContent(multipart);*/
 		t.setValidated(true);
 		save(t);
-		Transport.send(msg);
+		//Transport.send(msg);
 	}
 }

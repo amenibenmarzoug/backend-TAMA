@@ -360,9 +360,9 @@ public class ParticipantController {
 		Participant newParticipant = participantService.findById(theParticipant.getId());
 		newParticipant.setValidated(true);
 		participantService.save(newParticipant);
-		mailService.sendParticipantValidationMail(newParticipant);
+		//mailService.sendParticipantValidationMail(newParticipant);
 
-		participantService.save(newParticipant);
+		//participantService.save(newParticipant);
 
 
 		return theParticipant;
