@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -43,6 +43,9 @@ public class Participant extends User{
     @NotNull
     @Column
     private int experience;
+    
+    @Formula(value="YEAR(CURDATE()) - YEAR(BIRTHDAY)")
+    private int age;
 
     public int getExperience() {
         return experience;
@@ -111,8 +114,18 @@ public class Participant extends User{
     public void setSessionParticipant(Set<SessionParticipant> sessionParticipant) {
         this.sessionParticipant = sessionParticipant;
     }
+    
+    
 
-    public Participant() {
+    public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public Participant() {
 
     }
 

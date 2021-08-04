@@ -102,24 +102,6 @@ public class ParticipantServiceImpl implements  ParticipantService {
 			participantRepository.deleteById(theId);
 		}
 
-		@Override
-		public HashMap<Long, Integer> findAges() {
-			HashMap<Long, Integer> map = new HashMap<>();
-			   LocalDate d = LocalDate.now();  
-			int currentYear= d.getYear();
-		
-			List<Participant>  liste= findAll();
-			
-			for (Participant p : liste) {
-				Integer age = currentYear - p.getBirthday().getYear();
-				System.out.print(age);
-				Long l= new Long(p.getId());
-				map.put(l, age);
-			}
-			return (map);
-
-			
-			
-		}
+	
 	
 }

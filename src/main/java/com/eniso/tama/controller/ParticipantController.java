@@ -85,6 +85,9 @@ public class ParticipantController {
 
 	@GetMapping("/participants")
 	public List<Participant> findAll() {
+		for (Participant par : participantService.findAll()) {
+			//System.out.println("AGE"+par.getAge());
+		}
 		return participantService.findAll();
 	}
 
@@ -92,7 +95,7 @@ public class ParticipantController {
 	public Participant getParticipant(@PathVariable long participantId) {
 
 		Participant theParticipant = participantService.findById(participantId);
-
+		
 		if (theParticipant == null) {
 			throw new RuntimeException("Participant id not found - " + participantId);
 		}
@@ -101,10 +104,7 @@ public class ParticipantController {
 	}
 
 	
-	@GetMapping("participants/ages")
-	public HashMap<Long, Integer> findAges(){
-		return participantService.findAges();
-	}
+	
 	
 	
 	

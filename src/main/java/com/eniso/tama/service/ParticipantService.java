@@ -18,6 +18,5 @@ public interface ParticipantService {
 		public void save(Participant theParticipant);
 		
 		public void deleteById(long theId);
-		public HashMap<Long, Integer> findAges();
 		
 	}
