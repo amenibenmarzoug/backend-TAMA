@@ -191,8 +191,9 @@ public class ParticipantController {
 	public List<Participant> getParticipantPerClass(@PathVariable("id") long id) {
 		List<Participant> participantsPerClasse = new ArrayList<Participant>();
 		for (Participant theP : findAll()) {
-			if(theP.getProgramInstance().getId() == id){
+			if(theP.getProgramInstance().getId() == id && theP.getStatus().equals(Status.ACCEPTED)){
 				participantsPerClasse.add(theP);
+
 			}
 		}
 		return participantsPerClasse;
