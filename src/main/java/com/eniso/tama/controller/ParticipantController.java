@@ -293,7 +293,9 @@ public class ParticipantController {
 		p.setLevel(theP.getLevel());
 		p.setCurrentPosition(theP.getCurrentPosition());
 		p.setEntreprise(entreprise);
+		p.setExperience(theP.getExperience());
 		p.setProgramInstance(entreprise.getProgramInstance());
+		p.setStatus(Status.WAITING);
 
 		p.setValidated(false);
 		participantRepository.save(p);
