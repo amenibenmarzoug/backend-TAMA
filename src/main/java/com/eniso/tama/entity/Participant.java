@@ -32,9 +32,11 @@ public class Participant extends User{
     @Column
     private String gender;
 
-    @NotNull
+   //@NotNull
     @Column
     private LocalDate birthday;
+    @Column
+    private Integer birthYear;
 
     @Column
     private String currentPosition;
@@ -117,8 +119,8 @@ public class Participant extends User{
     }
 
     public Participant(@NotBlank @Size(max = 50) @Email String email,
-                       String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,
-                       @NotBlank String lastName, @NotBlank String gender , LocalDate birthday) {
+                       String password,  String street,  String city, String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,
+                       @NotBlank String lastName, @NotBlank String gender , LocalDate birthday , Integer birthYear) {
         //this.setId(super.getId());
         super.setEmail(email);
         super.setPassword(password);
@@ -132,12 +134,13 @@ public class Participant extends User{
         this.lastNameP  = lastName;
         this.gender = gender;
         this.birthday= birthday;
+        this.birthYear =birthYear ;
 
     }
 
     public Participant(@NotBlank @Size(max = 50) @Email String email,
-                       String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstNameP,
-                       @NotBlank String lastNameP, @NotBlank String gender , LocalDate birthday , Entreprise entreprise, ProgramInstance programInstance) {
+                       String password,  String street, String city,  String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstNameP,
+                       @NotBlank String lastNameP, @NotBlank String gender , LocalDate birthday ,Integer birthYear, Entreprise entreprise, ProgramInstance programInstance) {
         this.setId(super.getId());
         super.setEmail(email);
         super.setPassword(password);
@@ -151,6 +154,7 @@ public class Participant extends User{
         this.lastNameP  = lastNameP;
         this.gender = gender;
         this.birthday= birthday;
+        this.birthYear=birthYear ;
         this.entreprise=entreprise ;
         this.programInstance=programInstance;
 
@@ -221,6 +225,15 @@ public class Participant extends User{
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	
+
+	public Integer getBirthYear() {
+		return birthYear;
+	}
+
+	public void setBirthYear(Integer birthYear) {
+		this.birthYear = birthYear;
 	}
 
 	@Override

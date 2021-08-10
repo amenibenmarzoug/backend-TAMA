@@ -289,7 +289,8 @@ public class AuthController {
                 signupRequestParticipant.getCity(), signupRequestParticipant.getPostalCode(),
                 signupRequestParticipant.getPhoneNumber(), null, signupRequestParticipant.getFirstName(),
                 signupRequestParticipant.getLastName(), signupRequestParticipant.getGender(),
-                signupRequestParticipant.getBirthday());
+                signupRequestParticipant.getBirthday(),
+                signupRequestParticipant.getBirthYear());
         participant.setValidated(false);
 		participant.setStatus(Status.WAITING);
 

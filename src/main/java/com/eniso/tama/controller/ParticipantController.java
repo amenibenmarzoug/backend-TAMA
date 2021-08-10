@@ -246,6 +246,7 @@ public class ParticipantController {
 		p.setLastNameP(theP.getLastNameP());
 		p.setGender(theP.getGender());
 		p.setBirthday(theP.getBirthday());
+		p.setBirthYear(theP.getBirthYear());
 		p.setEntreprise(theP.getEntreprise());
 		p.setEducationLevel(theP.getEducationLevel());
 		p.setLevel(theP.getLevel());

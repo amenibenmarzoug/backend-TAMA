@@ -58,6 +58,7 @@ public class SignupRequestParticipant {
 	private String password;
 
 	private LocalDate birthday;
+	private Integer birthYear;
 
 	private String currentPosition;
 
@@ -165,6 +166,14 @@ public class SignupRequestParticipant {
 
 	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
+	}
+
+	public Integer getBirthYear() {
+		return birthYear;
+	}
+
+	public void setBirthYear(Integer birthYear) {
+		this.birthYear = birthYear;
 	}
 
 	public String getCurrentPosition() {

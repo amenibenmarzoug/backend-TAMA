@@ -32,13 +32,13 @@ public class User {
     @Column( insertable = true, updatable = true, nullable = false)
     // @Size(min=8, max=40)
     private String password;
-    @NotNull
+   //@NotNull
     @Column
     private String street;
-    @NotNull
+   //@NotNull
     @Column
     private String city;
-    @NotNull
+  //@NotNull
     @Column
     private String postalCode;
 
@@ -61,8 +61,8 @@ public class User {
     public User() {
     }
 
-    public User(@NotBlank @Size(max = 50) @Email String email, String password, @NotBlank String street,
-                @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber, Set<Role> roles) {
+    public User(@NotBlank @Size(max = 50) @Email String email, String password,  String street,
+               String city,  String postalCode, @NotNull String phoneNumber, Set<Role> roles) {
         // super();
         this.email = email;
         this.password = password;
