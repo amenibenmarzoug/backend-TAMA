@@ -42,6 +42,9 @@ public class SignupRequestEnterprise {
     private String managerLastName;
     private String managerPosition;
     private int nbMinParticipants;
+    
+    private boolean provider;
+    
     private Set<String> role;
     private ProgramInstance programInstance;
 
@@ -161,7 +164,16 @@ public class SignupRequestEnterprise {
         this.nbMinParticipants = nbMinParticipants;
     }
 
-    @Override
+    
+    public boolean isProvider() {
+		return provider;
+	}
+
+	public void setProvider(boolean provider) {
+		this.provider = provider;
+	}
+
+	@Override
     public String toString() {
         return "SignupRequestEnterprise [email=" + email + ", street=" + street + ", city=" + city + ", postalCode="
                 + postalCode + ", phoneNumber=" + phoneNumber + ", password=" + password + ", enterpriseName="
