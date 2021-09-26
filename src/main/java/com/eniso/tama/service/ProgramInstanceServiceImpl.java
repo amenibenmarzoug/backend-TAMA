@@ -1,6 +1,7 @@
 package com.eniso.tama.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.PersistenceContext;
@@ -76,6 +77,11 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		}
 
 		return theProgramInstance;
+	}
+	
+	@Override
+	public List<ProgramInstance> findByBeginDate(Date date){
+		return programInstanceRepository.findByBeginDate(date); 
 	}
 
 	@Override

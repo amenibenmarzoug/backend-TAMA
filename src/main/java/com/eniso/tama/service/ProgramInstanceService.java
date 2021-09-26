@@ -1,5 +1,6 @@
 package com.eniso.tama.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.eniso.tama.entity.ProgramInstance;
@@ -12,8 +13,12 @@ public interface ProgramInstanceService {
 
 	public List<ProgramInstance> findByProgramId(long id);
 
+	
+	public List<ProgramInstance> findByBeginDate(Date date);
+	
 	public ProgramInstance save(ProgramInstance theProgramInstance);
-
+	
+	
 	public ProgramInstance update(ProgramInstance theProgramInstance);
 	
 	public ProgramInstance confirm(ProgramInstance theProgramInstance);

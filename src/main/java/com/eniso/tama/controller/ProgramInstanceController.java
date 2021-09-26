@@ -27,21 +27,21 @@ public class ProgramInstanceController {
 
 	@Autowired
 	private ProgramInstanceService programInstService;
-	
+
 
 	public ProgramInstanceController(ProgramInstanceService programService) {
 		super();
 		this.programInstService = programService;
 	}
-	
-	
+
+
 
 	@GetMapping("/programsInst")
 	public List<ProgramInstance> findAll() {
 		return programInstService.findAll();
 	}
 
-	
+
 
 	@GetMapping("programsInst/{programId}")
 	public ProgramInstance getProgram(@PathVariable long programId) {
@@ -56,8 +56,8 @@ public class ProgramInstanceController {
 	}
 	// add mapping for POST /participants - add new control
 
-	
-	
+
+
 	@PostMapping("/programsInst")
 	public ProgramInstance addcontrol(@RequestBody ProgramInstance theProgram) {
 
@@ -65,51 +65,51 @@ public class ProgramInstanceController {
 
 		return theProgram;
 	}
-	
-	
-	
+
+
+
 
 	@PostMapping("/programsInst2")
 	public ProgramInstance addClass(@RequestBody ProgramInstance theProgram) {
 
 		return(programInstService.addClass(theProgram));
-		
-		
+
+
 	}
-	
-	
-	
-	
+
+
+
+
 
 	// add mapping for PUT /employees - update existing employee
 
 
 	@PutMapping("/programsInst")
-    public ProgramInstance updateProgram(@RequestBody ProgramInstance theProgram) {
-		
+	public ProgramInstance updateProgram(@RequestBody ProgramInstance theProgram) {
+
 		return(programInstService.updateProgramInst(theProgram));
-		
-		
+
+
 	}
 
-	
+
 	@PutMapping("/programsInst/confirm")
-    public ProgramInstance confirm(@RequestBody ProgramInstance theProgram) {
-		
+	public ProgramInstance confirm(@RequestBody ProgramInstance theProgram) {
+
 		return(programInstService.confirm(theProgram));
-		
-		
+
+
 	}
-	
+
 	@PutMapping("/programsInst/cancel")
-    public ProgramInstance cancel(@RequestBody ProgramInstance theProgram) {
-		
+	public ProgramInstance cancel(@RequestBody ProgramInstance theProgram) {
+
 		return(programInstService.cancel(theProgram));
-		
-		
+
+
 	}
-	
-	@Transactional 
+
+	@Transactional
 	@DeleteMapping("programsInst/{programId}")
 	public String deleteProgram(@PathVariable int programId) {
 
@@ -122,11 +122,11 @@ public class ProgramInstanceController {
 		}
 
 		//programService.deleteById(programId);
-		
+
 		programInstService.delete(Program);
 
 		return "Deleted programId- " + programId;
-		
+
 	}
 
 }
