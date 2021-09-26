@@ -233,7 +233,7 @@ public class AuthController {
 				signupRequestEnterprise.getPhoneNumber(), null, signupRequestEnterprise.getEnterpriseName(),
 				signupRequestEnterprise.getWebsite(), signupRequestEnterprise.getManagerFirstName(),
 				signupRequestEnterprise.getManagerLastName(), signupRequestEnterprise.getManagerPosition(),
-				signupRequestEnterprise.getNbMinParticipants());
+				signupRequestEnterprise.getNbMinParticipants(),signupRequestEnterprise.isProvider());
 
 		enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
 

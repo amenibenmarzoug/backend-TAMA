@@ -137,7 +137,7 @@ public class TrainerServiceImpl implements TrainerService {
 		Trainer t = findById(id);
 		t.setValidated(true);
 		save(t);
-		sendValidationMail(t);
+		//sendValidationMail(t);
 
 	}
 
