@@ -228,4 +228,15 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 		save(t);
 		// Transport.send(msg);
 	}
+
+	@Override
+	public List<Entreprise> findEnterpriseByLocation(String location) {
+		List<Entreprise> enterprises=new ArrayList<Entreprise>();
+		for (Entreprise entreprise : enterpriseRepository.findAll()) {
+			if(entreprise.getCity().equals(location)) {
+				enterprises.add(entreprise);
+			}
+		}
+		return enterprises;
+	}
 }

@@ -58,6 +58,16 @@ public class EntrepriseController {
 		return theEntreprise;
 	}
 	
+	@GetMapping("entreprises/location/{location}")
+	public List<Entreprise> getEnterpriseByCity(@PathVariable String location) {
+
+		List<Entreprise> entreprises = entrepriseService.findEnterpriseByLocation(location);
+
+		
+
+		return entreprises;
+	}
+	
 // add mapping for POST /participants - add new control
 
 	@PostMapping("/entreprises")
