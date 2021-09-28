@@ -104,15 +104,15 @@ public class Participant extends User{
 
     @JsonIgnore
     @OneToMany(mappedBy = "participant")
-    Set<SessionParticipant> sessionParticipant;
+    Set<Attendance> attendance;
 
 
-    public Set<SessionParticipant> getSessionParticipant() {
-        return sessionParticipant;
+    public Set<Attendance> getAttendance() {
+        return attendance;
     }
 
-    public void setSessionParticipant(Set<SessionParticipant> sessionParticipant) {
-        this.sessionParticipant = sessionParticipant;
+    public void setSessionParticipant(Set<Attendance> attendance) {
+        this.attendance = attendance;
     }
     
     
@@ -241,7 +241,7 @@ public class Participant extends User{
         return "Participant [ firstNameP=" + firstNameP + ", lastNameP=" + lastNameP
                 + ", gender=" + gender + ", birthday=" + birthday + ", currentPosition=" + currentPosition + ", level="
                 + level + ", educationLevel=" + educationLevel + ", abandon=" + abandon + ", entreprise=" + entreprise
-                + ", courseSessionParticipant=" + sessionParticipant + "]";
+                + ", courseSessionParticipant=" + attendance + "]";
     }
 
 
