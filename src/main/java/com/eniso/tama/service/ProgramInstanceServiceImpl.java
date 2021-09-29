@@ -185,7 +185,7 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		ProgramInstance newProgram = findById(programInst.getId());
 		newProgram.setProgramInstName(programInst.getProgramInstName());
 		newProgram.setNbDaysProgInst(programInst.getNbDaysProgInst());
-		;
+		newProgram.setPlace(programInst.getPlace());
 		newProgram.setLocation(programInst.getLocation());
 		newProgram.setProgram(programInst.getProgram());
 		newProgram.setBeginDate(programInst.getBeginDate());
