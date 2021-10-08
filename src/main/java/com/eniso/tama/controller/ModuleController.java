@@ -68,7 +68,7 @@ public class ModuleController {
 
 	// add mapping for PUT /module - update existing module
 
-	@Transactional 
+	 
 	@PutMapping("/module")
 	public Module updateModule(@RequestBody Module theModule) {
 	
