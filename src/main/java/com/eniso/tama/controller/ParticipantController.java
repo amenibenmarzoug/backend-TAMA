@@ -198,6 +198,17 @@ public class ParticipantController {
 		}
 		return participantsPerClasse;
 	}
+	//Get Participants (status-Validated) By Class  (same as the method above : to be corrected) //method above generating errors
+	@GetMapping("participants/classId/{id}")
+	public List<Participant> getParticipantsPerClass(@PathVariable("id") long classId) {
+		List<Participant> participantsPerClasse = participantService.findParticipantsByClass(classId);
+
+		if (participantsPerClasse == null) {
+			throw new RuntimeException("No participants found in the class with id  " + classId);
+		}
+		return participantsPerClasse;
+	}
+	
 
 	@GetMapping("participants/entreprise")
 	public List<Participant> getParticipantEntreprise(@RequestParam("id") long id) {
@@ -211,12 +222,12 @@ public class ParticipantController {
 				participantsPerEntr.add(theP);
 				
 			}
-
-
 		}
 
 		return participantsPerEntr;
 	}
+	
+	
 	
 
 	// POST FOR ADDING PARTICIPANTS IN CRUD , IT REQUERS THE ID OF THE ENTERPRISE

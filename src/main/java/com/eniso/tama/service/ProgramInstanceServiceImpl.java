@@ -204,4 +204,13 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		programInstanceRepository.save(theProgramInstance);
 		return theProgramInstance;
 	}
+	
+	
+
+	@Override
+	public List<ProgramInstance> findByLocationAndValidated(String location, boolean validated) {
+		// TODO Auto-generated method stub
+		return programInstanceRepository.findProgramInstByLocationAndValidated(location, validated);
+	}
+	
 }
