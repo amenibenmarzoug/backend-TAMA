@@ -87,8 +87,7 @@ public class ModuleInstanceServiceImpl  implements ModuleInstanceService{
 
 		@Override
 		public void saveModuleInstance(ModuleInstance module) {
-			System.out.println("module id");
-			System.out.println(module.getId());
+		
 			moduleInstanceRepository.save(module);			
 		}
 		
