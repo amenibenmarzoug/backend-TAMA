@@ -32,13 +32,13 @@ public class User {
     @Column( insertable = true, updatable = true, nullable = false)
     // @Size(min=8, max=40)
     private String password;
-    @NotNull
+    
     @Column
     private String street;
-    @NotNull
+    
     @Column
     private String city;
-    @NotNull
+    
     @Column
     private String postalCode;
 

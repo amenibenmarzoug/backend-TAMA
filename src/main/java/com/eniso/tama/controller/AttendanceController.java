@@ -1,5 +1,6 @@
 package com.eniso.tama.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -22,6 +23,8 @@ import com.eniso.tama.entity.Session;
 import com.eniso.tama.service.AttendanceService;
 import com.eniso.tama.service.ParticipantService;
 import com.eniso.tama.service.SessionService;
+
+import net.sf.jasperreports.engine.JRException;
 
 @RestController
 @ComponentScan(basePackageClasses = AttendanceService.class )
@@ -83,5 +86,11 @@ public class AttendanceController {
 		attendanceService.save(updatedAttendance);
 		return updatedAttendance;
 	}
+	
+	@GetMapping("/attendance/generate")
+	public void genereateReport() throws JRException, IOException {
+		 attendanceService.generateReport();
+	}
+	
 
 }

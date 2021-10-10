@@ -33,7 +33,7 @@ public class SignupRequestEnterprise {
     @Size(min = 3, max = 20)
     private String phoneNumber;
     @NotBlank
-    @Size(min = 8, max = 40)
+    @Size(min = 6, max = 40)
     private String password;
     //@NotNull
     private String enterpriseName;

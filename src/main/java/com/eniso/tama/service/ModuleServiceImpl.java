@@ -106,12 +106,16 @@ public class ModuleServiceImpl implements ModuleService {
 		module.setModuleName(theModule.getModuleName());
 		module.setNbDaysModule(theModule.getNbDaysModule());
 		module.setTheme(theModule.getTheme());
-		save(module);
+		
 		for (ModuleInstance moduleInstance : list) {
+			
 			moduleInstance.setModuleInstanceName(theModule.getModuleName());
 			moduleInstance.setNbDaysModuleInstance(theModule.getNbDaysModule());
-			moduleInstService.save(moduleInstance);
+			System.out.println("module id");
+			System.out.println(moduleInstance.getId());
+			moduleInstService.saveModuleInstance(moduleInstance);
 		}
+		moduleRepository.save(module);
 		return module;
 	}
 

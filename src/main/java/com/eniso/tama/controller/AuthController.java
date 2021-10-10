@@ -236,7 +236,7 @@ public class AuthController {
 				signupRequestEnterprise.getNbMinParticipants(),signupRequestEnterprise.isProvider());
 
 		enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
-
+		System.out.println(enterprise.isProvider());
 		enterprise.setValidated(false);
 
 //		User user = new User(signupRequestEnterprise.getEmail(),
@@ -258,7 +258,7 @@ public class AuthController {
         enterprise.setRoles(roles);
 
         enterpriseRepository.save(enterprise);
-        try {
+       /* try {
             mailService.sendmail(enterprise.getEmail());
         } catch (AddressException e) {
             // TODO Auto-generated catch block
@@ -269,7 +269,7 @@ public class AuthController {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        }*/
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
