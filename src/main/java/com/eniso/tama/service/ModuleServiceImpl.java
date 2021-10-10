@@ -121,4 +121,10 @@ public class ModuleServiceImpl implements ModuleService {
 		return module;
 	}
 
+	@Override
+	public List<String> getModulesNames() {
+
+		return moduleRepository.findModulesNames();
+	}
+
 }
