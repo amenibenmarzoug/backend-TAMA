@@ -2,10 +2,7 @@ package com.eniso.tama.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.transaction.Transactional;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.eniso.tama.entity.Participant;
-import com.eniso.tama.entity.Program;
-import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Theme;
-import com.eniso.tama.entity.ThemeInstance;
-import com.eniso.tama.payload.MessageResponse;
-import com.eniso.tama.repository.ProgramRepository;
-import com.eniso.tama.service.ProgramInstanceService;
-import com.eniso.tama.service.ThemeInstanceService;
 import com.eniso.tama.service.ThemeService;
 
 @CrossOrigin(origins = "http://localhost:4200")

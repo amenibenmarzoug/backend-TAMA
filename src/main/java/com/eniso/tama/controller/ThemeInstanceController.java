@@ -34,84 +34,84 @@ import com.eniso.tama.service.ThemeInstanceService;
 @RequestMapping(value = "/api")
 public class ThemeInstanceController {
 
-	
-	@Autowired
-	private ThemeInstanceService themeInstanceService;
 
-	
-	public ThemeInstanceController(ThemeInstanceService themeInstanceService) {
-		super();
-		this.themeInstanceService = themeInstanceService;
-	}
-	
-	@GetMapping("/themesInst")
-	public List<ThemeInstance> findAll() {
-		return themeInstanceService.findAll();
-	}
-	@GetMapping("/program/themesInst")
-	public List<ThemeInstance> getProgramThemesInst(@RequestParam("id") long id) {
-		System.out.println(id);
-		
-		return(themeInstanceService.getProgramThemesInst(id));
-		
-		
-	}
-
-	@GetMapping("themeInst/{themeId}")
-	public ThemeInstance getThemeInst(@PathVariable long themeInstId) {
-
-		ThemeInstance theThemeInst = themeInstanceService.findById(themeInstId);
-
-		if (theThemeInst == null) {
-			throw new RuntimeException("themeInst not found - " + themeInstId);
-		}
-
-		return theThemeInst;
-	}
-	
-
-	@PostMapping("/themeInst")
-	public ThemeInstance addThemeInst(@RequestBody ThemeInstance thethemeInst) {
-
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
-
-		// stheControl.setId(0);
-
-		themeInstanceService.save(thethemeInst);
-		return thethemeInst;
-	}
-	@PostMapping("/themeProgramInst")
-	public ResponseEntity<?> addThemeProgram(@Valid @RequestBody ThemeInstance theme,@RequestParam("id") long id ) {
-	
-		return(themeInstanceService.addThemeProgram(theme,id));
-		
-	}
+    @Autowired
+    private ThemeInstanceService themeInstanceService;
 
 
-	@PutMapping("/themeInst")
+    public ThemeInstanceController(ThemeInstanceService themeInstanceService) {
+        super();
+        this.themeInstanceService = themeInstanceService;
+    }
+
+    @GetMapping("/themesInst")
+    public List<ThemeInstance> findAll() {
+        return themeInstanceService.findAll();
+    }
+    @GetMapping("/program/themesInst")
+    public List<ThemeInstance> getProgramThemesInst(@RequestParam("id") long id) {
+        System.out.println(id);
+
+        return(themeInstanceService.getProgramThemesInst(id));
+
+
+    }
+
+    @GetMapping("themeInst/{themeId}")
+    public ThemeInstance getThemeInst(@PathVariable long themeInstId) {
+
+        ThemeInstance theThemeInst = themeInstanceService.findById(themeInstId);
+
+        if (theThemeInst == null) {
+            throw new RuntimeException("themeInst not found - " + themeInstId);
+        }
+
+        return theThemeInst;
+    }
+
+
+    @PostMapping("/themeInst")
+    public ThemeInstance addThemeInst(@RequestBody ThemeInstance thethemeInst) {
+
+        // also just in case they pass an id in JSON ... set id to 0
+        // this is to force a save of new item ... instead of update
+
+        // stheControl.setId(0);
+
+        themeInstanceService.save(thethemeInst);
+        return thethemeInst;
+    }
+    @PostMapping("/themeProgramInst")
+    public ResponseEntity<?> addThemeProgram(@Valid @RequestBody ThemeInstance theme,@RequestParam("id") long id ) {
+
+        return(themeInstanceService.addThemeProgram(theme,id));
+
+    }
+
+
+    @PutMapping("/themeInst")
     public ThemeInstance updateThemeInst(@RequestBody ThemeInstance theThemeInst) {
 
-		return(themeInstanceService.updateThemeInst(theThemeInst));
-		
-		
-	}
+        return(themeInstanceService.updateThemeInst(theThemeInst));
 
-	@DeleteMapping("themeInst/{themeId}")
-	public String deleteThemeInst(@PathVariable int themInstId) {
 
-		ThemeInstance themeInst = themeInstanceService.findById(themInstId);
+    }
 
-		// throw exception if null
+    @DeleteMapping("themeInst/{themeId}")
+    public String deleteThemeInst(@PathVariable int themInstId) {
 
-		if (themeInst == null) {
-			throw new RuntimeException("the ThemeInst id is not found - " + themInstId);
-		}
+        ThemeInstance themeInst = themeInstanceService.findById(themInstId);
 
-		themeInstanceService.deleteById(themInstId);
+        // throw exception if null
 
-		return "Deleted programId- " + themInstId;
-	}
+        if (themeInst == null) {
+            throw new RuntimeException("the ThemeInst id is not found - " + themInstId);
+        }
+
+        themeInstanceService.deleteById(themInstId);
+
+        return "Deleted programId- " + themInstId;
+    }
 
 
 }

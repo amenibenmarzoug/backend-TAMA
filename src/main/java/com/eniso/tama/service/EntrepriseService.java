@@ -16,27 +16,26 @@ import com.eniso.tama.entity.Entreprise;
 
 
 public interface EntrepriseService {
-	
 
-		public List<Entreprise> findAll();
-		
-		public Entreprise findById(long theId);
-		
-		public Entreprise findByEmail(String email) ;
-		
-		
-		public Entreprise findByPhoneNumber(String email) ;
+	public List<Entreprise> findAll();
 
-		public void save(Entreprise theEntreprise);
-		
-		public void deleteById(long theId);
-		
-		public Entreprise getParticipant( long entrepriseId) ;
-		
-		public  ResponseEntity<?>   updateEntreprise(@RequestBody Entreprise theEntreprise);
-		
-		public List<Entreprise> getNonValid(); 
-		
-		public void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException;
-		
-	}
+	public Entreprise findById(long theId);
+
+	public Entreprise findByEmail(String email) ;
+
+
+	public Entreprise findByPhoneNumber(String email) ;
+
+	public void save(Entreprise theEntreprise);
+
+	public void deleteById(long theId);
+
+	public Entreprise getParticipant( long entrepriseId) ;
+
+	public  ResponseEntity<?>   updateEntreprise(@RequestBody Entreprise theEntreprise);
+
+	public List<Entreprise> getNonValid();
+
+	public void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException;
+
+}

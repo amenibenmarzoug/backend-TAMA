@@ -3,12 +3,10 @@ package com.eniso.tama.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.ThemeInstance;
 import com.eniso.tama.payload.MessageResponse;
@@ -22,17 +20,9 @@ public class ThemeInstanceServiceImpl implements ThemeInstanceService{
 
 	@Autowired
 	private ThemeInstanceRepository themeInstanceRepository;
+	
 	@Autowired
 	ProgramInstanceRepository programInstRepository;
-	
-
-	/*public ThemeInstanceServiceImpl(ThemeInstanceRepository themeInstanceRepository) {
-		super();
-		this.themeInstanceRepository = themeInstanceRepository;
-	}*/
-	
-	
-
 
 	@Override
 	public List<ThemeInstance> findAll() {
@@ -130,8 +120,6 @@ public class ThemeInstanceServiceImpl implements ThemeInstanceService{
 		ThemeInstance newthemeInst = findById(theThemeInst.getId());
 		newthemeInst.setThemeInstName(theThemeInst.getThemeInstName());
 		newthemeInst.setNbDaysthemeInst(theThemeInst.getNbDaysthemeInst());
-		//newthemeInst.setThemeInstBeginDate(theThemeInst.getThemeInstBeginDate());
-		//newthemeInst.setThemeInstEndDate(theThemeInst.getThemeInstEndDate());
 		newthemeInst.setTheme(theThemeInst.getTheme());
 		save(newthemeInst);
 

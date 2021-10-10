@@ -10,40 +10,40 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Program {
-	@Id
+    @Id
     @Column(name = "program_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-	
-	@NotNull
-	@Column
-	private String programName;
-	
-	@NotNull
-	@Column(name="ProgramDays")
-	private int nbDaysProg;
 
-	public Long getId() {
-		return id;
-	}
+    @NotNull
+    @Column
+    private String programName;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @NotNull
+    @Column(name = "ProgramDays")
+    private int nbDaysProg;
 
-	public String getProgramName() {
-		return programName;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setProgramName(String programName) {
-		this.programName = programName;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public int getNbDaysProg() {
-		return nbDaysProg;
-	}
+    public String getProgramName() {
+        return programName;
+    }
 
-	public void setNbDaysProg(int nbDaysProg) {
-		this.nbDaysProg = nbDaysProg;
-	}
+    public void setProgramName(String programName) {
+        this.programName = programName;
+    }
+
+    public int getNbDaysProg() {
+        return nbDaysProg;
+    }
+
+    public void setNbDaysProg(int nbDaysProg) {
+        this.nbDaysProg = nbDaysProg;
+    }
 }

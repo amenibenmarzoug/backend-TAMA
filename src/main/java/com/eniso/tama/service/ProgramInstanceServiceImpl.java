@@ -3,17 +3,12 @@ package com.eniso.tama.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.orm.hibernate5.HibernateOperations;
 import org.springframework.stereotype.Service;
-
 import com.eniso.tama.entity.Module;
 import com.eniso.tama.entity.ModuleInstance;
 import com.eniso.tama.entity.ProgramInstance;
@@ -42,16 +37,6 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	@Autowired
 	private ThemeDetailInstanceService themeDetailInstanceService;
 
-	
-	
-	
-	
-	/*public ProgramInstanceServiceImpl(ProgramInstanceRepository theProgramInstanceRepository) {
-		programInstanceRepository = theProgramInstanceRepository;
-	}*/
-	
-	
-	
 
 	public ProgramInstanceServiceImpl(ProgramInstanceRepository programInstanceRepository,
 
@@ -125,11 +110,7 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	@Override
 	public void delete(ProgramInstance theProgramInstance) {
 
-		// entityManager.getTransaction().begin();
-		// entityManager.refresh(theProgramInstance);
 		entityManager.remove(theProgramInstance);
-		// entityManager.getTransaction().commit();
-
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import com.eniso.tama.entity.Institution;
 
 public interface InstitutionService {
+
 public List<Institution> findAll();
 	
 	public Institution findById(long theId);

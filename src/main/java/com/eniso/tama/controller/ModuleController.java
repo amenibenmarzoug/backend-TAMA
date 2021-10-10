@@ -16,16 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.eniso.tama.entity.Module;
-import com.eniso.tama.entity.ModuleInstance;
-import com.eniso.tama.entity.Program;
-import com.eniso.tama.entity.ProgramInstance;
-import com.eniso.tama.entity.Theme;
-import com.eniso.tama.entity.ThemeInstance;
-import com.eniso.tama.service.ModuleInstanceService;
 import com.eniso.tama.service.ModuleService;
-import com.eniso.tama.service.ThemeInstanceService;
 
 @RestController
 @ComponentScan(basePackageClasses = ModuleService.class)

@@ -1,5 +1,6 @@
 package com.eniso.tama.service;
 
+
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -159,16 +160,12 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 		for (Entreprise e : findAll()) {
 
-			// System.out.println(theP.getEntreprise()) ;
 			if (!e.isValidated()) {
 
 				Entreprises.add(e);
 
 			}
 
-//					if (theParticipant1 == null) {
-//						throw new RuntimeException("oops");
-//					}
 
 		}
 		return Entreprises;
@@ -178,10 +175,9 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 	public void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException {
 
 		Entreprise t = findById(id);
-		System.out.println(t.getEnterpriseName());
-		System.out.println(t.isValidated());
+		
 		t.setValidated(true);
-		System.out.println(t.isValidated());
+		/*System.out.println(t.isValidated());
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -212,10 +208,9 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 		// attachPart.attachFile("/var/tmp/image19.png");
 		// multipart.addBodyPart(attachPart);
-		msg.setContent(multipart);
+		msg.setContent(multipart);*/
 		t.setValidated(true);
 		save(t);
-		System.out.println(t.isValidated());
-		Transport.send(msg);
+		//Transport.send(msg);
 	}
 }

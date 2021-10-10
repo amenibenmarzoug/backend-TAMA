@@ -13,48 +13,44 @@ import javax.persistence.MapsId;
 @Entity
 public class SessionParticipant {
 
-	@Id
+    @ManyToOne
+    @JoinColumn(name = "participant_id")
+    Participant participant;
+    @ManyToOne
+    @JoinColumn(name = "session_id")
+    Session session;
+    boolean absent;
+    @Id
     @Column(name = "sessionP_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "participant_id")
-	Participant participant;
+    public Long getId() {
+        return id;
+    }
 
-	@ManyToOne
-	@JoinColumn(name = "session_id")
-	Session session;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	boolean absent;
+    public Participant getParticipant() {
+        return participant;
+    }
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Participant getParticipant() {
-		return participant;
-	}
-
-	public void setParticipant(Participant participant) {
-		this.participant = participant;
-	}
+    public void setParticipant(Participant participant) {
+        this.participant = participant;
+    }
 
 
+    public boolean isAbsent() {
+        return absent;
+    }
 
-	public boolean isAbsent() {
-		return absent;
-	}
+    public void setAbsent(boolean absent) {
+        this.absent = absent;
+    }
 
-	public void setAbsent(boolean absent) {
-		this.absent = absent;
-	}
-	
-	
-	//public SessionParticipant() {}
-	
+
+    //public SessionParticipant() {}
+
 }

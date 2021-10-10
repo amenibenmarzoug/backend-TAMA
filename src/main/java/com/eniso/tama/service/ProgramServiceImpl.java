@@ -12,9 +12,9 @@ import com.eniso.tama.entity.ProgramInstance;
 
 import com.eniso.tama.entity.Program;
 import com.eniso.tama.repository.ProgramRepository;
+
 @Service
 @ComponentScan(basePackageClasses =ProgramRepository.class )
-
 public class ProgramServiceImpl implements ProgramService {
 
 	

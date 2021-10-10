@@ -8,6 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 @SpringBootApplication
 public class TamaApplication extends SpringBootServletInitializer {
 
+
 	public static void main(String[] args) {
 		SpringApplication.run(TamaApplication.class, args);
 

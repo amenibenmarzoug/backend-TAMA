@@ -53,26 +53,16 @@ public class ParticipantServiceImpl implements  ParticipantService {
 		//find By level 
 		@Override
 		public List<Participant> findByLevel(String theLevel) {
-			//List <Participant> result = participanRepository.findByLevel(theLevel);
-			
-//			Optional <Participant>  theParticipant = null;
-//			
-//			if (result.isPresent()) {
-//				theParticipant = result.get();
-//			}
-//			else {
-//				// we didn't find the participants
-//				throw new RuntimeException("Did not find participants with level - " + theLevel);
-//			}
+		
 			
 			return participantRepository.findByLevel(theLevel);
 
 		}
+		
 		//find by Company
 		@Override
 		
 		public List<Participant>  findByEntreprise (Participant theParticipant) {
-			//List<Participant> result = participanRepository.findByEntreprise(theParticipant);
          
 			List<Participant> p1= null ;
 			
@@ -86,14 +76,6 @@ public class ParticipantServiceImpl implements  ParticipantService {
 				p1.add(theP) ;
 			
           }
-            
-           
-//			else {
-//				p2.add(theP);
-//				return p2 ;
-//			}
-//			
-			
 		            	
 		}
 			return p1;
@@ -120,47 +102,6 @@ public class ParticipantServiceImpl implements  ParticipantService {
 			participantRepository.deleteById(theId);
 		}
 
-		@Override
-		public HashMap<Long, Integer> findAges() {
-			HashMap<Long, Integer> map = new HashMap<>();
-			   LocalDate d = LocalDate.now();  
-			int currentYear= d.getYear();
-			System.out.println(currentYear);
-		
-			List<Participant>  liste= findAll();
-			
-			for (Participant p : liste) {
-				Integer age = currentYear - p.getBirthday().getYear();
-				System.out.print(age);
-				Long l= new Long(p.getId());
-				map.put(l, age);
-			}
-			return (map);
-
-			
-			
-		}
-
-//		@Override
-//		public List<Participant> findByGroup(long id) {
-//				List<Participant> p1= null ;
-//			
-//			
-//
-//			for(Participant theP:participantRepository.findAll()) {
-//				
-//				
-//			if  (theP.getGroup()!=null) {
-//        	  
-//				p1.add(theP) ;
-//			
-//          }
-//			
-//		}
-//			return p1;
-//		}
-
-		
-
-		
+	
+	
 }
