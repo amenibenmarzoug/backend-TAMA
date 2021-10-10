@@ -228,13 +228,15 @@ public class Participant extends User{
     }
    
 
-    public Status getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
 	public void setStatus(Status status) {
 		this.status = status;
+
 	}
+
 
 	@Override
     public String toString() {

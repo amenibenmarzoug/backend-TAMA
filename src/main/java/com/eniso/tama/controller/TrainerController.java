@@ -1,27 +1,15 @@
 package com.eniso.tama.controller;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.List;
-
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-
 import java.util.Set;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,10 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eniso.tama.entity.Day;
 import com.eniso.tama.entity.Days;
 import com.eniso.tama.entity.Trainer;
-import com.eniso.tama.entity.User;
 import com.eniso.tama.service.TrainerService;
 
 @RestController
@@ -52,10 +38,13 @@ public class TrainerController {
         trainerService = theTrainerService;
     }
 
-    @GetMapping("/trainers")
-    public List<Trainer> getAllTrainers() {
-        return trainerService.findAll();
-    }
+
+	
+	@GetMapping("/trainers")
+	//@PreAuthorize("hasAuthority('MANAGER')")
+	public List<Trainer> getAllTrainers() {
+		return trainerService.findAll();
+	}
 
     @GetMapping("trainers/{trainerId}")
     public Trainer getTrainer(@PathVariable int trainerId) {
