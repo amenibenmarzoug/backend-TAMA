@@ -44,6 +44,7 @@ public class EntrepriseController {
 	@GetMapping("/entreprises")
 	public List<Entreprise> findAll() {
 		return entrepriseService.findAll();
+		
 	}
 
 	@GetMapping("entreprises/{entrepriseId}")

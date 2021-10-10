@@ -107,6 +107,7 @@ public class Participant extends User{
     Set<Attendance> attendance;
 
 
+
     public Set<Attendance> getAttendance() {
         return attendance;
     }
@@ -126,6 +127,7 @@ public class Participant extends User{
 	}
 
 	public Participant() {
+
 
     }
 
@@ -229,11 +231,13 @@ public class Participant extends User{
    
 
     public Status getStatus() {
+
 		return status;
 	}
 
 	public void setStatus(Status status) {
 		this.status = status;
+
 	}
 
 	@Override

@@ -56,69 +56,70 @@ import com.eniso.tama.service.UserDetailsImpl;
 @RequestMapping("/api/auth")
 @Validated
 public class AuthController {
-    @Autowired
-    AuthenticationManager authenticationManager;
+	@Autowired
+	AuthenticationManager authenticationManager;
 
-    @Autowired
-    UserRepository userRepository;
+	@Autowired
+	UserRepository userRepository;
 
-    @Autowired
-    RoleRepository roleRepository;
+	@Autowired
+	RoleRepository roleRepository;
 
-    @Autowired
-    TrainerRepository trainerRepository;
+	@Autowired
+	TrainerRepository trainerRepository;
 
-    @Autowired
-    InstitutionRepository institutionRepository;
+	@Autowired
+	InstitutionRepository institutionRepository;
 
-    @Autowired
-    ParticipantRepository participantRepository;
+	@Autowired
+	ParticipantRepository participantRepository;
 
-    @Autowired
-    EnterpriseRepository enterpriseRepository;
+	@Autowired
+	EnterpriseRepository enterpriseRepository;
 
-    @Autowired
-    PasswordEncoder encoder;
+	@Autowired
+	PasswordEncoder encoder;
+	@Autowired
+	EntrepriseService entrepriseService;
+	@Autowired
+	JwtUtils jwtUtils;
 
-    @Autowired
-    EntrepriseService entrepriseService;
+	@PostMapping("/signin")
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		System.out.println(encoder.encode(loginRequest.getPassword()));
+		System.out.println(loginRequest.getPassword());
+		System.out.println(loginRequest.getEmail());
 
-    @Autowired
-    JwtUtils jwtUtils;
+		User u = new User();
+		u = userRepository.findByEmail(loginRequest.getEmail());
 
-    @Autowired
-    private MailServiceImpl mailService;
+		// System.out.println(u.toString());
+		if (u == null) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Cet email n'existe pas!"));
+		} else {
+			if (u.isValidated()) {
+				Authentication authentication = authenticationManager.authenticate(
+						new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+				UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+				// System.out.println("USER") ;
+				// System.out.println(userDetails.getEmail()) ;
+				// System.out.println(userDetails.getPassword()) ;
+				SecurityContextHolder.getContext().setAuthentication(authentication);
 
-    @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+				String jwt = jwtUtils.generateJwtToken(authentication);
 
-        User u = new User();
-        u = userRepository.findByEmail(loginRequest.getEmail());
+				List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+						.collect(Collectors.toList());
 
-        if (u == null) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Cet email n'existe pas!"));
-        } else {
-            if (u.isValidated()) {
-                Authentication authentication = authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-                UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+				return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(),
+						userDetails.getEmail(), roles));
+			} else {
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+				return ResponseEntity.badRequest().body(new MessageResponse("Votre compte n'est pas encore activé !"));
+			}
+		}
+	}
 
-                String jwt = jwtUtils.generateJwtToken(authentication);
-
-                List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
-                        .collect(Collectors.toList());
-
-                return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(),
-                        userDetails.getEmail(), roles));
-            } else {
-
-                return ResponseEntity.badRequest().body(new MessageResponse("Votre compte n'est pas encore activé !"));
-            }
-        }
-
-    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestTrainer signupRequestTrainer) {
@@ -282,6 +283,7 @@ public class AuthController {
         }
 
         // Create new user's account
+
 
         Participant participant = new Participant(signupRequestParticipant.getEmail(),
                 encoder.encode(signupRequestParticipant.getPassword()),

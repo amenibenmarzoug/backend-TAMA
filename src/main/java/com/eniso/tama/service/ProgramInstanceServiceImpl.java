@@ -1,15 +1,24 @@
 package com.eniso.tama.service;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
 import com.eniso.tama.entity.Module;
 import com.eniso.tama.entity.ModuleInstance;
 import com.eniso.tama.entity.ProgramInstance;
@@ -37,8 +46,11 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	private ModuleInstanceService moduleInstanceService;
 	@Autowired
 	private ThemeDetailInstanceService themeDetailInstanceService;
-
-
+	@Autowired
+	private ParticipantService participantService;
+	
+	@Autowired
+	private MailService mailService;
 	public ProgramInstanceServiceImpl(ProgramInstanceRepository programInstanceRepository,
 
 			ModuleService moduleService, ThemeDetailService themeDetailService,
@@ -46,7 +58,7 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 			ThemeDetailInstanceService themeDetailInstanceService, EntityManager entityManager) {
 		super();
 		this.programInstanceRepository = programInstanceRepository;
-		//this.themeService = themeService;
+		// this.themeService = themeService;
 		this.moduleService = moduleService;
 		this.themeDetailService = themeDetailService;
 		this.themeInstanceService = themeInstanceService;
@@ -209,5 +221,19 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		theProgramInstance.setValidated(false);
 		programInstanceRepository.save(theProgramInstance);
 		return theProgramInstance;
+	}
+	@Scheduled(cron = "0 0 9 * * *")
+	public void LaunchAlert() throws AddressException, MessagingException, IOException {
+		List<ProgramInstance> classes = findAll();
+		LocalDate now = LocalDate.now();
+		LocalDate next4Week = now.plus(4, ChronoUnit.WEEKS);
+		
+
+		for (ProgramInstance c : classes) {
+			if ((next4Week == c.getBeginDate().toLocalDate()) && (participantService.getParticipantPerClass(c.getId()).size()<c.getNbMinParticipants())) {
+				mailService.sendmailAlert(c.getId());
+			}
+			
+		}
 	}
 }

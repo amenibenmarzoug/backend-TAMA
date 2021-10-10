@@ -16,6 +16,7 @@ public interface ParticipantService {
 		public List<Participant> findByEntreprise(Participant theParticipant);
 		public List<Participant> findByAbonadn(boolean theAbondan );
 		public void save(Participant theParticipant);
+		public List<Participant> getParticipantPerClass(long id);
 		
 		public void deleteById(long theId);
 		

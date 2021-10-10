@@ -1,4 +1,5 @@
 package com.eniso.tama.service;
+import java.util.ArrayList;
 import java.util.Date;
 import java.time.LocalDate; 
 import java.util.HashMap;
@@ -9,8 +10,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.eniso.tama.entity.Participant;
+import com.eniso.tama.entity.Status;
 import com.eniso.tama.repository.ParticipantRepository;
 
 
@@ -102,6 +105,16 @@ public class ParticipantServiceImpl implements  ParticipantService {
 			participantRepository.deleteById(theId);
 		}
 
-	
+		@Override
+		public List<Participant> getParticipantPerClass(long id) {
+			List<Participant> participantsPerClasse = new ArrayList<Participant>();
+			for (Participant theP : findAll()) {
+				if(theP.getProgramInstance().getId() == id && theP.getStatus().equals(Status.ACCEPTED)){
+					participantsPerClasse.add(theP);
+
+				}
+			}
+			return participantsPerClasse;
+		}
 	
 }
