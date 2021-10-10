@@ -3,9 +3,11 @@ package com.eniso.tama.service;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -29,8 +31,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
+import com.eniso.tama.entity.Role;
+import com.eniso.tama.entity.Roles;
 import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.repository.EnterpriseRepository;
+import com.eniso.tama.repository.RoleRepository;
 
 @Service
 @ComponentScan(basePackageClasses = EnterpriseRepository.class)
@@ -39,6 +44,9 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	@Autowired
 	private EnterpriseRepository enterpriseRepository;
+
+	@Autowired
+	RoleRepository roleRepository;
 
 	public EntrepriseServiceImpl(EnterpriseRepository theEnterpriseRepository) {
 		enterpriseRepository = theEnterpriseRepository;
@@ -140,6 +148,16 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 				newEntreprise.setProgramInstance(theEntreprise.getProgramInstance());
 				newEntreprise.setManagerFirstName(theEntreprise.getManagerFirstName());
 				newEntreprise.setManagerLastName(theEntreprise.getManagerLastName());
+				newEntreprise.setProvider(theEntreprise.isProvider());
+				newEntreprise.setNbMinParticipants(theEntreprise.getNbMinParticipants());
+				newEntreprise.setManagerPosition(theEntreprise.getManagerPosition());
+				/*Set<Role> roles = new HashSet<>();
+
+				Role modRole = roleRepository.findByRole(Roles.ENTREPRISE)
+						.orElseThrow(() -> new RuntimeException("Error: Role ENTREPRISE is not found."));
+				roles.add(modRole);
+
+				newEntreprise.setRoles(roles);*/
 				save(newEntreprise);
 				return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
 			} else {
@@ -159,16 +177,11 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 		for (Entreprise e : findAll()) {
 
-			// System.out.println(theP.getEntreprise()) ;
 			if (!e.isValidated()) {
 
 				Entreprises.add(e);
 
 			}
-
-//					if (theParticipant1 == null) {
-//						throw new RuntimeException("oops");
-//					}
 
 		}
 		return Entreprises;
@@ -178,44 +191,52 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 	public void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException {
 
 		Entreprise t = findById(id);
-		System.out.println(t.getEnterpriseName());
-		System.out.println(t.isValidated());
+
 		t.setValidated(true);
-		System.out.println(t.isValidated());
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
-
-		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("noreplybaeldung@gmail.com", "0000*admin");
-			}
-		});
-		Message msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress("noreplybaeldung@gmail.com", false));
-
-		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(t.getEmail()));
-		msg.setSubject("TAMA-Account Activation");
-		msg.setContent("Your account is successfully activated, you can log in using your settings:<br>" + "Login:"
-				+ t.getEmail() + "<br>" + "Password:" + t.getPhoneNumber() + "", "text/html");
-		msg.setSentDate(new Date(0));
-
-		MimeBodyPart messageBodyPart = new MimeBodyPart();
-		messageBodyPart.setContent("Your account is successfully activated, you can log in using your settings:<br>"
-				+ "Login:" + t.getEmail() + "<br>" + "Password:" + t.getPhoneNumber() + "", "text/html");
-
-		Multipart multipart = new MimeMultipart();
-		multipart.addBodyPart(messageBodyPart);
-		// MimeBodyPart attachPart = new MimeBodyPart();
-
-		// attachPart.attachFile("/var/tmp/image19.png");
-		// multipart.addBodyPart(attachPart);
-		msg.setContent(multipart);
+		/*
+		 * System.out.println(t.isValidated()); Properties props = new Properties();
+		 * props.put("mail.smtp.auth", "true"); props.put("mail.smtp.starttls.enable",
+		 * "true"); props.put("mail.smtp.host", "smtp.gmail.com");
+		 * props.put("mail.smtp.port", "587");
+		 * 
+		 * Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+		 * protected PasswordAuthentication getPasswordAuthentication() { return new
+		 * PasswordAuthentication("noreplybaeldung@gmail.com", "0000*admin"); } });
+		 * Message msg = new MimeMessage(session); msg.setFrom(new
+		 * InternetAddress("noreplybaeldung@gmail.com", false));
+		 * 
+		 * msg.setRecipients(Message.RecipientType.TO,
+		 * InternetAddress.parse(t.getEmail()));
+		 * msg.setSubject("TAMA-Account Activation"); msg.
+		 * setContent("Your account is successfully activated, you can log in using your settings:<br>"
+		 * + "Login:" + t.getEmail() + "<br>" + "Password:" + t.getPhoneNumber() + "",
+		 * "text/html"); msg.setSentDate(new Date(0));
+		 * 
+		 * MimeBodyPart messageBodyPart = new MimeBodyPart(); messageBodyPart.
+		 * setContent("Your account is successfully activated, you can log in using your settings:<br>"
+		 * + "Login:" + t.getEmail() + "<br>" + "Password:" + t.getPhoneNumber() + "",
+		 * "text/html");
+		 * 
+		 * Multipart multipart = new MimeMultipart();
+		 * multipart.addBodyPart(messageBodyPart); // MimeBodyPart attachPart = new
+		 * MimeBodyPart();
+		 * 
+		 * // attachPart.attachFile("/var/tmp/image19.png"); //
+		 * multipart.addBodyPart(attachPart); msg.setContent(multipart);
+		 */
 		t.setValidated(true);
 		save(t);
-		System.out.println(t.isValidated());
-		Transport.send(msg);
+		// Transport.send(msg);
+	}
+
+	@Override
+	public List<Entreprise> findEnterpriseByLocation(String location) {
+		List<Entreprise> enterprises=new ArrayList<Entreprise>();
+		for (Entreprise entreprise : enterpriseRepository.findAll()) {
+			if(entreprise.getCity().equals(location)) {
+				enterprises.add(entreprise);
+			}
+		}
+		return enterprises;
 	}
 }

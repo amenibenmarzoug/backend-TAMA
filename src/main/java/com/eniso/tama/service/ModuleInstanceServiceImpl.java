@@ -83,6 +83,13 @@ public class ModuleInstanceServiceImpl  implements ModuleInstanceService{
 			return modulesPerTheme;
 			
 		}
+
+
+		@Override
+		public void saveModuleInstance(ModuleInstance module) {
+		
+			moduleInstanceRepository.save(module);			
+		}
 		
 	
 }

@@ -6,7 +6,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.orm.hibernate5.HibernateOperations;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,21 +15,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.eniso.tama.entity.Module;
-import com.eniso.tama.entity.ModuleInstance;
 import com.eniso.tama.entity.ProgramInstance;
-import com.eniso.tama.entity.Theme;
-import com.eniso.tama.entity.ThemeDetail;
-import com.eniso.tama.entity.ThemeDetailInstance;
-import com.eniso.tama.entity.ThemeInstance;
-import com.eniso.tama.service.ModuleInstanceService;
-import com.eniso.tama.service.ModuleService;
 import com.eniso.tama.service.ProgramInstanceService;
-import com.eniso.tama.service.ThemeDetailInstanceService;
-import com.eniso.tama.service.ThemeDetailService;
-import com.eniso.tama.service.ThemeInstanceService;
-import com.eniso.tama.service.ThemeService;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -75,14 +61,8 @@ public class ProgramInstanceController {
 	@PostMapping("/programsInst")
 	public ProgramInstance addcontrol(@RequestBody ProgramInstance theProgram) {
 
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
+		programInstService.save(theProgram);
 
-		// stheControl.setId(0);
-
-		ProgramInstance p=programInstService.save(theProgram);
-		//System.out.print();
-		
 		return theProgram;
 	}
 	
@@ -91,11 +71,6 @@ public class ProgramInstanceController {
 
 	@PostMapping("/programsInst2")
 	public ProgramInstance addClass(@RequestBody ProgramInstance theProgram) {
-
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
-
-		// stheControl.setId(0);
 
 		return(programInstService.addClass(theProgram));
 		

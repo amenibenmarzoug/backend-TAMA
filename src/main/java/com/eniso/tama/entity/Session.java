@@ -18,118 +18,106 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Session {
-	@Id
-	@Column(name = "session_id", updatable = false, nullable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+  
+    @Id
+    @Column(name = "session_id", updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @NotNull
+    @Column
+    private String sessionName;
+    @Column(name = "session_begin_date")
+    private Date sessionBeginDate;
+    @Column(name = "session_end_date")
+    private Date sessionEndDate;
+    @ManyToOne
+    private ThemeDetailInstance themeDetailInstance;
+    @ManyToOne
+    private ClassRoom classRoom;
+    @ManyToOne
+    private Trainer trainer;
+    @JsonIgnore
+    @OneToOne(mappedBy = "session")
+    private Event event;
 
-	@NotNull
-	@Column
-	private String sessionName;
+    public Long getId() {
+        return id;
+    }
 
-	@Column(name = "session_begin_date")
-	private Date sessionBeginDate;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	@Column(name = "session_end_date")
-	private Date sessionEndDate;
+    public String getSessionName() {
+        return sessionName;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public void setSessionName(String sessionName) {
+        this.sessionName = sessionName;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Date getSessionBeginDate() {
+        return sessionBeginDate;
+    }
 
-	@ManyToOne
-	private ThemeDetailInstance themeDetailInstance;
+    public void setSessionBeginDate(Date sessionBeginDate) {
+        this.sessionBeginDate = sessionBeginDate;
+    }
 
-	public String getSessionName() {
-		return sessionName;
-	}
+    public Date getSessionEndDate() {
+        return sessionEndDate;
+    }
 
-	public void setSessionName(String sessionName) {
-		this.sessionName = sessionName;
-	}
+    public void setSessionEndDate(Date sessionEndDate) {
+        this.sessionEndDate = sessionEndDate;
+    }
 
-	public Date getSessionBeginDate() {
-		return sessionBeginDate;
-	}
+    public ThemeDetailInstance getThemeDetailInstance() {
+        return themeDetailInstance;
+    }
 
-	public void setSessionBeginDate(Date sessionBeginDate) {
-		this.sessionBeginDate = sessionBeginDate;
-	}
-
-	public Date getSessionEndDate() {
-		return sessionEndDate;
-	}
-
-	public void setSessionEndDate(Date sessionEndDate) {
-		this.sessionEndDate = sessionEndDate;
-	}
-
-
-
-	public ThemeDetailInstance getThemeDetailInstance() {
-		return themeDetailInstance;
-	}
-
-	public void setThemeDetailInstance(ThemeDetailInstance themeDetailInstance) {
-		this.themeDetailInstance = themeDetailInstance;
-	}
-
-
-	public ClassRoom getClassRoom() {
-		return classRoom;
-	}
-
-	public void setClassRoom(ClassRoom classRoom) {
-		this.classRoom = classRoom;
-	}
-
-	@ManyToOne
-	private ClassRoom classRoom;
-
-	@ManyToOne
-	private Trainer trainer;
+    public void setThemeDetailInstance(ThemeDetailInstance themeDetailInstance) {
+        this.themeDetailInstance = themeDetailInstance;
+    }
 
 //	@ManyToOne
 //	private Group group;
 
-	@JsonIgnore
+    public ClassRoom getClassRoom() {
+        return classRoom;
+    }
+
+    public void setClassRoom(ClassRoom classRoom) {
+        this.classRoom = classRoom;
+    }
+
+    @JsonIgnore
 	@OneToMany(mappedBy = "session")
-	Set<SessionParticipant> sessionParticipant;
+	Set<Attendance> attendance;
 
-	public Set<SessionParticipant> getSessionParticipant() {
-		return sessionParticipant;
+	public Set<Attendance> getAttendance() {
+		return attendance;
 	}
 
-	public void setSessionParticipant(Set<SessionParticipant> sessionParticipant) {
-		this.sessionParticipant = sessionParticipant;
+	public void setAttendance(Set<Attendance> attendance) {
+		this.attendance =attendance;
 	}
 
-	public Trainer getTrainer() {
-		return trainer;
-	}
+    public Trainer getTrainer() {
+        return trainer;
+    }
 
-	public void setTrainer(Trainer trainer) {
-		this.trainer = trainer;
-	}
+    public void setTrainer(Trainer trainer) {
+        this.trainer = trainer;
+    }
 
-	
+    public Event getEvent() {
+        return event;
+    }
 
-	@JsonIgnore
-	@OneToOne(mappedBy = "session")
-	private Event event;
+    public void setEvent(Event event) {
+        this.event = event;
+    }
 
-	public Event getEvent() {
-		return event;
-	}
-
-	public void setEvent(Event event) {
-		this.event = event;
-	}
-	
-	
 
 }

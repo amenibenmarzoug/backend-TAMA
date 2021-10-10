@@ -12,65 +12,60 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Equipments {
-	@Id
+    @Id
     @Column(name = "equipment_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-	
-	//@NotNull
-	@Column
-	private String equipmentName;
-	
-	
-	@Column
-	private int quantity;
-	
-	public ClassRoom getClassroom() {
-		return classroom;
-	}
 
-	public void setClassroom(ClassRoom classroom) {
-		this.classroom = classroom;
-	}
-
-	@ManyToOne(cascade = CascadeType.ALL)
-	private ClassRoom classroom;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
+    //@NotNull
+    @Column
+    private String equipmentName;
 
 
-	public String getEquipmentName() {
-		return equipmentName;
-	}
+    @Column
+    private int quantity;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private ClassRoom classroom;
 
-	public void setEquipmentName(String equipmentName) {
-		this.equipmentName = equipmentName;
-	}
+    public ClassRoom getClassroom() {
+        return classroom;
+    }
 
-	
-	
+    public void setClassroom(ClassRoom classroom) {
+        this.classroom = classroom;
+    }
 
-	public int getQuantity() {
-		return quantity;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	@Override
-	public String toString() {
-		return "Equipments [id=" + id + ", equipmentName=" + equipmentName + ", quantity=" + quantity + ", classroom="
-				+ classroom + "]";
-	}
-	
-	
-	
-	
+
+    public String getEquipmentName() {
+        return equipmentName;
+    }
+
+    public void setEquipmentName(String equipmentName) {
+        this.equipmentName = equipmentName;
+    }
+
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "Equipments [id=" + id + ", equipmentName=" + equipmentName + ", quantity=" + quantity + ", classroom="
+                + classroom + "]";
+    }
+
+
 }

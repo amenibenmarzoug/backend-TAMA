@@ -18,45 +18,45 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Event {
-	@Id
-	@Column(name = "event_id", updatable = false, nullable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @Column(name = "event_id", updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	//@NotNull
+    //@NotNull
 
 
-	@Column
-	private String title;
+    @Column
+    private String title;
 
-	@Column
-	private Date start;
+    @Column
+    private Date start;
 
-	@Column
-	private Date end;
-	
-	@Column
-	private String colorPrimary;
-	
-	@Column
-	private String colorSecondary;
-	
-	@Column(name = "beforeStart",columnDefinition = "boolean default true")
-	private boolean resizebeforeStart;
-	
-	@Column(name = "afterEnd",columnDefinition = "boolean default true")
-	private boolean resizeafterEnd;
-	
+    @Column
+    private Date end;
 
-	@Column
-	private boolean freeDay;
+    @Column
+    private String colorPrimary;
 
-	@Column(columnDefinition = "boolean default true")
-	private boolean draggable;
-	
-	
+    @Column
+    private String colorSecondary;
 
-	//@JsonIgnore
+    @Column(name = "beforeStart",columnDefinition = "boolean default true")
+    private boolean resizebeforeStart;
+
+    @Column(name = "afterEnd",columnDefinition = "boolean default true")
+    private boolean resizeafterEnd;
+
+
+    @Column
+    private boolean freeDay;
+
+    @Column(columnDefinition = "boolean default true")
+    private boolean draggable;
+
+
+
+    //@JsonIgnore
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "session_id", referencedColumnName = "session_id")
@@ -64,112 +64,112 @@ public class Event {
 
 
     public Session getSession() {
-		return session;
-	}
+        return session;
+    }
 
 
-	public void setSession(Session session) {
-		this.session = session;
-	}
+    public void setSession(Session session) {
+        this.session = session;
+    }
 
-	public Long getId() {
-		return id;
-	}
-
-
-	public String getTitle() {
-		return title;
-	}
+    public Long getId() {
+        return id;
+    }
 
 
-	public Date getStart() {
-		return start;
-	}
+    public String getTitle() {
+        return title;
+    }
 
 
-	public Date getEnd() {
-		return end;
-	}
+    public Date getStart() {
+        return start;
+    }
 
 
-	public String getColorPrimary() {
-		return colorPrimary;
-	}
+    public Date getEnd() {
+        return end;
+    }
 
 
-	public String getColorSecondary() {
-		return colorSecondary;
-	}
+    public String getColorPrimary() {
+        return colorPrimary;
+    }
 
 
-	public boolean isResizebeforeStart() {
-		return resizebeforeStart;
-	}
+    public String getColorSecondary() {
+        return colorSecondary;
+    }
 
 
-	public boolean isResizeafterEnd() {
-		return resizeafterEnd;
-	}
+    public boolean isResizebeforeStart() {
+        return resizebeforeStart;
+    }
 
 
-	
+    public boolean isResizeafterEnd() {
+        return resizeafterEnd;
+    }
 
 
 
-	
 
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
 
 
-	public void setStart(Date start) {
-		this.start = start;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 
-	public void setEnd(Date end) {
-		this.end = end;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
 
-	public void setColorPrimary(String colorPrimary) {
-		this.colorPrimary = colorPrimary;
-	}
+    public void setStart(Date start) {
+        this.start = start;
+    }
 
 
-	public void setColorSecondary(String colorSecondary) {
-		this.colorSecondary = colorSecondary;
-	}
+    public void setEnd(Date end) {
+        this.end = end;
+    }
 
 
-	public void setResizebeforeStart(boolean resizebeforeStart) {
-		this.resizebeforeStart = resizebeforeStart;
-	}
+    public void setColorPrimary(String colorPrimary) {
+        this.colorPrimary = colorPrimary;
+    }
 
 
-	public void setResizeafterEnd(boolean resizeafterEnd) {
-		this.resizeafterEnd = resizeafterEnd;
-	}
+    public void setColorSecondary(String colorSecondary) {
+        this.colorSecondary = colorSecondary;
+    }
 
 
-	public boolean isFreeDay() {
-		return freeDay;
-	}
+    public void setResizebeforeStart(boolean resizebeforeStart) {
+        this.resizebeforeStart = resizebeforeStart;
+    }
 
 
-	public void setFreeDay(boolean freeDay) {
-		this.freeDay = freeDay;
-	}
+    public void setResizeafterEnd(boolean resizeafterEnd) {
+        this.resizeafterEnd = resizeafterEnd;
+    }
 
 
-	
+    public boolean isFreeDay() {
+        return freeDay;
+    }
+
+
+    public void setFreeDay(boolean freeDay) {
+        this.freeDay = freeDay;
+    }
+
+
+
 
 
 }

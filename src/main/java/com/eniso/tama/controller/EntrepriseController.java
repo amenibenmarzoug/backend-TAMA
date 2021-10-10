@@ -4,20 +4,9 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Trainer;
@@ -70,6 +58,17 @@ public class EntrepriseController {
 
 		return theEntreprise;
 	}
+	
+	@GetMapping("entreprises/location/{location}")
+	public List<Entreprise> getEnterpriseByCity(@PathVariable String location) {
+
+		List<Entreprise> entreprises = entrepriseService.findEnterpriseByLocation(location);
+
+		
+
+		return entreprises;
+	}
+	
 // add mapping for POST /participants - add new control
 
 	@PostMapping("/entreprises")
@@ -81,44 +80,6 @@ public class EntrepriseController {
 		return theParticipant;
 	}
 
-// add mapping for PUT /employees - update existing employee
-
-	/*@PutMapping("/entreprises")
-
-	public Entreprise updateEntreprise(@RequestBody Entreprise theEntreprise) {
-
-		
-		Entreprise newEntreprise = entrepriseService.findById(theEntreprise.getId());
-		Entreprise verifEmailEntreprise =entrepriseService.findByEmail(theEntreprise.getEmail());
-		Entreprise verifPhoneNumberEntreprise =entrepriseService.findByPhoneNumber(theEntreprise.getPhoneNumber());
-	
-			if (((verifEmailEntreprise!=null) &&(verifEmailEntreprise.getId()==theEntreprise.getId()))||(verifEmailEntreprise==null) ) {
-				if(((verifPhoneNumberEntreprise!=null) &&(verifPhoneNumberEntreprise.getId()==theEntreprise.getId())) || (verifPhoneNumberEntreprise==null)) {
-					newEntreprise.setEnterpriseName(theEntreprise.getEnterpriseName());
-					newEntreprise.setEmail(theEntreprise.getEmail());
-					newEntreprise.setWebsite(theEntreprise.getWebsite());
-					newEntreprise.setCity(theEntreprise.getCity());
-					newEntreprise.setStreet(theEntreprise.getStreet());
-					newEntreprise.setPhoneNumber(theEntreprise.getPhoneNumber());
-					newEntreprise.setPostalCode(theEntreprise.getPostalCode());
-					newEntreprise.setProgramInstance(theEntreprise.getProgramInstance());
-					newEntreprise.setManagerFirstName(theEntreprise.getManagerFirstName());
-					newEntreprise.setManagerLastName(theEntreprise.getManagerLastName());
-					entrepriseService.save(newEntreprise);
-				}
-				else {
-					System.out.println("Phone number exists");
-				}}
-				else {
-					System.out.println("Email exists");	
-				}
-			
-			
-		
-	
-
-		return theEntreprise;
-	}*/
 
 	@PutMapping("/entreprises")
 	public  ResponseEntity<?>   updateEntreprise(@RequestBody Entreprise theEntreprise) {

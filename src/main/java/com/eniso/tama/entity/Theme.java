@@ -12,55 +12,55 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Theme {
-	
-	@Id
+
+    @Id
     @Column(name = "theme_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-	
-	@NotNull
-	@Column
-	private String themeName;
-	
-	
-	@NotNull
-	@Column(name="themeDays")
-	private int nbDaysTheme;
-	
-	@ManyToOne
-	private Program program;
 
-	public Long getId() {
-		return id;
-	}
+    @NotNull
+    @Column
+    private String themeName;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
-	public String getThemeName() {
-		return themeName;
-	}
+    @NotNull
+    @Column(name = "themeDays")
+    private int nbDaysTheme;
 
-	public void setThemeName(String themeName) {
-		this.themeName = themeName;
-	}
+    @ManyToOne
+    private Program program;
 
-	public int getNbDaysTheme() {
-		return nbDaysTheme;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setNbDaysTheme(int nbDaysTheme) {
-		this.nbDaysTheme = nbDaysTheme;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Program getProgram() {
-		return program;
-	}
+    public String getThemeName() {
+        return themeName;
+    }
 
-	public void setProgram(Program program) {
-		this.program = program;
-	}
+    public void setThemeName(String themeName) {
+        this.themeName = themeName;
+    }
 
-	
+    public int getNbDaysTheme() {
+        return nbDaysTheme;
+    }
+
+    public void setNbDaysTheme(int nbDaysTheme) {
+        this.nbDaysTheme = nbDaysTheme;
+    }
+
+    public Program getProgram() {
+        return program;
+    }
+
+    public void setProgram(Program program) {
+        this.program = program;
+    }
+
+
 }

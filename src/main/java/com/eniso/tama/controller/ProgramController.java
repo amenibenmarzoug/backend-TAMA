@@ -2,8 +2,6 @@ package com.eniso.tama.controller;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -56,11 +54,6 @@ public class ProgramController {
 
 	@PostMapping("/program")
 	public Program addcontrol(@RequestBody Program theProgram) {
-
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
-
-		// stheControl.setId(0);
 
 		programService.save(theProgram);
 		return theProgram;

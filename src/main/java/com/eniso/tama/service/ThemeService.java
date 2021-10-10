@@ -3,11 +3,12 @@ package com.eniso.tama.service;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import com.eniso.tama.entity.Theme;
 
 public interface ThemeService {
+	
     public List<Theme> findAll();
 	
 	public Theme findById(long theId);

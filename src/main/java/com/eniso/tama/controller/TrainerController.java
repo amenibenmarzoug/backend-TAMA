@@ -31,12 +31,13 @@ import com.eniso.tama.service.TrainerService;
 @RequestMapping("/api")
 public class TrainerController {
 
-	@Autowired
-	private TrainerService trainerService;
+    @Autowired
+    private TrainerService trainerService;
 
-	public TrainerController(TrainerService theTrainerService) {
-		trainerService = theTrainerService;
-	}
+    public TrainerController(TrainerService theTrainerService) {
+        trainerService = theTrainerService;
+    }
+
 
 	
 	@GetMapping("/trainers")
@@ -45,72 +46,68 @@ public class TrainerController {
 		return trainerService.findAll();
 	}
 
-	@GetMapping("trainers/{trainerId}")
-	public Trainer getTrainer(@PathVariable int trainerId) {
 
-		Trainer theTrainer = trainerService.findById(trainerId);
+    @GetMapping("trainers/{trainerId}")
+    public Trainer getTrainer(@PathVariable int trainerId) {
 
-		if (theTrainer == null) {
-			throw new RuntimeException("Trainer id not found - " + trainerId);
-		}
+        Trainer theTrainer = trainerService.findById(trainerId);
 
-		return theTrainer;
-	}
+        if (theTrainer == null) {
+            throw new RuntimeException("Trainer id not found - " + trainerId);
+        }
 
-	@GetMapping("trainerDisponi/{trainerId}")
-	public Set<Days> getTrainerDisponibilities(@PathVariable int trainerId) {
+        return theTrainer;
+    }
 
-		Trainer theTrainer = trainerService.findById(trainerId);
+    @GetMapping("trainerDisponi/{trainerId}")
+    public Set<Days> getTrainerDisponibilities(@PathVariable int trainerId) {
 
-		if (theTrainer == null) {
-			throw new RuntimeException("Trainer id not found - " + trainerId);
-		}
+        Trainer theTrainer = trainerService.findById(trainerId);
 
-		return theTrainer.getDisponibilityDays();
-	}
-	// add mapping for POST /participants - add new control
+        if (theTrainer == null) {
+            throw new RuntimeException("Trainer id not found - " + trainerId);
+        }
 
-	@PostMapping("/trainers")
-	public Trainer addTrainer(@RequestBody Trainer theTrainer) {
+        return theTrainer.getDisponibilityDays();
+    }
+    // add mapping for POST /participants - add new control
 
-		// also just in case they pass an id in JSON ... set id to 0
-		// this is to force a save of new item ... instead of update
+    @PostMapping("/trainers")
+    public Trainer addTrainer(@RequestBody Trainer theTrainer) {
 
-		// stheControl.setId(0);
-
-		trainerService.save(theTrainer);
-		return theTrainer;
-	}
+        trainerService.save(theTrainer);
+        return theTrainer;
+    }
 
 
 
-	@PutMapping("/trainers")
-	public Trainer updateTrainer(@RequestBody Trainer theTrainer) {
+    @PutMapping("/trainers")
+    public Trainer updateTrainer(@RequestBody Trainer theTrainer) {
 
-		Trainer newTrainer = trainerService.updateTrainer(theTrainer);
-		return theTrainer;
-	}
+        Trainer newTrainer = trainerService.updateTrainer(theTrainer);
+        return theTrainer;
+    }
 
-	@DeleteMapping("/trainers/{trainerId}")
-	public String deleteTrainer(@PathVariable int trainerId) {
+    @DeleteMapping("/trainers/{trainerId}")
+    public String deleteTrainer(@PathVariable int trainerId) {
 
-		Trainer tempTrainer = trainerService.findById(trainerId);
+        Trainer tempTrainer = trainerService.findById(trainerId);
 
-		// throw exception if null
+        // throw exception if null
 
-		if (tempTrainer == null) {
-			throw new RuntimeException("the trainer id is not found - " + trainerId);
-		}
+        if (tempTrainer == null) {
+            throw new RuntimeException("the trainer id is not found - " + trainerId);
+        }
 
-		trainerService.deleteById(trainerId);
+        trainerService.deleteById(trainerId);
 
-		return "Deleted trainer id - " + trainerId;
-	}
+        return "Deleted trainer id - " + trainerId;
+    }
 
-	@GetMapping("/sendMailToTrainer")
-	private void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException {
+    @GetMapping("/sendMailToTrainer")
+    private void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException {
 
-		trainerService.validateTrainer(id);
-	}
+        trainerService.validateTrainer(id);
+    }
 
 }

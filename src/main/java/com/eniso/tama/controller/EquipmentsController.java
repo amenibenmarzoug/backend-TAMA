@@ -17,14 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.eniso.tama.entity.ClassRoom;
 import com.eniso.tama.entity.Equipments;
-import com.eniso.tama.entity.Institution;
-import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.repository.ClassRoomRepository;
-import com.eniso.tama.repository.InstitutionRepository;
-import com.eniso.tama.service.ClassRoomService;
 import com.eniso.tama.service.EquipmentsService;
 
 @RestController

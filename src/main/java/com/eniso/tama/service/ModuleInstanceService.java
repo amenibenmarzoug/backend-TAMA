@@ -1,3 +1,4 @@
+
 package com.eniso.tama.service;
 
 import java.util.List;
@@ -14,6 +15,9 @@ public interface ModuleInstanceService {
 	public ModuleInstance findById(long theId);
 
 	public ModuleInstance save(ModuleInstance module);
+	
+	public void saveModuleInstance(ModuleInstance module);
+
 
 	public void deleteById(long id);
 	

@@ -11,10 +11,13 @@ import com.eniso.tama.entity.EntrepriseDisponibility;
 @Repository
 
 public interface EntrepriseDisponibilityRepository extends JpaRepository<EntrepriseDisponibility, Long> {
-	
-	Optional<EntrepriseDisponibility> findByDay(String day);
-	Boolean existsByDay(String day);
-	Optional<EntrepriseDisponibility> findByTime(String time);
-	Boolean existsByTime(String time);
+
+    Optional<EntrepriseDisponibility> findByDay(String day);
+
+    Boolean existsByDay(String day);
+
+    Optional<EntrepriseDisponibility> findByTime(String time);
+
+    Boolean existsByTime(String time);
 
 }

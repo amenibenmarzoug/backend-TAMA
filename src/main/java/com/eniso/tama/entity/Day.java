@@ -8,13 +8,14 @@ import javax.validation.constraints.NotNull;
 @Embeddable
 public class Day {
 
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	private Days day;
-	//private String dayName;
-	public Day() {
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Days day;
 
-	}
+    //private String dayName;
+    public Day() {
+
+    }
 	
 	/*public Day(String day) {
 		System.out.println(Days.LUNDI.name());
@@ -52,12 +53,12 @@ public class Day {
 		this.dayName = dayName;
 	}*/
 
-	public Days getDay() {
-		return day;
-	}
+    public Days getDay() {
+        return day;
+    }
 
-	public void setDay(Days day) {
-		this.day = day;
-	}
+    public void setDay(Days day) {
+        this.day = day;
+    }
 
 }

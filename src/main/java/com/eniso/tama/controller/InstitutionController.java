@@ -1,16 +1,10 @@
 package com.eniso.tama.controller;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,17 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.eniso.tama.entity.ClassRoom;
 import com.eniso.tama.entity.Institution;
-import com.eniso.tama.entity.Participant;
-import com.eniso.tama.entity.Role;
-import com.eniso.tama.entity.Roles;
-import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.repository.InstitutionRepository;
-import com.eniso.tama.repository.RoleRepository;
 import com.eniso.tama.service.InstitutionService;
 
 @CrossOrigin(origins = "http://localhost:4200")

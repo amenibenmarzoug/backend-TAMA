@@ -9,6 +9,7 @@ import com.eniso.tama.entity.Participant;
 
 public interface ClassRoomService {
 
+
 	public List<ClassRoom> findAll();
 	
 	public ClassRoom findById(long theId);
