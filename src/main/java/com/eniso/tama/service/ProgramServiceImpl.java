@@ -54,16 +54,17 @@ public class ProgramServiceImpl implements ProgramService {
 				return theControl;
 			}
 
-			
-				
-				
-		
-					
-			
+
 			@Override
 			public void save(Program theControl) {
 				programRepository.save(theControl);
 			}
+			@Override
+			public void saveSpecificProgram(Program theProgram) {
+				theProgram.setSpecificProgram(true);
+				programRepository.save(theProgram);
+				
+			}	
 
 		
 			@Override
@@ -92,5 +93,7 @@ public class ProgramServiceImpl implements ProgramService {
 				}
 				save(theProgram);
 				return theProgram;
-			}	
+			}
+
+			
 	}

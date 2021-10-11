@@ -22,12 +22,16 @@ public class Program {
     @NotNull
     @Column(name = "ProgramDays")
     private int nbDaysProg;
+    
+    private boolean specificProgram =false ; 
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    
+
+	public void setId(Long id) {
         this.id = id;
     }
 
@@ -46,4 +50,12 @@ public class Program {
     public void setNbDaysProg(int nbDaysProg) {
         this.nbDaysProg = nbDaysProg;
     }
+    
+    public boolean isSpecificProgram() {
+		return specificProgram;
+	}
+
+	public void setSpecificProgram(boolean specificProgram) {
+		this.specificProgram = specificProgram;
+	}
 }
