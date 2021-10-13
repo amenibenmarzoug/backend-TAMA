@@ -228,7 +228,8 @@ public class Participant extends User{
     }
    
 
-	public Status getStatus() {
+
+    public Status getStatus() {
 		return status;
 	}
 

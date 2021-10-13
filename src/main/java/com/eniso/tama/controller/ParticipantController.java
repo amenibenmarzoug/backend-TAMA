@@ -39,12 +39,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
 import com.eniso.tama.entity.Status;
+
 import com.eniso.tama.payload.MessageResponse;
 
 import com.eniso.tama.repository.EnterpriseRepository;
@@ -271,8 +271,6 @@ public class ParticipantController {
 		p.setProgramInstance(theP.getProgramInstance());
 		p.setStatus(Status.WAITING);
 
-		// System.out.println(p.toString()) ;
-
 		participantRepository.save(p);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
@@ -316,8 +314,6 @@ public class ParticipantController {
 		p.setExperience(theP.getExperience());
 		p.setProgramInstance(entreprise.getProgramInstance());
 		p.setStatus(Status.WAITING);
-
-
 		p.setValidated(false);
 		participantRepository.save(p);
 
