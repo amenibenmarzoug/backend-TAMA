@@ -116,5 +116,13 @@ public class ParticipantServiceImpl implements  ParticipantService {
 			}
 			return participantsPerClasse;
 		}
+
+		@Override
+		public float percentMascPart() {
+			
+			return participantRepository.getMaleParticipants();
+		}
 	
+		
+		
 }
