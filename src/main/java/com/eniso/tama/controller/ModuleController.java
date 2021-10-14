@@ -44,6 +44,13 @@ public class ModuleController {
 		
 	}
 
+	
+	@GetMapping("/modulesNames")
+	public List<String> getModulesNames() {
+		return moduleService.getModulesNames();
+	}
+	
+	
 	@GetMapping("module/{moduleId}")
 	public Module getModule(@PathVariable int moduleId) {
 
@@ -68,7 +75,7 @@ public class ModuleController {
 
 	// add mapping for PUT /module - update existing module
 
-	@Transactional 
+	 
 	@PutMapping("/module")
 	public Module updateModule(@RequestBody Module theModule) {
 	

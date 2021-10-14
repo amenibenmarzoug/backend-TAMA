@@ -179,7 +179,7 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		ProgramInstance newProgram = findById(programInst.getId());
 		newProgram.setProgramInstName(programInst.getProgramInstName());
 		newProgram.setNbDaysProgInst(programInst.getNbDaysProgInst());
-		;
+		newProgram.setPlace(programInst.getPlace());
 		newProgram.setLocation(programInst.getLocation());
 		newProgram.setProgram(programInst.getProgram());
 		newProgram.setBeginDate(programInst.getBeginDate());
@@ -204,4 +204,13 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		programInstanceRepository.save(theProgramInstance);
 		return theProgramInstance;
 	}
+	
+	
+
+	@Override
+	public List<ProgramInstance> findByLocationAndValidated(String location, boolean validated) {
+		// TODO Auto-generated method stub
+		return programInstanceRepository.findProgramInstByLocationAndValidated(location, validated);
+	}
+	
 }

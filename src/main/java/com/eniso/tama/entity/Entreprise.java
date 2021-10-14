@@ -33,6 +33,9 @@ public class Entreprise extends User {
 
     @Column
     private int nbMinParticipants;
+    
+    @Column
+    private boolean provider=false;
 
     @ManyToOne
     //@JsonIgnore
@@ -50,7 +53,7 @@ public class Entreprise extends User {
 
     public Entreprise(@NotBlank @Size(max = 50) @Email String email,
                       String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber, Set<Role> roles,
-                      String enterpriseName, String website, String managerFirstName, String managerLastName, String managerPosition, int nbParticip) {
+                      String enterpriseName, String website, String managerFirstName, String managerLastName, String managerPosition, int nbParticip, boolean provider) {
         super.setEmail(email);
         super.setPassword(password);
         //super.setAddress(address);
@@ -65,6 +68,7 @@ public class Entreprise extends User {
         this.managerLastName = managerLastName;
         this.managerPosition = managerPosition;
         this.nbMinParticipants = nbParticip;
+        this.provider=provider;
     }
 
     public ProgramInstance getProgramInstance() {
@@ -122,6 +126,14 @@ public class Entreprise extends User {
     public void setNbMinParticipants(int nbMinParticipants) {
         this.nbMinParticipants = nbMinParticipants;
     }
+
+	public boolean isProvider() {
+		return provider;
+	}
+
+	public void setProvider(boolean provider) {
+		this.provider = provider;
+	}
 
 
 }

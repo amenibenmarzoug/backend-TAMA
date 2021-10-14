@@ -56,69 +56,73 @@ import com.eniso.tama.service.UserDetailsImpl;
 @RequestMapping("/api/auth")
 @Validated
 public class AuthController {
-    @Autowired
-    AuthenticationManager authenticationManager;
 
-    @Autowired
-    UserRepository userRepository;
+	@Autowired
+	AuthenticationManager authenticationManager;
 
-    @Autowired
-    RoleRepository roleRepository;
+	@Autowired
+	UserRepository userRepository;
 
-    @Autowired
-    TrainerRepository trainerRepository;
+	@Autowired
+	RoleRepository roleRepository;
 
-    @Autowired
-    InstitutionRepository institutionRepository;
+	@Autowired
+	TrainerRepository trainerRepository;
 
-    @Autowired
-    ParticipantRepository participantRepository;
+	@Autowired
+	InstitutionRepository institutionRepository;
 
-    @Autowired
-    EnterpriseRepository enterpriseRepository;
+	@Autowired
+	ParticipantRepository participantRepository;
 
-    @Autowired
-    PasswordEncoder encoder;
+	@Autowired
+	EnterpriseRepository enterpriseRepository;
 
-    @Autowired
-    EntrepriseService entrepriseService;
+	@Autowired
+	PasswordEncoder encoder;
+	@Autowired
+	EntrepriseService entrepriseService;
+	@Autowired
+	JwtUtils jwtUtils;
 
-    @Autowired
-    JwtUtils jwtUtils;
+	@PostMapping("/signin")
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		System.out.println(encoder.encode(loginRequest.getPassword()));
+		System.out.println(loginRequest.getPassword());
+		System.out.println(loginRequest.getEmail());
 
-    @Autowired
-    private MailServiceImpl mailService;
+		User u = new User();
+		u = userRepository.findByEmail(loginRequest.getEmail());
 
-    @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		// System.out.println(u.toString());
+		if (u == null) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Cet email n'existe pas!"));
+		} else {
+			if (u.isValidated()) {
+				Authentication authentication = authenticationManager.authenticate(
+						new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+				UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+				// System.out.println("USER") ;
+				// System.out.println(userDetails.getEmail()) ;
+				// System.out.println(userDetails.getPassword()) ;
+				SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        User u = new User();
-        u = userRepository.findByEmail(loginRequest.getEmail());
+				String jwt = jwtUtils.generateJwtToken(authentication);
 
-        if (u == null) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Cet email n'existe pas!"));
-        } else {
-            if (u.isValidated()) {
-                Authentication authentication = authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-                UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+				List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
+						.collect(Collectors.toList());
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+				return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(),
+						userDetails.getEmail(), roles));
+			} else {
 
-                String jwt = jwtUtils.generateJwtToken(authentication);
+				return ResponseEntity.badRequest().body(new MessageResponse("Votre compte n'est pas encore activé !"));
+			}
+		}
+	}
+    
 
-                List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
-                        .collect(Collectors.toList());
 
-                return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(),
-                        userDetails.getEmail(), roles));
-            } else {
-
-                return ResponseEntity.badRequest().body(new MessageResponse("Votre compte n'est pas encore activé !"));
-            }
-        }
-
-    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestTrainer signupRequestTrainer) {
@@ -233,10 +237,10 @@ public class AuthController {
 				signupRequestEnterprise.getPhoneNumber(), null, signupRequestEnterprise.getEnterpriseName(),
 				signupRequestEnterprise.getWebsite(), signupRequestEnterprise.getManagerFirstName(),
 				signupRequestEnterprise.getManagerLastName(), signupRequestEnterprise.getManagerPosition(),
-				signupRequestEnterprise.getNbMinParticipants());
+				signupRequestEnterprise.getNbMinParticipants(),signupRequestEnterprise.isProvider());
 
 		enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
-
+		System.out.println(enterprise.isProvider());
 		enterprise.setValidated(false);
 
 //		User user = new User(signupRequestEnterprise.getEmail(),
@@ -258,7 +262,7 @@ public class AuthController {
         enterprise.setRoles(roles);
 
         enterpriseRepository.save(enterprise);
-        try {
+       /* try {
             mailService.sendmail(enterprise.getEmail());
         } catch (AddressException e) {
             // TODO Auto-generated catch block
@@ -269,7 +273,7 @@ public class AuthController {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        }*/
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
@@ -293,7 +297,19 @@ public class AuthController {
         participant.setValidated(false);
 		participant.setStatus(Status.WAITING);
 
-        Set<String> strRoles = signupRequestParticipant.getRole();
+		participant.setEducationLevel(signupRequestParticipant.getEducationLevel());
+		participant.setLevel(signupRequestParticipant.getLevel());
+		participant.setCurrentPosition(signupRequestParticipant.getCurrentPosition());
+		participant.setExperience(signupRequestParticipant.getExperience());
+//		User user = new User(signupRequestParticipant.getEmail(),
+//				 encoder.encode(signupRequestParticipant.getPassword()),
+//				 signupRequestParticipant.getStreet(),
+//				 signupRequestParticipant.getCity(),
+//				 signupRequestParticipant.getPostalCode(),
+//				 signupRequestParticipant.getPhoneNumber(),null);
+
+		Set<String> strRoles = signupRequestParticipant.getRole();
+
 
         Set<Role> roles = new HashSet<>();
 

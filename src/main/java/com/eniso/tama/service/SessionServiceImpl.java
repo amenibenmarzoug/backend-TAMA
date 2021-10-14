@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Session;
-
+import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.repository.SessionRepository;
+import com.eniso.tama.repository.TrainerRepository;
 
 
 @Service
@@ -17,6 +19,10 @@ import com.eniso.tama.repository.SessionRepository;
 public class SessionServiceImpl implements SessionService {
     @Autowired
     private SessionRepository sessionRepository;
+    @Autowired 
+    private TrainerService trainerService ; 
+    @Autowired
+    private TrainerRepository trainerRepository;
 
     public SessionServiceImpl() {
     }
@@ -62,6 +68,42 @@ public class SessionServiceImpl implements SessionService {
     public void deleteById(long theId) {
         sessionRepository.deleteById(theId);
     }
+
+
+	@Override
+	public List<Session> findByTrainerId(long trainerId) {
+		Trainer trainer=trainerService.findById(trainerId);
+		/*
+		if (result.isPresent()) {
+			trainer=result.get();
+
+		} else {
+			// we didn't find the trainer
+			throw new RuntimeException("Did not find trainer with ID  - " + trainerId);
+		}*/
+		// TODO Auto-generated method stub
+		return sessionRepository.findByTrainer(trainer);
+		
+	}
+
+
+	@Override
+	public ProgramInstance getProgramInstance(long sessionId) {
+		Optional<Session> result=sessionRepository.findById(sessionId);
+		Session session ;
+		ProgramInstance programInst ; 
+		if (result.isPresent()) {
+			session=result.get();
+
+		} else {
+			// we didn't find the trainer
+			throw new RuntimeException("Did not find session with ID  - " + sessionId);
+		}
+		// TODO Auto-generated method stub
+		return session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance();
+		// TODO Auto-generated method stub
+		
+	}
 
 
 }

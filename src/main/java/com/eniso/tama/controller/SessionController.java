@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.ClassRoom;
 import com.eniso.tama.entity.Event;
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Session;
 import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.payload.MessageResponse;
@@ -90,6 +91,33 @@ public class SessionController {
             }
         }
         return result;
+    }
+    
+    //Get Sessions of the specified Trainer
+    @GetMapping("/session/trainerId/{trainerId}")
+    public List<Session> findSessionByTrainer (@PathVariable("trainerId") long trainerId){
+    	List<Session> sessions = sessionService.findByTrainerId(trainerId);
+    	
+
+        if (sessions == null) {
+            throw new RuntimeException("trainernot found with id - " + trainerId);
+        }
+
+    	return sessions ; 
+    }
+    //Get the ProgramInstance of a specified Session
+    @GetMapping("/session/getClass/{sessionId}")
+    public ProgramInstance getProgramInstance (@PathVariable("sessionId") long sessionId){
+    	ProgramInstance programInst = sessionService.getProgramInstance(sessionId);
+    	
+    	//List<Session> sessions = sessionService.findByTrainerId(trainerId);
+    	
+
+        if (programInst == null) {
+            throw new RuntimeException("cannot find ProgramInstance ");
+        }
+
+    	return programInst ; 
     }
 
     @GetMapping("/session/trainer")

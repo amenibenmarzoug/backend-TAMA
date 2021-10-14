@@ -35,6 +35,9 @@ public interface EntrepriseService {
 	public  ResponseEntity<?>   updateEntreprise(@RequestBody Entreprise theEntreprise);
 
 	public List<Entreprise> getNonValid();
+	
+	public List<Entreprise> findEnterpriseByLocation(String location);
+
 
 	public void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException;
 

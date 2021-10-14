@@ -33,7 +33,7 @@ public class SignupRequestEnterprise {
     @Size(min = 3, max = 20)
     private String phoneNumber;
     @NotBlank
-    @Size(min = 8, max = 40)
+    @Size(min = 6, max = 40)
     private String password;
     //@NotNull
     private String enterpriseName;
@@ -42,6 +42,9 @@ public class SignupRequestEnterprise {
     private String managerLastName;
     private String managerPosition;
     private int nbMinParticipants;
+    
+    private boolean provider;
+    
     private Set<String> role;
     private ProgramInstance programInstance;
 
@@ -161,7 +164,16 @@ public class SignupRequestEnterprise {
         this.nbMinParticipants = nbMinParticipants;
     }
 
-    @Override
+    
+    public boolean isProvider() {
+		return provider;
+	}
+
+	public void setProvider(boolean provider) {
+		this.provider = provider;
+	}
+
+	@Override
     public String toString() {
         return "SignupRequestEnterprise [email=" + email + ", street=" + street + ", city=" + city + ", postalCode="
                 + postalCode + ", phoneNumber=" + phoneNumber + ", password=" + password + ", enterpriseName="

@@ -40,6 +40,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eniso.tama.entity.Entreprise;
+import com.eniso.tama.entity.Participant;
+import com.eniso.tama.entity.Role;
+import com.eniso.tama.entity.Roles;
+import com.eniso.tama.entity.Status;
 import com.eniso.tama.payload.MessageResponse;
 
 import com.eniso.tama.repository.EnterpriseRepository;
@@ -187,6 +192,7 @@ public class ParticipantController {
 		return theParticipant;
 	}
 
+	//this api generates an error :)
 	@GetMapping("participants/class/{id}")
 	public List<Participant> getParticipantPerClass(@PathVariable("id") long id) {
 		List<Participant> participantsPerClasse = new ArrayList<Participant>();
@@ -198,6 +204,17 @@ public class ParticipantController {
 		}
 		return participantsPerClasse;
 	}
+	//Get Participants (status-Validated) By Class  (same as the method above : to be corrected) 
+	@GetMapping("participants/classId/{id}")
+	public List<Participant> getParticipantsPerClass(@PathVariable("id") long classId) {
+		List<Participant> participantsPerClasse = participantService.findParticipantsByClass(classId);
+
+		if (participantsPerClasse == null) {
+			throw new RuntimeException("No participants found in the class with id  " + classId);
+		}
+		return participantsPerClasse;
+	}
+	
 
 	@GetMapping("participants/entreprise")
 	public List<Participant> getParticipantEntreprise(@RequestParam("id") long id) {
@@ -211,12 +228,12 @@ public class ParticipantController {
 				participantsPerEntr.add(theP);
 				
 			}
-
-
 		}
 
 		return participantsPerEntr;
 	}
+	
+	
 	
 
 	// POST FOR ADDING PARTICIPANTS IN CRUD , IT REQUERS THE ID OF THE ENTERPRISE
@@ -253,6 +270,9 @@ public class ParticipantController {
 		p.setExperience(theP.getExperience());
 		p.setProgramInstance(theP.getProgramInstance());
 		p.setStatus(Status.WAITING);
+
+		// System.out.println(p.toString()) ;
+
 		participantRepository.save(p);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
@@ -293,7 +313,10 @@ public class ParticipantController {
 		p.setLevel(theP.getLevel());
 		p.setCurrentPosition(theP.getCurrentPosition());
 		p.setEntreprise(entreprise);
+		p.setExperience(theP.getExperience());
 		p.setProgramInstance(entreprise.getProgramInstance());
+		p.setStatus(Status.WAITING);
+
 
 		p.setValidated(false);
 		participantRepository.save(p);

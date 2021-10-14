@@ -18,9 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Session {
-    @JsonIgnore
-    @OneToMany(mappedBy = "session")
-    Set<SessionParticipant> sessionParticipant;
+  
     @Id
     @Column(name = "session_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -93,13 +91,17 @@ public class Session {
         this.classRoom = classRoom;
     }
 
-    public Set<SessionParticipant> getSessionParticipant() {
-        return sessionParticipant;
-    }
+    @JsonIgnore
+	@OneToMany(mappedBy = "session")
+	Set<Attendance> attendance;
 
-    public void setSessionParticipant(Set<SessionParticipant> sessionParticipant) {
-        this.sessionParticipant = sessionParticipant;
-    }
+	public Set<Attendance> getAttendance() {
+		return attendance;
+	}
+
+	public void setAttendance(Set<Attendance> attendance) {
+		this.attendance =attendance;
+	}
 
     public Trainer getTrainer() {
         return trainer;
