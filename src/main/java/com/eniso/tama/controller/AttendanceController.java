@@ -1,7 +1,9 @@
 package com.eniso.tama.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -19,9 +21,11 @@ import com.eniso.tama.entity.Attendance;
 import com.eniso.tama.entity.AttendanceStates;
 import com.eniso.tama.entity.Event;
 import com.eniso.tama.entity.Participant;
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Session;
 import com.eniso.tama.service.AttendanceService;
 import com.eniso.tama.service.ParticipantService;
+import com.eniso.tama.service.ProgramInstanceService;
 import com.eniso.tama.service.SessionService;
 
 import net.sf.jasperreports.engine.JRException;
@@ -34,6 +38,7 @@ public class AttendanceController {
 	private AttendanceService attendanceService;
 	private ParticipantService participantService ; 
 	private SessionService sessionService; 
+	private ProgramInstanceService programInstanceService; 
 	
 	
 	
@@ -56,6 +61,16 @@ public class AttendanceController {
 		}
 		
 		return attendance;
+	}
+	
+	@GetMapping("attendance/session/{sessionId}")
+	public List<Attendance>  getAttendancesBySession(@PathVariable long  sessionId) {
+		
+		List<Attendance> attendances = attendanceService.findBySession(sessionId);
+		if (attendances == null) {
+			throw new RuntimeException("attendance id not found - " + sessionId);
+		}
+		return attendances;
 	}
 	
 	// add mapping for POST /attendance - add

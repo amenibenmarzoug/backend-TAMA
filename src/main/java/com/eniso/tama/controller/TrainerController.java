@@ -41,7 +41,7 @@ public class TrainerController {
 
 	
 	@GetMapping("/trainers")
-	@PreAuthorize("hasAuthority('MANAGER')")
+	//@PreAuthorize("hasAuthority('MANAGER')")
 	public List<Trainer> getAllTrainers() {
 		return trainerService.findAll();
 	}

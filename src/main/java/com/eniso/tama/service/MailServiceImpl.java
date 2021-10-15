@@ -57,7 +57,7 @@ public class MailServiceImpl implements MailService {
         //il faut changer l email par celui d'un manager!!!!!!
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("noreplybaeldung@gmail.com"));
         msg.setSubject("Program-Registration");
-        msg.setContent("An enterprise wants to participate in your program \" " + t.getProgramInstance().getProgramInstName() + " " + t.getProgramInstance().getLocation()
+        msg.setContent("An enterprise wants to participate in your program \" " + t.getRegistration().get(t.getRegistration().size()-1).getPrograminstance().getProgramInstName()+ " " + t.getRegistration().get(t.getRegistration().size()-1).getPrograminstance().getLocation()
                 + " \" :<br>" + "Enterprise Name :"
                 + t.getEnterpriseName() + "<br>" + "Enterprise :" + t.getPhoneNumber() + "", "text/html");
         msg.setSentDate(new java.sql.Date(0));

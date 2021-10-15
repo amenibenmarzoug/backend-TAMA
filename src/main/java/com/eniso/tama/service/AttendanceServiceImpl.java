@@ -17,9 +17,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.Attendance;
+import com.eniso.tama.entity.Participant;
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Session;
 import com.eniso.tama.entity.Attendance;
 import com.eniso.tama.repository.AttendanceRepository;
+import com.eniso.tama.repository.SessionRepository;
 import com.lowagie.text.pdf.codec.Base64.OutputStream;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -36,6 +39,8 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 public class AttendanceServiceImpl implements AttendanceService {
 	@Autowired
 	private AttendanceRepository attendanceRepository;
+	@Autowired
+    private SessionRepository sessionRepository;
 
 	public AttendanceServiceImpl() {
 	};
@@ -136,5 +141,21 @@ public class AttendanceServiceImpl implements AttendanceService {
 		System.out.println("Report Generated!");
 
 	}
+
+	@Override
+	public List<Attendance> findBySession(long sessionId) {
+		Optional<Session> result=sessionRepository.findById(sessionId);
+		Session session ; 
+		if (result.isPresent()) {
+			 session=result.get();
+
+		} else {
+			// we didn't find the trainer
+			throw new RuntimeException("Did not find session with ID  - " + sessionId);
+		}
+		// TODO Auto-generated method stub
+		return attendanceRepository.findBySession(session);
+	}
+
 
 }

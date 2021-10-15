@@ -58,6 +58,13 @@ public class ProgramController {
 		programService.save(theProgram);
 		return theProgram;
 	}
+	// add program specific
+	@PostMapping("/specificProgram")
+	public Program addSpecificProgram(@RequestBody Program theProgram) {
+
+		programService.saveSpecificProgram(theProgram);
+		return theProgram;
+	}
 
 // add mapping for PUT /employees - update existing employee
 

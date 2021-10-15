@@ -115,8 +115,16 @@ public class ModuleServiceImpl implements ModuleService {
 			System.out.println(moduleInstance.getId());
 			moduleInstService.saveModuleInstance(moduleInstance);
 		}
-		moduleRepository.save(module);
+		
+		moduleRepository.save(theModule);
+
 		return module;
+	}
+
+	@Override
+	public List<String> getModulesNames() {
+
+		return moduleRepository.findModulesNames();
 	}
 
 }

@@ -216,6 +216,15 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		programInstanceRepository.save(theProgramInstance);
 		return theProgramInstance;
 	}
+	
+	
+	@Override
+	public List<ProgramInstance> findByLocationAndValidated(String location, boolean validated) {
+		// TODO Auto-generated method stub
+		return programInstanceRepository.findProgramInstByLocationAndValidated(location, validated);
+	}
+	
+
 	@Scheduled(cron = "0 0 9 * * *")
 	//@Scheduled(fixedRate = 60000)
 	public void LaunchAlert() throws AddressException, MessagingException, IOException {

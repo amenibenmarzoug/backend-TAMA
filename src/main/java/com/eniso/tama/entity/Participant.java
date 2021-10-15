@@ -107,7 +107,6 @@ public class Participant extends User{
     Set<Attendance> attendance;
 
 
-
     public Set<Attendance> getAttendance() {
         return attendance;
     }
@@ -127,7 +126,6 @@ public class Participant extends User{
 	}
 
 	public Participant() {
-
 
     }
 
@@ -230,8 +228,8 @@ public class Participant extends User{
     }
    
 
-    public Status getStatus() {
 
+    public Status getStatus() {
 		return status;
 	}
 
@@ -239,6 +237,7 @@ public class Participant extends User{
 		this.status = status;
 
 	}
+
 
 	@Override
     public String toString() {

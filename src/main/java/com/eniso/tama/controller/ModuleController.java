@@ -44,6 +44,13 @@ public class ModuleController {
 		
 	}
 
+	
+	@GetMapping("/modulesNames")
+	public List<String> getModulesNames() {
+		return moduleService.getModulesNames();
+	}
+	
+	
 	@GetMapping("module/{moduleId}")
 	public Module getModule(@PathVariable int moduleId) {
 

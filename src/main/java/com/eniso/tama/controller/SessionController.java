@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,12 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.ClassRoom;
 import com.eniso.tama.entity.Event;
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Session;
 import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.service.EventService;
 import com.eniso.tama.service.SessionService;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @ComponentScan(basePackageClasses = SessionService.class)
 @RequestMapping(value = "/api")
@@ -90,6 +92,33 @@ public class SessionController {
             }
         }
         return result;
+    }
+    
+    //Get Sessions of the specified Trainer
+    @GetMapping("/session/trainerId/{trainerId}")
+    public List<Session> findSessionByTrainer (@PathVariable("trainerId") long trainerId){
+    	List<Session> sessions = sessionService.findByTrainerId(trainerId);
+    	
+
+        if (sessions == null) {
+            throw new RuntimeException("trainernot found with id - " + trainerId);
+        }
+
+    	return sessions ; 
+    }
+    //Get the ProgramInstance of a specified Session
+    @GetMapping("/session/getClass/{sessionId}")
+    public ProgramInstance getProgramInstance (@PathVariable("sessionId") long sessionId){
+    	ProgramInstance programInst = sessionService.getProgramInstance(sessionId);
+    	
+    	//List<Session> sessions = sessionService.findByTrainerId(trainerId);
+    	
+
+        if (programInst == null) {
+            throw new RuntimeException("cannot find ProgramInstance ");
+        }
+
+    	return programInst ; 
     }
 
     @GetMapping("/session/trainer")

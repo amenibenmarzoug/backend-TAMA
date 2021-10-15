@@ -27,5 +27,7 @@ public interface ProgramInstanceService {
 	public ProgramInstance addClass(ProgramInstance programInst);
 
 	public ProgramInstance updateProgramInst(ProgramInstance programInst);
+	
+	public List<ProgramInstance> findByLocationAndValidated(String location , boolean validated);
 
 }
