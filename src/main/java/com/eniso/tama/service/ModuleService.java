@@ -20,4 +20,6 @@ public interface ModuleService {
 	
 	public Module updateModule(Module theModule) ;
 	
+	public List<String> findDistinctModuleNameByThemes(List<String> themes);
+
 }

@@ -22,4 +22,7 @@ public interface ThemeService {
 	public ResponseEntity<?> addThemeProgram(Theme theme,long id );
 	
 	public Theme updateTheme(Theme theTheme);
+	
+	public List<String> findDistinctThemeName();
+
 }
