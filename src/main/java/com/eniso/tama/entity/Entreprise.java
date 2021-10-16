@@ -1,5 +1,6 @@
 package com.eniso.tama.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -37,11 +38,15 @@ public class Entreprise extends User {
     @Column
     private boolean provider=false;
 
-    @ManyToOne
+   // @ManyToOne
     //@JsonIgnore
-    private ProgramInstance programInstance;
+    //private ProgramInstance programInstance;
+    @OneToMany
+    private List<CompanyRegistration> registrations; 
 
-    public Entreprise() {
+    
+
+	public Entreprise() {
     }
 
     public Entreprise(String enterpriseName, String website, String managerFirstName, String managerLastName) {
@@ -71,13 +76,7 @@ public class Entreprise extends User {
         this.provider=provider;
     }
 
-    public ProgramInstance getProgramInstance() {
-        return programInstance;
-    }
-
-    public void setProgramInstance(ProgramInstance programInstance) {
-        this.programInstance = programInstance;
-    }
+ 
 
     public String getEnterpriseName() {
         return enterpriseName;
@@ -135,5 +134,13 @@ public class Entreprise extends User {
 		this.provider = provider;
 	}
 
+	public List<CompanyRegistration> getRegistration() {
+		return registrations;
+	}
+
+	public void setRegistration(List<CompanyRegistration> registrations) {
+		this.registrations = registrations;
+	}
+	
 
 }

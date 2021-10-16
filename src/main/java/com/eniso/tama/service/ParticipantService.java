@@ -19,7 +19,8 @@ public interface ParticipantService {
 		public List<Participant> findParticipantsByClass(long programInstId );
 		
 		public void save(Participant theParticipant);
-		
+		public List<Participant> getParticipantPerClass(long id);
+		public float percentMascPart();
 		public void deleteById(long theId);
 		
 	}

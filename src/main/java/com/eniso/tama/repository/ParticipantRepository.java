@@ -2,12 +2,13 @@ package com.eniso.tama.repository;
 
 
 import java.util.List;
-
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
 import org.springframework.data.repository.query.Param;
+
 import org.springframework.stereotype.Repository;
 
 import com.eniso.tama.entity.Participant;
@@ -28,11 +29,17 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
     //List<Participant> findByProgramInstance(ProgramInstance  programInst);
     List<Participant> findByLevel(String level);
 
-    //List <Participant> findByEntreprise(Participant theParticipant);
+    //List <Participant> findByEntreprise(Participant theParticipant);<<<<<<< HEAD
+ 
+    
+
     List<Participant> findByAbandon(boolean abandon);
     @Query
 	(value = "SELECT user_id FROM participant p WHERE p.program_instance_program_instance_id = :programInstId and p.status = 'ACCEPTED'", nativeQuery = true)
 	List<Long> findConfirmedParticipantsByClass(@Param("programInstId") long programInstId);
 
+
+	@Query(value = ("select sum(case when p.gender = 'Masculin' then 1 else 0 end) * 100 / count(*) from participant p;"), nativeQuery = true)
+	float getMaleParticipants();
 
 }

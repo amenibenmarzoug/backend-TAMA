@@ -46,6 +46,7 @@ public class TrainerController {
 		return trainerService.findAll();
 	}
 
+
     @GetMapping("trainers/{trainerId}")
     public Trainer getTrainer(@PathVariable int trainerId) {
 
