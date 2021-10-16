@@ -100,22 +100,7 @@ public class Participant extends User{
     public void setEntreprise(Entreprise entreprise) {
         this.entreprise = entreprise;
     }
-
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "participant")
-    Set<Attendance> attendance;
-
-
-    public Set<Attendance> getAttendance() {
-        return attendance;
-    }
-
-    public void setSessionParticipant(Set<Attendance> attendance) {
-        this.attendance = attendance;
-    }
-    
-    
+  
 
     public int getAge() {
 		return age;
@@ -244,7 +229,7 @@ public class Participant extends User{
         return "Participant [ firstNameP=" + firstNameP + ", lastNameP=" + lastNameP
                 + ", gender=" + gender + ", birthday=" + birthday + ", currentPosition=" + currentPosition + ", level="
                 + level + ", educationLevel=" + educationLevel + ", abandon=" + abandon + ", entreprise=" + entreprise
-                + ", courseSessionParticipant=" + attendance + "]";
+                + ", courseSessionParticipant=" + "]";
     }
 
 
