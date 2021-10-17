@@ -12,89 +12,87 @@ import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "user_id")
-public class Participant extends User{
+public class Participant extends User {
 
-    @NotNull
-    @Column
-    private String firstNameP;
+	@NotNull
+	@Column
+	private String firstNameP;
 
-    @NotNull
-    @Column
-    private String lastNameP;
+	@NotNull
+	@Column
+	private String lastNameP;
 
-    @NotNull
-    @Column
-    private String gender;
+	@NotNull
+	@Column
+	private String gender;
 
-    @NotNull
-    @Column
-    private LocalDate birthday;
+	@NotNull
+	@Column
+	private LocalDate birthday;
 
-    @Column
-    private String currentPosition;
+	@Column
+	private String currentPosition;
 
-    @NotNull
-    @Column
-    private int experience;
-    
-    @Column
-    private String level;
+	@NotNull
+	@Column
+	private int experience;
 
-    @Column
-    private String educationLevel;
-    
-    @NotNull
-    @Column
-    private boolean abandon;
+	@Formula(value = "YEAR(CURDATE()) - YEAR(BIRTHDAY)")
+	private int age;
 
-    @ManyToOne
-    //@JsonIgnore
-    private Entreprise entreprise;
+	@Column
+	private String level;
 
+	@Column
+	private String educationLevel;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "participant")
-    private List<ParticipantRegistration> participantRegistrations; 
-    
-    @Enumerated(EnumType.STRING)
+	@NotNull
+	@Column
+	private boolean abandon;
+
+	@ManyToOne
+	// @JsonIgnore
+	private Entreprise entreprise;
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "participant")
+//    private List<ParticipantRegistration> participantRegistrations; 
+
+	@Enumerated(EnumType.STRING)
 	private Status status;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "participant")
-    Set<Attendance> attendance;
+	@JsonIgnore
+	@OneToMany(mappedBy = "participant")
+	Set<Attendance> attendance;
+	
+	public Participant() {
 
-    
-    @Formula(value="YEAR(CURDATE()) - YEAR(BIRTHDAY)")
-    private int age;
-    
-    public Participant() {
+	}
 
-    }
+	public Participant(@NotBlank @Size(max = 50) @Email String email, String password, @NotBlank String street,
+			@NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber, Set<Role> roles,
+			@NotBlank @Size(max = 20) String firstName, @NotBlank String lastName, @NotBlank String gender,
+			LocalDate birthday) {
+		// this.setId(super.getId());
+		super.setEmail(email);
+		super.setPassword(password);
+		// super.setAddress(address);
+		super.setStreet(street);
+		super.setCity(city);
+		super.setPostalCode(postalCode);
+		super.setPhoneNumber(phoneNumber);
+		super.setRoles(roles);
+		this.firstNameP = firstName;
+		this.lastNameP = lastName;
+		this.gender = gender;
+		this.birthday = birthday;
 
-    public Participant(@NotBlank @Size(max = 50) @Email String email,
-                       String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,
-                       @NotBlank String lastName, @NotBlank String gender , LocalDate birthday) {
-        super.setEmail(email);
-        super.setPassword(password);
-        super.setStreet(street);
-        super.setCity(city);
-        super.setPostalCode(postalCode);
-        super.setPhoneNumber(phoneNumber);
-        super.setRoles(roles);
-        this.firstNameP = firstName;
-        this.lastNameP  = lastName;
-        this.gender = gender;
-        this.birthday= birthday;
+	}
 
-    }
-
-
-    public Participant(@NotNull String firstNameP, @NotNull String lastNameP, @NotNull String gender,
+	public Participant(@NotNull String firstNameP, @NotNull String lastNameP, @NotNull String gender,
 			@NotNull LocalDate birthday, String currentPosition, @NotNull int experience, int age, String level,
 			String educationLevel, @NotNull boolean abandon, Entreprise entreprise,
 			List<ParticipantRegistration> participantRegistrations, Status status, Set<Attendance> attendance) {
@@ -110,28 +108,53 @@ public class Participant extends User{
 		this.educationLevel = educationLevel;
 		this.abandon = abandon;
 		this.entreprise = entreprise;
-		this.participantRegistrations = participantRegistrations;
+		// this.participantRegistrations = participantRegistrations;
 		this.status = status;
 		this.attendance = attendance;
 	}
 
 
-	public String getFirstNameP() {
-		return firstNameP;
+	public int getExperience() {
+		return experience;
 	}
 
-	public void setFirstNameP(String firstNameP) {
-		this.firstNameP = firstNameP;
+	public void setExperience(int experience) {
+		this.experience = experience;
 	}
 
-	public String getLastNameP() {
-		return lastNameP;
+	public String getEducationLevel() {
+		return educationLevel;
 	}
 
-	public void setLastNameP(String lastNameP) {
-		this.lastNameP = lastNameP;
+	public void setEducationLevel(String educationLevel) {
+		this.educationLevel = educationLevel;
 	}
 
+	public Entreprise getEntreprise() {
+		return entreprise;
+	}
+
+	public void setEntreprise(Entreprise entreprise) {
+		this.entreprise = entreprise;
+	}
+
+	public Set<Attendance> getAttendance() {
+		return attendance;
+	}
+
+	public void setSessionParticipant(Set<Attendance> attendance) {
+		this.attendance = attendance;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	
 	public String getGender() {
 		return gender;
 	}
@@ -156,28 +179,12 @@ public class Participant extends User{
 		this.currentPosition = currentPosition;
 	}
 
-	public int getExperience() {
-		return experience;
-	}
-
-	public void setExperience(int experience) {
-		this.experience = experience;
-	}
-
 	public String getLevel() {
 		return level;
 	}
 
 	public void setLevel(String level) {
 		this.level = level;
-	}
-
-	public String getEducationLevel() {
-		return educationLevel;
-	}
-
-	public void setEducationLevel(String educationLevel) {
-		this.educationLevel = educationLevel;
 	}
 
 	public boolean isAbandon() {
@@ -188,20 +195,20 @@ public class Participant extends User{
 		this.abandon = abandon;
 	}
 
-	public Entreprise getEntreprise() {
-		return entreprise;
+	public String getFirstNameP() {
+		return firstNameP;
 	}
 
-	public void setEntreprise(Entreprise entreprise) {
-		this.entreprise = entreprise;
+	public void setFirstNameP(String firstNameP) {
+		this.firstNameP = firstNameP;
 	}
 
-	public List<ParticipantRegistration> getParticipantRegistrations() {
-		return participantRegistrations;
+	public String getLastNameP() {
+		return lastNameP;
 	}
 
-	public void setParticipantRegistrations(List<ParticipantRegistration> participantRegistrations) {
-		this.participantRegistrations = participantRegistrations;
+	public void setLastNameP(String lastNameP) {
+		this.lastNameP = lastNameP;
 	}
 
 	public Status getStatus() {
@@ -210,23 +217,17 @@ public class Participant extends User{
 
 	public void setStatus(Status status) {
 		this.status = status;
+
 	}
 
-	public Set<Attendance> getAttendance() {
-		return attendance;
-	}
-
-	public void setAttendance(Set<Attendance> attendance) {
-		this.attendance = attendance;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
+//	public List<ParticipantRegistration> getParticipantRegistrations() {
+//		return participantRegistrations;
+//	}
+//
+//	public void setParticipantRegistrations(List<ParticipantRegistration> participantRegistrations) {
+//		this.participantRegistrations = participantRegistrations;
+//	}
+	
 
 	@Override
 	public int hashCode() {
@@ -244,7 +245,6 @@ public class Participant extends User{
 		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
 		result = prime * result + ((lastNameP == null) ? 0 : lastNameP.hashCode());
 		result = prime * result + ((level == null) ? 0 : level.hashCode());
-		result = prime * result + ((participantRegistrations == null) ? 0 : participantRegistrations.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
@@ -309,24 +309,19 @@ public class Participant extends User{
 				return false;
 		} else if (!level.equals(other.level))
 			return false;
-		if (participantRegistrations == null) {
-			if (other.participantRegistrations != null)
-				return false;
-		} else if (!participantRegistrations.equals(other.participantRegistrations))
-			return false;
 		if (status != other.status)
 			return false;
 		return true;
 	}
+	
+
 
 	@Override
-    public String toString() {
-        return "Participant [ firstNameP=" + firstNameP + ", lastNameP=" + lastNameP
-                + ", gender=" + gender + ", birthday=" + birthday + ", currentPosition=" + currentPosition + ", level="
-                + level + ", educationLevel=" + educationLevel + ", abandon=" + abandon + ", entreprise=" + entreprise
-                + ", courseSessionParticipant=" + attendance + "]";
-    }
-
-
+	public String toString() {
+		return "Participant [ firstNameP=" + firstNameP + ", lastNameP=" + lastNameP + ", gender=" + gender
+				+ ", birthday=" + birthday + ", currentPosition=" + currentPosition + ", level=" + level
+				+ ", educationLevel=" + educationLevel + ", abandon=" + abandon + ", entreprise=" + entreprise
+				+ ", courseSessionParticipant=" + attendance + "]";
+	}
 
 }

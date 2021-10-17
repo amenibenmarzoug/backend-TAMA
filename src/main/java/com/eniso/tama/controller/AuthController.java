@@ -293,7 +293,7 @@ public class AuthController {
 		    		registration.setRegistrationDate(now);	
 		    		regPartRepository.save(registration);
 		    		partRegistration.add(registration);
-		    		participant.setParticipantRegistrations(partRegistration);
+		    		//participant.setParticipantRegistrations(partRegistration);
 		    		
 		    		
 		    	}
