@@ -14,7 +14,7 @@ public class Module {
 
     @Id
     @Column(name = "module_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull

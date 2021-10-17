@@ -13,7 +13,7 @@ public class Program {
 	
     @Id
     @Column(name = "program_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull

@@ -18,7 +18,7 @@ public class EntrepriseDisponibility {
 
     @Id
     @Column(name = "EntrepriseDispo_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     
     @ManyToOne(cascade = CascadeType.MERGE)

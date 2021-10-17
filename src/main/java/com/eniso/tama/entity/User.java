@@ -18,7 +18,7 @@ public class User {
 	
     @Id
     @Column(name = "user_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     // this variable is for validating the accounts

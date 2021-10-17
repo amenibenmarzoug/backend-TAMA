@@ -15,7 +15,7 @@ public class TrainerDisponibility {
 
     @Id
     @Column(name = "trainerDispo_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long idTrainerDisponibility;
 
     @ManyToOne

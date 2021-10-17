@@ -16,7 +16,7 @@ public class ThemeDetail {
 	
     @Id
     @Column(name = "themeDetail_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull

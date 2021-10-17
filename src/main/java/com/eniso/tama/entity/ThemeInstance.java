@@ -14,7 +14,7 @@ public class ThemeInstance {
 	
     @Id
     @Column(name = "themeInst_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull

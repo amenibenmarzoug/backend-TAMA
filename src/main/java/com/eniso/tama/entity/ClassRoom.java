@@ -8,7 +8,7 @@ public class ClassRoom {
 	
     @Id
     @Column(name = "classRoom_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
