@@ -37,8 +37,10 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @Service
 @ComponentScan(basePackageClasses = AttendanceRepository.class)
 public class AttendanceServiceImpl implements AttendanceService {
+	
 	@Autowired
 	private AttendanceRepository attendanceRepository;
+	
 	@Autowired
     private SessionRepository sessionRepository;
 

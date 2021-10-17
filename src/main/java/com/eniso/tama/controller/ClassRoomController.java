@@ -40,12 +40,10 @@ public class ClassRoomController {
 	} 
 	
 	
-	
 	@GetMapping("/classroom")
 	public List<ClassRoom> findAll() {
 		return classRoomService.findAll();
 	}
-	
 	
 	@GetMapping("/classroom/institution")
 	public List<ClassRoom> getClassroomsInstitution(@RequestParam("id") long id) {
@@ -53,7 +51,6 @@ public class ClassRoomController {
 		return (classRoomService.getClassroomsInstitution(id));
 		
 	}
-	
 	
 	@GetMapping("classroom/{classroomId}")
 	public ClassRoom getClassRoom(@PathVariable long  classroomId) {

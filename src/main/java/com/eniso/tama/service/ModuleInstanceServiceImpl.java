@@ -13,8 +13,9 @@ import com.eniso.tama.repository.ModuleInstanceRepository;
 @Service
 @ComponentScan(basePackageClasses = ModuleInstanceRepository.class )
 public class ModuleInstanceServiceImpl  implements ModuleInstanceService{
-	   @Autowired
-	private ModuleInstanceRepository moduleInstanceRepository;
+	
+		@Autowired
+		private ModuleInstanceRepository moduleInstanceRepository;
 	 
 		public ModuleInstanceServiceImpl() {}
 

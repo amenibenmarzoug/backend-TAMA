@@ -3,9 +3,6 @@ package com.eniso.tama.controller;
 import com.eniso.tama.entity.Attendance;
 import com.eniso.tama.entity.AttendanceStates;
 import com.eniso.tama.service.AttendanceService;
-import com.eniso.tama.service.ParticipantService;
-import com.eniso.tama.service.ProgramInstanceService;
-import com.eniso.tama.service.SessionService;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,12 +16,9 @@ import java.util.List;
 @ComponentScan(basePackageClasses = AttendanceService.class)
 @RequestMapping(value = "/api")
 public class AttendanceController {
+	
     @Autowired
     private AttendanceService attendanceService;
-    private ParticipantService participantService;
-    private SessionService sessionService;
-    private ProgramInstanceService programInstanceService;
-
 
     public AttendanceController(AttendanceService attendanceService) {
         this.attendanceService = attendanceService;
@@ -57,7 +51,6 @@ public class AttendanceController {
         return attendances;
     }
 
-    // add mapping for POST /attendance - add
 
     @PostMapping("/addAttendance")
     public Attendance addAttendance(@RequestBody Attendance attendance) {
@@ -70,8 +63,6 @@ public class AttendanceController {
         return attendance;
     }
 
-
-    // add mapping for POST /attendance - update
     @Transactional
     @PutMapping("/attendance")
     public Attendance updateAttendance(@RequestBody Attendance attendance) {

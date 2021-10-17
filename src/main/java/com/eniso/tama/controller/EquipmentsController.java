@@ -25,6 +25,7 @@ import com.eniso.tama.service.EquipmentsService;
 @ComponentScan(basePackageClasses = EquipmentsService.class)
 @RequestMapping(value = "/api")
 public class EquipmentsController {
+	
 	@Autowired
 	ClassRoomRepository classroomRepository;
 

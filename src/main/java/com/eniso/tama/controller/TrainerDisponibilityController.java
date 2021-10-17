@@ -21,9 +21,10 @@ import com.eniso.tama.service.TrainerDisponibilityService;
 @RequestMapping(value = "/api")
 public class TrainerDisponibilityController {
 
+	@Autowired
     private TrainerDisponibilityService trainerDisponibilityService;
 
-    @Autowired
+    
     public TrainerDisponibilityController(TrainerDisponibilityService trainerDisponibilityService) {
         this.trainerDisponibilityService = trainerDisponibilityService;
     }

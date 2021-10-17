@@ -17,11 +17,11 @@ import com.eniso.tama.service.ParticipantRegistrationService;
 @ComponentScan(basePackageClasses = ParticipantRegistrationService.class)
 @RequestMapping(value = "/api")
 public class ParticipantRegistrationController {
+	
 	@Autowired
 	private ParticipantRegistrationService participantRegistrationService;
 
 	public ParticipantRegistrationController(ParticipantRegistrationService participantRegService) {
-		super();
 		this.participantRegistrationService = participantRegService;
 	}
 

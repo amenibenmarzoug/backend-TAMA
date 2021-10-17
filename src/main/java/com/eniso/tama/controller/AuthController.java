@@ -81,8 +81,10 @@ public class AuthController {
 
 	@Autowired
 	PasswordEncoder encoder;
+	
 	@Autowired
 	EntrepriseService entrepriseService;
+	
 	@Autowired
 	JwtUtils jwtUtils;
 
@@ -106,9 +108,7 @@ public class AuthController {
 				Authentication authentication = authenticationManager.authenticate(
 						new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 				UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-				// System.out.println("USER") ;
-				// System.out.println(userDetails.getEmail()) ;
-				// System.out.println(userDetails.getPassword()) ;
+			
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 
 				String jwt = jwtUtils.generateJwtToken(authentication);
@@ -143,38 +143,15 @@ public class AuthController {
 				signupRequestTrainer.getDisponibilityDays(), signupRequestTrainer.getSpecifications());
 		trainer.setValidated(false);
 
-//		User user = new User(signupRequestTrainer.getEmail(),
-//				 encoder.encode(signupRequestTrainer.getPassword()),
-//				 //signupRequestTrainer.getAddress(),
-//				 signupRequestTrainer.getStreet(),
-//				 signupRequestTrainer.getCity(),
-//				 signupRequestTrainer.getPostalCode(),
-//				 signupRequestTrainer.getPhoneNumber(),null);
 
-		// User user=trainer;
 		Set<String> strRoles = signupRequestTrainer.getRole();
-		// Set<String> strDisponibilities=signupRequestTrainer.getDisponibilityDays();
 		Set<Role> roles = new HashSet<>();
 
-		/*
-		 * Set<Day> disponibilities= new HashSet<>(); for (String day :
-		 * strDisponibilities) { Day d=new Day();
-		 * 
-		 * switch (day) { case "LUNDI": d.setDay(Days.LUNDI); break;
-		 * 
-		 * case "MARDI": d.setDay(Days.MARDI); break; case "MERCREDI":
-		 * d.setDay(Days.MERCREDI); break; case "JEUDI": d.setDay(Days.JEUDI); break;
-		 * case "VENDREDI": d.setDay(Days.VENDREDI); break; case "SAMEDI":
-		 * d.setDay(Days.SAMEDI); break; case "DIMANCHE": d.setDay(Days.DIMANCHE);
-		 * break; } disponibilities.add(d); System.out.println(Days.valueOf(day)); }
-		 */
 		Role modRole = roleRepository.findByRole(Roles.TRAINER)
 				.orElseThrow(() -> new RuntimeException("Error: Role Trainer is not found."));
 		roles.add(modRole);
-		// trainer.setDisponibilityDays(disponibilities);
 		trainer.setRoles(roles);
-		// User.setRoles(roles);
-		// userRepository.save(user);
+		
 		trainerRepository.save(trainer);
 
 		System.out.println(trainer.getPhoneNumber());
@@ -194,7 +171,6 @@ public class AuthController {
 
 		Institution institution = new Institution(signupRequestInstitution.getEmail(),
 				encoder.encode(signupRequestInstitution.getPassword()),
-				// signupRequestInstitution.getAddress(),
 				signupRequestInstitution.getStreet(), signupRequestInstitution.getCity(),
 				signupRequestInstitution.getPostalCode(), signupRequestInstitution.getPhoneNumber(), null,
 				signupRequestInstitution.getInstitutionName());
@@ -206,10 +182,7 @@ public class AuthController {
 
 		institution.setRoles(roles);
 
-		// userRepository.save(user);
 		institutionRepository.save(institution);
-
-		// System.out.println(institution.getPhoneNumber()) ;
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
@@ -233,7 +206,6 @@ public class AuthController {
 		LocalDate now = LocalDate.now();
 		Entreprise enterprise = new Entreprise(signupRequestEnterprise.getEmail(),
 				encoder.encode(signupRequestEnterprise.getPassword()),
-				// signupRequestEnterprise.getAddress(),
 				signupRequestEnterprise.getStreet(), signupRequestEnterprise.getCity(),
 				signupRequestEnterprise.getPostalCode(),
 
@@ -242,7 +214,6 @@ public class AuthController {
 				signupRequestEnterprise.getManagerLastName(), signupRequestEnterprise.getManagerPosition(),
 				signupRequestEnterprise.getNbMinParticipants(), signupRequestEnterprise.isProvider());
 
-		// enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
 		registration.setEntreprise(enterprise);
 		registration.setPrograminstance(signupRequestEnterprise.getProgramInstance());
 		registration.setRegistrationDate(now);
@@ -251,14 +222,6 @@ public class AuthController {
 		System.out.println(enterprise.isProvider());
 		enterprise.setValidated(false);
 
-//		User user = new User(signupRequestEnterprise.getEmail(),
-//				 encoder.encode(signupRequestEnterprise.getPassword()),
-//				 signupRequestEnterprise.getStreet(),
-//				 signupRequestEnterprise.getCity(),
-//				 signupRequestEnterprise.getPostalCode(),
-//				 signupRequestEnterprise.getPhoneNumber(),null);
-//		
-//		
 		Set<String> strRoles = signupRequestEnterprise.getRole();
 
 		Set<Role> roles = new HashSet<>();
@@ -304,12 +267,6 @@ public class AuthController {
 		participant.setLevel(signupRequestParticipant.getLevel());
 		participant.setCurrentPosition(signupRequestParticipant.getCurrentPosition());
 		participant.setExperience(signupRequestParticipant.getExperience());
-//		User user = new User(signupRequestParticipant.getEmail(),
-//				 encoder.encode(signupRequestParticipant.getPassword()),
-//				 signupRequestParticipant.getStreet(),
-//				 signupRequestParticipant.getCity(),
-//				 signupRequestParticipant.getPostalCode(),
-//				 signupRequestParticipant.getPhoneNumber(),null);
 
 		Set<String> strRoles = signupRequestParticipant.getRole();
 

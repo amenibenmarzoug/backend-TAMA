@@ -22,6 +22,7 @@ import com.eniso.tama.service.EventService;
 @ComponentScan(basePackageClasses = EventService.class )
 @RequestMapping(value="/api")
 public class EventController {
+	
 	@Autowired
 	private EventService eventService;
 	

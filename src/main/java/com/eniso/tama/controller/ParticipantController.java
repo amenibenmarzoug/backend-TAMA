@@ -90,9 +90,7 @@ public class ParticipantController {
 
 	@GetMapping("/participants")
 	public List<Participant> findAll() {
-//		for (Participant par : participantService.findAll()) {
-//			//System.out.println("AGE"+par.getAge());
-//		}
+
 		return participantService.findAll();
 	}
 
@@ -108,11 +106,6 @@ public class ParticipantController {
 		return theParticipant;
 	}
 
-	
-	
-	
-	
-	
 	// get participants by level
 
 	@GetMapping("participants/level/{participantLevel}")
@@ -158,8 +151,6 @@ public class ParticipantController {
 				theParticipant1.add(theP);
 
 			}
-
-
 
 		}
 		return theParticipant1;
@@ -232,9 +223,7 @@ public class ParticipantController {
 
 		return participantsPerEntr;
 	}
-	
-	
-	
+
 
 	// POST FOR ADDING PARTICIPANTS IN CRUD , IT REQUERS THE ID OF THE ENTERPRISE
 

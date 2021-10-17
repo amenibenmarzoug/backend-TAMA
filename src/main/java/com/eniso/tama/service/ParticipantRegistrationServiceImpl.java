@@ -10,6 +10,7 @@ import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.repository.ParticipantRegistrationRepository;
 @Service
 public class ParticipantRegistrationServiceImpl implements ParticipantRegistrationService {
+	
 	@Autowired
 	private ParticipantRegistrationRepository participantRegistrationRepository;
 

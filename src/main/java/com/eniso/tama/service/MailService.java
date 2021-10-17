@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public interface MailService {
+	
     public void sendmail(String email) throws AddressException, MessagingException, IOException;
 
     public void sendParticipantValidationMail(Participant participant) throws MessagingException;

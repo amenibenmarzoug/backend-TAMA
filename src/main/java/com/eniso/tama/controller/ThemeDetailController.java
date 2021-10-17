@@ -29,8 +29,6 @@ public class ThemeDetailController {
 	@Autowired
 	private ThemeDetailService themeDetailService;
 	
-	
-	
 	public ThemeDetailController(ThemeDetailService themeDetailService) {
 		super();
 		this.themeDetailService = themeDetailService;

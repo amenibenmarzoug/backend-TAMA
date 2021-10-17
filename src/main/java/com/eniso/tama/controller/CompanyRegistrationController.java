@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.eniso.tama.entity.CompanyRegistration;
-import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.service.CompanyRegistrationService;
 
 @CrossOrigin(origins = "*")
@@ -26,7 +24,6 @@ public class CompanyRegistrationController {
 	
 
 	public CompanyRegistrationController(CompanyRegistrationService companyRegistration) {
-		super();
 		this.companyRegistrationService = companyRegistration;
 	}
 	

@@ -24,11 +24,11 @@ import com.eniso.tama.service.ThemeService;
 @ComponentScan(basePackageClasses = ThemeService.class )
 @RequestMapping(value="/api")
 public class ThemeController {	
+	
 	@Autowired
 	private ThemeService themeService;
 	
 	public ThemeController(ThemeService themeService) {
-		super();
 		this.themeService = themeService;
 	}
 	

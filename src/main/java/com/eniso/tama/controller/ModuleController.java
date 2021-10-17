@@ -27,8 +27,6 @@ public class ModuleController {
 
 	@Autowired
 	private ModuleService moduleService;
-
-	
 	
 	public ModuleController(ModuleService moduleService) {
 		this.moduleService = moduleService;

@@ -34,14 +34,10 @@ public class ProgramInstanceController {
 		this.programInstService = programService;
 	}
 
-
-
 	@GetMapping("/programsInst")
 	public List<ProgramInstance> findAll() {
 		return programInstService.findAll();
 	}
-
-
 
 	@GetMapping("programsInst/{programId}")
 	public ProgramInstance getProgram(@PathVariable long programId) {
@@ -80,8 +76,6 @@ public class ProgramInstanceController {
 	}
 
 
-
-
 	@PostMapping("/programsInst2")
 	public ProgramInstance addClass(@RequestBody ProgramInstance theProgram) {
 
@@ -89,10 +83,6 @@ public class ProgramInstanceController {
 
 
 	}
-
-
-
-
 
 	// add mapping for PUT /employees - update existing employee
 
@@ -105,12 +95,10 @@ public class ProgramInstanceController {
 
 	}
 
-
 	@PutMapping("/programsInst/confirm")
 	public ProgramInstance confirm(@RequestBody ProgramInstance theProgram) {
 
 		return(programInstService.confirm(theProgram));
-
 
 	}
 

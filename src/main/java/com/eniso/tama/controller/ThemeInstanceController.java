@@ -40,7 +40,6 @@ public class ThemeInstanceController {
 
 
     public ThemeInstanceController(ThemeInstanceService themeInstanceService) {
-        super();
         this.themeInstanceService = themeInstanceService;
     }
 

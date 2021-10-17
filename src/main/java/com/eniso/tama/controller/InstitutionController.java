@@ -23,11 +23,10 @@ import com.eniso.tama.service.InstitutionService;
 @ComponentScan(basePackageClasses = InstitutionService.class)
 @RequestMapping(value = "/api")
 public class InstitutionController {
+	
 	@Autowired
 	InstitutionRepository institutionRepository;
 
-	
-	
 	@Autowired
 	private InstitutionService institutionService;
 	

@@ -12,7 +12,7 @@ public class Attendance {
 	
 	@Id
 	@Column(name = "attendance_id", updatable = false, nullable = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@ManyToOne

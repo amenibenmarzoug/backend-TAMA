@@ -70,7 +70,6 @@ public class User {
         // super();
         this.email = email;
         this.password = password;
-        // this.address = address;
         this.street = street;
         this.city = city;
         this.postalCode = postalCode;
