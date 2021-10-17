@@ -24,7 +24,6 @@ import com.eniso.tama.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
-
 @EnableGlobalMethodSecurity(
         // securedEnabled = true,
         //jsr250Enabled = true,

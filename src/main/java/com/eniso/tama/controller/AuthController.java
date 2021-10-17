@@ -120,8 +120,6 @@ public class AuthController {
 			}
 		}
 	}
-    
-
 
 
     @PostMapping("/signup")
@@ -287,6 +285,7 @@ public class AuthController {
 
         // Create new user's account
 
+
         Participant participant = new Participant(signupRequestParticipant.getEmail(),
                 encoder.encode(signupRequestParticipant.getPassword()),
                 signupRequestParticipant.getStreet(),
@@ -309,6 +308,7 @@ public class AuthController {
 //				 signupRequestParticipant.getPhoneNumber(),null);
 
 		Set<String> strRoles = signupRequestParticipant.getRole();
+
 
 
         Set<Role> roles = new HashSet<>();
