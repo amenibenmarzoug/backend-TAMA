@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.eniso.tama.dto.EntrepriseDto;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.service.EntrepriseService;
 
@@ -75,8 +78,8 @@ public class EntrepriseController {
 	}
 
 
-	@PutMapping("/entreprises")
-	public  ResponseEntity<?>   updateEntreprise(@RequestBody Entreprise theEntreprise) {
+	@PutMapping("/update/entreprise")
+	public  ResponseEntity<?>   updateEntreprise(@RequestBody EntrepriseDto theEntreprise) {
 		return entrepriseService.updateEntreprise(theEntreprise);
 		
 	}

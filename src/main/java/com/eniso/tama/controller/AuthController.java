@@ -1,6 +1,5 @@
 package com.eniso.tama.controller;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,6 +29,8 @@ import com.eniso.tama.entity.CompanyRegistration;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Institution;
 import com.eniso.tama.entity.Participant;
+import com.eniso.tama.entity.ParticipantRegistration;
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
 import com.eniso.tama.entity.Status;
@@ -42,10 +43,11 @@ import com.eniso.tama.payload.SignupRequestEnterprise;
 import com.eniso.tama.payload.SignupRequestInstitution;
 import com.eniso.tama.payload.SignupRequestParticipant;
 import com.eniso.tama.payload.SignupRequestTrainer;
+import com.eniso.tama.repository.CompanyRegistrationRepository;
 import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.InstitutionRepository;
+import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ParticipantRepository;
-import com.eniso.tama.repository.CompanyRegistrationRepository;
 import com.eniso.tama.repository.RoleRepository;
 import com.eniso.tama.repository.TrainerRepository;
 import com.eniso.tama.repository.UserRepository;
@@ -90,7 +92,8 @@ public class AuthController {
 
 	@Autowired
 	private CompanyRegistrationRepository registrationRepository;
-
+	@Autowired
+	private ParticipantRegistrationRepository regPartRepository;
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		System.out.println(encoder.encode(loginRequest.getPassword()));
@@ -201,7 +204,7 @@ public class AuthController {
 		}
 
 		// Create new user's account
-		CompanyRegistration registration = new CompanyRegistration();
+		
 		List<CompanyRegistration> entrepRegistration= new ArrayList<>();
 		LocalDate now = LocalDate.now();
 		Entreprise enterprise = new Entreprise(signupRequestEnterprise.getEmail(),
@@ -214,11 +217,22 @@ public class AuthController {
 				signupRequestEnterprise.getManagerLastName(), signupRequestEnterprise.getManagerPosition(),
 				signupRequestEnterprise.getNbMinParticipants(), signupRequestEnterprise.isProvider());
 
-		registration.setEntreprise(enterprise);
-		registration.setPrograminstance(signupRequestEnterprise.getProgramInstance());
-		registration.setRegistrationDate(now);
-		entrepRegistration.add(registration);
-		enterprise.setRegistration(entrepRegistration);
+		// enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
+	    for (ProgramInstance p : signupRequestEnterprise.getProgramInstance()) {
+	    	
+	    	if(p!=null) {
+	    		CompanyRegistration registration = new CompanyRegistration();
+	    		registration.setEntreprise(enterprise);
+	    		registration.setPrograminstance(p);
+	    		registration.setRegistrationDate(now);	
+	    		entrepRegistration.add(registration);
+	    	//	enterprise.setRegistration(entrepRegistration);
+	    		registrationRepository.save(registration);
+	    		
+	    	}
+	    }
+		
+		
 		System.out.println(enterprise.isProvider());
 		enterprise.setValidated(false);
 
@@ -231,9 +245,9 @@ public class AuthController {
 		roles.add(modRole);
 
 		enterprise.setRoles(roles);
-
+		
 		enterpriseRepository.save(enterprise);
-		registrationRepository.save(registration);
+		
 		
 		/*
 		 * try { mailService.sendmail(enterprise.getEmail()); } catch (AddressException
@@ -253,7 +267,9 @@ public class AuthController {
 		}
 
 		// Create new user's account
-
+		
+		List<ParticipantRegistration> partRegistration= new ArrayList<>();
+		LocalDate now = LocalDate.now();
 		Participant participant = new Participant(signupRequestParticipant.getEmail(),
 				encoder.encode(signupRequestParticipant.getPassword()), signupRequestParticipant.getStreet(),
 				signupRequestParticipant.getCity(), signupRequestParticipant.getPostalCode(),
@@ -267,6 +283,22 @@ public class AuthController {
 		participant.setLevel(signupRequestParticipant.getLevel());
 		participant.setCurrentPosition(signupRequestParticipant.getCurrentPosition());
 		participant.setExperience(signupRequestParticipant.getExperience());
+
+		 for (ProgramInstance p : signupRequestParticipant.getProgramInstance()) {
+		    	
+		    	if(p!=null) {
+		    		ParticipantRegistration registration = new ParticipantRegistration();
+		    		registration.setParticipant(participant);
+		    		registration.setPrograminstance(p);
+		    		registration.setRegistrationDate(now);	
+		    		regPartRepository.save(registration);
+		    		partRegistration.add(registration);
+		    		participant.setParticipantRegistrations(partRegistration);
+		    		
+		    		
+		    	}
+		    }
+		
 
 		Set<String> strRoles = signupRequestParticipant.getRole();
 

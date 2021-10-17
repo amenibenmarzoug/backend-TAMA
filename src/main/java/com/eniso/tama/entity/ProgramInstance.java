@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,8 +52,19 @@ public class ProgramInstance {
 	@ManyToOne
 	private Program program;
 
-	@OneToMany
-	private List<CompanyRegistration> Companyregistrations;
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "programinstance")
+//	private List<CompanyRegistration> Companyregistrations;
+//	
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "programinstance")
+//	private List<ParticipantRegistration> participantRegistrations;
+
+//	public List<ParticipantRegistration> getParticipantRegistrations() {
+//		return participantRegistrations;
+//	}
+//
+//	public void setParticipantRegistrations(List<ParticipantRegistration> participantRegistrations) {
+//		this.participantRegistrations = participantRegistrations;
+//	}
 
 	public ProgramInstance() {
 	}
@@ -147,19 +159,18 @@ public class ProgramInstance {
 		this.place = place;
 	}
 
-	public List<CompanyRegistration> getCompanyregistrations() {
-		return Companyregistrations;
-	}
-
-	public void setCompanyregistrations(List<CompanyRegistration> companyregistrations) {
-		Companyregistrations = companyregistrations;
-	}
+//	public List<CompanyRegistration> getCompanyregistrations() {
+//		return Companyregistrations;
+//	}
+//
+//	public void setCompanyregistrations(List<CompanyRegistration> companyregistrations) {
+//		Companyregistrations = companyregistrations;
+//	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((Companyregistrations == null) ? 0 : Companyregistrations.hashCode());
 		result = prime * result + ((beginDate == null) ? 0 : beginDate.hashCode());
 		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -182,11 +193,6 @@ public class ProgramInstance {
 		if (getClass() != obj.getClass())
 			return false;
 		ProgramInstance other = (ProgramInstance) obj;
-		if (Companyregistrations == null) {
-			if (other.Companyregistrations != null)
-				return false;
-		} else if (!Companyregistrations.equals(other.Companyregistrations))
-			return false;
 		if (beginDate == null) {
 			if (other.beginDate != null)
 				return false;

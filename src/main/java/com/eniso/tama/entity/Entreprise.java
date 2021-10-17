@@ -36,11 +36,6 @@ public class Entreprise extends User {
     @Column
     private boolean provider=false;
 
-    @OneToMany
-    private List<CompanyRegistration> registrations; 
-
-    
-
 	public Entreprise() {
     }
 
@@ -127,14 +122,6 @@ public class Entreprise extends User {
 		this.provider = provider;
 	}
 
-	public List<CompanyRegistration> getRegistration() {
-		return registrations;
-	}
-
-	public void setRegistration(List<CompanyRegistration> registrations) {
-		this.registrations = registrations;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -145,7 +132,6 @@ public class Entreprise extends User {
 		result = prime * result + ((managerPosition == null) ? 0 : managerPosition.hashCode());
 		result = prime * result + nbMinParticipants;
 		result = prime * result + (provider ? 1231 : 1237);
-		result = prime * result + ((registrations == null) ? 0 : registrations.hashCode());
 		result = prime * result + ((website == null) ? 0 : website.hashCode());
 		return result;
 	}
@@ -182,12 +168,6 @@ public class Entreprise extends User {
 		if (nbMinParticipants != other.nbMinParticipants)
 			return false;
 		if (provider != other.provider)
-			return false;
-		if (registrations == null) {
-			if (other.registrations != null)
-				return false;
-		} else if (!registrations.equals(other.registrations))
-			return false;
 		if (website == null) {
 			if (other.website != null)
 				return false;
@@ -196,7 +176,6 @@ public class Entreprise extends User {
 		return true;
 	}
 	
-	
-	
+
 
 }

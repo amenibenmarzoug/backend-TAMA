@@ -10,7 +10,7 @@ import com.eniso.tama.entity.CompanyRegistration;
 public interface CompanyRegistrationRepository extends JpaRepository<CompanyRegistration, Long> {
 
 	 @Query
-		( "SELECT cr FROM CompanyRegistration cr WHERE cr.entreprise.id =?1")
+		( nativeQuery=true, value="SELECT * from company_registration cr where cr.entreprise_id =?1 ;")
 	List<CompanyRegistration> findByEntrepriseId(long entrepId);
 	 
 	 @Query

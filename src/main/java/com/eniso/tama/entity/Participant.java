@@ -58,13 +58,12 @@ public class Participant extends User{
     private Entreprise entreprise;
 
 
-    @ManyToOne
-    //@JsonIgnore
-    private ProgramInstance programInstance;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "participant")
+    private List<ParticipantRegistration> participantRegistrations; 
     
     @Enumerated(EnumType.STRING)
 	private Status status;
-    
+
     @JsonIgnore
     @OneToMany(mappedBy = "participant")
     Set<Attendance> attendance;
@@ -94,70 +93,134 @@ public class Participant extends User{
 
     }
 
-    public Participant(@NotBlank @Size(max = 50) @Email String email,
-                       String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstNameP,
-                       @NotBlank String lastNameP, @NotBlank String gender , LocalDate birthday , Entreprise entreprise, ProgramInstance programInstance) {
-        this.setId(super.getId());
-        super.setEmail(email);
-        super.setPassword(password);
-        super.setStreet(street);
-        super.setCity(city);
-        super.setPostalCode(postalCode);
-        super.setPhoneNumber(phoneNumber);
-        super.setRoles(roles);
-        this.firstNameP = firstNameP;
-        this.lastNameP  = lastNameP;
-        this.gender = gender;
-        this.birthday= birthday;
-        this.entreprise=entreprise ;
-        this.programInstance=programInstance;
 
-    }
-    
-
-    public int getExperience() {
-        return experience;
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
-    }
-
-    
-    public String getEducationLevel() {
-        return educationLevel;
-    }
-
-    public void setEducationLevel(String educationLevel) {
-        this.educationLevel = educationLevel;
-    }
+    public Participant(@NotNull String firstNameP, @NotNull String lastNameP, @NotNull String gender,
+			@NotNull LocalDate birthday, String currentPosition, @NotNull int experience, int age, String level,
+			String educationLevel, @NotNull boolean abandon, Entreprise entreprise,
+			List<ParticipantRegistration> participantRegistrations, Status status, Set<Attendance> attendance) {
+		super();
+		this.firstNameP = firstNameP;
+		this.lastNameP = lastNameP;
+		this.gender = gender;
+		this.birthday = birthday;
+		this.currentPosition = currentPosition;
+		this.experience = experience;
+		this.age = age;
+		this.level = level;
+		this.educationLevel = educationLevel;
+		this.abandon = abandon;
+		this.entreprise = entreprise;
+		this.participantRegistrations = participantRegistrations;
+		this.status = status;
+		this.attendance = attendance;
+	}
 
 
-    public ProgramInstance getProgramInstance() {
-        return programInstance;
-    }
+	public String getFirstNameP() {
+		return firstNameP;
+	}
 
-    public void setProgramInstance(ProgramInstance programInstance) {
-        this.programInstance = programInstance;
-    }
+	public void setFirstNameP(String firstNameP) {
+		this.firstNameP = firstNameP;
+	}
 
-    public Entreprise getEntreprise() {
-        return entreprise;
-    }
+	public String getLastNameP() {
+		return lastNameP;
+	}
 
-    public void setEntreprise(Entreprise entreprise) {
-        this.entreprise = entreprise;
-    }
+	public void setLastNameP(String lastNameP) {
+		this.lastNameP = lastNameP;
+	}
 
-    public Set<Attendance> getAttendance() {
-        return attendance;
-    }
+	public String getGender() {
+		return gender;
+	}
 
-    public void setSessionParticipant(Set<Attendance> attendance) {
-        this.attendance = attendance;
-    }
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
-    public int getAge() {
+	public LocalDate getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(LocalDate birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getCurrentPosition() {
+		return currentPosition;
+	}
+
+	public void setCurrentPosition(String currentPosition) {
+		this.currentPosition = currentPosition;
+	}
+
+	public int getExperience() {
+		return experience;
+	}
+
+	public void setExperience(int experience) {
+		this.experience = experience;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public String getEducationLevel() {
+		return educationLevel;
+	}
+
+	public void setEducationLevel(String educationLevel) {
+		this.educationLevel = educationLevel;
+	}
+
+	public boolean isAbandon() {
+		return abandon;
+	}
+
+	public void setAbandon(boolean abandon) {
+		this.abandon = abandon;
+	}
+
+	public Entreprise getEntreprise() {
+		return entreprise;
+	}
+
+	public void setEntreprise(Entreprise entreprise) {
+		this.entreprise = entreprise;
+	}
+
+	public List<ParticipantRegistration> getParticipantRegistrations() {
+		return participantRegistrations;
+	}
+
+	public void setParticipantRegistrations(List<ParticipantRegistration> participantRegistrations) {
+		this.participantRegistrations = participantRegistrations;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public Set<Attendance> getAttendance() {
+		return attendance;
+	}
+
+	public void setAttendance(Set<Attendance> attendance) {
+		this.attendance = attendance;
+	}
+
+	public int getAge() {
 		return age;
 	}
 
@@ -165,75 +228,10 @@ public class Participant extends User{
 		this.age = age;
 	}
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getCurrentPosition() {
-        return currentPosition;
-    }
-
-    public void setCurrentPosition(String currentPosition) {
-        this.currentPosition = currentPosition;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public boolean isAbandon() {
-        return abandon;
-    }
-
-    public void setAbandon(boolean abandon) {
-        this.abandon = abandon;
-    }
-
-    public String getFirstNameP() {
-        return firstNameP;
-    }
-
-    public void setFirstNameP(String firstNameP) {
-        this.firstNameP = firstNameP;
-    }
-
-    public String getLastNameP() {
-        return lastNameP;
-    }
-
-    public void setLastNameP(String lastNameP) {
-        this.lastNameP = lastNameP;
-    }
-   
-    public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-
-	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + (abandon ? 1231 : 1237);
 		result = prime * result + age;
 		result = prime * result + ((attendance == null) ? 0 : attendance.hashCode());
@@ -246,7 +244,7 @@ public class Participant extends User{
 		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
 		result = prime * result + ((lastNameP == null) ? 0 : lastNameP.hashCode());
 		result = prime * result + ((level == null) ? 0 : level.hashCode());
-		result = prime * result + ((programInstance == null) ? 0 : programInstance.hashCode());
+		result = prime * result + ((participantRegistrations == null) ? 0 : participantRegistrations.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
@@ -255,7 +253,7 @@ public class Participant extends User{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -311,10 +309,10 @@ public class Participant extends User{
 				return false;
 		} else if (!level.equals(other.level))
 			return false;
-		if (programInstance == null) {
-			if (other.programInstance != null)
+		if (participantRegistrations == null) {
+			if (other.participantRegistrations != null)
 				return false;
-		} else if (!programInstance.equals(other.programInstance))
+		} else if (!participantRegistrations.equals(other.participantRegistrations))
 			return false;
 		if (status != other.status)
 			return false;

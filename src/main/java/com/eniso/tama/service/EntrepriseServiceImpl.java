@@ -1,6 +1,7 @@
 package com.eniso.tama.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +17,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.eniso.tama.entity.Entreprise;
+import com.eniso.tama.dto.EntrepriseDto;
 import com.eniso.tama.entity.CompanyRegistration;
+import com.eniso.tama.entity.Entreprise;
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.payload.MessageResponse;
-import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.CompanyRegistrationRepository;
+import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.RoleRepository;
 
 @Service
@@ -117,12 +120,14 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 		return theEntreprise;
 	}
 
-	public ResponseEntity<?> updateEntreprise(@RequestBody Entreprise theEntreprise) {
+	public ResponseEntity<?> updateEntreprise(@RequestBody EntrepriseDto theEntreprise) {
+		
+		System.out.println(theEntreprise.getClasses());
 		Entreprise newEntreprise = findById(theEntreprise.getId());
 		Entreprise verifEmailEntreprise = findByEmail(theEntreprise.getEmail());
 		System.out.println(verifEmailEntreprise);
 		Entreprise verifPhoneNumberEntreprise = findByPhoneNumber(theEntreprise.getPhoneNumber());
-		CompanyRegistration registration = new CompanyRegistration();
+	
 		
 		if (((verifEmailEntreprise != null) && (verifEmailEntreprise.getId() == theEntreprise.getId()))
 				|| (verifEmailEntreprise == null)) {
@@ -142,7 +147,17 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 				newEntreprise.setNbMinParticipants(theEntreprise.getNbMinParticipants());
 				newEntreprise.setManagerPosition(theEntreprise.getManagerPosition());
 				
-				newEntreprise.setRegistration(theEntreprise.getRegistration());
+				
+				//List<CompanyRegistration> companyRegistartions= new ArrayList<>() ;
+				for (ProgramInstance p :  theEntreprise.getClasses()) {
+					CompanyRegistration registration = new CompanyRegistration();
+					registration.setEntreprise(newEntreprise);
+					registration.setPrograminstance(p);
+					registration.setRegistrationDate(LocalDate.now());
+					registrationRepository.save(registration);
+					//companyRegistartions.add(registration);
+				}
+				//newEntreprise.setRegistration(companyRegistartions);
 //				registration.setEntreprise(theEntreprise);
 //				registration.setPrograminstance(theEntreprise.getRegistration().getPrograminstance());
 				/*

@@ -1,34 +1,19 @@
 package com.eniso.tama.controller;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import javax.validation.Valid;
 
-import com.eniso.tama.entity.*;
-import com.eniso.tama.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,17 +24,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
+import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
 import com.eniso.tama.entity.Status;
-
 import com.eniso.tama.payload.MessageResponse;
-
 import com.eniso.tama.repository.EnterpriseRepository;
+import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.RoleRepository;
+import com.eniso.tama.service.MailService;
 import com.eniso.tama.service.ParticipantService;
 import com.eniso.tama.service.ProgramInstanceService;
 
@@ -81,6 +68,8 @@ public class ParticipantController {
 	@Autowired
 	private MailService mailService;
 	
+	@Autowired
+	private ParticipantRegistrationRepository participantRegistrationRepository;
 
 	
 	public ParticipantController(ParticipantService theParticipantService) {
@@ -184,17 +173,17 @@ public class ParticipantController {
 	}
 
 	//this api generates an error :)
-	@GetMapping("participants/class/{id}")
-	public List<Participant> getParticipantPerClass(@PathVariable("id") long id) {
-		List<Participant> participantsPerClasse = new ArrayList<Participant>();
-		for (Participant theP : findAll()) {
-			if(theP.getProgramInstance().getId() == id && theP.getStatus().equals(Status.ACCEPTED)){
-				participantsPerClasse.add(theP);
-
-			}
-		}
-		return participantsPerClasse;
-	}
+//	@GetMapping("participants/class/{id}")
+//	public List<Participant> getParticipantPerClass(@PathVariable("id") long id) {
+//		List<Participant> participantsPerClasse = new ArrayList<Participant>();
+//		for (Participant theP : findAll()) {
+//			if(theP.getParticipantRegistrations().getProgramInstance().getId() == id && theP.getStatus().equals(Status.ACCEPTED)){
+//				participantsPerClasse.add(theP);
+//
+//			}
+//		}
+//		return participantsPerClasse;
+//	}
 	//Get Participants (status-Validated) By Class  (same as the method above : to be corrected) 
 	@GetMapping("participants/classId/{id}")
 	public List<Participant> getParticipantsPerClass(@PathVariable("id") long classId) {
@@ -257,7 +246,7 @@ public class ParticipantController {
 		p.setLevel(theP.getLevel());
 		p.setCurrentPosition(theP.getCurrentPosition());
 		p.setExperience(theP.getExperience());
-		p.setProgramInstance(theP.getProgramInstance());
+		//p.setProgramInstance(theP.getProgramInstance());
 		p.setStatus(Status.WAITING);
 
 		participantRepository.save(p);
@@ -325,7 +314,7 @@ public class ParticipantController {
 		newParticipant.setEmail(theParticipant.getEmail());
 		newParticipant.setLevel(theParticipant.getLevel());
 		newParticipant.setEntreprise(theParticipant.getEntreprise());
-		newParticipant.setProgramInstance(theParticipant.getProgramInstance());
+		newParticipant.setParticipantRegistrations(theParticipant.getParticipantRegistrations());
 		participantService.save(newParticipant);
 
 		return theParticipant;
@@ -334,8 +323,14 @@ public class ParticipantController {
 	@PutMapping("/classeParticipant/{id}")
 	public Participant updateClasse(@RequestBody Participant theParticipant,@PathVariable long id) {
 		Participant newParticipant = participantService.findById(theParticipant.getId());
+		ParticipantRegistration registration = new ParticipantRegistration();
+		registration.setParticipant(newParticipant);
+		registration.setPrograminstance(classeService.findById(id));
+		registration.setRegistrationDate(LocalDate.now());
+		participantRegistrationRepository.save(registration) ;
 		newParticipant.setStatus(Status.ACCEPTED);
-		newParticipant.setProgramInstance(classeService.findById(id));		
+		theParticipant.getParticipantRegistrations().add(registration);
+		newParticipant.setParticipantRegistrations(theParticipant.getParticipantRegistrations()); //À revoir		
 		participantService.save(newParticipant);
 
 		return theParticipant;

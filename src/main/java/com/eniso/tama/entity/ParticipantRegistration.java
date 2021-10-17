@@ -26,20 +26,12 @@ public class ParticipantRegistration {
 	@JoinColumn(name = "programinstance_id")
 	ProgramInstance programinstance;
 	
+	@ManyToOne
+	@JoinColumn(name = "companyRegistration_id")
+	CompanyRegistration companyRegistration;
+	
 	private LocalDate registrationDate;
 	
-	public ParticipantRegistration() {
-		super();
-	}
-
-	public ParticipantRegistration(Long id, Participant participant, ProgramInstance programinstance,
-			LocalDate registrationDate) {
-		super();
-		this.id = id;
-		this.participant = participant;
-		this.programinstance = programinstance;
-		this.registrationDate = registrationDate;
-	}
 
 	public Long getId() {
 		return id;
@@ -73,6 +65,27 @@ public class ParticipantRegistration {
 		this.registrationDate = registrationDate;
 	}
 
+	public ParticipantRegistration() {
+		super();
+	}
+	
+
+	public CompanyRegistration getCompanyRegistration() {
+		return companyRegistration;
+	}
+
+	public void setCompanyRegistration(CompanyRegistration companyRegistration) {
+		this.companyRegistration = companyRegistration;
+	}
+
+	public ParticipantRegistration(Long id, Participant participant, ProgramInstance programinstance,
+			LocalDate registrationDate) {
+		super();
+		this.id = id;
+		this.participant = participant;
+		this.programinstance = programinstance;
+		this.registrationDate = registrationDate;
+	}
 
 	@Override
 	public int hashCode() {
