@@ -78,20 +78,13 @@ public class Participant extends User{
     private Entreprise entreprise;
 
 
-    @ManyToOne
-    //@JsonIgnore
-    private ProgramInstance programInstance;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "participant")
+    private List<ParticipantRegistration> participantRegistrations; 
     
     @Enumerated(EnumType.STRING)
 	private Status status;
 
-    public ProgramInstance getProgramInstance() {
-        return programInstance;
-    }
-
-    public void setProgramInstance(ProgramInstance programInstance) {
-        this.programInstance = programInstance;
-    }
+  
 
     public Entreprise getEntreprise() {
         return entreprise;
@@ -148,29 +141,30 @@ public class Participant extends User{
 
     }
 
-    public Participant(@NotBlank @Size(max = 50) @Email String email,
-                       String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstNameP,
-                       @NotBlank String lastNameP, @NotBlank String gender , LocalDate birthday , Entreprise entreprise, ProgramInstance programInstance) {
-        this.setId(super.getId());
-        super.setEmail(email);
-        super.setPassword(password);
-        //super.setAddress(address);
-        super.setStreet(street);
-        super.setCity(city);
-        super.setPostalCode(postalCode);
-        super.setPhoneNumber(phoneNumber);
-        super.setRoles(roles);
-        this.firstNameP = firstNameP;
-        this.lastNameP  = lastNameP;
-        this.gender = gender;
-        this.birthday= birthday;
-        this.entreprise=entreprise ;
-        this.programInstance=programInstance;
+  
 
-    }
-    
+    public Participant(@NotNull String firstNameP, @NotNull String lastNameP, @NotNull String gender,
+			@NotNull LocalDate birthday, String currentPosition, @NotNull int experience, int age, String level,
+			String educationLevel, @NotNull boolean abandon, Entreprise entreprise,
+			List<ParticipantRegistration> participantRegistrations, Status status, Set<Attendance> attendance) {
+		super();
+		this.firstNameP = firstNameP;
+		this.lastNameP = lastNameP;
+		this.gender = gender;
+		this.birthday = birthday;
+		this.currentPosition = currentPosition;
+		this.experience = experience;
+		this.age = age;
+		this.level = level;
+		this.educationLevel = educationLevel;
+		this.abandon = abandon;
+		this.entreprise = entreprise;
+		this.participantRegistrations = participantRegistrations;
+		this.status = status;
+		this.attendance = attendance;
+	}
 
-    public String getGender() {
+	public String getGender() {
         return gender;
     }
 
@@ -238,6 +232,14 @@ public class Participant extends User{
 
 	}
 
+
+	public List<ParticipantRegistration> getParticipantRegistrations() {
+		return participantRegistrations;
+	}
+
+	public void setParticipantRegistrations(List<ParticipantRegistration> participantRegistrations) {
+		this.participantRegistrations = participantRegistrations;
+	}
 
 	@Override
     public String toString() {
