@@ -1,6 +1,5 @@
 package com.eniso.tama.entity;
 
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 public class ThemeDetailInstance {
@@ -24,9 +22,6 @@ public class ThemeDetailInstance {
 
     @ManyToOne(cascade = {CascadeType.ALL})
     private ModuleInstance moduleInstance;
-	
-	/*@Column(name = "themeDetailInst_begin_date")
-	private Date themeDetailInstBeginDate;*/
 
     @Column
     private String themeDetailInstName;
@@ -67,22 +62,7 @@ public class ThemeDetailInstance {
         this.themeDetail = themeDetail;
     }
 
-	/*public Date getThemeDetailInstBeginDate() {
-		return themeDetailInstBeginDate;
-	}
-
-	public void setThemeDetailInstBeginDate(Date themeDetailInstBeginDate) {
-		this.themeDetailInstBeginDate = themeDetailInstBeginDate;
-	}*/
-
-	/*public Date getThemeDetailInstEndDate() {
-		return themeDetailInstEndDate;
-	}
-
-	public void setThemeDetailInstEndDate(Date themeDetailInstEndDate) {
-		this.themeDetailInstEndDate = themeDetailInstEndDate;
-	}*/
-
+	
 
     public ModuleInstance getModuleInstance() {
         return moduleInstance;
@@ -92,9 +72,54 @@ public class ThemeDetailInstance {
         this.moduleInstance = moduleInstance;
     }
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((moduleInstance == null) ? 0 : moduleInstance.hashCode());
+		result = prime * result + nbDaysthemeDetailInst;
+		result = prime * result + ((themeDetail == null) ? 0 : themeDetail.hashCode());
+		result = prime * result + ((themeDetailInstName == null) ? 0 : themeDetailInstName.hashCode());
+		return result;
+	}
 
-	/*@Column(name = "themeDetailInst_end_date")
-	private Date themeDetailInstEndDate;*/
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ThemeDetailInstance other = (ThemeDetailInstance) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (moduleInstance == null) {
+			if (other.moduleInstance != null)
+				return false;
+		} else if (!moduleInstance.equals(other.moduleInstance))
+			return false;
+		if (nbDaysthemeDetailInst != other.nbDaysthemeDetailInst)
+			return false;
+		if (themeDetail == null) {
+			if (other.themeDetail != null)
+				return false;
+		} else if (!themeDetail.equals(other.themeDetail))
+			return false;
+		if (themeDetailInstName == null) {
+			if (other.themeDetailInstName != null)
+				return false;
+		} else if (!themeDetailInstName.equals(other.themeDetailInstName))
+			return false;
+		return true;
+	}
+    
+    
+
 
 
 }

@@ -33,6 +33,7 @@ public class Institution extends User {
         this.institutionName = institutionName;
     }
 
+    
     public String getInstitutionName() {
         return institutionName;
     }
@@ -40,5 +41,34 @@ public class Institution extends User {
     public void setInstitutionName(String institutionName) {
         this.institutionName = institutionName;
     }
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((institutionName == null) ? 0 : institutionName.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Institution other = (Institution) obj;
+		if (institutionName == null) {
+			if (other.institutionName != null)
+				return false;
+		} else if (!institutionName.equals(other.institutionName))
+			return false;
+		return true;
+	}
+    
+    
 
 }
