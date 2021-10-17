@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +20,8 @@ public class CompanyRegistration {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+   
 	@JoinColumn(name = "entreprise_id")
 	Entreprise entreprise;
 
@@ -29,17 +31,17 @@ public class CompanyRegistration {
 	
 	private LocalDate registrationDate;
 	
-	@OneToMany
-	private List<ParticipantRegistration> participantRegistrations;
-	
-
-	public List<ParticipantRegistration> getParticipantRegistrations() {
-		return participantRegistrations;
-	}
-
-	public void setParticipantRegistrations(List<ParticipantRegistration> participantRegistrations) {
-		this.participantRegistrations = participantRegistrations;
-	}
+//	@OneToMany(fetch = FetchType.LAZY )
+//	private List<ParticipantRegistration> participantRegistrations;
+//	
+//
+//	public List<ParticipantRegistration> getParticipantRegistrations() {
+//		return participantRegistrations;
+//	}
+//
+//	public void setParticipantRegistrations(List<ParticipantRegistration> participantRegistrations) {
+//		this.participantRegistrations = participantRegistrations;
+//	}
 
 	public Long getId() {
 		return id;
@@ -57,7 +59,7 @@ public class CompanyRegistration {
 		this.entreprise = entreprise;
 		this.programinstance = programinstance;
 		this.registrationDate = registrationDate;
-		this.participantRegistrations = participantRegistrations;
+		//this.participantRegistrations = participantRegistrations;
 	}
 
 	public CompanyRegistration() {

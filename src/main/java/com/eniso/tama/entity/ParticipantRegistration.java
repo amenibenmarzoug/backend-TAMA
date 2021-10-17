@@ -26,7 +26,13 @@ public class ParticipantRegistration {
 	@JoinColumn(name = "programinstance_id")
 	ProgramInstance programinstance;
 	
+	@ManyToOne
+	@JoinColumn(name = "companyRegistration_id")
+	CompanyRegistration companyRegistration;
+	
 	private LocalDate registrationDate;
+	
+	
 
 	public Long getId() {
 		return id;
@@ -62,6 +68,16 @@ public class ParticipantRegistration {
 
 	public ParticipantRegistration() {
 		super();
+	}
+	
+	
+
+	public CompanyRegistration getCompanyRegistration() {
+		return companyRegistration;
+	}
+
+	public void setCompanyRegistration(CompanyRegistration companyRegistration) {
+		this.companyRegistration = companyRegistration;
 	}
 
 	public ParticipantRegistration(Long id, Participant participant, ProgramInstance programinstance,

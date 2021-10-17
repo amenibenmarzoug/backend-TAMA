@@ -41,7 +41,7 @@ public class Entreprise extends User {
    // @ManyToOne
     //@JsonIgnore
     //private ProgramInstance programInstance;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "entreprise")
     private List<CompanyRegistration> registrations; 
 
     
