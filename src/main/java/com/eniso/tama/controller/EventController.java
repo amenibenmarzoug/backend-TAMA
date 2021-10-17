@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.entity.Event;
 import com.eniso.tama.service.EventService;
 
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @ComponentScan(basePackageClasses = EventService.class )
 @RequestMapping(value="/api")

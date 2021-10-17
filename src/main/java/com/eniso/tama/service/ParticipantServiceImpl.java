@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.eniso.tama.entity.Participant;
+import com.eniso.tama.entity.ProgramInstance;
+import com.eniso.tama.entity.Session;
 import com.eniso.tama.entity.Status;
 import com.eniso.tama.repository.ParticipantRepository;
+import com.eniso.tama.repository.ProgramInstanceRepository;
 
 
 @Service
@@ -24,6 +27,7 @@ public class ParticipantServiceImpl implements  ParticipantService {
 
 
 		private ParticipantRepository participantRepository;
+		private ProgramInstanceRepository programInstanceRepository ; 
 
 		
 		@Autowired
@@ -105,6 +109,35 @@ public class ParticipantServiceImpl implements  ParticipantService {
 			participantRepository.deleteById(theId);
 		}
 
+		//get Confirmed Participants by ProgramInst
+		@Override
+		public List<Participant> findParticipantsByClass(long programInstId) {
+			/*
+			Optional<ProgramInstance> result = programInstanceRepository.findById(programInstId);
+			
+			List<Participant> participants ; 
+			ProgramInstance programInst ; 
+			if (result.isPresent()) {
+				programInst=result.get();
+			} else {
+				// we didn't find the programInst
+				throw new RuntimeException("Did not find class with Id  - " + programInstId);
+			}
+			*/
+			List<Long> partcipantsIdsList = participantRepository.findConfirmedParticipantsByClass(programInstId);
+			List<Participant> participants = new ArrayList<>() ; 
+			for (long ParticipantID :  partcipantsIdsList ) {
+				Optional<Participant> theP = participantRepository.findById(ParticipantID);
+				if(theP.isPresent()){
+					participants.add(theP.get());
+
+				}
+			}
+			return participants ; 
+			
+		}
+
+	
 		@Override
 		public List<Participant> getParticipantPerClass(long id) {
 			List<Participant> participantsPerClasse = new ArrayList<Participant>();
@@ -116,5 +149,13 @@ public class ParticipantServiceImpl implements  ParticipantService {
 			}
 			return participantsPerClasse;
 		}
+
+		@Override
+		public float percentMascPart() {
+			
+			return participantRepository.getMaleParticipants();
+		}
 	
+		
+		
 }

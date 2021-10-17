@@ -54,7 +54,20 @@ public class ProgramInstanceController {
 
 		return theProgram;
 	}
+	
+	@GetMapping("programsInst/{location}/{validated}")
+	public List<ProgramInstance> findClassesByLocationAndValidated(@PathVariable String location, @PathVariable boolean validated) {
+
+		List<ProgramInstance> thePrograms = programInstService.findByLocationAndValidated(location, validated);
+
+		if (thePrograms == null) {
+			throw new RuntimeException("No confirmed classes found in this location :  " + location);
+		}
+
+		return thePrograms;
+	}
 	// add mapping for POST /participants - add new control
+	
 
 
 

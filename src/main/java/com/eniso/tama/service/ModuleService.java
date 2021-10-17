@@ -16,6 +16,8 @@ public interface ModuleService {
 
 	public List<Module> findModulesByThemeId(long id);
 	
+	public List<String> getModulesNames();
+	
 	public Module updateModule(Module theModule) ;
 	
 }

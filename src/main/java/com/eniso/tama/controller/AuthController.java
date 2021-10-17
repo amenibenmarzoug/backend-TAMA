@@ -1,13 +1,13 @@
 package com.eniso.tama.controller;
 
-import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.configuration.jwt.JwtUtils;
+import com.eniso.tama.entity.CompanyRegistration;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Institution;
 import com.eniso.tama.entity.Participant;
@@ -44,11 +45,11 @@ import com.eniso.tama.payload.SignupRequestTrainer;
 import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.InstitutionRepository;
 import com.eniso.tama.repository.ParticipantRepository;
+import com.eniso.tama.repository.CompanyRegistrationRepository;
 import com.eniso.tama.repository.RoleRepository;
 import com.eniso.tama.repository.TrainerRepository;
 import com.eniso.tama.repository.UserRepository;
 import com.eniso.tama.service.EntrepriseService;
-import com.eniso.tama.service.MailServiceImpl;
 import com.eniso.tama.service.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -56,6 +57,7 @@ import com.eniso.tama.service.UserDetailsImpl;
 @RequestMapping("/api/auth")
 @Validated
 public class AuthController {
+
 	@Autowired
 	AuthenticationManager authenticationManager;
 
@@ -83,6 +85,9 @@ public class AuthController {
 	EntrepriseService entrepriseService;
 	@Autowired
 	JwtUtils jwtUtils;
+
+	@Autowired
+	private CompanyRegistrationRepository registrationRepository;
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -120,24 +125,23 @@ public class AuthController {
 		}
 	}
 
+	@PostMapping("/signup")
+	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestTrainer signupRequestTrainer) {
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestTrainer signupRequestTrainer) {
+		if (trainerRepository.existsByEmail(signupRequestTrainer.getEmail())) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+		}
 
-        if (trainerRepository.existsByEmail(signupRequestTrainer.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-        }
+		// Create new user's account
+		Role roleTrainer = new Role();
 
-        // Create new user's account
-        Role roleTrainer = new Role();
-
-        Trainer trainer = new Trainer(signupRequestTrainer.getEmail(),
-                encoder.encode(signupRequestTrainer.getPassword()),
-                signupRequestTrainer.getStreet(), signupRequestTrainer.getCity(), signupRequestTrainer.getPostalCode(),
-                signupRequestTrainer.getPhoneNumber(), null, signupRequestTrainer.getFirstName(),
-                signupRequestTrainer.getLastName(), signupRequestTrainer.getGender(),
-                signupRequestTrainer.getDisponibilityDays(), signupRequestTrainer.getSpecifications());
-        trainer.setValidated(false);
+		Trainer trainer = new Trainer(signupRequestTrainer.getEmail(),
+				encoder.encode(signupRequestTrainer.getPassword()), signupRequestTrainer.getStreet(),
+				signupRequestTrainer.getCity(), signupRequestTrainer.getPostalCode(),
+				signupRequestTrainer.getPhoneNumber(), null, signupRequestTrainer.getFirstName(),
+				signupRequestTrainer.getLastName(), signupRequestTrainer.getGender(),
+				signupRequestTrainer.getDisponibilityDays(), signupRequestTrainer.getSpecifications());
+		trainer.setValidated(false);
 
 //		User user = new User(signupRequestTrainer.getEmail(),
 //				 encoder.encode(signupRequestTrainer.getPassword()),
@@ -224,7 +228,9 @@ public class AuthController {
 		}
 
 		// Create new user's account
-
+		CompanyRegistration registration = new CompanyRegistration();
+		List<CompanyRegistration> entrepRegistration= new ArrayList<>();
+		LocalDate now = LocalDate.now();
 		Entreprise enterprise = new Entreprise(signupRequestEnterprise.getEmail(),
 				encoder.encode(signupRequestEnterprise.getPassword()),
 				// signupRequestEnterprise.getAddress(),
@@ -234,9 +240,14 @@ public class AuthController {
 				signupRequestEnterprise.getPhoneNumber(), null, signupRequestEnterprise.getEnterpriseName(),
 				signupRequestEnterprise.getWebsite(), signupRequestEnterprise.getManagerFirstName(),
 				signupRequestEnterprise.getManagerLastName(), signupRequestEnterprise.getManagerPosition(),
-				signupRequestEnterprise.getNbMinParticipants(),signupRequestEnterprise.isProvider());
+				signupRequestEnterprise.getNbMinParticipants(), signupRequestEnterprise.isProvider());
 
-		enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
+		// enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
+		registration.setEntreprise(enterprise);
+		registration.setPrograminstance(signupRequestEnterprise.getProgramInstance());
+		registration.setRegistrationDate(now);
+		entrepRegistration.add(registration);
+		enterprise.setRegistration(entrepRegistration);
 		System.out.println(enterprise.isProvider());
 		enterprise.setValidated(false);
 
@@ -248,67 +259,71 @@ public class AuthController {
 //				 signupRequestEnterprise.getPhoneNumber(),null);
 //		
 //		
-        Set<String> strRoles = signupRequestEnterprise.getRole();
+		Set<String> strRoles = signupRequestEnterprise.getRole();
 
-        Set<Role> roles = new HashSet<>();
+		Set<Role> roles = new HashSet<>();
 
-        Role modRole = roleRepository.findByRole(Roles.ENTREPRISE)
-                .orElseThrow(() -> new RuntimeException("Error: Role ENTREPRISE is not found."));
-        roles.add(modRole);
+		Role modRole = roleRepository.findByRole(Roles.ENTREPRISE)
+				.orElseThrow(() -> new RuntimeException("Error: Role ENTREPRISE is not found."));
+		roles.add(modRole);
 
-        enterprise.setRoles(roles);
+		enterprise.setRoles(roles);
 
-        enterpriseRepository.save(enterprise);
-       /* try {
-            mailService.sendmail(enterprise.getEmail());
-        } catch (AddressException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }*/
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-    }
+		enterpriseRepository.save(enterprise);
+		registrationRepository.save(registration);
+		
+		/*
+		 * try { mailService.sendmail(enterprise.getEmail()); } catch (AddressException
+		 * e) { // TODO Auto-generated catch block e.printStackTrace(); } catch
+		 * (MessagingException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); } catch (IOException e) { // TODO Auto-generated catch
+		 * block e.printStackTrace(); }
+		 */
+		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
 
+	@PostMapping("/signupParticipant")
+	public ResponseEntity<?> ji(@Valid @RequestBody SignupRequestParticipant signupRequestParticipant) {
 
-    @PostMapping("/signupParticipant")
-    public ResponseEntity<?> ji(@Valid @RequestBody SignupRequestParticipant signupRequestParticipant) {
+		if (participantRepository.existsByEmail(signupRequestParticipant.getEmail())) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+		}
 
-        if (participantRepository.existsByEmail(signupRequestParticipant.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-        }
+		// Create new user's account
 
-        // Create new user's account
-
-
-        Participant participant = new Participant(signupRequestParticipant.getEmail(),
-                encoder.encode(signupRequestParticipant.getPassword()),
-                signupRequestParticipant.getStreet(),
-                signupRequestParticipant.getCity(), signupRequestParticipant.getPostalCode(),
-                signupRequestParticipant.getPhoneNumber(), null, signupRequestParticipant.getFirstName(),
-                signupRequestParticipant.getLastName(), signupRequestParticipant.getGender(),
-                signupRequestParticipant.getBirthday());
-        participant.setValidated(false);
+		Participant participant = new Participant(signupRequestParticipant.getEmail(),
+				encoder.encode(signupRequestParticipant.getPassword()), signupRequestParticipant.getStreet(),
+				signupRequestParticipant.getCity(), signupRequestParticipant.getPostalCode(),
+				signupRequestParticipant.getPhoneNumber(), null, signupRequestParticipant.getFirstName(),
+				signupRequestParticipant.getLastName(), signupRequestParticipant.getGender(),
+				signupRequestParticipant.getBirthday());
+		participant.setValidated(false);
 		participant.setStatus(Status.WAITING);
 
-        Set<String> strRoles = signupRequestParticipant.getRole();
+		participant.setEducationLevel(signupRequestParticipant.getEducationLevel());
+		participant.setLevel(signupRequestParticipant.getLevel());
+		participant.setCurrentPosition(signupRequestParticipant.getCurrentPosition());
+		participant.setExperience(signupRequestParticipant.getExperience());
+//		User user = new User(signupRequestParticipant.getEmail(),
+//				 encoder.encode(signupRequestParticipant.getPassword()),
+//				 signupRequestParticipant.getStreet(),
+//				 signupRequestParticipant.getCity(),
+//				 signupRequestParticipant.getPostalCode(),
+//				 signupRequestParticipant.getPhoneNumber(),null);
 
-        Set<Role> roles = new HashSet<>();
+		Set<String> strRoles = signupRequestParticipant.getRole();
 
-        Role modRole = roleRepository.findByRole(Roles.PARTICIPANT)
-                .orElseThrow(() -> new RuntimeException("Error: Role PARTICIPANT is not found."));
-        roles.add(modRole);
+		Set<Role> roles = new HashSet<>();
 
-        participant.setRoles(roles);
+		Role modRole = roleRepository.findByRole(Roles.PARTICIPANT)
+				.orElseThrow(() -> new RuntimeException("Error: Role PARTICIPANT is not found."));
+		roles.add(modRole);
 
-        participantRepository.save(participant);
+		participant.setRoles(roles);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-    }
+		participantRepository.save(participant);
 
+		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
 
 }

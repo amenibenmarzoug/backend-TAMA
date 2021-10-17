@@ -90,11 +90,7 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 
 		return theProgramInstance;
 	}
-	
-	@Override
-	public List<ProgramInstance> findByBeginDate(Date date){
-		return programInstanceRepository.findByBeginDate(date); 
-	}
+
 
 	@Override
 	public ProgramInstance save(ProgramInstance theProgramInstance) {
@@ -222,16 +218,28 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		programInstanceRepository.save(theProgramInstance);
 		return theProgramInstance;
 	}
+	
+	
+	@Override
+	public List<ProgramInstance> findByLocationAndValidated(String location, boolean validated) {
+		// TODO Auto-generated method stub
+		return programInstanceRepository.findProgramInstByLocationAndValidated(location, validated);
+	}
+	
+
 	@Scheduled(cron = "0 0 9 * * *")
+	//@Scheduled(fixedRate = 60000)
 	public void LaunchAlert() throws AddressException, MessagingException, IOException {
 		List<ProgramInstance> classes = findAll();
 		LocalDate now = LocalDate.now();
 		LocalDate next4Week = now.plus(4, ChronoUnit.WEEKS);
+		System.out.println(next4Week);
 		
 
 		for (ProgramInstance c : classes) {
 			if ((next4Week == c.getBeginDate().toLocalDate()) && (participantService.getParticipantPerClass(c.getId()).size()<c.getNbMinParticipants())) {
 				mailService.sendmailAlert(c.getId());
+				System.out.println(c.getProgramInstName());
 			}
 			
 		}

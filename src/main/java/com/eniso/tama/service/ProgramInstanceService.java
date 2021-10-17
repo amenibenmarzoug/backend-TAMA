@@ -13,9 +13,6 @@ public interface ProgramInstanceService {
 
 	public List<ProgramInstance> findByProgramId(long id);
 
-	
-	public List<ProgramInstance> findByBeginDate(Date date);
-	
 	public ProgramInstance save(ProgramInstance theProgramInstance);
 	
 	
@@ -32,5 +29,7 @@ public interface ProgramInstanceService {
 	public ProgramInstance addClass(ProgramInstance programInst);
 
 	public ProgramInstance updateProgramInst(ProgramInstance programInst);
+	
+	public List<ProgramInstance> findByLocationAndValidated(String location , boolean validated);
 
 }

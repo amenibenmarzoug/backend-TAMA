@@ -11,19 +11,13 @@ public interface SessionService {
 
 
 	public List<Session> findAll();
-	
-	//public List<Session> findAllByCourseId(long id);
-	
-	public Session findById(long theId);
-	
-	public List<Session> findBySessionBeginDate(Date sessionBeginDate);
-	public List<Session> findBySessionBeginDateBetween(Date dateStart, Date dateEnd);
-	
-	public List<Session>findByTrainer (Trainer trainer);
-	
-	public ProgramInstance findProgramInstance (long sessionid); 
-	
-	public Session save(Session courseSession);
-	
-	public void deleteById(long id);
+
+    //public List<Session> findAllByCourseId(long id);
+
+    public Session findById(long theId);
+    public List<Session> findByTrainerId (long trainerId);
+    public ProgramInstance getProgramInstance (long sessionId);
+    public Session save(Session courseSession);
+
+    public void deleteById(long id);
 }

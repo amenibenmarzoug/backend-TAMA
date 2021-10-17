@@ -10,6 +10,8 @@ public interface ProgramService {
 	public Program findById(long theId);
 
 	public void save(Program theProgram);
+	
+	public void saveSpecificProgram(Program theProgram);
 
 	public void deleteById(long theId);
 	

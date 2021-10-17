@@ -15,6 +15,7 @@ import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Session;
 import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.repository.SessionRepository;
+import com.eniso.tama.repository.TrainerRepository;
 
 
 @Service
@@ -22,6 +23,10 @@ import com.eniso.tama.repository.SessionRepository;
 public class SessionServiceImpl implements SessionService {
     @Autowired
     private SessionRepository sessionRepository;
+    @Autowired 
+    private TrainerService trainerService ; 
+    @Autowired
+    private TrainerRepository trainerRepository;
 
     public SessionServiceImpl() {
     }
@@ -70,35 +75,38 @@ public class SessionServiceImpl implements SessionService {
 
 
 	@Override
-	public List<Session> findBySessionBeginDate(Date sessionBeginDate){
-		System.out.println(sessionBeginDate); 
-		System.out.println(sessionRepository.findBySessionBeginDate(sessionBeginDate));
-		try {
-			System.out.println(sessionRepository.findBySessionBeginDate(new SimpleDateFormat("yyyy-MM-dd").parse("2021-05-21")));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return sessionRepository.findBySessionBeginDate(sessionBeginDate);
-	}
-	@Override
-	public List<Session> findBySessionBeginDateBetween(Date dateStart, Date dateEnd){
-		return sessionRepository.findBySessionBeginDateBetween(dateStart, dateEnd);
-	}
+	public List<Session> findByTrainerId(long trainerId) {
+		Trainer trainer=trainerService.findById(trainerId);
+		/*
+		if (result.isPresent()) {
+			trainer=result.get();
 
-
-	@Override
-	public List<Session> findByTrainer(Trainer trainer) {
-
+		} else {
+			// we didn't find the trainer
+			throw new RuntimeException("Did not find trainer with ID  - " + trainerId);
+		}*/
+		// TODO Auto-generated method stub
 		return sessionRepository.findByTrainer(trainer);
+		
 	}
-	@Override
-	public ProgramInstance findProgramInstance(long sessionId  ) {
-		ProgramInstance programInstance; 
-		Session session = findById(sessionId);
-		programInstance=session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance(); 
 
-		return programInstance;
+
+	@Override
+	public ProgramInstance getProgramInstance(long sessionId) {
+		Optional<Session> result=sessionRepository.findById(sessionId);
+		Session session ;
+		ProgramInstance programInst ; 
+		if (result.isPresent()) {
+			session=result.get();
+
+		} else {
+			// we didn't find the trainer
+			throw new RuntimeException("Did not find session with ID  - " + sessionId);
+		}
+		// TODO Auto-generated method stub
+		return session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance();
+		// TODO Auto-generated method stub
+		
 	}
 
 
