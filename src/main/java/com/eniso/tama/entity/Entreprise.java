@@ -15,7 +15,6 @@ import javax.validation.constraints.Size;
 public class Entreprise extends User {
 
 
-    //@NotNull
     @Column
     private String enterpriseName;
 
@@ -24,7 +23,6 @@ public class Entreprise extends User {
 
     @Column
     private String managerLastName;
-
 
     @Column
     private String managerPosition;
@@ -38,9 +36,6 @@ public class Entreprise extends User {
     @Column
     private boolean provider=false;
 
-   // @ManyToOne
-    //@JsonIgnore
-    //private ProgramInstance programInstance;
     @OneToMany
     private List<CompanyRegistration> registrations; 
 
@@ -61,7 +56,6 @@ public class Entreprise extends User {
                       String enterpriseName, String website, String managerFirstName, String managerLastName, String managerPosition, int nbParticip, boolean provider) {
         super.setEmail(email);
         super.setPassword(password);
-        //super.setAddress(address);
         super.setStreet(street);
         super.setCity(city);
         super.setPostalCode(postalCode);
@@ -77,7 +71,6 @@ public class Entreprise extends User {
     }
 
  
-
     public String getEnterpriseName() {
         return enterpriseName;
     }
@@ -141,6 +134,69 @@ public class Entreprise extends User {
 	public void setRegistration(List<CompanyRegistration> registrations) {
 		this.registrations = registrations;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((enterpriseName == null) ? 0 : enterpriseName.hashCode());
+		result = prime * result + ((managerFirstName == null) ? 0 : managerFirstName.hashCode());
+		result = prime * result + ((managerLastName == null) ? 0 : managerLastName.hashCode());
+		result = prime * result + ((managerPosition == null) ? 0 : managerPosition.hashCode());
+		result = prime * result + nbMinParticipants;
+		result = prime * result + (provider ? 1231 : 1237);
+		result = prime * result + ((registrations == null) ? 0 : registrations.hashCode());
+		result = prime * result + ((website == null) ? 0 : website.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Entreprise other = (Entreprise) obj;
+		if (enterpriseName == null) {
+			if (other.enterpriseName != null)
+				return false;
+		} else if (!enterpriseName.equals(other.enterpriseName))
+			return false;
+		if (managerFirstName == null) {
+			if (other.managerFirstName != null)
+				return false;
+		} else if (!managerFirstName.equals(other.managerFirstName))
+			return false;
+		if (managerLastName == null) {
+			if (other.managerLastName != null)
+				return false;
+		} else if (!managerLastName.equals(other.managerLastName))
+			return false;
+		if (managerPosition == null) {
+			if (other.managerPosition != null)
+				return false;
+		} else if (!managerPosition.equals(other.managerPosition))
+			return false;
+		if (nbMinParticipants != other.nbMinParticipants)
+			return false;
+		if (provider != other.provider)
+			return false;
+		if (registrations == null) {
+			if (other.registrations != null)
+				return false;
+		} else if (!registrations.equals(other.registrations))
+			return false;
+		if (website == null) {
+			if (other.website != null)
+				return false;
+		} else if (!website.equals(other.website))
+			return false;
+		return true;
+	}
+	
+	
 	
 
 }

@@ -14,20 +14,23 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Inheritance(strategy = InheritanceType.JOINED)
 @Entity
-//@MappedSuperclass
 public class User {
+	
     @Id
     @Column(name = "user_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     // this variable is for validating the accounts
     // @NotNull
     @Column
     private Boolean validated = false;
+    
     @NotNull
     @Column
     @Email(message = "{errors.invalid_email}")
     private String email;
+    
     @NotNull
     @Column( insertable = true, updatable = true, nullable = false)
     // @Size(min=8, max=40)
@@ -54,6 +57,7 @@ public class User {
     @Column
     @JsonIgnore
     private Instant lastModifiedDate = Instant.now();
+    
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
@@ -78,14 +82,6 @@ public class User {
         this.email = email;
         this.password = password;
         this.validated = false;
-    }
-
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", validated=" + validated + ", email=" + email + ", password=" + password
-                + ", street=" + street + ", city=" + city + ", postalCode=" + postalCode + ", phoneNumber="
-                + phoneNumber + ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + ", roles="
-                + roles + "]";
     }
 
     public Boolean isValidated() {
@@ -174,6 +170,100 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+    
+    
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((createdDate == null) ? 0 : createdDate.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((lastModifiedDate == null) ? 0 : lastModifiedDate.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
+		result = prime * result + ((postalCode == null) ? 0 : postalCode.hashCode());
+		result = prime * result + ((roles == null) ? 0 : roles.hashCode());
+		result = prime * result + ((street == null) ? 0 : street.hashCode());
+		result = prime * result + ((validated == null) ? 0 : validated.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city))
+			return false;
+		if (createdDate == null) {
+			if (other.createdDate != null)
+				return false;
+		} else if (!createdDate.equals(other.createdDate))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (lastModifiedDate == null) {
+			if (other.lastModifiedDate != null)
+				return false;
+		} else if (!lastModifiedDate.equals(other.lastModifiedDate))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (phoneNumber == null) {
+			if (other.phoneNumber != null)
+				return false;
+		} else if (!phoneNumber.equals(other.phoneNumber))
+			return false;
+		if (postalCode == null) {
+			if (other.postalCode != null)
+				return false;
+		} else if (!postalCode.equals(other.postalCode))
+			return false;
+		if (roles == null) {
+			if (other.roles != null)
+				return false;
+		} else if (!roles.equals(other.roles))
+			return false;
+		if (street == null) {
+			if (other.street != null)
+				return false;
+		} else if (!street.equals(other.street))
+			return false;
+		if (validated == null) {
+			if (other.validated != null)
+				return false;
+		} else if (!validated.equals(other.validated))
+			return false;
+		return true;
+	}
+
+	@Override
+    public String toString() {
+        return "User [id=" + id + ", validated=" + validated + ", email=" + email + ", password=" + password
+                + ", street=" + street + ", city=" + city + ", postalCode=" + postalCode + ", phoneNumber="
+                + phoneNumber + ", createdDate=" + createdDate + ", lastModifiedDate=" + lastModifiedDate + ", roles="
+                + roles + "]";
     }
 
 }

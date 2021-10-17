@@ -9,22 +9,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Event {
+	
     @Id
     @Column(name = "event_id", updatable = false, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    //@NotNull
-
 
     @Column
     private String title;
@@ -54,9 +47,6 @@ public class Event {
     @Column(columnDefinition = "boolean default true")
     private boolean draggable;
 
-
-
-    //@JsonIgnore
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "session_id", referencedColumnName = "session_id")
@@ -111,43 +101,29 @@ public class Event {
         return resizeafterEnd;
     }
 
-
-
-
-
-
-
-
-
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-
     public void setStart(Date start) {
         this.start = start;
     }
-
 
     public void setEnd(Date end) {
         this.end = end;
     }
 
-
     public void setColorPrimary(String colorPrimary) {
         this.colorPrimary = colorPrimary;
     }
 
-
     public void setColorSecondary(String colorSecondary) {
         this.colorSecondary = colorSecondary;
     }
-
 
     public void setResizebeforeStart(boolean resizebeforeStart) {
         this.resizebeforeStart = resizebeforeStart;
@@ -158,15 +134,90 @@ public class Event {
         this.resizeafterEnd = resizeafterEnd;
     }
 
-
     public boolean isFreeDay() {
         return freeDay;
     }
 
-
     public void setFreeDay(boolean freeDay) {
         this.freeDay = freeDay;
     }
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((colorPrimary == null) ? 0 : colorPrimary.hashCode());
+		result = prime * result + ((colorSecondary == null) ? 0 : colorSecondary.hashCode());
+		result = prime * result + (draggable ? 1231 : 1237);
+		result = prime * result + ((end == null) ? 0 : end.hashCode());
+		result = prime * result + (freeDay ? 1231 : 1237);
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + (resizeafterEnd ? 1231 : 1237);
+		result = prime * result + (resizebeforeStart ? 1231 : 1237);
+		result = prime * result + ((session == null) ? 0 : session.hashCode());
+		result = prime * result + ((start == null) ? 0 : start.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Event other = (Event) obj;
+		if (colorPrimary == null) {
+			if (other.colorPrimary != null)
+				return false;
+		} else if (!colorPrimary.equals(other.colorPrimary))
+			return false;
+		if (colorSecondary == null) {
+			if (other.colorSecondary != null)
+				return false;
+		} else if (!colorSecondary.equals(other.colorSecondary))
+			return false;
+		if (draggable != other.draggable)
+			return false;
+		if (end == null) {
+			if (other.end != null)
+				return false;
+		} else if (!end.equals(other.end))
+			return false;
+		if (freeDay != other.freeDay)
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (resizeafterEnd != other.resizeafterEnd)
+			return false;
+		if (resizebeforeStart != other.resizebeforeStart)
+			return false;
+		if (session == null) {
+			if (other.session != null)
+				return false;
+		} else if (!session.equals(other.session))
+			return false;
+		if (start == null) {
+			if (other.start != null)
+				return false;
+		} else if (!start.equals(other.start))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
+	}
+    
+    
 
 
 

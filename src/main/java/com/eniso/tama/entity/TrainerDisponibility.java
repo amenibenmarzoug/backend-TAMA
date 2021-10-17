@@ -22,10 +22,6 @@ public class TrainerDisponibility {
     @JoinColumn(name = "trainer_id")
     Trainer trainer;
 
-	/*@ManyToOne
-	@JoinColumn(name = "courseSession_id")
-	Session courseSession;*/
-
     @Column
     boolean disponibility;
 
@@ -44,13 +40,6 @@ public class TrainerDisponibility {
         return trainer;
     }
 
-	/*public Session getCourseSession() {
-		return courseSession;
-	}
-
-	public void setCourseSession(Session courseSession) {
-		this.courseSession = courseSession;
-	}*/
 
     public void setTrainer(Trainer trainer) {
         this.trainer = trainer;
@@ -63,4 +52,40 @@ public class TrainerDisponibility {
     public void setDisponibility(boolean disponibility) {
         this.disponibility = disponibility;
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (disponibility ? 1231 : 1237);
+		result = prime * result + ((idTrainerDisponibility == null) ? 0 : idTrainerDisponibility.hashCode());
+		result = prime * result + ((trainer == null) ? 0 : trainer.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TrainerDisponibility other = (TrainerDisponibility) obj;
+		if (disponibility != other.disponibility)
+			return false;
+		if (idTrainerDisponibility == null) {
+			if (other.idTrainerDisponibility != null)
+				return false;
+		} else if (!idTrainerDisponibility.equals(other.idTrainerDisponibility))
+			return false;
+		if (trainer == null) {
+			if (other.trainer != null)
+				return false;
+		} else if (!trainer.equals(other.trainer))
+			return false;
+		return true;
+	}
+    
+    
 }

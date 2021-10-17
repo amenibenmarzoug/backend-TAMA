@@ -27,6 +27,19 @@ public class ParticipantRegistration {
 	ProgramInstance programinstance;
 	
 	private LocalDate registrationDate;
+	
+	public ParticipantRegistration() {
+		super();
+	}
+
+	public ParticipantRegistration(Long id, Participant participant, ProgramInstance programinstance,
+			LocalDate registrationDate) {
+		super();
+		this.id = id;
+		this.participant = participant;
+		this.programinstance = programinstance;
+		this.registrationDate = registrationDate;
+	}
 
 	public Long getId() {
 		return id;
@@ -60,18 +73,6 @@ public class ParticipantRegistration {
 		this.registrationDate = registrationDate;
 	}
 
-	public ParticipantRegistration() {
-		super();
-	}
-
-	public ParticipantRegistration(Long id, Participant participant, ProgramInstance programinstance,
-			LocalDate registrationDate) {
-		super();
-		this.id = id;
-		this.participant = participant;
-		this.programinstance = programinstance;
-		this.registrationDate = registrationDate;
-	}
 
 	@Override
 	public int hashCode() {

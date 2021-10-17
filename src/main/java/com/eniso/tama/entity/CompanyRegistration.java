@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class CompanyRegistration {
+	
 	@Id
 	@Column(name = "registration_id", updatable = false, nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,6 +33,17 @@ public class CompanyRegistration {
 	@OneToMany
 	private List<ParticipantRegistration> participantRegistrations;
 	
+	
+	public CompanyRegistration(Long id, Entreprise entreprise, ProgramInstance programinstance,
+			LocalDate registrationDate, List<ParticipantRegistration> participantRegistrations) {
+		super();
+		this.id = id;
+		this.entreprise = entreprise;
+		this.programinstance = programinstance;
+		this.registrationDate = registrationDate;
+		this.participantRegistrations = participantRegistrations;
+	}
+	
 
 	public List<ParticipantRegistration> getParticipantRegistrations() {
 		return participantRegistrations;
@@ -49,26 +61,34 @@ public class CompanyRegistration {
 		this.id = id;
 	}
 
-
-	public CompanyRegistration(Long id, Entreprise entreprise, ProgramInstance programinstance,
-			LocalDate registrationDate, List<ParticipantRegistration> participantRegistrations) {
-		super();
-		this.id = id;
-		this.entreprise = entreprise;
-		this.programinstance = programinstance;
-		this.registrationDate = registrationDate;
-		this.participantRegistrations = participantRegistrations;
-	}
-
 	public CompanyRegistration() {
 		super();
 	}
 
-	@Override
-	public String toString() {
-		return "CompanyRegistration [id=" + id + ", entreprise=" + entreprise + ", programinstance=" + programinstance
-				+ ", registrationDate=" + registrationDate + "]";
+	public Entreprise getEntreprise() {
+		return entreprise;
 	}
+
+	public void setEntreprise(Entreprise entreprise) {
+		this.entreprise = entreprise;
+	}
+
+	public ProgramInstance getPrograminstance() {
+		return programinstance;
+	}
+
+	public void setPrograminstance(ProgramInstance programinstance) {
+		this.programinstance = programinstance;
+	}
+
+	public LocalDate getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(LocalDate now) {
+		this.registrationDate = now;
+	}
+	
 
 	@Override
 	public int hashCode() {
@@ -112,30 +132,12 @@ public class CompanyRegistration {
 			return false;
 		return true;
 	}
-
-	public Entreprise getEntreprise() {
-		return entreprise;
-	}
-
-	public void setEntreprise(Entreprise entreprise) {
-		this.entreprise = entreprise;
-	}
-
-	public ProgramInstance getPrograminstance() {
-		return programinstance;
-	}
-
-	public void setPrograminstance(ProgramInstance programinstance) {
-		this.programinstance = programinstance;
-	}
-
-	public LocalDate getRegistrationDate() {
-		return registrationDate;
-	}
-
-	public void setRegistrationDate(LocalDate now) {
-		this.registrationDate = now;
-	}
 	
+
+	@Override
+	public String toString() {
+		return "CompanyRegistration [id=" + id + ", entreprise=" + entreprise + ", programinstance=" + programinstance
+				+ ", registrationDate=" + registrationDate + "]";
+	}
 
 }

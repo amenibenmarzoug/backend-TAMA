@@ -39,36 +39,16 @@ public class Participant extends User{
     @Column
     private String currentPosition;
 
-
     @NotNull
     @Column
     private int experience;
     
-    @Formula(value="YEAR(CURDATE()) - YEAR(BIRTHDAY)")
-    private int age;
-
-    public int getExperience() {
-        return experience;
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
-    }
-
     @Column
     private String level;
 
     @Column
     private String educationLevel;
-
-    public String getEducationLevel() {
-        return educationLevel;
-    }
-
-    public void setEducationLevel(String educationLevel) {
-        this.educationLevel = educationLevel;
-    }
-
+    
     @NotNull
     @Column
     private boolean abandon;
@@ -84,58 +64,24 @@ public class Participant extends User{
     
     @Enumerated(EnumType.STRING)
 	private Status status;
-
-    public ProgramInstance getProgramInstance() {
-        return programInstance;
-    }
-
-    public void setProgramInstance(ProgramInstance programInstance) {
-        this.programInstance = programInstance;
-    }
-
-    public Entreprise getEntreprise() {
-        return entreprise;
-    }
-
-    public void setEntreprise(Entreprise entreprise) {
-        this.entreprise = entreprise;
-    }
-
-
+    
     @JsonIgnore
     @OneToMany(mappedBy = "participant")
     Set<Attendance> attendance;
 
-
-    public Set<Attendance> getAttendance() {
-        return attendance;
-    }
-
-    public void setSessionParticipant(Set<Attendance> attendance) {
-        this.attendance = attendance;
-    }
     
+    @Formula(value="YEAR(CURDATE()) - YEAR(BIRTHDAY)")
+    private int age;
     
-
-    public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public Participant() {
+    public Participant() {
 
     }
 
     public Participant(@NotBlank @Size(max = 50) @Email String email,
                        String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,
                        @NotBlank String lastName, @NotBlank String gender , LocalDate birthday) {
-        //this.setId(super.getId());
         super.setEmail(email);
         super.setPassword(password);
-        //super.setAddress(address);
         super.setStreet(street);
         super.setCity(city);
         super.setPostalCode(postalCode);
@@ -154,7 +100,6 @@ public class Participant extends User{
         this.setId(super.getId());
         super.setEmail(email);
         super.setPassword(password);
-        //super.setAddress(address);
         super.setStreet(street);
         super.setCity(city);
         super.setPostalCode(postalCode);
@@ -169,6 +114,56 @@ public class Participant extends User{
 
     }
     
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    
+    public String getEducationLevel() {
+        return educationLevel;
+    }
+
+    public void setEducationLevel(String educationLevel) {
+        this.educationLevel = educationLevel;
+    }
+
+
+    public ProgramInstance getProgramInstance() {
+        return programInstance;
+    }
+
+    public void setProgramInstance(ProgramInstance programInstance) {
+        this.programInstance = programInstance;
+    }
+
+    public Entreprise getEntreprise() {
+        return entreprise;
+    }
+
+    public void setEntreprise(Entreprise entreprise) {
+        this.entreprise = entreprise;
+    }
+
+    public Set<Attendance> getAttendance() {
+        return attendance;
+    }
+
+    public void setSessionParticipant(Set<Attendance> attendance) {
+        this.attendance = attendance;
+    }
+
+    public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
 
     public String getGender() {
         return gender;
@@ -210,7 +205,6 @@ public class Participant extends User{
         this.abandon = abandon;
     }
 
-
     public String getFirstNameP() {
         return firstNameP;
     }
@@ -227,8 +221,6 @@ public class Participant extends User{
         this.lastNameP = lastNameP;
     }
    
-
-
     public Status getStatus() {
 		return status;
 	}
@@ -237,7 +229,97 @@ public class Participant extends User{
 		this.status = status;
 
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (abandon ? 1231 : 1237);
+		result = prime * result + age;
+		result = prime * result + ((attendance == null) ? 0 : attendance.hashCode());
+		result = prime * result + ((birthday == null) ? 0 : birthday.hashCode());
+		result = prime * result + ((currentPosition == null) ? 0 : currentPosition.hashCode());
+		result = prime * result + ((educationLevel == null) ? 0 : educationLevel.hashCode());
+		result = prime * result + ((entreprise == null) ? 0 : entreprise.hashCode());
+		result = prime * result + experience;
+		result = prime * result + ((firstNameP == null) ? 0 : firstNameP.hashCode());
+		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
+		result = prime * result + ((lastNameP == null) ? 0 : lastNameP.hashCode());
+		result = prime * result + ((level == null) ? 0 : level.hashCode());
+		result = prime * result + ((programInstance == null) ? 0 : programInstance.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		return result;
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Participant other = (Participant) obj;
+		if (abandon != other.abandon)
+			return false;
+		if (age != other.age)
+			return false;
+		if (attendance == null) {
+			if (other.attendance != null)
+				return false;
+		} else if (!attendance.equals(other.attendance))
+			return false;
+		if (birthday == null) {
+			if (other.birthday != null)
+				return false;
+		} else if (!birthday.equals(other.birthday))
+			return false;
+		if (currentPosition == null) {
+			if (other.currentPosition != null)
+				return false;
+		} else if (!currentPosition.equals(other.currentPosition))
+			return false;
+		if (educationLevel == null) {
+			if (other.educationLevel != null)
+				return false;
+		} else if (!educationLevel.equals(other.educationLevel))
+			return false;
+		if (entreprise == null) {
+			if (other.entreprise != null)
+				return false;
+		} else if (!entreprise.equals(other.entreprise))
+			return false;
+		if (experience != other.experience)
+			return false;
+		if (firstNameP == null) {
+			if (other.firstNameP != null)
+				return false;
+		} else if (!firstNameP.equals(other.firstNameP))
+			return false;
+		if (gender == null) {
+			if (other.gender != null)
+				return false;
+		} else if (!gender.equals(other.gender))
+			return false;
+		if (lastNameP == null) {
+			if (other.lastNameP != null)
+				return false;
+		} else if (!lastNameP.equals(other.lastNameP))
+			return false;
+		if (level == null) {
+			if (other.level != null)
+				return false;
+		} else if (!level.equals(other.level))
+			return false;
+		if (programInstance == null) {
+			if (other.programInstance != null)
+				return false;
+		} else if (!programInstance.equals(other.programInstance))
+			return false;
+		if (status != other.status)
+			return false;
+		return true;
+	}
 
 	@Override
     public String toString() {

@@ -155,6 +155,84 @@ public class ProgramInstance {
 		Companyregistrations = companyregistrations;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((Companyregistrations == null) ? 0 : Companyregistrations.hashCode());
+		result = prime * result + ((beginDate == null) ? 0 : beginDate.hashCode());
+		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((location == null) ? 0 : location.hashCode());
+		result = prime * result + nbDaysProgInst;
+		result = prime * result + nbMinParticipants;
+		result = prime * result + ((place == null) ? 0 : place.hashCode());
+		result = prime * result + ((program == null) ? 0 : program.hashCode());
+		result = prime * result + ((programInstName == null) ? 0 : programInstName.hashCode());
+		result = prime * result + (validated ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProgramInstance other = (ProgramInstance) obj;
+		if (Companyregistrations == null) {
+			if (other.Companyregistrations != null)
+				return false;
+		} else if (!Companyregistrations.equals(other.Companyregistrations))
+			return false;
+		if (beginDate == null) {
+			if (other.beginDate != null)
+				return false;
+		} else if (!beginDate.equals(other.beginDate))
+			return false;
+		if (endDate == null) {
+			if (other.endDate != null)
+				return false;
+		} else if (!endDate.equals(other.endDate))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (location == null) {
+			if (other.location != null)
+				return false;
+		} else if (!location.equals(other.location))
+			return false;
+		if (nbDaysProgInst != other.nbDaysProgInst)
+			return false;
+		if (nbMinParticipants != other.nbMinParticipants)
+			return false;
+		if (place == null) {
+			if (other.place != null)
+				return false;
+		} else if (!place.equals(other.place))
+			return false;
+		if (program == null) {
+			if (other.program != null)
+				return false;
+		} else if (!program.equals(other.program))
+			return false;
+		if (programInstName == null) {
+			if (other.programInstName != null)
+				return false;
+		} else if (!programInstName.equals(other.programInstName))
+			return false;
+		if (validated != other.validated)
+			return false;
+		return true;
+	}
+	
+	
+
 	
 
 }
