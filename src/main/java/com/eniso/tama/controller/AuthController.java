@@ -249,6 +249,7 @@ public class AuthController {
 				signupRequestEnterprise.getManagerLastName(), signupRequestEnterprise.getManagerPosition(),
 				signupRequestEnterprise.getNbMinParticipants(), signupRequestEnterprise.isProvider());
 
+
 		System.out.println(enterprise.isProvider());
 		enterprise.setValidated(false);
 
@@ -286,6 +287,7 @@ public class AuthController {
 
 		////////////////
 
+
 		/*
 		 * try { mailService.sendmail(enterprise.getEmail()); } catch (AddressException
 		 * e) { // TODO Auto-generated catch block e.printStackTrace(); } catch
@@ -297,7 +299,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/signupParticipant")
-	public ResponseEntity<?> ji(@Valid @RequestBody SignupRequestParticipant signupRequestParticipant) {
+	public ResponseEntity<?> registerParticipant(@Valid @RequestBody SignupRequestParticipant signupRequestParticipant) {
 
 		if (participantRepository.existsByEmail(signupRequestParticipant.getEmail())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
@@ -320,6 +322,7 @@ public class AuthController {
 		participant.setLevel(signupRequestParticipant.getLevel());
 		participant.setCurrentPosition(signupRequestParticipant.getCurrentPosition());
 		participant.setExperience(signupRequestParticipant.getExperience());
+
 		for (ProgramInstance p : signupRequestParticipant.getProgramInstance()) {
 
 			if (p != null) {
@@ -352,6 +355,22 @@ public class AuthController {
 		participant.setRoles(roles);
 
 		participantRepository.save(participant);
+		
+		 for (ProgramInstance p : signupRequestParticipant.getProgramInstance()) {
+		    	
+		    	if(p!=null) {
+		    		ParticipantRegistration registration = new ParticipantRegistration();
+		    		registration.setParticipant(participant);
+		    		registration.setPrograminstance(p);
+		    		registration.setRegistrationDate(now);	
+		    		regPartRepository.save(registration);
+		    		partRegistration.add(registration);
+		    		//participant.setParticipantRegistrations(partRegistration);
+		    		
+		    		
+		    	}
+		    }
+		
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}

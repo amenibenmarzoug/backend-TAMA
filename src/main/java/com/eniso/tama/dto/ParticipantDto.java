@@ -66,7 +66,7 @@ public class ParticipantDto {
 
 	private Set<Role> roles = new HashSet<>();
 
-    private Set<ProgramInstance> classes;
+    private Set<ProgramInstance> programInstance;
 
 	public String getFirstNameP() {
 		return firstNameP;
@@ -237,14 +237,16 @@ public class ParticipantDto {
 	}
 	
 
-	public Set<ProgramInstance> getClasses() {
-		return classes;
+	
+	
+
+	public Set<ProgramInstance> getProgramInstance() {
+		return programInstance;
 	}
 
-	public void setClasses(Set<ProgramInstance> classes) {
-		this.classes = classes;
+	public void setProgramInstance(Set<ProgramInstance> programInstance) {
+		this.programInstance = programInstance;
 	}
-	
 
 	public String getPassword() {
 		return password;
@@ -286,7 +288,7 @@ public class ParticipantDto {
 		this.createdDate = createdDate;
 		this.lastModifiedDate = lastModifiedDate;
 		this.roles = roles;
-		this.classes = classes;
+		this.programInstance = classes;
 	}
 
 	public ParticipantDto() {

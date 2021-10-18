@@ -22,15 +22,18 @@ public class Participant extends User {
 	@Column
 	private String firstNameP;
 
+
+    
 	@NotNull
 	@Column
 	private String lastNameP;
+
 
 	@NotNull
 	@Column
 	private String gender;
 
-	@NotNull
+	//@NotNull
 	@Column
 	private LocalDate birthday;
 

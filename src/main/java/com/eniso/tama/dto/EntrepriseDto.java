@@ -32,7 +32,7 @@ public class EntrepriseDto {
 	    
 	    private boolean provider=false;
 
-	    private Set<ProgramInstance> classes;
+	    private Set<ProgramInstance> programInstance;
 
 	    private Boolean validated = false;
 	   
@@ -181,20 +181,23 @@ public class EntrepriseDto {
 			this.provider = provider;
 		}
 
-		public Set<ProgramInstance> getClasses() {
-			return classes;
-		}
-
-		public void setClasses(Set<ProgramInstance> classes) {
-			this.classes = classes;
-		}
-
+	
 		public Set<Role> getRoles() {
 			return roles;
 		}
 
 		public void setRoles(Set<Role> roles) {
 			this.roles = roles;
+		}
+
+		
+		
+		public Set<ProgramInstance> getProgramInstance() {
+			return programInstance;
+		}
+
+		public void setProgramInstance(Set<ProgramInstance> programInstance) {
+			this.programInstance = programInstance;
 		}
 
 		public EntrepriseDto(String enterpriseName, String managerFirstName, String managerLastName,
@@ -209,7 +212,7 @@ public class EntrepriseDto {
 			this.website = website;
 			this.nbMinParticipants = nbMinParticipants;
 			this.provider = provider;
-			this.classes = classes;
+			this.programInstance = classes;
 			this.validated = validated;
 			this.email = email;
 			this.street = street;

@@ -126,7 +126,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	public ResponseEntity<?> updateEntreprise(@RequestBody EntrepriseDto theEntreprise) {
 		
-		System.out.println(theEntreprise.getClasses());
+		System.out.println(theEntreprise.getProgramInstance().toString());
 		Entreprise newEntreprise = findById(theEntreprise.getId());
 		Entreprise verifEmailEntreprise = findByEmail(theEntreprise.getEmail());
 		System.out.println(verifEmailEntreprise);
@@ -153,7 +153,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 				save(newEntreprise);
 				
 				//List<CompanyRegistration> companyRegistartions= new ArrayList<>() ;
-				for (ProgramInstance p : theEntreprise.getClasses())
+				for (ProgramInstance p : theEntreprise.getProgramInstance())
 					 {
 
 					List<ProgramInstance> list1 = companyRegistrationService.findEntrepPrograms(newEntreprise.getId())
@@ -169,6 +169,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 						registrationRepository.save(registration);
 
 					}
+
 				}
 				
 				//newEntreprise.setRegistration(companyRegistartions);

@@ -127,4 +127,10 @@ public class ModuleServiceImpl implements ModuleService {
 		return moduleRepository.findModulesNames();
 	}
 
+	@Override
+	public List<String> findDistinctModuleNameByThemes(List<String> themes) {
+		
+		return moduleRepository.findDistinctModuleNameByThemes(themes);
+	}
+
 }

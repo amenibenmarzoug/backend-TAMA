@@ -85,7 +85,7 @@ public class CompanyRegistrationServiceImpl implements CompanyRegistrationServic
 		entreprise.setProvider(enterprisedto.isProvider());
 		CompanyRegistration registration = new CompanyRegistration();
 		List<CompanyRegistration> companyRegistartions= new ArrayList<>() ;
-		for (ProgramInstance p :  enterprisedto.getClasses()) {
+		for (ProgramInstance p :  enterprisedto.getProgramInstance()) {
 			registration.setEntreprise(entreprise);
 			registration.setPrograminstance(p);
 			registration.setRegistrationDate(LocalDate.now());

@@ -259,9 +259,11 @@ public class ParticipantController {
 		// p.setProgramInstance(theP.getProgramInstance());
 		p.setStatus(Status.WAITING);
 		participantRepository.save(p);
+
 		List<ProgramInstance> participantRegistrations = participantRegistrationService
 				.findParticipantPrograms(p.getId());
-		for (ProgramInstance prog : theP.getClasses()) {
+		for (ProgramInstance prog : theP.getProgramInstance()) {
+
 
 			List<ProgramInstance> list1 = participantRegistrationService.findParticipantPrograms(p.getId())
 					.stream().filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))
@@ -343,9 +345,10 @@ public class ParticipantController {
 		newParticipant.setLevel(theParticipant.getLevel());
 		newParticipant.setEntreprise(theParticipant.getEntreprise());
 		participantService.save(newParticipant);
+
 		List<ProgramInstance> participantRegistrations = participantRegistrationService
 				.findParticipantPrograms(newParticipant.getId());
-		for (ProgramInstance prog : theParticipant.getClasses()) {
+		for (ProgramInstance prog : theParticipant.getProgramInstance()) {
 
 			List<ProgramInstance> list1 = participantRegistrationService.findParticipantPrograms(newParticipant.getId())
 					.stream().filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))

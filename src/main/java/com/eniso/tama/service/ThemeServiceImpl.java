@@ -143,4 +143,10 @@ public class ThemeServiceImpl implements ThemeService {
 		return theTheme;
 	}
 
+	@Override
+	public List<String> findDistinctThemeName() {
+		return themeRepository.findDistinctThemeName();
+		
+	}
+
 }
