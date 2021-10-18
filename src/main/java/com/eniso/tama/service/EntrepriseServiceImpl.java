@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -39,6 +40,9 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	@Autowired
 	RoleRepository roleRepository;
+	
+	@Autowired
+	CompanyRegistrationService companyRegistrationService;
 
 	public EntrepriseServiceImpl(EnterpriseRepository theEnterpriseRepository) {
 		enterpriseRepository = theEnterpriseRepository;
@@ -146,17 +150,27 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 				newEntreprise.setProvider(theEntreprise.isProvider());
 				newEntreprise.setNbMinParticipants(theEntreprise.getNbMinParticipants());
 				newEntreprise.setManagerPosition(theEntreprise.getManagerPosition());
-				
+				save(newEntreprise);
 				
 				//List<CompanyRegistration> companyRegistartions= new ArrayList<>() ;
-				for (ProgramInstance p :  theEntreprise.getClasses()) {
-					CompanyRegistration registration = new CompanyRegistration();
-					registration.setEntreprise(newEntreprise);
-					registration.setPrograminstance(p);
-					registration.setRegistrationDate(LocalDate.now());
-					registrationRepository.save(registration);
-					//companyRegistartions.add(registration);
+				for (ProgramInstance p : theEntreprise.getClasses())
+					 {
+
+					List<ProgramInstance> list1 = companyRegistrationService.findEntrepPrograms(newEntreprise.getId())
+							.stream().filter(x -> x.getProgramInstName().equals(p.getProgramInstName()))
+							.collect(Collectors.toList());
+					//System.out.println(list1);
+					if (p != null && list1.isEmpty()) {
+						CompanyRegistration registration = new CompanyRegistration();
+						registration.setEntreprise(newEntreprise);
+						registration.setPrograminstance(p);
+						registration.setRegistrationDate(LocalDate.now());
+						// enterprise.setRegistration(entrepRegistration);
+						registrationRepository.save(registration);
+
+					}
 				}
+				
 				//newEntreprise.setRegistration(companyRegistartions);
 //				registration.setEntreprise(theEntreprise);
 //				registration.setPrograminstance(theEntreprise.getRegistration().getPrograminstance());
@@ -169,7 +183,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 				 * 
 				 * newEntreprise.setRoles(roles);
 				 */
-				save(newEntreprise);
+				
 			//	registrationRepository.save(registration) ;
 				return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
 			} else {

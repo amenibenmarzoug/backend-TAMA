@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.dto.EntrepriseDto;
 import com.eniso.tama.entity.CompanyRegistration;
 import com.eniso.tama.entity.Entreprise;
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.service.CompanyRegistrationService;
 import com.eniso.tama.service.EntrepriseService;
 
@@ -69,6 +70,11 @@ public class CompanyRegistrationController {
      return companyRegistrationService.registerEntrep(enterprisedto, enterpriseId);
 	}	
 		
+
+	@GetMapping("entreprises/classes/{entrepId}")
+	public List<ProgramInstance> getParticipantClasses(@PathVariable long entrepId) {
+		return companyRegistrationService.findEntrepPrograms(entrepId);
+	}
 		
 		
 		
