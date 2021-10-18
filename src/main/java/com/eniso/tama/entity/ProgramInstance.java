@@ -52,19 +52,19 @@ public class ProgramInstance {
 	@ManyToOne
 	private Program program;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "programinstance")
-	private List<CompanyRegistration> Companyregistrations;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "programinstance")
-	private List<ParticipantRegistration> participantRegistrations;
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "programinstance")
+//	private List<CompanyRegistration> Companyregistrations;
+//	
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "programinstance")
+//	private List<ParticipantRegistration> participantRegistrations;
 
-	public List<ParticipantRegistration> getParticipantRegistrations() {
-		return participantRegistrations;
-	}
-
-	public void setParticipantRegistrations(List<ParticipantRegistration> participantRegistrations) {
-		this.participantRegistrations = participantRegistrations;
-	}
+//	public List<ParticipantRegistration> getParticipantRegistrations() {
+//		return participantRegistrations;
+//	}
+//
+//	public void setParticipantRegistrations(List<ParticipantRegistration> participantRegistrations) {
+//		this.participantRegistrations = participantRegistrations;
+//	}
 
 	public ProgramInstance() {
 	}
@@ -159,13 +159,13 @@ public class ProgramInstance {
 		this.place = place;
 	}
 
-	public List<CompanyRegistration> getCompanyregistrations() {
-		return Companyregistrations;
-	}
-
-	public void setCompanyregistrations(List<CompanyRegistration> companyregistrations) {
-		Companyregistrations = companyregistrations;
-	}
+//	public List<CompanyRegistration> getCompanyregistrations() {
+//		return Companyregistrations;
+//	}
+//
+//	public void setCompanyregistrations(List<CompanyRegistration> companyregistrations) {
+//		Companyregistrations = companyregistrations;
+//	}
 
 	
 

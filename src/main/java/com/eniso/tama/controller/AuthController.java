@@ -1,6 +1,5 @@
 package com.eniso.tama.controller;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,6 +29,8 @@ import com.eniso.tama.entity.CompanyRegistration;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Institution;
 import com.eniso.tama.entity.Participant;
+import com.eniso.tama.entity.ParticipantRegistration;
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
 import com.eniso.tama.entity.Status;
@@ -42,10 +43,11 @@ import com.eniso.tama.payload.SignupRequestEnterprise;
 import com.eniso.tama.payload.SignupRequestInstitution;
 import com.eniso.tama.payload.SignupRequestParticipant;
 import com.eniso.tama.payload.SignupRequestTrainer;
+import com.eniso.tama.repository.CompanyRegistrationRepository;
 import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.InstitutionRepository;
+import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ParticipantRepository;
-import com.eniso.tama.repository.CompanyRegistrationRepository;
 import com.eniso.tama.repository.RoleRepository;
 import com.eniso.tama.repository.TrainerRepository;
 import com.eniso.tama.repository.UserRepository;
@@ -88,7 +90,8 @@ public class AuthController {
 
 	@Autowired
 	private CompanyRegistrationRepository registrationRepository;
-
+	@Autowired
+	private ParticipantRegistrationRepository regPartRepository;
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		System.out.println(encoder.encode(loginRequest.getPassword()));
@@ -228,7 +231,7 @@ public class AuthController {
 		}
 
 		// Create new user's account
-		CompanyRegistration registration = new CompanyRegistration();
+		
 		List<CompanyRegistration> entrepRegistration= new ArrayList<>();
 		LocalDate now = LocalDate.now();
 		Entreprise enterprise = new Entreprise(signupRequestEnterprise.getEmail(),
@@ -243,11 +246,9 @@ public class AuthController {
 				signupRequestEnterprise.getNbMinParticipants(), signupRequestEnterprise.isProvider());
 
 		// enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
-		registration.setEntreprise(enterprise);
-		registration.setPrograminstance(signupRequestEnterprise.getProgramInstance());
-		registration.setRegistrationDate(now);
-		entrepRegistration.add(registration);
-		enterprise.setRegistration(entrepRegistration);
+	   
+		
+		
 		System.out.println(enterprise.isProvider());
 		enterprise.setValidated(false);
 
@@ -268,10 +269,22 @@ public class AuthController {
 		roles.add(modRole);
 
 		enterprise.setRoles(roles);
-
-		enterpriseRepository.save(enterprise);
-		registrationRepository.save(registration);
 		
+		Entreprise savedEnterprise=enterpriseRepository.save(enterprise);
+		
+		 for (ProgramInstance p : signupRequestEnterprise.getProgramInstance()) {
+		    	
+		    	if(p!=null) {
+		    		CompanyRegistration registration = new CompanyRegistration();
+		    		registration.setEntreprise(savedEnterprise);
+		    		registration.setPrograminstance(p);
+		    		registration.setRegistrationDate(now);	
+		    		entrepRegistration.add(registration);
+		    	//	enterprise.setRegistration(entrepRegistration);
+		    		registrationRepository.save(registration);
+		    		
+		    	}
+		    }
 		/*
 		 * try { mailService.sendmail(enterprise.getEmail()); } catch (AddressException
 		 * e) { // TODO Auto-generated catch block e.printStackTrace(); } catch
@@ -283,14 +296,16 @@ public class AuthController {
 	}
 
 	@PostMapping("/signupParticipant")
-	public ResponseEntity<?> ji(@Valid @RequestBody SignupRequestParticipant signupRequestParticipant) {
+	public ResponseEntity<?> registerParticipant(@Valid @RequestBody SignupRequestParticipant signupRequestParticipant) {
 
 		if (participantRepository.existsByEmail(signupRequestParticipant.getEmail())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
 		}
 
 		// Create new user's account
-
+		
+		List<ParticipantRegistration> partRegistration= new ArrayList<>();
+		LocalDate now = LocalDate.now();
 		Participant participant = new Participant(signupRequestParticipant.getEmail(),
 				encoder.encode(signupRequestParticipant.getPassword()), signupRequestParticipant.getStreet(),
 				signupRequestParticipant.getCity(), signupRequestParticipant.getPostalCode(),
@@ -304,6 +319,7 @@ public class AuthController {
 		participant.setLevel(signupRequestParticipant.getLevel());
 		participant.setCurrentPosition(signupRequestParticipant.getCurrentPosition());
 		participant.setExperience(signupRequestParticipant.getExperience());
+		
 //		User user = new User(signupRequestParticipant.getEmail(),
 //				 encoder.encode(signupRequestParticipant.getPassword()),
 //				 signupRequestParticipant.getStreet(),
@@ -322,6 +338,22 @@ public class AuthController {
 		participant.setRoles(roles);
 
 		participantRepository.save(participant);
+		
+		 for (ProgramInstance p : signupRequestParticipant.getProgramInstance()) {
+		    	
+		    	if(p!=null) {
+		    		ParticipantRegistration registration = new ParticipantRegistration();
+		    		registration.setParticipant(participant);
+		    		registration.setPrograminstance(p);
+		    		registration.setRegistrationDate(now);	
+		    		regPartRepository.save(registration);
+		    		partRegistration.add(registration);
+		    		//participant.setParticipantRegistrations(partRegistration);
+		    		
+		    		
+		    	}
+		    }
+		
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
