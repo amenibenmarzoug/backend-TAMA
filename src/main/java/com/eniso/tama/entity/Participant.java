@@ -32,7 +32,7 @@ public class Participant extends User{
     @Column
     private String gender;
 
-    @NotNull
+    //@NotNull
     @Column
     private LocalDate birthday;
 
