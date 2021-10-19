@@ -1,21 +1,16 @@
 package com.eniso.tama.service;
 import java.util.ArrayList;
-import java.util.Date;
-import java.time.LocalDate; 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.eniso.tama.entity.Participant;
-import com.eniso.tama.entity.ProgramInstance;
-import com.eniso.tama.entity.Session;
+import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.Status;
+import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.ProgramInstanceRepository;
 
@@ -28,7 +23,8 @@ public class ParticipantServiceImpl implements  ParticipantService {
 
 		private ParticipantRepository participantRepository;
 		private ProgramInstanceRepository programInstanceRepository ; 
-
+		@Autowired
+		private ParticipantRegistrationRepository participantRegistrationRepository;
 		
 		@Autowired
 		public ParticipantServiceImpl(ParticipantRepository theParticipantRepository) {
@@ -142,7 +138,8 @@ public class ParticipantServiceImpl implements  ParticipantService {
 		public List<Participant> getParticipantPerClass(long id) {
 			List<Participant> participantsPerClasse = new ArrayList<Participant>();
 			for (Participant theP : findAll()) {
-				if(theP.getProgramInstance().getId() == id && theP.getStatus().equals(Status.ACCEPTED)){
+				for ( ParticipantRegistration reg :participantRegistrationRepository.findByParticipantId(theP.getId()))
+				if(reg.getPrograminstance().getId()== id && theP.getStatus().equals(Status.ACCEPTED)){
 					participantsPerClasse.add(theP);
 
 				}
@@ -155,6 +152,8 @@ public class ParticipantServiceImpl implements  ParticipantService {
 			
 			return participantRepository.getMaleParticipants();
 		}
+		
+		
 	
 		
 		

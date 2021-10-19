@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,8 +52,19 @@ public class ProgramInstance {
 	@ManyToOne
 	private Program program;
 
-	@OneToMany
-	private List<CompanyRegistration> Companyregistrations;
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "programinstance")
+//	private List<CompanyRegistration> Companyregistrations;
+//	
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "programinstance")
+//	private List<ParticipantRegistration> participantRegistrations;
+
+//	public List<ParticipantRegistration> getParticipantRegistrations() {
+//		return participantRegistrations;
+//	}
+//
+//	public void setParticipantRegistrations(List<ParticipantRegistration> participantRegistrations) {
+//		this.participantRegistrations = participantRegistrations;
+//	}
 
 	public ProgramInstance() {
 	}
@@ -147,13 +159,13 @@ public class ProgramInstance {
 		this.place = place;
 	}
 
-	public List<CompanyRegistration> getCompanyregistrations() {
-		return Companyregistrations;
-	}
-
-	public void setCompanyregistrations(List<CompanyRegistration> companyregistrations) {
-		Companyregistrations = companyregistrations;
-	}
+//	public List<CompanyRegistration> getCompanyregistrations() {
+//		return Companyregistrations;
+//	}
+//
+//	public void setCompanyregistrations(List<CompanyRegistration> companyregistrations) {
+//		Companyregistrations = companyregistrations;
+//	}
 
 	
 

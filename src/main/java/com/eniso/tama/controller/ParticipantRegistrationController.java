@@ -7,6 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.entity.ParticipantRegistration;
@@ -52,6 +54,30 @@ public class ParticipantRegistrationController {
 	public List<ParticipantRegistration> getProgramInstRegistrations(@PathVariable long programInstId) {
 
 		return participantRegistrationService.findByProgramInstanceId(programInstId);
+	}
+	
+	@PutMapping("participantRegistrations/validate")
+	public ParticipantRegistration validateParticipantRegistration(@RequestBody ParticipantRegistration registration) {
+
+		ParticipantRegistration participantRegistration = participantRegistrationService.validateRegistration(registration.getId());
+
+		if (participantRegistration == null) {
+			throw new RuntimeException("registration not found - " );
+		}
+
+		return participantRegistration;
+	}
+	
+	@PutMapping("participantRegistrations/refuse")
+	public ParticipantRegistration refuseParticipantRegistration(@RequestBody ParticipantRegistration registration) {
+
+		ParticipantRegistration participantRegistration = participantRegistrationService.refuseRegistration(registration.getId());
+
+		if (participantRegistration == null) {
+			throw new RuntimeException("registration not found - ");
+		}
+
+		return participantRegistration;
 	}
 
 }

@@ -41,8 +41,8 @@ public class Entreprise extends User {
    // @ManyToOne
     //@JsonIgnore
     //private ProgramInstance programInstance;
-    @OneToMany
-    private List<CompanyRegistration> registrations; 
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "entreprise")
+//    private List<CompanyRegistration> registrations; 
 
     
 
@@ -134,13 +134,13 @@ public class Entreprise extends User {
 		this.provider = provider;
 	}
 
-	public List<CompanyRegistration> getRegistration() {
-		return registrations;
-	}
-
-	public void setRegistration(List<CompanyRegistration> registrations) {
-		this.registrations = registrations;
-	}
-	
+//	public List<CompanyRegistration> getRegistration() {
+//		return registrations;
+//	}
+//
+//	public void setRegistration(List<CompanyRegistration> registrations) {
+//		this.registrations = registrations;
+//	}
+//	
 
 }

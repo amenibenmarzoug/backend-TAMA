@@ -46,7 +46,8 @@ public class SignupRequestEnterprise {
     private boolean provider;
     
     private Set<String> role;
-    private ProgramInstance programInstance;
+    
+    private Set<ProgramInstance> programInstance;
 
     public String getStreet() {
         return street;
@@ -139,16 +140,16 @@ public class SignupRequestEnterprise {
     }
 
 
-    public ProgramInstance getProgramInstance() {
-        return programInstance;
-    }
 
-    public void setProgramInstance(ProgramInstance programInstance) {
-        this.programInstance = programInstance;
-    }
+    public Set<ProgramInstance> getProgramInstance() {
+		return programInstance;
+	}
 
+	public void setProgramInstance(Set<ProgramInstance> programInstance) {
+		this.programInstance = programInstance;
+	}
 
-    public String getManagerPosition() {
+	public String getManagerPosition() {
         return managerPosition;
     }
 

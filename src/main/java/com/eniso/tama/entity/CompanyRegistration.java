@@ -1,5 +1,6 @@
 package com.eniso.tama.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -10,36 +11,38 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class CompanyRegistration {
+public class CompanyRegistration  implements Serializable {
 	@Id
 	@Column(name = "registration_id", updatable = false, nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	@ManyToOne
+	@JsonIgnore 
+
 	@JoinColumn(name = "entreprise_id")
 	Entreprise entreprise;
-
 	@ManyToOne
 	@JoinColumn(name = "programinstance_id")
 	ProgramInstance programinstance;
 	
 	private LocalDate registrationDate;
 	
-	@OneToMany
-	private List<ParticipantRegistration> participantRegistrations;
-	
-
-	public List<ParticipantRegistration> getParticipantRegistrations() {
-		return participantRegistrations;
-	}
-
-	public void setParticipantRegistrations(List<ParticipantRegistration> participantRegistrations) {
-		this.participantRegistrations = participantRegistrations;
-	}
+//	@OneToMany(fetch = FetchType.LAZY )
+//	private List<ParticipantRegistration> participantRegistrations;
+//	
+//
+//	public List<ParticipantRegistration> getParticipantRegistrations() {
+//		return participantRegistrations;
+//	}
+//
+//	public void setParticipantRegistrations(List<ParticipantRegistration> participantRegistrations) {
+//		this.participantRegistrations = participantRegistrations;
+//	}
 
 	public Long getId() {
 		return id;
@@ -57,7 +60,7 @@ public class CompanyRegistration {
 		this.entreprise = entreprise;
 		this.programinstance = programinstance;
 		this.registrationDate = registrationDate;
-		this.participantRegistrations = participantRegistrations;
+		//this.participantRegistrations = participantRegistrations;
 	}
 
 	public CompanyRegistration() {
