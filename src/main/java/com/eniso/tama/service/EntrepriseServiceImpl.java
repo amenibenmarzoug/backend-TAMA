@@ -126,7 +126,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	public ResponseEntity<?> updateEntreprise(@RequestBody EntrepriseDto theEntreprise) {
 
-		System.out.println(theEntreprise.getProgramInstance().toString());
+		
 		Entreprise newEntreprise = findById(theEntreprise.getId());
 		Entreprise verifEmailEntreprise = findByEmail(theEntreprise.getEmail());
 		System.out.println(verifEmailEntreprise);
@@ -159,6 +159,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 								.findEntrepPrograms(newEntreprise.getId()).stream()
 								.filter(x -> x.getProgramInstName().equals(p.getProgramInstName()))
 								.collect(Collectors.toList());
+						System.out.println(list1);
 						// System.out.println(list1);
 						if (p != null && list1.isEmpty()) {
 							CompanyRegistration registration = new CompanyRegistration();

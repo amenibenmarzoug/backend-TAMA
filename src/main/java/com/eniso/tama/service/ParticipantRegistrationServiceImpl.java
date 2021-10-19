@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.ProgramInstance;
+import com.eniso.tama.entity.Status;
 import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ProgramInstanceRepository;
 
@@ -71,6 +72,27 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 		}
 		return programs;
 
+	}
+
+	@Override
+	public ParticipantRegistration validateRegistration(long registrationId) {
+		ParticipantRegistration registration=findById(registrationId);
+		if(registration!=null) {
+			registration.setStatus(Status.ACCEPTED);
+			participantRegistrationRepository.save(registration);
+
+		}
+		return registration;
+	}
+
+	@Override
+	public ParticipantRegistration refuseRegistration(long registrationId) {
+		ParticipantRegistration registration=findById(registrationId);
+		if(registration!=null) {
+			registration.setStatus(Status.REFUSED);
+			participantRegistrationRepository.save(registration);
+		}
+		return registration;
 	}
 
 }
