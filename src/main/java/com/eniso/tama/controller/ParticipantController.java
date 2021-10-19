@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -39,6 +40,7 @@ import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.RoleRepository;
 import com.eniso.tama.service.MailService;
+import com.eniso.tama.service.ParticipantRegistrationService;
 import com.eniso.tama.service.ParticipantService;
 import com.eniso.tama.service.ProgramInstanceService;
 
@@ -65,6 +67,9 @@ public class ParticipantController {
 
 	@Autowired
 	private ParticipantService participantService;
+
+	@Autowired
+	private ParticipantRegistrationService participantRegistrationService;
 
 	@Autowired
 	private MailService mailService;
@@ -214,6 +219,11 @@ public class ParticipantController {
 		return participantsPerEntr;
 	}
 
+	@GetMapping("participants/classes/{participantid}")
+	public List<ProgramInstance> getParticipantClasses(@PathVariable long participantid) {
+		return participantRegistrationService.findParticipantPrograms(participantid);
+	}
+
 	// POST FOR ADDING PARTICIPANTS IN CRUD , IT REQUERS THE ID OF THE ENTERPRISE
 
 	@PostMapping("/signupParticipantManag")
@@ -248,15 +258,24 @@ public class ParticipantController {
 		p.setExperience(theP.getExperience());
 		// p.setProgramInstance(theP.getProgramInstance());
 		p.setStatus(Status.WAITING);
-		Participant savedParticipant= participantRepository.save(p);
+
+		Participant savedParticipant = participantRepository.save(p);
+		List<ProgramInstance> participantRegistrations = participantRegistrationService
+				.findParticipantPrograms(savedParticipant.getId());
 		if (theP.getProgramInstance() != null) {
 			for (ProgramInstance prog : theP.getProgramInstance()) {
 
-				if (prog != null) {
+				List<ProgramInstance> list1 = participantRegistrationService
+						.findParticipantPrograms(savedParticipant.getId()).stream()
+						.filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))
+						.collect(Collectors.toList());
+				// System.out.println(list1);
+				if (prog != null && list1.isEmpty()) {
 					ParticipantRegistration registration = new ParticipantRegistration();
 					registration.setParticipant(savedParticipant);
 					registration.setPrograminstance(prog);
 					registration.setRegistrationDate(LocalDate.now());
+					registration.setStatus(Status.WAITING);
 					regPartRepository.save(registration);
 					// partRegistration.add(registration);
 					// participant.setParticipantRegistrations(partRegistration);
@@ -329,14 +348,24 @@ public class ParticipantController {
 		newParticipant.setLevel(theParticipant.getLevel());
 		newParticipant.setEntreprise(theParticipant.getEntreprise());
 		participantService.save(newParticipant);
+
+		List<ProgramInstance> participantRegistrations = participantRegistrationService
+				.findParticipantPrograms(newParticipant.getId());
 		if (theParticipant.getProgramInstance() != null) {
 			for (ProgramInstance prog : theParticipant.getProgramInstance()) {
 
-				if (prog != null) {
+				List<ProgramInstance> list1 = participantRegistrationService
+						.findParticipantPrograms(newParticipant.getId()).stream()
+						.filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))
+						.collect(Collectors.toList());
+				// System.out.println(list1);
+
+				if (prog != null && list1.isEmpty()) {
 					ParticipantRegistration registration = new ParticipantRegistration();
 					registration.setParticipant(newParticipant);
 					registration.setPrograminstance(prog);
 					registration.setRegistrationDate(LocalDate.now());
+					registration.setStatus(Status.WAITING);
 					regPartRepository.save(registration);
 					// partRegistration.add(registration);
 					// participant.setParticipantRegistrations(partRegistration);

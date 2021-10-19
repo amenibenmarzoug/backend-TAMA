@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.eniso.tama.dto.EntrepriseDto;
 import com.eniso.tama.entity.CompanyRegistration;
 import com.eniso.tama.entity.Entreprise;
+import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.repository.CompanyRegistrationRepository;
 import com.eniso.tama.repository.EnterpriseRepository;
@@ -95,6 +96,15 @@ public class CompanyRegistrationServiceImpl implements CompanyRegistrationServic
 		
 		enterpriseRepository.save(entreprise);
 		return entreprise;
+	}
+
+	@Override
+	public List<ProgramInstance> findEntrepPrograms(long entrepriseId) {
+		List<ProgramInstance> programs = new ArrayList<>() ;
+		for (CompanyRegistration registration : registrationRepository.findByEntrepriseId(entrepriseId)) {
+			programs.add(registration.getPrograminstance());
+		}
+		return programs;
 	}
 	
 	

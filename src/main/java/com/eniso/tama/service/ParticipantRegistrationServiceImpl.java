@@ -1,5 +1,6 @@
 package com.eniso.tama.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,12 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.ParticipantRegistration;
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.repository.ParticipantRegistrationRepository;
+import com.eniso.tama.repository.ProgramInstanceRepository;
+
 @Service
 public class ParticipantRegistrationServiceImpl implements ParticipantRegistrationService {
 	@Autowired
 	private ParticipantRegistrationRepository participantRegistrationRepository;
-
+     
+	@Autowired
+	private ProgramInstanceRepository programInstanceRepository;
 	@Override
 	public List<ParticipantRegistration> findAll() {
 
@@ -34,26 +40,37 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 
 	@Override
 	public ParticipantRegistration save(ParticipantRegistration registration) {
-		
+
 		return participantRegistrationRepository.save(registration);
 	}
 
 	@Override
 	public List<ParticipantRegistration> findByParticipantId(long partId) {
-		
+
 		return participantRegistrationRepository.findByParticipantId(partId);
 	}
 
 	@Override
 	public List<ParticipantRegistration> findByProgramInstanceId(long partId) {
-		
-		return participantRegistrationRepository.findByParticipantId(partId) ;
+
+		return participantRegistrationRepository.findByParticipantId(partId);
 	}
 
 	@Override
 	public void deleteById(long id) {
-		
+
 		participantRegistrationRepository.deleteById(id);
+	}
+
+	@Override
+	public List<ProgramInstance> findParticipantPrograms(long participantId) {
+		List<ProgramInstance> programs = new ArrayList<>() ;
+		for (ParticipantRegistration registration : participantRegistrationRepository
+				.findByParticipantId(participantId)) {
+			programs.add(registration.getPrograminstance());
+		}
+		return programs;
+
 	}
 
 }
