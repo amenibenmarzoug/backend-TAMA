@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.entity.Institution;
+import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.repository.InstitutionRepository;
 import com.eniso.tama.service.InstitutionService;
 
@@ -23,10 +25,15 @@ import com.eniso.tama.service.InstitutionService;
 @ComponentScan(basePackageClasses = InstitutionService.class)
 @RequestMapping(value = "/api")
 public class InstitutionController {
+	
 	@Autowired
 	InstitutionRepository institutionRepository;
 
+	@Autowired
+	PasswordEncoder encoder;
 	
+	@Autowired
+    RandomPasswordGenerator randomPassword;
 	
 	@Autowired
 	private InstitutionService institutionService;
@@ -49,7 +56,7 @@ public class InstitutionController {
 	
 	@PostMapping("/signupInstituionManag")
 	public ResponseEntity<?> registerInstitutionParManager(@Valid @RequestBody Institution theI) {
-
+		theI.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
 		return institutionService.registerInstitutionParManager(theI);
 	}
 	@PutMapping("/institution")

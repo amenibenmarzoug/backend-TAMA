@@ -1,3 +1,4 @@
+
 package com.eniso.tama.controller;
 
 import java.time.LocalDate;
@@ -36,6 +37,7 @@ import com.eniso.tama.entity.Roles;
 import com.eniso.tama.entity.Status;
 import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.entity.User;
+import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.payload.JwtResponse;
 import com.eniso.tama.payload.LoginRequest;
 import com.eniso.tama.payload.MessageResponse;
@@ -84,10 +86,16 @@ public class AuthController {
 
 	@Autowired
 	PasswordEncoder encoder;
+	
+	@Autowired
+	RandomPasswordGenerator randomPassword;
+	
 	@Autowired
 	EntrepriseService entrepriseService;
+	
 	@Autowired
 	CompanyRegistrationService companyRegistrationService;
+	
 	@Autowired
 	JwtUtils jwtUtils;
 
@@ -143,7 +151,7 @@ public class AuthController {
 		Role roleTrainer = new Role();
 
 		Trainer trainer = new Trainer(signupRequestTrainer.getEmail(),
-				encoder.encode(signupRequestTrainer.getPassword()), signupRequestTrainer.getStreet(),
+				encoder.encode(randomPassword.generateSecureRandomPassword()), signupRequestTrainer.getStreet(),
 				signupRequestTrainer.getCity(), signupRequestTrainer.getPostalCode(),
 				signupRequestTrainer.getPhoneNumber(), null, signupRequestTrainer.getFirstName(),
 				signupRequestTrainer.getLastName(), signupRequestTrainer.getGender(),
@@ -200,7 +208,7 @@ public class AuthController {
 		// Create new user's account
 
 		Institution institution = new Institution(signupRequestInstitution.getEmail(),
-				encoder.encode(signupRequestInstitution.getPassword()),
+				encoder.encode(randomPassword.generateSecureRandomPassword()),
 				// signupRequestInstitution.getAddress(),
 				signupRequestInstitution.getStreet(), signupRequestInstitution.getCity(),
 				signupRequestInstitution.getPostalCode(), signupRequestInstitution.getPhoneNumber(), null,
