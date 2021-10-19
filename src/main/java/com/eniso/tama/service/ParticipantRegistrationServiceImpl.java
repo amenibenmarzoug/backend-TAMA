@@ -54,7 +54,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 	@Override
 	public List<ParticipantRegistration> findByProgramInstanceId(long partId) {
 
-		return participantRegistrationRepository.findByParticipantId(partId);
+		return participantRegistrationRepository.findByProgramInstanceId(partId);
 	}
 
 	@Override
