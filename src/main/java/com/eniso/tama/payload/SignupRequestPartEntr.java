@@ -54,7 +54,7 @@ public class SignupRequestPartEntr {
 
     private Set<String> role;
 
-    @NotBlank
+    
     @Size(min = 8, max = 40)
     private String password;
 
