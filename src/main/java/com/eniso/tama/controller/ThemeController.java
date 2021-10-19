@@ -36,6 +36,12 @@ public class ThemeController {
 	public List<Theme> findAll() {
 		return themeService.findAll();
 	}
+	
+	@GetMapping("/themesNames")
+	public List<String> findDistinctThemeName() {
+		return themeService.findDistinctThemeName();
+	}
+	
 	@GetMapping("/program/themes")
 	public List<Theme> getProgramThemes(@RequestParam("id") long id) {
 		List<Theme> themesPerProgram = new ArrayList<Theme>();

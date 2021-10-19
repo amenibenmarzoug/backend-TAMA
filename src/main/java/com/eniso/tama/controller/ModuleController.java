@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.entity.Module;
+import com.eniso.tama.entity.Theme;
 import com.eniso.tama.service.ModuleService;
 
 @RestController
@@ -43,6 +45,21 @@ public class ModuleController {
 		return moduleService.findModulesByThemeId(id);
 		
 	}
+	
+	
+	@GetMapping("/modulesOfprogram")
+	public List<Module> getProgramModules(@RequestParam("id") long id) {
+		List<Module> modulesPerProgram = new ArrayList<Module>();
+		for (Module theM : moduleService.findAll()) {
+		if(theM.getTheme().getProgram()!=null) {
+			if (id == theM.getTheme().getProgram().getId()) {
+
+				modulesPerProgram.add(theM);			
+			}
+		}
+		}
+		return modulesPerProgram;
+	}
 
 	
 	@GetMapping("/modulesNames")
@@ -50,6 +67,10 @@ public class ModuleController {
 		return moduleService.getModulesNames();
 	}
 	
+	@PostMapping("/modulesNamesPerThemes")
+	public List<String> findDistinctModuleNameByThemes(@RequestBody List<String> themes) {
+		return moduleService.findDistinctModuleNameByThemes(themes);
+	}
 	
 	@GetMapping("module/{moduleId}")
 	public Module getModule(@PathVariable int moduleId) {
