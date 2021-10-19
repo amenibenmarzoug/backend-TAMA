@@ -34,6 +34,7 @@ import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
 import com.eniso.tama.entity.Status;
+import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.ParticipantRegistrationRepository;
@@ -58,6 +59,9 @@ public class ParticipantController {
 
 	@Autowired
 	PasswordEncoder encoder;
+	
+	@Autowired
+    RandomPasswordGenerator randomPassword;
 
 	@Autowired
 	EnterpriseRepository enterpriseRepository;
@@ -160,7 +164,7 @@ public class ParticipantController {
 
 	@PostMapping("/participants")
 	public Participant addParticipant(@RequestBody Participant theParticipant) {
-
+		theParticipant.setPassword(randomPassword.generateSecureRandomPassword());
 		participantService.save(theParticipant);
 		return theParticipant;
 	}
@@ -241,7 +245,7 @@ public class ParticipantController {
 
 		Participant p = new Participant();
 		p.setEmail(theP.getEmail());
-		p.setPassword(encoder.encode(theP.getPassword()));
+		p.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
 		p.setStreet(theP.getStreet());
 		p.setCity(theP.getCity());
 		p.setPostalCode(theP.getPostalCode());
@@ -308,7 +312,7 @@ public class ParticipantController {
 
 		Participant p = new Participant();
 		p.setEmail(theP.getEmail());
-		p.setPassword(encoder.encode(theP.getPassword()));
+		p.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
 		p.setStreet(theP.getStreet());
 		p.setCity(theP.getCity());
 		p.setPostalCode(theP.getPostalCode());

@@ -34,7 +34,7 @@ public class SignupRequestPartEntr {
     @NotNull
     private String postalCode;
 
-    @NotBlank
+    
     @Size(min = 3, max = 20)
     private String phoneNumber;
 
