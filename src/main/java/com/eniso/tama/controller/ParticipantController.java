@@ -248,18 +248,20 @@ public class ParticipantController {
 		p.setExperience(theP.getExperience());
 		// p.setProgramInstance(theP.getProgramInstance());
 		p.setStatus(Status.WAITING);
-		participantRepository.save(p);
-		for (ProgramInstance prog : theP.getProgramInstance()) {
+		Participant savedParticipant= participantRepository.save(p);
+		if (theP.getProgramInstance() != null) {
+			for (ProgramInstance prog : theP.getProgramInstance()) {
 
-			if (prog != null) {
-				ParticipantRegistration registration = new ParticipantRegistration();
-				registration.setParticipant(p);
-				registration.setPrograminstance(prog);
-				registration.setRegistrationDate(LocalDate.now());
-				regPartRepository.save(registration);
-				// partRegistration.add(registration);
-				// participant.setParticipantRegistrations(partRegistration);
+				if (prog != null) {
+					ParticipantRegistration registration = new ParticipantRegistration();
+					registration.setParticipant(savedParticipant);
+					registration.setPrograminstance(prog);
+					registration.setRegistrationDate(LocalDate.now());
+					regPartRepository.save(registration);
+					// partRegistration.add(registration);
+					// participant.setParticipantRegistrations(partRegistration);
 
+				}
 			}
 		}
 
