@@ -1,25 +1,36 @@
 package com.eniso.tama.entity;
 
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
-@PrimaryKeyJoinColumn(name = "user_id")
-public class Institution extends User {
+//@PrimaryKeyJoinColumn(name = "user_id")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Institution{
+	
+	@Id
+	@Column(name = "institution_id", updatable = false, nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
     @NotNull
     @Column
     private String institutionName;
+    
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "institution_manager", joinColumns = @JoinColumn(name = "institution_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> managers = new HashSet<>();
 
 
     public Institution() {
     }
 
 
-    public Institution(@NotBlank @Size(max = 50) @Email String email,
+   /* public Institution(@NotBlank @Size(max = 50) @Email String email,
                        String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber, Set<Role> roles, @NotBlank String institutionName) {
 
         super.setEmail(email);
@@ -31,17 +42,33 @@ public class Institution extends User {
         super.setPhoneNumber(phoneNumber);
         super.setRoles(roles);
         this.institutionName = institutionName;
-    }
-
+    }*/
     
-    public String getInstitutionName() {
+    public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Set<User> getManagers() {
+		return managers;
+	}
+
+
+	public void setManagers(Set<User> managers) {
+		this.managers = managers;
+	}
+
+
+	public String getInstitutionName() {
         return institutionName;
     }
 
     public void setInstitutionName(String institutionName) {
         this.institutionName = institutionName;
     }
-
 
 	@Override
 	public int hashCode() {

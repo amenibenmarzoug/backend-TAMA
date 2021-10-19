@@ -1,18 +1,12 @@
 package com.eniso.tama.entity;
 
-import java.util.List;
-import java.util.Set;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 
 @Entity
-@PrimaryKeyJoinColumn(name = "user_id")
-public class Entreprise extends User {
+//@PrimaryKeyJoinColumn(name = "user_id")
+public class Entreprise extends Institution {
 
 
     @Column
@@ -46,7 +40,7 @@ public class Entreprise extends User {
         this.managerLastName = managerLastName;
     }
 
-    public Entreprise(@NotBlank @Size(max = 50) @Email String email,
+   /* public Entreprise(@NotBlank @Size(max = 50) @Email String email,
                       String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber, Set<Role> roles,
                       String enterpriseName, String website, String managerFirstName, String managerLastName, String managerPosition, int nbParticip, boolean provider) {
         super.setEmail(email);
@@ -63,7 +57,7 @@ public class Entreprise extends User {
         this.managerPosition = managerPosition;
         this.nbMinParticipants = nbParticip;
         this.provider=provider;
-    }
+    }*/
 
  
     public String getEnterpriseName() {

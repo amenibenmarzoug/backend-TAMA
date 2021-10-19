@@ -196,6 +196,9 @@ public class EntrepriseDto {
 		public void setRoles(Set<Role> roles) {
 			this.roles = roles;
 		}
+		public EntrepriseDto() {
+			super();
+		}
 
 		public EntrepriseDto(String enterpriseName, String managerFirstName, String managerLastName,
 				String managerPosition, String website, int nbMinParticipants, boolean provider,
@@ -221,12 +224,6 @@ public class EntrepriseDto {
 			this.roles = roles;
 		}
 
-		public EntrepriseDto() {
-			super();
-		}
-
-	
-
-	    
+		
 
 }

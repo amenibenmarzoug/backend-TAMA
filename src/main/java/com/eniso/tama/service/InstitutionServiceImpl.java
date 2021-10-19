@@ -78,24 +78,26 @@ public class InstitutionServiceImpl implements InstitutionService {
 	}
 	
 	public ResponseEntity<?> registerInstitutionParManager(Institution theI) {
+		// TODO Auto-generated method stub
 
-		if (institutionRepository.existsByEmail(theI.getEmail())) {
+		/*if (institutionRepository.existsByEmail(theI.getEmail())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-		}
+		}*/
 	
 		Set<Role> roles = new HashSet<>();
 		Role modRole = roleRepository.findByRole(Roles.INSTITUTION)
 				.orElseThrow(() -> new RuntimeException("Error: Role Institution is not found."));
 		roles.add(modRole);
+		// TODO Auto-generated method stub
 
 		Institution inst = new Institution();
-		inst.setEmail(theI.getEmail());
-		inst.setPassword(encoder.encode(theI.getPassword()));
-		inst.setStreet(theI.getStreet());
-		inst.setCity(theI.getCity());
-		inst.setPostalCode(theI.getPostalCode());
-		inst.setPhoneNumber(theI.getPhoneNumber());
-		inst.setRoles(roles);
+	//	inst.setEmail(theI.getEmail());
+	//	inst.setPassword(encoder.encode(theI.getPassword()));
+		//inst.setStreet(theI.getStreet());
+		//inst.setCity(theI.getCity());
+		//inst.setPostalCode(theI.getPostalCode());
+		//inst.setPhoneNumber(theI.getPhoneNumber());
+		//inst.setRoles(roles);
 		inst.setInstitutionName(theI.getInstitutionName());
 
 		institutionRepository.save(inst);
@@ -105,11 +107,12 @@ public class InstitutionServiceImpl implements InstitutionService {
 	
 	public Institution updateParticipant(Institution theInstitution) {
 		Institution newInstitution = findById(theInstitution.getId());
-		
-		newInstitution.setCity(theInstitution.getCity());
-		newInstitution.setStreet(theInstitution.getStreet());
-		newInstitution.setPostalCode(theInstitution.getPostalCode());
-		newInstitution.setPhoneNumber(theInstitution.getPhoneNumber());
+		// TODO Auto-generated method stub
+
+		//newInstitution.setCity(theInstitution.getCity());
+		//newInstitution.setStreet(theInstitution.getStreet());
+		//newInstitution.setPostalCode(theInstitution.getPostalCode());
+		//newInstitution.setPhoneNumber(theInstitution.getPhoneNumber());
 		newInstitution.setInstitutionName(theInstitution.getInstitutionName());	
 		save(newInstitution);
 

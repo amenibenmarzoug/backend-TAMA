@@ -108,11 +108,11 @@ public class AttendanceServiceImpl implements AttendanceService {
 		parameter.put("place", session.getClassRoom().getClassRoomName());
 		}
 		else {
-			if(session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance().getPlace()!=null) {
+			if(session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance().getInstitution()!=null) {
 			JSONObject obj=null;
 			try {
-				System.out.println(session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance().getPlace());
-				obj = new JSONObject(session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance().getPlace());
+				System.out.println(session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance().getInstitution());
+				obj = new JSONObject(session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance().getInstitution());
 				if(obj!=null) {
 
 					parameter.put("place",obj.getString("name"));

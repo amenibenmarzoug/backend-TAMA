@@ -17,6 +17,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class CompanyRegistration  implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "registration_id", updatable = false, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +29,9 @@ public class CompanyRegistration  implements Serializable {
 
 	@ManyToOne
 	@JsonIgnore 
-
 	@JoinColumn(name = "entreprise_id")
 	Entreprise entreprise;
+	
 	@ManyToOne
 	@JoinColumn(name = "programinstance_id")
 	ProgramInstance programinstance;

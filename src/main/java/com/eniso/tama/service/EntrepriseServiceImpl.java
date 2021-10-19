@@ -67,7 +67,9 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	@Override
 	public Entreprise findByEmail(String email) {
-		Optional<Entreprise> result = enterpriseRepository.findByEmail(email);
+		// TODO Auto-generated method stub
+
+		/*Optional<Entreprise> result = enterpriseRepository.findByEmail(email);
 
 		Entreprise entreprise = null;
 
@@ -78,12 +80,15 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 			// throw new RuntimeException("Did not find - " + email);
 		}
 
-		return entreprise;
+		return entreprise;*/
+		return null;
 	}
 
 	@Override
 	public Entreprise findByPhoneNumber(String phoneNumber) {
-		Optional<Entreprise> result = enterpriseRepository.findByPhoneNumber(phoneNumber);
+		// TODO Auto-generated method stub
+
+		/*Optional<Entreprise> result = enterpriseRepository.findByPhoneNumber(phoneNumber);
 
 		Entreprise entreprise = null;
 
@@ -94,7 +99,8 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 			// throw new RuntimeException("Did not find - " + phoneNumber);
 		}
 
-		return entreprise;
+		return entreprise;*/
+return null;
 	}
 
 	@Override
@@ -122,10 +128,8 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	public ResponseEntity<?> updateEntreprise(@RequestBody EntrepriseDto theEntreprise) {
 		
-		System.out.println(theEntreprise.getClasses());
 		Entreprise newEntreprise = findById(theEntreprise.getId());
 		Entreprise verifEmailEntreprise = findByEmail(theEntreprise.getEmail());
-		System.out.println(verifEmailEntreprise);
 		Entreprise verifPhoneNumberEntreprise = findByPhoneNumber(theEntreprise.getPhoneNumber());
 	
 		
@@ -134,13 +138,14 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 			if (((verifPhoneNumberEntreprise != null) && (verifPhoneNumberEntreprise.getId() == theEntreprise.getId()))
 					|| (verifPhoneNumberEntreprise == null)) {
 				newEntreprise.setEnterpriseName(theEntreprise.getEnterpriseName());
-				newEntreprise.setEmail(theEntreprise.getEmail());
+				// TODO Auto-generated method stub
+
+				//newEntreprise.setEmail(theEntreprise.getEmail());
 				newEntreprise.setWebsite(theEntreprise.getWebsite());
-				newEntreprise.setCity(theEntreprise.getCity());
-				newEntreprise.setStreet(theEntreprise.getStreet());
-				newEntreprise.setPhoneNumber(theEntreprise.getPhoneNumber());
-				newEntreprise.setPostalCode(theEntreprise.getPostalCode());
-				// newEntreprise.setProgramInstance(theEntreprise.getRegistration().getPrograminstance());
+				//newEntreprise.setCity(theEntreprise.getCity());
+				//newEntreprise.setStreet(theEntreprise.getStreet());
+				//newEntreprise.setPhoneNumber(theEntreprise.getPhoneNumber());
+				//newEntreprise.setPostalCode(theEntreprise.getPostalCode());
 				newEntreprise.setManagerFirstName(theEntreprise.getManagerFirstName());
 				newEntreprise.setManagerLastName(theEntreprise.getManagerLastName());
 				newEntreprise.setProvider(theEntreprise.isProvider());
@@ -188,12 +193,13 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 		List<Entreprise> Entreprises = new ArrayList<Entreprise>();
 
 		for (Entreprise e : findAll()) {
+			// TODO Auto-generated method stub
 
-			if (!e.isValidated()) {
+			/*if (!e.isValidated()) {
 
 				Entreprises.add(e);
 
-			}
+			}*/
 
 		}
 		return Entreprises;
@@ -203,8 +209,11 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 	public void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException {
 
 		Entreprise t = findById(id);
+		// TODO Auto-generated method stub
 
-		t.setValidated(true);
+		//t.setValidated(true);
+		
+		
 		/*
 		 * System.out.println(t.isValidated()); Properties props = new Properties();
 		 * props.put("mail.smtp.auth", "true"); props.put("mail.smtp.starttls.enable",
@@ -236,7 +245,10 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 		 * // attachPart.attachFile("/var/tmp/image19.png"); //
 		 * multipart.addBodyPart(attachPart); msg.setContent(multipart);
 		 */
-		t.setValidated(true);
+		
+		// TODO Auto-generated method stub
+
+		//t.setValidated(true);
 		save(t);
 		// Transport.send(msg);
 	}
@@ -245,9 +257,12 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 	public List<Entreprise> findEnterpriseByLocation(String location) {
 		List<Entreprise> enterprises = new ArrayList<Entreprise>();
 		for (Entreprise entreprise : enterpriseRepository.findAll()) {
-			if (entreprise.getCity().equals(location)) {
+			
+			// TODO Auto-generated method stub
+
+			/*if (entreprise.getCity().equals(location)) {
 				enterprises.add(entreprise);
-			}
+			}*/
 		}
 		return enterprises;
 	}

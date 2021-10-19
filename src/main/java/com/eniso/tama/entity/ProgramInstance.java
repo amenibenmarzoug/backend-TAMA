@@ -46,8 +46,8 @@ public class ProgramInstance {
 	@Column
 	private int nbMinParticipants;
 
-	@Lob
-	private String place;
+	@ManyToOne
+	private Institution institution;
 
 	@ManyToOne
 	private Program program;
@@ -151,13 +151,6 @@ public class ProgramInstance {
 		this.endDate = endDate;
 	}
 
-	public String getPlace() {
-		return place;
-	}
-
-	public void setPlace(String place) {
-		this.place = place;
-	}
 
 //	public List<CompanyRegistration> getCompanyregistrations() {
 //		return Companyregistrations;
@@ -166,6 +159,14 @@ public class ProgramInstance {
 //	public void setCompanyregistrations(List<CompanyRegistration> companyregistrations) {
 //		Companyregistrations = companyregistrations;
 //	}
+
+	public Institution getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(Institution institution) {
+		this.institution = institution;
+	}
 
 	@Override
 	public int hashCode() {
@@ -177,7 +178,7 @@ public class ProgramInstance {
 		result = prime * result + ((location == null) ? 0 : location.hashCode());
 		result = prime * result + nbDaysProgInst;
 		result = prime * result + nbMinParticipants;
-		result = prime * result + ((place == null) ? 0 : place.hashCode());
+		result = prime * result + ((institution == null) ? 0 : institution.hashCode());
 		result = prime * result + ((program == null) ? 0 : program.hashCode());
 		result = prime * result + ((programInstName == null) ? 0 : programInstName.hashCode());
 		result = prime * result + (validated ? 1231 : 1237);
@@ -217,10 +218,10 @@ public class ProgramInstance {
 			return false;
 		if (nbMinParticipants != other.nbMinParticipants)
 			return false;
-		if (place == null) {
-			if (other.place != null)
+		if (institution == null) {
+			if (other.institution != null)
 				return false;
-		} else if (!place.equals(other.place))
+		} else if (!institution.equals(other.institution))
 			return false;
 		if (program == null) {
 			if (other.program != null)

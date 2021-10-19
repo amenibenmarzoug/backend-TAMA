@@ -253,9 +253,10 @@ public class ParticipantDto {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 	
-	
+	public ParticipantDto() {
+		super();
+	}
 
 	public ParticipantDto(Long id, String firstNameP, String lastNameP, String gender, LocalDate birthday,
 			String currentPosition, int experience, int age, String level, String educationLevel, boolean abandon,
@@ -288,12 +289,6 @@ public class ParticipantDto {
 		this.roles = roles;
 		this.classes = classes;
 	}
-
-	public ParticipantDto() {
-		super();
-	}
-
-
 
 }
 

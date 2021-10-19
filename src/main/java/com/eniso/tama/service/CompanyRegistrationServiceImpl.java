@@ -70,16 +70,18 @@ public class CompanyRegistrationServiceImpl implements CompanyRegistrationServic
 
 	@Override
 	public Entreprise registerEntrep(EntrepriseDto enterprisedto, Long enterpriseId) {
+		// TODO Auto-generated method stub
+
 		Entreprise entreprise = enterpriseRepository.getOne(enterpriseId);
 		entreprise.setEnterpriseName(enterprisedto.getEnterpriseName());
-		entreprise.setCity(enterprisedto.getCity());
-		entreprise.setEmail(enterprisedto.getEmail());
+		//entreprise.setCity(enterprisedto.getCity());
+		//entreprise.setEmail(enterprisedto.getEmail());
 		entreprise.setManagerFirstName(enterprisedto.getManagerFirstName());
 		entreprise.setManagerLastName(enterprisedto.getManagerLastName());
 		entreprise.setManagerPosition(enterprisedto.getManagerPosition());
-		entreprise.setPhoneNumber(enterprisedto.getPhoneNumber());
-		entreprise.setStreet(enterprisedto.getStreet());
-		entreprise.setPostalCode(enterprisedto.getPostalCode());
+		//entreprise.setPhoneNumber(enterprisedto.getPhoneNumber());
+		//entreprise.setStreet(enterprisedto.getStreet());
+		//entreprise.setPostalCode(enterprisedto.getPostalCode());
 		entreprise.setNbMinParticipants(enterprisedto.getNbMinParticipants());
 		entreprise.setProvider(enterprisedto.isProvider());
 		CompanyRegistration registration = new CompanyRegistration();

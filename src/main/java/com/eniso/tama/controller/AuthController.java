@@ -36,6 +36,7 @@ import com.eniso.tama.entity.Roles;
 import com.eniso.tama.entity.Status;
 import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.entity.User;
+import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.payload.JwtResponse;
 import com.eniso.tama.payload.LoginRequest;
 import com.eniso.tama.payload.MessageResponse;
@@ -61,34 +62,35 @@ import com.eniso.tama.service.UserDetailsImpl;
 public class AuthController {
 
 	@Autowired
-	AuthenticationManager authenticationManager;
+	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 
 	@Autowired
-	RoleRepository roleRepository;
+	private RoleRepository roleRepository;
 
 	@Autowired
-	TrainerRepository trainerRepository;
+	private TrainerRepository trainerRepository;
 
 	@Autowired
-	InstitutionRepository institutionRepository;
+	private InstitutionRepository institutionRepository;
 
 	@Autowired
-	ParticipantRepository participantRepository;
+	private ParticipantRepository participantRepository;
 
 	@Autowired
-	EnterpriseRepository enterpriseRepository;
+	private EnterpriseRepository enterpriseRepository;
 
 	@Autowired
-	PasswordEncoder encoder;
+	private PasswordEncoder encoder;
 	
 	@Autowired
-	EntrepriseService entrepriseService;
+	private EntrepriseService entrepriseService;
 	
 	@Autowired
-	JwtUtils jwtUtils;
+	private JwtUtils jwtUtils;
+	
 
 	@Autowired
 	private CompanyRegistrationRepository registrationRepository;
@@ -165,27 +167,30 @@ public class AuthController {
 	@PostMapping("/signupInstitution")
 	public ResponseEntity<?> registerInstitution(
 			@Valid @RequestBody SignupRequestInstitution signupRequestInstitution) {
+		// TODO Auto-generated method stub
 
-		if (institutionRepository.existsByEmail(signupRequestInstitution.getEmail())) {
+		/*if (institutionRepository.existsByEmail(signupRequestInstitution.getEmail())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-		}
+		}*/
 
 		// Create new user's account
+		// TODO Auto-generated method stub
 
-		Institution institution = new Institution(signupRequestInstitution.getEmail(),
+		/*Institution institution = new Institution(signupRequestInstitution.getEmail(),
 				encoder.encode(signupRequestInstitution.getPassword()),
 				signupRequestInstitution.getStreet(), signupRequestInstitution.getCity(),
 				signupRequestInstitution.getPostalCode(), signupRequestInstitution.getPhoneNumber(), null,
 				signupRequestInstitution.getInstitutionName());
-		institution.setValidated(false);
+				
+		institution.setValidated(false);*/
 		Set<Role> roles = new HashSet<>();
 		Role modRole = roleRepository.findByRole(Roles.INSTITUTION)
 				.orElseThrow(() -> new RuntimeException("Error: Role INSTITUTION is not found."));
 		roles.add(modRole);
 
-		institution.setRoles(roles);
+		//institution.setRoles(roles);
 
-		institutionRepository.save(institution);
+		//institutionRepository.save(institution);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
@@ -194,20 +199,24 @@ public class AuthController {
 	@PostMapping("/signupEnterprise")
 	public ResponseEntity<?> registerEnterprise(@Valid @RequestBody SignupRequestEnterprise signupRequestEnterprise) {
 
-		if (enterpriseRepository.existsByEmail(signupRequestEnterprise.getEmail())) {
+		
+		// TODO Auto-generated method stub
+
+		/*if (enterpriseRepository.existsByEmail(signupRequestEnterprise.getEmail())) {
 			return ResponseEntity.badRequest()
 					.body(new MessageResponse("Erreur: Veuillez donner un email valide. Cet email existe déjà"));
 		}
 		if (enterpriseRepository.existsByPhoneNumber(signupRequestEnterprise.getPhoneNumber())) {
 			return ResponseEntity.badRequest().body(new MessageResponse(
 					"Erreur: Veuillez donner un numéro de téléphone valide. Ce numéro existe déjà"));
-		}
+		}*/
 
 		// Create new user's account
 		
 		List<CompanyRegistration> entrepRegistration= new ArrayList<>();
 		LocalDate now = LocalDate.now();
-		Entreprise enterprise = new Entreprise(signupRequestEnterprise.getEmail(),
+		// TODO Auto-generated method stub
+		/*Entreprise enterprise = new Entreprise(signupRequestEnterprise.getEmail(),
 				encoder.encode(signupRequestEnterprise.getPassword()),
 				signupRequestEnterprise.getStreet(), signupRequestEnterprise.getCity(),
 				signupRequestEnterprise.getPostalCode(),
@@ -216,13 +225,13 @@ public class AuthController {
 				signupRequestEnterprise.getWebsite(), signupRequestEnterprise.getManagerFirstName(),
 				signupRequestEnterprise.getManagerLastName(), signupRequestEnterprise.getManagerPosition(),
 				signupRequestEnterprise.getNbMinParticipants(), signupRequestEnterprise.isProvider());
-
+*/
 		// enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
 	    for (ProgramInstance p : signupRequestEnterprise.getProgramInstance()) {
-	    	
+			// TODO Auto-generated method stub
 	    	if(p!=null) {
 	    		CompanyRegistration registration = new CompanyRegistration();
-	    		registration.setEntreprise(enterprise);
+	    		//registration.setEntreprise(enterprise);
 	    		registration.setPrograminstance(p);
 	    		registration.setRegistrationDate(now);	
 	    		entrepRegistration.add(registration);
@@ -232,9 +241,9 @@ public class AuthController {
 	    	}
 	    }
 		
-		
-		System.out.println(enterprise.isProvider());
-		enterprise.setValidated(false);
+		// TODO Auto-generated method stub
+
+		//enterprise.setValidated(false);
 
 		Set<String> strRoles = signupRequestEnterprise.getRole();
 
@@ -243,10 +252,12 @@ public class AuthController {
 		Role modRole = roleRepository.findByRole(Roles.ENTREPRISE)
 				.orElseThrow(() -> new RuntimeException("Error: Role ENTREPRISE is not found."));
 		roles.add(modRole);
-
-		enterprise.setRoles(roles);
 		
-		enterpriseRepository.save(enterprise);
+		// TODO Auto-generated method stub
+
+		//enterprise.setRoles(roles);
+		
+		//enterpriseRepository.save(enterprise);
 		
 		
 		/*
