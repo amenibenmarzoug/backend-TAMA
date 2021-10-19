@@ -118,5 +118,9 @@ public class TrainerController {
 
         trainerService.validateTrainer(id);
     }
-
+    
+    @GetMapping("specialization/trainers")
+	public List<Trainer> findTrainersBySpecialization(@RequestParam String specialization) {
+    	return trainerService.findTrainersBySpecialization(specialization);
+    }
 }
