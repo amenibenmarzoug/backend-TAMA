@@ -1,25 +1,14 @@
 package com.eniso.tama.service;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
-import java.util.Set;
+import java.util.stream.Collectors;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -29,11 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.eniso.tama.dto.EntrepriseDto;
+import com.eniso.tama.entity.CompanyRegistration;
 import com.eniso.tama.entity.Entreprise;
-import com.eniso.tama.entity.Participant;
-import com.eniso.tama.entity.Role;
-import com.eniso.tama.entity.Roles;
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.payload.MessageResponse;
+import com.eniso.tama.repository.CompanyRegistrationRepository;
 import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.RoleRepository;
 
@@ -46,7 +36,13 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 	private EnterpriseRepository enterpriseRepository;
 
 	@Autowired
+	private CompanyRegistrationRepository registrationRepository;
+
+	@Autowired
 	RoleRepository roleRepository;
+
+	@Autowired
+	CompanyRegistrationService companyRegistrationService;
 
 	public EntrepriseServiceImpl(EnterpriseRepository theEnterpriseRepository) {
 		enterpriseRepository = theEnterpriseRepository;
@@ -128,7 +124,9 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 		return theEntreprise;
 	}
 
-	public ResponseEntity<?> updateEntreprise(@RequestBody Entreprise theEntreprise) {
+	public ResponseEntity<?> updateEntreprise(@RequestBody EntrepriseDto theEntreprise) {
+
+		
 		Entreprise newEntreprise = findById(theEntreprise.getId());
 		Entreprise verifEmailEntreprise = findByEmail(theEntreprise.getEmail());
 		System.out.println(verifEmailEntreprise);
@@ -145,20 +143,50 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 				newEntreprise.setStreet(theEntreprise.getStreet());
 				newEntreprise.setPhoneNumber(theEntreprise.getPhoneNumber());
 				newEntreprise.setPostalCode(theEntreprise.getPostalCode());
-				newEntreprise.setProgramInstance(theEntreprise.getProgramInstance());
+				// newEntreprise.setProgramInstance(theEntreprise.getRegistration().getPrograminstance());
 				newEntreprise.setManagerFirstName(theEntreprise.getManagerFirstName());
 				newEntreprise.setManagerLastName(theEntreprise.getManagerLastName());
 				newEntreprise.setProvider(theEntreprise.isProvider());
 				newEntreprise.setNbMinParticipants(theEntreprise.getNbMinParticipants());
 				newEntreprise.setManagerPosition(theEntreprise.getManagerPosition());
-				/*Set<Role> roles = new HashSet<>();
-
-				Role modRole = roleRepository.findByRole(Roles.ENTREPRISE)
-						.orElseThrow(() -> new RuntimeException("Error: Role ENTREPRISE is not found."));
-				roles.add(modRole);
-
-				newEntreprise.setRoles(roles);*/
 				save(newEntreprise);
+
+				// List<CompanyRegistration> companyRegistartions= new ArrayList<>() ;
+				if (theEntreprise.getProgramInstance() != null) {
+					for (ProgramInstance p : theEntreprise.getProgramInstance()) {
+
+						List<ProgramInstance> list1 = companyRegistrationService
+								.findEntrepPrograms(newEntreprise.getId()).stream()
+								.filter(x -> x.getProgramInstName().equals(p.getProgramInstName()))
+								.collect(Collectors.toList());
+						System.out.println(list1);
+						// System.out.println(list1);
+						if (p != null && list1.isEmpty()) {
+							CompanyRegistration registration = new CompanyRegistration();
+							registration.setEntreprise(newEntreprise);
+							registration.setPrograminstance(p);
+							registration.setRegistrationDate(LocalDate.now());
+							// enterprise.setRegistration(entrepRegistration);
+							registrationRepository.save(registration);
+
+						}
+
+					}
+				}
+				// newEntreprise.setRegistration(companyRegistartions);
+//				registration.setEntreprise(theEntreprise);
+//				registration.setPrograminstance(theEntreprise.getRegistration().getPrograminstance());
+				/*
+				 * Set<Role> roles = new HashSet<>();
+				 * 
+				 * Role modRole = roleRepository.findByRole(Roles.ENTREPRISE) .orElseThrow(() ->
+				 * new RuntimeException("Error: Role ENTREPRISE is not found."));
+				 * roles.add(modRole);
+				 * 
+				 * newEntreprise.setRoles(roles);
+				 */
+
+				// registrationRepository.save(registration) ;
 				return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
 			} else {
 				return ResponseEntity.badRequest().body(new MessageResponse(
@@ -231,9 +259,9 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	@Override
 	public List<Entreprise> findEnterpriseByLocation(String location) {
-		List<Entreprise> enterprises=new ArrayList<Entreprise>();
+		List<Entreprise> enterprises = new ArrayList<Entreprise>();
 		for (Entreprise entreprise : enterpriseRepository.findAll()) {
-			if(entreprise.getCity().equals(location)) {
+			if (entreprise.getCity().equals(location)) {
 				enterprises.add(entreprise);
 			}
 		}
