@@ -201,7 +201,7 @@ public class SessionController {
         eventService.save(event);
         return updatedSession;
     }
-	
+
 
     @DeleteMapping("/session/{sessionId}")
     public String deleteSession(@PathVariable long sessionId) {

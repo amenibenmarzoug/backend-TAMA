@@ -10,6 +10,8 @@ import javax.mail.internet.AddressException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.Days;
 import com.eniso.tama.entity.Trainer;
+import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.service.TrainerService;
 
 @RestController
@@ -33,11 +36,17 @@ public class TrainerController {
 
     @Autowired
     private TrainerService trainerService;
+    
+	@Autowired
+	PasswordEncoder encoder;
+	
+	@Autowired
+    RandomPasswordGenerator randomPassword;
+    
 
     public TrainerController(TrainerService theTrainerService) {
         trainerService = theTrainerService;
     }
-
 
 	
 	@GetMapping("/trainers")
@@ -74,7 +83,7 @@ public class TrainerController {
 
     @PostMapping("/trainers")
     public Trainer addTrainer(@RequestBody Trainer theTrainer) {
-
+    	theTrainer.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
         trainerService.save(theTrainer);
         return theTrainer;
     }
@@ -109,5 +118,9 @@ public class TrainerController {
 
         trainerService.validateTrainer(id);
     }
-
+    
+    @GetMapping("specialization/trainers")
+	public List<Trainer> findTrainersBySpecialization(@RequestParam String specialization) {
+    	return trainerService.findTrainersBySpecialization(specialization);
+    }
 }
