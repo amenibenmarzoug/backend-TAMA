@@ -58,6 +58,13 @@ public class CompanyRegistrationController {
 
 		return companyRegistrationService.findByEntreprise(enterpriseId);
 	}
+	
+	@GetMapping("companyRegistrations/programInstance/enterprise/{enterpriseId}")
+	public List<ProgramInstance> getEnterpriseProgramInstance(@PathVariable long enterpriseId) {
+
+		return companyRegistrationService.findEntrepPrograms(enterpriseId);
+	}
+
 
 	@GetMapping("companyRegistrations/programInst/{programInstId}")
 	public List<CompanyRegistration> getProgramInstRegistrations(@PathVariable long programInstId) {
