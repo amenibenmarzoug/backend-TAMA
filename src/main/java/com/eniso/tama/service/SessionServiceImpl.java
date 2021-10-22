@@ -1,12 +1,18 @@
 package com.eniso.tama.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
+import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Session;
 import com.eniso.tama.entity.Trainer;
@@ -21,6 +27,9 @@ public class SessionServiceImpl implements SessionService {
     private SessionRepository sessionRepository;
     @Autowired 
     private TrainerService trainerService ; 
+    
+    @Autowired 
+    private AttendanceService attendanceService ; 
     @Autowired
     private TrainerRepository trainerRepository;
 
@@ -102,6 +111,23 @@ public class SessionServiceImpl implements SessionService {
 		// TODO Auto-generated method stub
 		return session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance();
 		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public List<Session> getAttendanceMarkedSessions() {
+		List<Session> allSessions=this.findAll();
+		List<Session> markedSessions= new ArrayList<Session>() ; 
+		for (Session session : allSessions) {
+
+			if (attendanceService.existsBySession(session.getId())) {
+
+				markedSessions.add(session);
+
+			}
+		}
+		
+		return markedSessions;
 		
 	}
 

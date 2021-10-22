@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,6 +90,7 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 
 		return theProgramInstance;
 	}
+
 
 	@Override
 	public ProgramInstance save(ProgramInstance theProgramInstance) {
@@ -226,15 +228,18 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	
 
 	@Scheduled(cron = "0 0 9 * * *")
+	//@Scheduled(fixedRate = 60000)
 	public void LaunchAlert() throws AddressException, MessagingException, IOException {
 		List<ProgramInstance> classes = findAll();
 		LocalDate now = LocalDate.now();
 		LocalDate next4Week = now.plus(4, ChronoUnit.WEEKS);
+		System.out.println(next4Week);
 		
 
 		for (ProgramInstance c : classes) {
 			if ((next4Week == c.getBeginDate().toLocalDate()) && (participantService.getParticipantPerClass(c.getId()).size()<c.getNbMinParticipants())) {
 				mailService.sendmailAlert(c.getId());
+				System.out.println(c.getProgramInstName());
 			}
 			
 		}

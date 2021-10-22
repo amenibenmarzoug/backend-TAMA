@@ -15,12 +15,19 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.eniso.tama.entity.Attendance;
+import com.eniso.tama.entity.AttendanceStates;
+import com.eniso.tama.entity.Event;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Session;
+import com.eniso.tama.entity.Status;
 import com.eniso.tama.entity.Attendance;
+import com.eniso.tama.entity.AttendanceStates;
+
 import com.eniso.tama.repository.AttendanceRepository;
 import com.eniso.tama.repository.SessionRepository;
 import com.lowagie.text.pdf.codec.Base64.OutputStream;
@@ -66,10 +73,26 @@ public class AttendanceServiceImpl implements AttendanceService {
 		}
 		return attendance;
 	}
+	
+	
 
 	@Override
 	public Attendance save(Attendance attendance) {
 		return attendanceRepository.save(attendance);
+	}
+	
+	
+	 //create attendance (Session, Participant) - Exceptions not treated : check participant existing in that session
+	@Override 
+	public Attendance createAttendance(Session session , Participant participant){
+		
+		AttendanceStates present = AttendanceStates.PRESENT;
+		Attendance newAttendance = new Attendance();
+	    newAttendance.setSession(session);
+	    newAttendance.setParticipant(participant);
+	    newAttendance.setAttendanceState(present);
+	    
+		return attendanceRepository.save(newAttendance);
 	}
 
 	@Override
@@ -156,6 +179,49 @@ public class AttendanceServiceImpl implements AttendanceService {
 		// TODO Auto-generated method stub
 		return attendanceRepository.findBySession(session);
 	}
+	
+	@Override
+	public Boolean existsBySession(long sessionId) {
+		Optional<Session> result=sessionRepository.findById(sessionId);
+		Session session ; 
+		if (result.isPresent()) {
+			 session=result.get();
+
+		} else {
+			// we didn't find the trainer
+			throw new RuntimeException("Did not find session with ID  - " + sessionId);
+		}
+		// TODO Auto-generated method stub
+		return attendanceRepository.existsBySession(session);
+	}
+	
+	@Override
+	public Attendance markPresent(Attendance attendance) {
+		if(attendance!=null) {
+			attendance.setAttendanceState(AttendanceStates.PRESENT);
+		}
+		return attendanceRepository.save(attendance);
+	}
+	
+	@Override
+	public Attendance markAbsent(Attendance attendance) {
+		if(attendance!=null) {
+			attendance.setAttendanceState(AttendanceStates.ABSENT);
+		}
+		return attendanceRepository.save(attendance);
+	}
+
+	@Override
+	public Attendance markNotifiedAbsent(Attendance attendance) {
+		if(attendance!=null) {
+			attendance.setAttendanceState(AttendanceStates.NOTIFIEDABSENT);
+		}
+		return attendanceRepository.save(attendance);
+	}
+	
+	
+
+	
 
 
 }

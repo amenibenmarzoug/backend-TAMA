@@ -1,13 +1,13 @@
+
 package com.eniso.tama.controller;
 
-import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -26,14 +26,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.configuration.jwt.JwtUtils;
+import com.eniso.tama.entity.CompanyRegistration;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Institution;
 import com.eniso.tama.entity.Participant;
+import com.eniso.tama.entity.ParticipantRegistration;
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
 import com.eniso.tama.entity.Status;
 import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.entity.User;
+import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.payload.JwtResponse;
 import com.eniso.tama.payload.LoginRequest;
 import com.eniso.tama.payload.MessageResponse;
@@ -41,14 +45,16 @@ import com.eniso.tama.payload.SignupRequestEnterprise;
 import com.eniso.tama.payload.SignupRequestInstitution;
 import com.eniso.tama.payload.SignupRequestParticipant;
 import com.eniso.tama.payload.SignupRequestTrainer;
+import com.eniso.tama.repository.CompanyRegistrationRepository;
 import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.InstitutionRepository;
+import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.RoleRepository;
 import com.eniso.tama.repository.TrainerRepository;
 import com.eniso.tama.repository.UserRepository;
+import com.eniso.tama.service.CompanyRegistrationService;
 import com.eniso.tama.service.EntrepriseService;
-import com.eniso.tama.service.MailServiceImpl;
 import com.eniso.tama.service.UserDetailsImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -80,10 +86,23 @@ public class AuthController {
 
 	@Autowired
 	PasswordEncoder encoder;
+	
+	@Autowired
+	RandomPasswordGenerator randomPassword;
+	
 	@Autowired
 	EntrepriseService entrepriseService;
+	
+	@Autowired
+	CompanyRegistrationService companyRegistrationService;
+	
 	@Autowired
 	JwtUtils jwtUtils;
+
+	@Autowired
+	private CompanyRegistrationRepository registrationRepository;
+	@Autowired
+	private ParticipantRegistrationRepository regPartRepository;
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -121,24 +140,23 @@ public class AuthController {
 		}
 	}
 
+	@PostMapping("/signup")
+	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestTrainer signupRequestTrainer) {
+		System.out.println(randomPassword.generateSecureRandomPassword());
+		if (trainerRepository.existsByEmail(signupRequestTrainer.getEmail())) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+		}
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestTrainer signupRequestTrainer) {
+		// Create new user's account
+		Role roleTrainer = new Role();
 
-        if (trainerRepository.existsByEmail(signupRequestTrainer.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-        }
-
-        // Create new user's account
-        Role roleTrainer = new Role();
-
-        Trainer trainer = new Trainer(signupRequestTrainer.getEmail(),
-                encoder.encode(signupRequestTrainer.getPassword()),
-                signupRequestTrainer.getStreet(), signupRequestTrainer.getCity(), signupRequestTrainer.getPostalCode(),
-                signupRequestTrainer.getPhoneNumber(), null, signupRequestTrainer.getFirstName(),
-                signupRequestTrainer.getLastName(), signupRequestTrainer.getGender(),
-                signupRequestTrainer.getDisponibilityDays(), signupRequestTrainer.getSpecifications());
-        trainer.setValidated(false);
+		Trainer trainer = new Trainer(signupRequestTrainer.getEmail(),
+				encoder.encode(randomPassword.generateSecureRandomPassword()), signupRequestTrainer.getStreet(),
+				signupRequestTrainer.getCity(), signupRequestTrainer.getPostalCode(),
+				signupRequestTrainer.getPhoneNumber(), null, signupRequestTrainer.getFirstName(),
+				signupRequestTrainer.getLastName(), signupRequestTrainer.getGender(),
+				signupRequestTrainer.getDisponibilityDays(), signupRequestTrainer.getSpecifications());
+		trainer.setValidated(false);
 
 //		User user = new User(signupRequestTrainer.getEmail(),
 //				 encoder.encode(signupRequestTrainer.getPassword()),
@@ -190,7 +208,7 @@ public class AuthController {
 		// Create new user's account
 
 		Institution institution = new Institution(signupRequestInstitution.getEmail(),
-				encoder.encode(signupRequestInstitution.getPassword()),
+				encoder.encode(randomPassword.generateSecureRandomPassword()),
 				// signupRequestInstitution.getAddress(),
 				signupRequestInstitution.getStreet(), signupRequestInstitution.getCity(),
 				signupRequestInstitution.getPostalCode(), signupRequestInstitution.getPhoneNumber(), null,
@@ -226,6 +244,8 @@ public class AuthController {
 
 		// Create new user's account
 
+		List<CompanyRegistration> entrepRegistration = new ArrayList<>();
+		LocalDate now = LocalDate.now();
 		Entreprise enterprise = new Entreprise(signupRequestEnterprise.getEmail(),
 				encoder.encode(signupRequestEnterprise.getPassword()),
 				// signupRequestEnterprise.getAddress(),
@@ -235,71 +255,99 @@ public class AuthController {
 				signupRequestEnterprise.getPhoneNumber(), null, signupRequestEnterprise.getEnterpriseName(),
 				signupRequestEnterprise.getWebsite(), signupRequestEnterprise.getManagerFirstName(),
 				signupRequestEnterprise.getManagerLastName(), signupRequestEnterprise.getManagerPosition(),
-				signupRequestEnterprise.getNbMinParticipants(),signupRequestEnterprise.isProvider());
+				signupRequestEnterprise.getNbMinParticipants(), signupRequestEnterprise.isProvider());
 
-		enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
 		System.out.println(enterprise.isProvider());
 		enterprise.setValidated(false);
 
-//		User user = new User(signupRequestEnterprise.getEmail(),
-//				 encoder.encode(signupRequestEnterprise.getPassword()),
-//				 signupRequestEnterprise.getStreet(),
-//				 signupRequestEnterprise.getCity(),
-//				 signupRequestEnterprise.getPostalCode(),
-//				 signupRequestEnterprise.getPhoneNumber(),null);
-//		
-//		
-        Set<String> strRoles = signupRequestEnterprise.getRole();
+		Set<String> strRoles = signupRequestEnterprise.getRole();
 
-        Set<Role> roles = new HashSet<>();
+		Set<Role> roles = new HashSet<>();
 
-        Role modRole = roleRepository.findByRole(Roles.ENTREPRISE)
-                .orElseThrow(() -> new RuntimeException("Error: Role ENTREPRISE is not found."));
-        roles.add(modRole);
+		Role modRole = roleRepository.findByRole(Roles.ENTREPRISE)
+				.orElseThrow(() -> new RuntimeException("Error: Role ENTREPRISE is not found."));
+		roles.add(modRole);
 
-        enterprise.setRoles(roles);
+		enterprise.setRoles(roles);
 
-        enterpriseRepository.save(enterprise);
-       /* try {
-            mailService.sendmail(enterprise.getEmail());
-        } catch (AddressException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }*/
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-    }
+		enterpriseRepository.save(enterprise);
 
+		// enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
+		if (signupRequestEnterprise.getProgramInstance()!=null) {
+			for (ProgramInstance prog : signupRequestEnterprise.getProgramInstance()) {
 
-    @PostMapping("/signupParticipant")
-    public ResponseEntity<?> ji(@Valid @RequestBody SignupRequestParticipant signupRequestParticipant) {
+				List<ProgramInstance> list1 = companyRegistrationService.findEntrepPrograms(enterprise.getId()).stream()
+						.filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))
+						.collect(Collectors.toList());
+				// System.out.println(list1);
+				if (prog != null && list1.isEmpty()) {
+					CompanyRegistration registration = new CompanyRegistration();
+					registration.setEntreprise(enterprise);
+					registration.setPrograminstance(prog);
+					registration.setRegistrationDate(now);
+					entrepRegistration.add(registration);
+					// enterprise.setRegistration(entrepRegistration);
+					registrationRepository.save(registration);
 
-        if (participantRepository.existsByEmail(signupRequestParticipant.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
-        }
+				}
+			}
+		}
 
-        // Create new user's account
+		////////////////
 
+		/*
+		 * try { mailService.sendmail(enterprise.getEmail()); } catch (AddressException
+		 * e) { // TODO Auto-generated catch block e.printStackTrace(); } catch
+		 * (MessagingException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); } catch (IOException e) { // TODO Auto-generated catch
+		 * block e.printStackTrace(); }
+		 */
+		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
 
-        Participant participant = new Participant(signupRequestParticipant.getEmail(),
-                encoder.encode(signupRequestParticipant.getPassword()),
-                signupRequestParticipant.getStreet(),
-                signupRequestParticipant.getCity(), signupRequestParticipant.getPostalCode(),
-                signupRequestParticipant.getPhoneNumber(), null, signupRequestParticipant.getFirstName(),
-                signupRequestParticipant.getLastName(), signupRequestParticipant.getGender(),
-                signupRequestParticipant.getBirthday());
-        participant.setValidated(false);
+	@PostMapping("/signupParticipant")
+	public ResponseEntity<?> registerParticipant(
+			@Valid @RequestBody SignupRequestParticipant signupRequestParticipant) {
+
+		if (participantRepository.existsByEmail(signupRequestParticipant.getEmail())) {
+			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+		}
+
+		// Create new user's account
+
+		List<ParticipantRegistration> partRegistration = new ArrayList<>();
+		LocalDate now = LocalDate.now();
+		Participant participant = new Participant(signupRequestParticipant.getEmail(),
+				encoder.encode(signupRequestParticipant.getPassword()), signupRequestParticipant.getStreet(),
+				signupRequestParticipant.getCity(), signupRequestParticipant.getPostalCode(),
+				signupRequestParticipant.getPhoneNumber(), null, signupRequestParticipant.getFirstName(),
+				signupRequestParticipant.getLastName(), signupRequestParticipant.getGender(),
+				signupRequestParticipant.getBirthday());
+		participant.setValidated(false);
 		participant.setStatus(Status.WAITING);
 
 		participant.setEducationLevel(signupRequestParticipant.getEducationLevel());
 		participant.setLevel(signupRequestParticipant.getLevel());
 		participant.setCurrentPosition(signupRequestParticipant.getCurrentPosition());
 		participant.setExperience(signupRequestParticipant.getExperience());
+
+		if (signupRequestParticipant.getProgramInstance() != null) {
+			for (ProgramInstance p : signupRequestParticipant.getProgramInstance()) {
+
+				if (p != null) {
+					ParticipantRegistration registration = new ParticipantRegistration();
+					registration.setParticipant(participant);
+					registration.setPrograminstance(p);
+					registration.setRegistrationDate(now);
+					registration.setStatus(Status.WAITING);
+					regPartRepository.save(registration);
+					partRegistration.add(registration);
+					// participant.setParticipantRegistrations(partRegistration);
+
+				}
+			}
+		}
+
 //		User user = new User(signupRequestParticipant.getEmail(),
 //				 encoder.encode(signupRequestParticipant.getPassword()),
 //				 signupRequestParticipant.getStreet(),
@@ -309,20 +357,31 @@ public class AuthController {
 
 		Set<String> strRoles = signupRequestParticipant.getRole();
 
+		Set<Role> roles = new HashSet<>();
 
+		Role modRole = roleRepository.findByRole(Roles.PARTICIPANT)
+				.orElseThrow(() -> new RuntimeException("Error: Role PARTICIPANT is not found."));
+		roles.add(modRole);
 
-        Set<Role> roles = new HashSet<>();
+		participant.setRoles(roles);
 
-        Role modRole = roleRepository.findByRole(Roles.PARTICIPANT)
-                .orElseThrow(() -> new RuntimeException("Error: Role PARTICIPANT is not found."));
-        roles.add(modRole);
+		participantRepository.save(participant);
 
-        participant.setRoles(roles);
+		for (ProgramInstance p : signupRequestParticipant.getProgramInstance()) {
 
-        participantRepository.save(participant);
+			if (p != null) {
+				ParticipantRegistration registration = new ParticipantRegistration();
+				registration.setParticipant(participant);
+				registration.setPrograminstance(p);
+				registration.setRegistrationDate(now);
+				regPartRepository.save(registration);
+				partRegistration.add(registration);
+				// participant.setParticipantRegistrations(partRegistration);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-    }
+			}
+		}
 
+		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
 
 }

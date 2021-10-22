@@ -1,15 +1,15 @@
 package com.eniso.tama.controller;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.eniso.tama.dto.EntrepriseDto;
 import com.eniso.tama.entity.Entreprise;
-import com.eniso.tama.entity.Participant;
-import com.eniso.tama.entity.Trainer;
-import com.eniso.tama.payload.MessageResponse;
+import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.service.EntrepriseService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -35,7 +35,12 @@ public class EntrepriseController {
 	@Autowired
 	private EntrepriseService entrepriseService;
 
-
+	@Autowired
+	PasswordEncoder encoder;
+	
+	@Autowired
+    RandomPasswordGenerator randomPassword;
+	
 	public EntrepriseController(EntrepriseService entrepriseService) {
 		super();
 		this.entrepriseService = entrepriseService;
@@ -75,14 +80,14 @@ public class EntrepriseController {
 	public Entreprise addEnterprise(@RequestBody Entreprise theParticipant) {
 
 		
-
+		theParticipant.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
 		entrepriseService.save(theParticipant);
 		return theParticipant;
 	}
 
 
-	@PutMapping("/entreprises")
-	public  ResponseEntity<?>   updateEntreprise(@RequestBody Entreprise theEntreprise) {
+	@PutMapping("/update/entreprise")
+	public  ResponseEntity<?>   updateEntreprise(@RequestBody EntrepriseDto theEntreprise) {
 		return entrepriseService.updateEntreprise(theEntreprise);
 		
 	}

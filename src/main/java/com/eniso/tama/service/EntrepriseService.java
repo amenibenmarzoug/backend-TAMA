@@ -6,10 +6,10 @@ import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.eniso.tama.dto.EntrepriseDto;
 import com.eniso.tama.entity.Entreprise;
 
 
@@ -32,7 +32,7 @@ public interface EntrepriseService {
 
 	public Entreprise getParticipant( long entrepriseId) ;
 
-	public  ResponseEntity<?>   updateEntreprise(@RequestBody Entreprise theEntreprise);
+	public  ResponseEntity<?>   updateEntreprise(@RequestBody EntrepriseDto theEntreprise);
 
 	public List<Entreprise> getNonValid();
 	

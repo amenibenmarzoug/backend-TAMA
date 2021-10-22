@@ -32,6 +32,7 @@ public class SignupRequestEnterprise {
     @NotBlank
     @Size(min = 3, max = 20)
     private String phoneNumber;
+    
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
@@ -46,7 +47,8 @@ public class SignupRequestEnterprise {
     private boolean provider;
     
     private Set<String> role;
-    private ProgramInstance programInstance;
+    
+    private Set<ProgramInstance> programInstance;
 
     public String getStreet() {
         return street;
@@ -139,16 +141,16 @@ public class SignupRequestEnterprise {
     }
 
 
-    public ProgramInstance getProgramInstance() {
-        return programInstance;
-    }
 
-    public void setProgramInstance(ProgramInstance programInstance) {
-        this.programInstance = programInstance;
-    }
+    public Set<ProgramInstance> getProgramInstance() {
+		return programInstance;
+	}
 
+	public void setProgramInstance(Set<ProgramInstance> programInstance) {
+		this.programInstance = programInstance;
+	}
 
-    public String getManagerPosition() {
+	public String getManagerPosition() {
         return managerPosition;
     }
 

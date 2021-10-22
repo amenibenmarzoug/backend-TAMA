@@ -24,7 +24,6 @@ public class SignupRequestInstitution {
     @NotBlank
     @Size(min = 3, max = 20)
     private String phoneNumber;
-    @NotBlank
     @Size(min = 8, max = 40)
     private String password;
     @NotNull

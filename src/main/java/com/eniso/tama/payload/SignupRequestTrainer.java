@@ -46,7 +46,7 @@ public class SignupRequestTrainer {
     private Set<String> role;
     
    // @Size(min = 8, max = 40)
-    private String password;
+    //private String password;
 	
     
 	public String getStreet() {
@@ -99,13 +99,13 @@ public class SignupRequestTrainer {
 		this.role = role;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
+//	public String getPassword() {
+//		return password;
+//	}
+//
+//	public void setPassword(String password) {
+//		this.password = password;
+//	}
 
 
 

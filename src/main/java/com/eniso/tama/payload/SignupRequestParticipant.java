@@ -33,7 +33,7 @@ public class SignupRequestParticipant {
 	@NotNull
 	private String postalCode;
 
-	@NotBlank
+	
 	@Size(min = 3, max = 20)
 	private String phoneNumber;
 
@@ -69,7 +69,7 @@ public class SignupRequestParticipant {
 
 	private Entreprise entreprise;
 
-	private ProgramInstance programInstance;
+	private Set<ProgramInstance> programInstance;
 
 	public String getEmail() {
 		return email;
@@ -203,16 +203,18 @@ public class SignupRequestParticipant {
 		return entreprise;
 	}
 
-	public ProgramInstance getProgramInstance() {
-		return programInstance;
-	}
 
 	public void setEntreprise(Entreprise entreprise) {
 		this.entreprise = entreprise;
 	}
 
-	public void setProgramInstance(ProgramInstance programInstance) {
+	public Set<ProgramInstance> getProgramInstance() {
+		return programInstance;
+	}
+
+	public void setProgramInstance(Set<ProgramInstance> programInstance) {
 		this.programInstance = programInstance;
 	}
+
 
 }

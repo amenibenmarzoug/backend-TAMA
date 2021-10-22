@@ -20,7 +20,7 @@ public interface ParticipantService {
 		
 		public void save(Participant theParticipant);
 		public List<Participant> getParticipantPerClass(long id);
-		
+		public float percentMascPart();
 		public void deleteById(long theId);
 		
 	}

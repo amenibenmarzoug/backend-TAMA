@@ -34,7 +34,7 @@ public class SignupRequestPartEntr {
     @NotNull
     private String postalCode;
 
-    @NotBlank
+    
     @Size(min = 3, max = 20)
     private String phoneNumber;
 
@@ -54,7 +54,7 @@ public class SignupRequestPartEntr {
 
     private Set<String> role;
 
-    @NotBlank
+    
     @Size(min = 8, max = 40)
     private String password;
 
