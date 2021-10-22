@@ -17,9 +17,10 @@ import com.eniso.tama.repository.ProgramInstanceRepository;
 public class ParticipantRegistrationServiceImpl implements ParticipantRegistrationService {
 	@Autowired
 	private ParticipantRegistrationRepository participantRegistrationRepository;
-     
+
 	@Autowired
 	private ProgramInstanceRepository programInstanceRepository;
+
 	@Override
 	public List<ParticipantRegistration> findAll() {
 
@@ -65,7 +66,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 
 	@Override
 	public List<ProgramInstance> findParticipantPrograms(long participantId) {
-		List<ProgramInstance> programs = new ArrayList<>() ;
+		List<ProgramInstance> programs = new ArrayList<>();
 		for (ParticipantRegistration registration : participantRegistrationRepository
 				.findByParticipantId(participantId)) {
 			programs.add(registration.getPrograminstance());
@@ -76,8 +77,8 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 
 	@Override
 	public ParticipantRegistration validateRegistration(long registrationId) {
-		ParticipantRegistration registration=findById(registrationId);
-		if(registration!=null) {
+		ParticipantRegistration registration = findById(registrationId);
+		if (registration != null) {
 			registration.setStatus(Status.ACCEPTED);
 			participantRegistrationRepository.save(registration);
 
@@ -87,12 +88,24 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 
 	@Override
 	public ParticipantRegistration refuseRegistration(long registrationId) {
-		ParticipantRegistration registration=findById(registrationId);
-		if(registration!=null) {
+		ParticipantRegistration registration = findById(registrationId);
+		if (registration != null) {
 			registration.setStatus(Status.REFUSED);
 			participantRegistrationRepository.save(registration);
 		}
 		return registration;
+	}
+
+	@Override
+	public List<ProgramInstance> findParticipantValidatedPrograms(long participantId) {
+		List<ProgramInstance> programs = new ArrayList<>();
+		for (ParticipantRegistration registration : participantRegistrationRepository
+				.findByParticipantId(participantId)) {
+			if (registration.getStatus() == Status.ACCEPTED) {
+				programs.add(registration.getPrograminstance());
+			}
+		}
+		return programs;
 	}
 
 }
