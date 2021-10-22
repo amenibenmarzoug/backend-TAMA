@@ -1,5 +1,6 @@
 package com.eniso.tama.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public List<Attendance> findAll();
 	
 	public void deleteById(long id);
 	
-	public void generateReport (long sessionId) throws JRException, IOException;
+	public File generateReport (long sessionId) throws JRException, IOException;
 
 	
 }

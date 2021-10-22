@@ -13,10 +13,21 @@ import com.eniso.tama.service.SessionService;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import javax.transaction.Transactional;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -131,9 +142,14 @@ public class AttendanceController {
     
 
     @GetMapping("/attendance/generateReport/{sessionId}")
-    public void genereateReport(@PathVariable long sessionId) throws JRException, IOException {
-    	System.out.println(sessionId);
-        attendanceService.generateReport(sessionId);
+    public ResponseEntity<Resource> genereateReport(@PathVariable long sessionId) throws JRException, IOException {
+    	File file=attendanceService.generateReport(sessionId);
+    	Resource resource=null;
+    	resource=new InputStreamResource(new FileInputStream(file));
+        return ResponseEntity.ok().contentLength(file.length())
+        		.contentType(MediaType.APPLICATION_OCTET_STREAM)
+        		 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+        		.body(resource);
     }
     
 

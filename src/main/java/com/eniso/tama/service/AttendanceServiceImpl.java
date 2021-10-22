@@ -103,9 +103,10 @@ public class AttendanceServiceImpl implements AttendanceService {
 	}
 
 	@Override
-	public void generateReport(long sessionId) throws JRException, IOException {
+	public File generateReport(long sessionId) throws JRException, IOException {
 
 		String fileName = "src/main/resources/reports/attendance.jrxml";
+		File fileToSend=null;
 		List<Attendance> attendanceList = new ArrayList<Attendance>();
 		List<Session> sessionList = new ArrayList<Session>();
 		Session session = null;
@@ -160,9 +161,13 @@ public class AttendanceServiceImpl implements AttendanceService {
 					"src/main/resources/reports/" + session.getThemeDetailInstance().getThemeDetailInstName() + "_"
 							+ session.getSessionName() + "-liste_presence.pdf");
 			FileOutputStream outputSteam = null;
+			
 			try {
 				outputSteam = new FileOutputStream(file);
 				JasperExportManager.exportReportToPdfStream(jasperPrint, outputSteam);
+				System.out.println("Report Generated!");
+
+				fileToSend=new File(file.getAbsolutePath());
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -170,8 +175,8 @@ public class AttendanceServiceImpl implements AttendanceService {
 				outputSteam.close();
 			}
 
-			System.out.println("Report Generated!");
 		}
+		return fileToSend;
 
 	}
 
