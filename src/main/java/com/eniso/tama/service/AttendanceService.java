@@ -18,7 +18,7 @@ public List<Attendance> findAll();
 	
 	public void deleteById(long id);
 	
-	public void generateReport () throws JRException, IOException;
+	public void generateReport (long sessionId) throws JRException, IOException;
 
 	
 }

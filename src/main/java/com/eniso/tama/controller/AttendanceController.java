@@ -86,9 +86,10 @@ public class AttendanceController {
         return updatedAttendance;
     }
 
-    @GetMapping("/attendance/generate")
-    public void genereateReport() throws JRException, IOException {
-        attendanceService.generateReport();
+    @GetMapping("/attendance/generateReport/{sessionId}")
+    public void genereateReport(@PathVariable long sessionId) throws JRException, IOException {
+    	System.out.println(sessionId);
+        attendanceService.generateReport(sessionId);
     }
 
 
