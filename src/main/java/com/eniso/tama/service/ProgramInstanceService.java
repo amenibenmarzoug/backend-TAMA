@@ -3,13 +3,16 @@ package com.eniso.tama.service;
 import java.util.Date;
 import java.util.List;
 
+import com.eniso.tama.entity.Program;
 import com.eniso.tama.entity.ProgramInstance;
 
 public interface ProgramInstanceService {
 
 	public List<ProgramInstance> findAll();
+	public List<ProgramInstance> getConfirmedClasses();
 
 	public ProgramInstance findById(long theId);
+	
 
 	public List<ProgramInstance> findByProgramId(long id);
 

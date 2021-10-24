@@ -8,11 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ProgramInstance;
 @Repository
 public interface ProgramInstanceRepository extends JpaRepository<ProgramInstance, Long> {
 	
-
+	List <ProgramInstance> findByValidatedTrue() ; 
 	@Query
 	(value = "SELECT * FROM program_instance p WHERE p.location = :location and p.validated = :validated", nativeQuery = true)
 	List<ProgramInstance> findProgramInstByLocationAndValidated(@Param("location") String location, @Param("validated") boolean validated);

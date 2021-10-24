@@ -96,6 +96,16 @@ public class ParticipantController {
 //		}
 		return participantService.findAll();
 	}
+	
+	//get participants with validated accounts
+	@GetMapping("/validatedParticipants")
+	public List<Participant> findValidatedParticipants() {
+//		for (Participant par : participantService.findAll()) {
+//			//System.out.println("AGE"+par.getAge());
+//		}
+		return participantService.findValidatedParticipants();
+	}
+	
 
 	@GetMapping("participants/{participantId}")
 	public Participant getParticipant(@PathVariable long participantId) {
@@ -198,7 +208,7 @@ public class ParticipantController {
 	// be corrected)
 	@GetMapping("participants/classId/{id}")
 	public List<Participant> getParticipantsPerClass(@PathVariable("id") long classId) {
-		List<Participant> participantsPerClasse = participantService.findParticipantsByClass(classId);
+		List<Participant> participantsPerClasse = participantService.getParticipantPerClass(classId);
 
 		if (participantsPerClasse == null) {
 			throw new RuntimeException("No participants found in the class with id  " + classId);

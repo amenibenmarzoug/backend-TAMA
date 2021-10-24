@@ -130,9 +130,9 @@ public class AttendanceController {
 		return attendanceService.markAbsent(attendance);
 	}
     
-    @PutMapping("attendance/markNotifiedAbsent")
+    @PutMapping("attendance/markJustifiedAbsent")
 	public Attendance markNotifiedAbsent(@RequestBody Attendance attendance) {
-		return attendanceService.markNotifiedAbsent(attendance);
+		return attendanceService.markJustifiedAbsent(attendance);
 	}
     
     
