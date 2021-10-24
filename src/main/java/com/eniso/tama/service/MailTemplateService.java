@@ -6,8 +6,7 @@ import com.eniso.tama.entity.MailTemplate;
 public interface MailTemplateService {
 
 	public MailTemplate findMailTemplate(String templateId) ;
-	public void sendMailUsingTemplate(Notification notification) ;
-	//public void sendMailValidationUser(Notification notification) ;
-
+	public void sendUserValidation(Notification notification) ;
+	public void sendmailAlert(String from , String to , String programInstanceName, String ProgramInstanceLocation) ;
 
 }
