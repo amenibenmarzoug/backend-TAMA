@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.ProgramInstance;
+import com.eniso.tama.entity.Status;
 import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ProgramInstanceRepository;
 
@@ -16,9 +17,10 @@ import com.eniso.tama.repository.ProgramInstanceRepository;
 public class ParticipantRegistrationServiceImpl implements ParticipantRegistrationService {
 	@Autowired
 	private ParticipantRegistrationRepository participantRegistrationRepository;
-     
+
 	@Autowired
 	private ProgramInstanceRepository programInstanceRepository;
+
 	@Override
 	public List<ParticipantRegistration> findAll() {
 
@@ -53,7 +55,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 	@Override
 	public List<ParticipantRegistration> findByProgramInstanceId(long partId) {
 
-		return participantRegistrationRepository.findByParticipantId(partId);
+		return participantRegistrationRepository.findByProgramInstanceId(partId);
 	}
 
 	@Override
@@ -64,13 +66,46 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 
 	@Override
 	public List<ProgramInstance> findParticipantPrograms(long participantId) {
-		List<ProgramInstance> programs = new ArrayList<>() ;
+		List<ProgramInstance> programs = new ArrayList<>();
 		for (ParticipantRegistration registration : participantRegistrationRepository
 				.findByParticipantId(participantId)) {
 			programs.add(registration.getPrograminstance());
 		}
 		return programs;
 
+	}
+
+	@Override
+	public ParticipantRegistration validateRegistration(long registrationId) {
+		ParticipantRegistration registration = findById(registrationId);
+		if (registration != null) {
+			registration.setStatus(Status.ACCEPTED);
+			participantRegistrationRepository.save(registration);
+
+		}
+		return registration;
+	}
+
+	@Override
+	public ParticipantRegistration refuseRegistration(long registrationId) {
+		ParticipantRegistration registration = findById(registrationId);
+		if (registration != null) {
+			registration.setStatus(Status.REFUSED);
+			participantRegistrationRepository.save(registration);
+		}
+		return registration;
+	}
+
+	@Override
+	public List<ProgramInstance> findParticipantValidatedPrograms(long participantId) {
+		List<ProgramInstance> programs = new ArrayList<>();
+		for (ParticipantRegistration registration : participantRegistrationRepository
+				.findByParticipantId(participantId)) {
+			if (registration.getStatus() == Status.ACCEPTED) {
+				programs.add(registration.getPrograminstance());
+			}
+		}
+		return programs;
 	}
 
 }

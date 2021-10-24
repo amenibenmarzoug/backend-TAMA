@@ -1,3 +1,4 @@
+
 package com.eniso.tama.controller;
 
 import java.time.LocalDate;
@@ -36,6 +37,7 @@ import com.eniso.tama.entity.Roles;
 import com.eniso.tama.entity.Status;
 import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.entity.User;
+import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.payload.JwtResponse;
 import com.eniso.tama.payload.LoginRequest;
 import com.eniso.tama.payload.MessageResponse;
@@ -84,10 +86,16 @@ public class AuthController {
 
 	@Autowired
 	PasswordEncoder encoder;
+	
+	@Autowired
+	RandomPasswordGenerator randomPassword;
+	
 	@Autowired
 	EntrepriseService entrepriseService;
+	
 	@Autowired
 	CompanyRegistrationService companyRegistrationService;
+	
 	@Autowired
 	JwtUtils jwtUtils;
 
@@ -134,7 +142,7 @@ public class AuthController {
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestTrainer signupRequestTrainer) {
-
+		System.out.println(randomPassword.generateSecureRandomPassword());
 		if (trainerRepository.existsByEmail(signupRequestTrainer.getEmail())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
 		}
@@ -143,7 +151,7 @@ public class AuthController {
 		Role roleTrainer = new Role();
 
 		Trainer trainer = new Trainer(signupRequestTrainer.getEmail(),
-				encoder.encode(signupRequestTrainer.getPassword()), signupRequestTrainer.getStreet(),
+				encoder.encode(randomPassword.generateSecureRandomPassword()), signupRequestTrainer.getStreet(),
 				signupRequestTrainer.getCity(), signupRequestTrainer.getPostalCode(),
 				signupRequestTrainer.getPhoneNumber(), null, signupRequestTrainer.getFirstName(),
 				signupRequestTrainer.getLastName(), signupRequestTrainer.getGender(),
@@ -200,7 +208,7 @@ public class AuthController {
 		// Create new user's account
 
 		Institution institution = new Institution(signupRequestInstitution.getEmail(),
-				encoder.encode(signupRequestInstitution.getPassword()),
+				encoder.encode(randomPassword.generateSecureRandomPassword()),
 				// signupRequestInstitution.getAddress(),
 				signupRequestInstitution.getStreet(), signupRequestInstitution.getCity(),
 				signupRequestInstitution.getPostalCode(), signupRequestInstitution.getPhoneNumber(), null,
@@ -249,7 +257,6 @@ public class AuthController {
 				signupRequestEnterprise.getManagerLastName(), signupRequestEnterprise.getManagerPosition(),
 				signupRequestEnterprise.getNbMinParticipants(), signupRequestEnterprise.isProvider());
 
-
 		System.out.println(enterprise.isProvider());
 		enterprise.setValidated(false);
 
@@ -266,27 +273,27 @@ public class AuthController {
 		enterpriseRepository.save(enterprise);
 
 		// enterprise.setProgramInstance(signupRequestEnterprise.getProgramInstance());
-	
-		for (ProgramInstance prog : signupRequestEnterprise.getProgramInstance()) {
+		if (signupRequestEnterprise.getProgramInstance()!=null) {
+			for (ProgramInstance prog : signupRequestEnterprise.getProgramInstance()) {
 
-			List<ProgramInstance> list1 = companyRegistrationService.findEntrepPrograms(enterprise.getId())
-					.stream().filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))
-					.collect(Collectors.toList());
-			//System.out.println(list1);
-			if (prog != null && list1.isEmpty()) {
-				CompanyRegistration registration = new CompanyRegistration();
-				registration.setEntreprise(enterprise);
-				registration.setPrograminstance(prog);
-				registration.setRegistrationDate(now);
-				entrepRegistration.add(registration);
-				// enterprise.setRegistration(entrepRegistration);
-				registrationRepository.save(registration);
+				List<ProgramInstance> list1 = companyRegistrationService.findEntrepPrograms(enterprise.getId()).stream()
+						.filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))
+						.collect(Collectors.toList());
+				// System.out.println(list1);
+				if (prog != null && list1.isEmpty()) {
+					CompanyRegistration registration = new CompanyRegistration();
+					registration.setEntreprise(enterprise);
+					registration.setPrograminstance(prog);
+					registration.setRegistrationDate(now);
+					entrepRegistration.add(registration);
+					// enterprise.setRegistration(entrepRegistration);
+					registrationRepository.save(registration);
 
+				}
 			}
 		}
 
 		////////////////
-
 
 		/*
 		 * try { mailService.sendmail(enterprise.getEmail()); } catch (AddressException
@@ -299,7 +306,8 @@ public class AuthController {
 	}
 
 	@PostMapping("/signupParticipant")
-	public ResponseEntity<?> registerParticipant(@Valid @RequestBody SignupRequestParticipant signupRequestParticipant) {
+	public ResponseEntity<?> registerParticipant(
+			@Valid @RequestBody SignupRequestParticipant signupRequestParticipant) {
 
 		if (participantRepository.existsByEmail(signupRequestParticipant.getEmail())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
@@ -323,17 +331,20 @@ public class AuthController {
 		participant.setCurrentPosition(signupRequestParticipant.getCurrentPosition());
 		participant.setExperience(signupRequestParticipant.getExperience());
 
-		for (ProgramInstance p : signupRequestParticipant.getProgramInstance()) {
+		if (signupRequestParticipant.getProgramInstance() != null) {
+			for (ProgramInstance p : signupRequestParticipant.getProgramInstance()) {
 
-			if (p != null) {
-				ParticipantRegistration registration = new ParticipantRegistration();
-				registration.setParticipant(participant);
-				registration.setPrograminstance(p);
-				registration.setRegistrationDate(now);
-				regPartRepository.save(registration);
-				partRegistration.add(registration);
-				// participant.setParticipantRegistrations(partRegistration);
+				if (p != null) {
+					ParticipantRegistration registration = new ParticipantRegistration();
+					registration.setParticipant(participant);
+					registration.setPrograminstance(p);
+					registration.setRegistrationDate(now);
+					registration.setStatus(Status.WAITING);
+					regPartRepository.save(registration);
+					partRegistration.add(registration);
+					// participant.setParticipantRegistrations(partRegistration);
 
+				}
 			}
 		}
 
@@ -355,22 +366,20 @@ public class AuthController {
 		participant.setRoles(roles);
 
 		participantRepository.save(participant);
-		
-		 for (ProgramInstance p : signupRequestParticipant.getProgramInstance()) {
-		    	
-		    	if(p!=null) {
-		    		ParticipantRegistration registration = new ParticipantRegistration();
-		    		registration.setParticipant(participant);
-		    		registration.setPrograminstance(p);
-		    		registration.setRegistrationDate(now);	
-		    		regPartRepository.save(registration);
-		    		partRegistration.add(registration);
-		    		//participant.setParticipantRegistrations(partRegistration);
-		    		
-		    		
-		    	}
-		    }
-		
+
+		for (ProgramInstance p : signupRequestParticipant.getProgramInstance()) {
+
+			if (p != null) {
+				ParticipantRegistration registration = new ParticipantRegistration();
+				registration.setParticipant(participant);
+				registration.setPrograminstance(p);
+				registration.setRegistrationDate(now);
+				regPartRepository.save(registration);
+				partRegistration.add(registration);
+				// participant.setParticipantRegistrations(partRegistration);
+
+			}
+		}
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}

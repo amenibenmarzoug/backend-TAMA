@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.*;
 
 import org.springframework.data.annotation.*;
+import org.springframework.data.annotation.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,8 +29,10 @@ public class User {
     @Column
     @Email(message = "{errors.invalid_email}")
     private String email;
+    
     @NotNull
     @Column( insertable = true, updatable = true, nullable = false)
+    @Transient
     // @Size(min=8, max=40)
     private String password;
     
@@ -42,7 +45,7 @@ public class User {
     @Column
     private String postalCode;
 
-    @Column
+    @Column(unique=true)
     private String phoneNumber;
 
     @CreatedDate
@@ -54,24 +57,12 @@ public class User {
     @Column
     @JsonIgnore
     private Instant lastModifiedDate = Instant.now();
+    
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     public User() {
-    }
-
-    public User(@NotBlank @Size(max = 50) @Email String email, String password, @NotBlank String street,
-                @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber, Set<Role> roles) {
-        // super();
-        this.email = email;
-        this.password = password;
-        // this.address = address;
-        this.street = street;
-        this.city = city;
-        this.postalCode = postalCode;
-        this.phoneNumber = phoneNumber;
-        this.roles = roles;
     }
 
     public User(String email, String password, Boolean validated) {
@@ -80,7 +71,20 @@ public class User {
         this.validated = false;
     }
 
-    @Override
+//    public User(@NotNull @Email(message = "{errors.invalid_email}") String email, @NotNull String password, String street,
+//		String city, String postalCode, String phoneNumber, Set<Role> roles) {
+//	super();
+//	this.email = email;
+//	this.password = password;
+//	this.street = street;
+//	this.city = city;
+//	this.postalCode = postalCode;
+//	this.phoneNumber = phoneNumber;
+//	this.roles = roles;
+//}
+    
+
+	@Override
     public String toString() {
         return "User [id=" + id + ", validated=" + validated + ", email=" + email + ", password=" + password
                 + ", street=" + street + ", city=" + city + ", postalCode=" + postalCode + ", phoneNumber="
@@ -88,7 +92,7 @@ public class User {
                 + roles + "]";
     }
 
-    public Boolean isValidated() {
+	public Boolean isValidated() {
         return validated;
     }
 

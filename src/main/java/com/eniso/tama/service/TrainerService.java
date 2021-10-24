@@ -24,4 +24,7 @@ public interface TrainerService {
 	public void sendValidationMail(Trainer t) throws AddressException, MessagingException, IOException;
 
 	public void validateTrainer(long id) throws AddressException, MessagingException, IOException;
+	
+    public List<Trainer> findTrainersBySpecialization(String specialization);
+
 }

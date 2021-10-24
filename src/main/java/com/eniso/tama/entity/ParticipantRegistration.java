@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,6 +34,8 @@ public class ParticipantRegistration {
 	
 	private LocalDate registrationDate;
 	
+	@Enumerated(EnumType.STRING)
+	private Status status;
 	
 
 	public Long getId() {
@@ -78,6 +82,16 @@ public class ParticipantRegistration {
 
 	public void setCompanyRegistration(CompanyRegistration companyRegistration) {
 		this.companyRegistration = companyRegistration;
+	}
+	
+	
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public ParticipantRegistration(Long id, Participant participant, ProgramInstance programinstance,

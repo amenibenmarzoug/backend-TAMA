@@ -2,6 +2,7 @@ package com.eniso.tama.service;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -139,6 +140,17 @@ public class TrainerServiceImpl implements TrainerService {
 		save(t);
 		//sendValidationMail(t);
 
+	}
+
+	@Override
+	public List<Trainer> findTrainersBySpecialization(String specialization) {
+		List<Trainer> trainersList=new ArrayList<Trainer>();
+		for (Long trainerId : trainerRepository.findTrainersBySpecialization(specialization)) {
+			Trainer trainer=findById(trainerId);
+			trainersList.add(trainer);
+
+		}
+		return trainersList;
 	}
 
 }

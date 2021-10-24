@@ -40,7 +40,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	@Autowired
 	RoleRepository roleRepository;
-	
+
 	@Autowired
 	CompanyRegistrationService companyRegistrationService;
 
@@ -125,14 +125,13 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 	}
 
 	public ResponseEntity<?> updateEntreprise(@RequestBody EntrepriseDto theEntreprise) {
+
 		
-		System.out.println(theEntreprise.getProgramInstance().toString());
 		Entreprise newEntreprise = findById(theEntreprise.getId());
 		Entreprise verifEmailEntreprise = findByEmail(theEntreprise.getEmail());
 		System.out.println(verifEmailEntreprise);
 		Entreprise verifPhoneNumberEntreprise = findByPhoneNumber(theEntreprise.getPhoneNumber());
-	
-		
+
 		if (((verifEmailEntreprise != null) && (verifEmailEntreprise.getId() == theEntreprise.getId()))
 				|| (verifEmailEntreprise == null)) {
 			if (((verifPhoneNumberEntreprise != null) && (verifPhoneNumberEntreprise.getId() == theEntreprise.getId()))
@@ -151,28 +150,30 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 				newEntreprise.setNbMinParticipants(theEntreprise.getNbMinParticipants());
 				newEntreprise.setManagerPosition(theEntreprise.getManagerPosition());
 				save(newEntreprise);
-				
-				//List<CompanyRegistration> companyRegistartions= new ArrayList<>() ;
-				for (ProgramInstance p : theEntreprise.getProgramInstance())
-					 {
 
-					List<ProgramInstance> list1 = companyRegistrationService.findEntrepPrograms(newEntreprise.getId())
-							.stream().filter(x -> x.getProgramInstName().equals(p.getProgramInstName()))
-							.collect(Collectors.toList());
-					//System.out.println(list1);
-					if (p != null && list1.isEmpty()) {
-						CompanyRegistration registration = new CompanyRegistration();
-						registration.setEntreprise(newEntreprise);
-						registration.setPrograminstance(p);
-						registration.setRegistrationDate(LocalDate.now());
-						// enterprise.setRegistration(entrepRegistration);
-						registrationRepository.save(registration);
+				// List<CompanyRegistration> companyRegistartions= new ArrayList<>() ;
+				if (theEntreprise.getProgramInstance() != null) {
+					for (ProgramInstance p : theEntreprise.getProgramInstance()) {
+
+						List<ProgramInstance> list1 = companyRegistrationService
+								.findEntrepPrograms(newEntreprise.getId()).stream()
+								.filter(x -> x.getProgramInstName().equals(p.getProgramInstName()))
+								.collect(Collectors.toList());
+						System.out.println(list1);
+						// System.out.println(list1);
+						if (p != null && list1.isEmpty()) {
+							CompanyRegistration registration = new CompanyRegistration();
+							registration.setEntreprise(newEntreprise);
+							registration.setPrograminstance(p);
+							registration.setRegistrationDate(LocalDate.now());
+							// enterprise.setRegistration(entrepRegistration);
+							registrationRepository.save(registration);
+
+						}
 
 					}
-
 				}
-				
-				//newEntreprise.setRegistration(companyRegistartions);
+				// newEntreprise.setRegistration(companyRegistartions);
 //				registration.setEntreprise(theEntreprise);
 //				registration.setPrograminstance(theEntreprise.getRegistration().getPrograminstance());
 				/*
@@ -184,8 +185,8 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 				 * 
 				 * newEntreprise.setRoles(roles);
 				 */
-				
-			//	registrationRepository.save(registration) ;
+
+				// registrationRepository.save(registration) ;
 				return ResponseEntity.ok(new MessageResponse("User updated successfully!"));
 			} else {
 				return ResponseEntity.badRequest().body(new MessageResponse(

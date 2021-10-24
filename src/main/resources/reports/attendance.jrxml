@@ -110,20 +110,14 @@
 				</textElement>
 				<textFieldExpression ><![CDATA[$P{program}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="90" y="40" width="60" height="22" uuid="4c4a8c1b-1326-4430-b6f9-a7603b08e5fe"/>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="90" y="40" width="250" height="22" uuid="4c4a8c1b-1326-4430-b6f9-a7603b08e5fe"/>
 				<textElement>
 					<font size="12"/>
-				</textElement>
+				</textElement> 
 				<textFieldExpression ><![CDATA[$P{session}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
-				<reportElement x="160" y="40" width="150" height="22" uuid="2fc978eb-a9a5-4fc9-8c94-02cc4253eda0"/>
-				<textElement>
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression ><![CDATA[$P{themeDet}]]></textFieldExpression>
-			</textField>
+			
 			<textField isBlankWhenNull="true">
 				<reportElement x="400" y="10" width="100" height="22" uuid="2673efe1-9208-4d7f-baec-904a741e1f84"/>
 				<textElement>
