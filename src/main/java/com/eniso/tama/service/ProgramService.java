@@ -5,7 +5,10 @@ import java.util.List;
 import com.eniso.tama.entity.Program;
 
 public interface ProgramService {
+	
 	public List<Program> findAll();
+
+	
 
 	public Program findById(long theId);
 

@@ -18,6 +18,10 @@ public interface ParticipantService {
 		public List<Participant> findByAbonadn(boolean theAbondan );
 		public List<Participant> findParticipantsByClass(long programInstId );
 		
+		public List<Participant> findValidatedParticipants();
+
+		
+		
 		public void save(Participant theParticipant);
 		public List<Participant> getParticipantPerClass(long id);
 		public float percentMascPart();

@@ -227,9 +227,9 @@ public class AttendanceServiceImpl implements AttendanceService {
 	}
 
 	@Override
-	public Attendance markNotifiedAbsent(Attendance attendance) {
+	public Attendance markJustifiedAbsent(Attendance attendance) {
 		if(attendance!=null) {
-			attendance.setAttendanceState(AttendanceStates.NOTIFIEDABSENT);
+			attendance.setAttendanceState(AttendanceStates.JUSTIFIEDABSENT);
 		}
 		return attendanceRepository.save(attendance);
 	}

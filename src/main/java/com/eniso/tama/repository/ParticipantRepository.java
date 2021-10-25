@@ -28,6 +28,7 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
 
     //List<Participant> findByProgramInstance(ProgramInstance  programInst);
     List<Participant> findByLevel(String level);
+    List <Participant> findByValidatedTrue() ; 
 
     //List <Participant> findByEntreprise(Participant theParticipant);<<<<<<< HEAD
  

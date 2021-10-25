@@ -21,7 +21,7 @@ public List<Attendance> findAll();
 	
 	public Attendance markPresent(Attendance attendance) ; 
 	public Attendance markAbsent(Attendance attendance) ; 
-	public Attendance markNotifiedAbsent(Attendance attendance) ; 
+	public Attendance markJustifiedAbsent(Attendance attendance) ; 
 	
 	public List<Attendance> findBySession(long sessionId);
 	
