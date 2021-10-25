@@ -136,6 +136,21 @@ public class SessionController {
 
     	return programInst ; 
     }
+    
+    //Get sessions which attendance has been marked
+    @GetMapping("/session/AttendanceMarkedSessions")
+    public List<Session> getAttendanceMarkedSessions(){
+    	List<Session> markedSessions = sessionService.getAttendanceMarkedSessions();
+    	
+    	//List<Session> sessions = sessionService.findByTrainerId(trainerId);
+    	
+
+        if (markedSessions == null) {
+            throw new RuntimeException("No marked Sessions Found ");
+        }
+
+    	return markedSessions ; 
+    }
 
     @GetMapping("/session/trainer")
     public List<Session> calculateAllSessionsDurationByTrainer(@RequestParam("trainerId") long trainerId) {

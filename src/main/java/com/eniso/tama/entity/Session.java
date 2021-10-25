@@ -91,17 +91,9 @@ public class Session {
         this.classRoom = classRoom;
     }
 
-    @JsonIgnore
-	@OneToMany(mappedBy = "session")
-	Set<Attendance> attendance;
+    
 
-	public Set<Attendance> getAttendance() {
-		return attendance;
-	}
-
-	public void setAttendance(Set<Attendance> attendance) {
-		this.attendance =attendance;
-	}
+	
 
     public Trainer getTrainer() {
         return trainer;

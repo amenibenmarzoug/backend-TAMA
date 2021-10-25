@@ -20,4 +20,5 @@ public interface SessionService {
     public Session save(Session courseSession);
 
     public void deleteById(long id);
+    List<Session> getAttendanceMarkedSessions();
 }

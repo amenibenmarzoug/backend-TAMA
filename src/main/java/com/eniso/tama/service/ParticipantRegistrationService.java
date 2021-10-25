@@ -16,6 +16,8 @@ public interface ParticipantRegistrationService {
 
 	public List<ParticipantRegistration> findByParticipantId(long entrepriseId);
 	public List<ProgramInstance>findParticipantPrograms(long participantId);
+	public List<ProgramInstance>findParticipantValidatedPrograms(long participantId);
+
 	public List<ParticipantRegistration> findByProgramInstanceId(long progranInstId);
 
 	public void deleteById(long id);

@@ -12,5 +12,6 @@ import com.eniso.tama.entity.Session;
 @Repository
 public interface AttendanceRepository extends JpaRepository<Attendance, Long>  {
 	List<Attendance> findBySession(Session session);
+	Boolean existsBySession (Session session ) ; 
 
 }

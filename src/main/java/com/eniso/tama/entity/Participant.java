@@ -67,9 +67,7 @@ public class Participant extends User {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "participant")
-	Set<Attendance> attendance;
+	
 
 	public int getExperience() {
 		return experience;
@@ -78,6 +76,7 @@ public class Participant extends User {
 	public void setExperience(int experience) {
 		this.experience = experience;
 	}
+
 
 	public String getEducationLevel() {
 		return educationLevel;
@@ -95,13 +94,7 @@ public class Participant extends User {
 		this.entreprise = entreprise;
 	}
 
-	public Set<Attendance> getAttendance() {
-		return attendance;
-	}
 
-	public void setSessionParticipant(Set<Attendance> attendance) {
-		this.attendance = attendance;
-	}
 
 	public int getAge() {
 		return age;
@@ -138,7 +131,7 @@ public class Participant extends User {
 	public Participant(@NotNull String firstNameP, @NotNull String lastNameP, @NotNull String gender,
 			@NotNull LocalDate birthday, String currentPosition, @NotNull int experience, int age, String level,
 			String educationLevel, @NotNull boolean abandon, Entreprise entreprise,
-			List<ParticipantRegistration> participantRegistrations, Status status, Set<Attendance> attendance) {
+			List<ParticipantRegistration> participantRegistrations, Status status) {
 		super();
 		this.firstNameP = firstNameP;
 		this.lastNameP = lastNameP;
@@ -153,7 +146,6 @@ public class Participant extends User {
 		this.entreprise = entreprise;
 		// this.participantRegistrations = participantRegistrations;
 		this.status = status;
-		this.attendance = attendance;
 	}
 
 	public String getGender() {
@@ -230,11 +222,12 @@ public class Participant extends User {
 //	}
 
 	@Override
+
 	public String toString() {
 		return "Participant [ firstNameP=" + firstNameP + ", lastNameP=" + lastNameP + ", gender=" + gender
 				+ ", birthday=" + birthday + ", currentPosition=" + currentPosition + ", level=" + level
 				+ ", educationLevel=" + educationLevel + ", abandon=" + abandon + ", entreprise=" + entreprise
-				+ ", courseSessionParticipant=" + attendance + "]";
+				+ ", courseSessionParticipant=" + "]";
 	}
 
 }

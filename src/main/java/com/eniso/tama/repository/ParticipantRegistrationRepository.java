@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.eniso.tama.entity.CompanyRegistration;
 import com.eniso.tama.entity.ParticipantRegistration;
+import com.eniso.tama.entity.ProgramInstance;
 @Repository
 public interface ParticipantRegistrationRepository  extends JpaRepository<ParticipantRegistration, Long> { 
 	 @Query
@@ -17,4 +18,7 @@ public interface ParticipantRegistrationRepository  extends JpaRepository<Partic
 	 @Query
 		( "SELECT cr FROM ParticipantRegistration cr WHERE cr.programinstance.id =?1")
 	List<ParticipantRegistration> findByProgramInstanceId(long programInstance);
+	 
+	 //List<ProgramInstance> findProgramInstanceByParticipantId(long id);
+	 
 }

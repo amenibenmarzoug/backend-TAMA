@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.entity.ParticipantRegistration;
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.service.ParticipantRegistrationService;
 
 @CrossOrigin(origins = "*")
@@ -48,6 +49,18 @@ public class ParticipantRegistrationController {
 	public List<ParticipantRegistration> getEnterpriseRegistration(@PathVariable long partId) {
 
 		return participantRegistrationService.findByParticipantId(partId);
+	}
+	
+	@GetMapping("participantRegistrations/programInstance/participant/{partId}")
+	public List<ProgramInstance> getParticipantProgramInstance(@PathVariable long partId) {
+
+		return participantRegistrationService.findParticipantPrograms(partId);
+	}
+	
+	@GetMapping("participantRegistrations/programInstance/validated/participant/{partId}")
+	public List<ProgramInstance> getValidatedParticipantProgramInstance(@PathVariable long partId) {
+
+		return participantRegistrationService.findParticipantValidatedPrograms(partId);
 	}
 
 	@GetMapping("participantRegistrations/programInst/{programInstId}")
