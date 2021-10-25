@@ -30,7 +30,7 @@
 	</style>
 	<subDataset name="Empty Dataset1" uuid="55b56a4b-3a16-423b-a2fb-719d7b7c79cd">
 		<field name="participant" class="com.eniso.tama.entity.Participant"/>
-		<field name="attendanceState" class="com.eniso.tama.entity.AttendanceStates"/>
+		<field name="attendanceState" class="java.lang.String"/>
 	</subDataset>
 	<parameter  name="program" class="java.lang.String"/>
 	<parameter name="session" class="java.lang.String"/>

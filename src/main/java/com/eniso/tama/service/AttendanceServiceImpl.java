@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.eniso.tama.dto.AttendanceDTO;
 import com.eniso.tama.entity.Attendance;
 import com.eniso.tama.entity.AttendanceStates;
 import com.eniso.tama.entity.Event;
@@ -75,25 +76,23 @@ public class AttendanceServiceImpl implements AttendanceService {
 		}
 		return attendance;
 	}
-	
-	
 
 	@Override
 	public Attendance save(Attendance attendance) {
 		return attendanceRepository.save(attendance);
 	}
-	
-	
-	 //create attendance (Session, Participant) - Exceptions not treated : check participant existing in that session
-	@Override 
-	public Attendance createAttendance(Session session , Participant participant){
-		
+
+	// create attendance (Session, Participant) - Exceptions not treated : check
+	// participant existing in that session
+	@Override
+	public Attendance createAttendance(Session session, Participant participant) {
+
 		AttendanceStates present = AttendanceStates.PRESENT;
 		Attendance newAttendance = new Attendance();
-	    newAttendance.setSession(session);
-	    newAttendance.setParticipant(participant);
-	    newAttendance.setAttendanceState(present);
-	    
+		newAttendance.setSession(session);
+		newAttendance.setParticipant(participant);
+		newAttendance.setAttendanceState(present);
+
 		return attendanceRepository.save(newAttendance);
 	}
 
@@ -107,13 +106,51 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 		String fileName = "src/main/resources/reports/attendance.jrxml";
 		File fileToSend=null;
-		List<Attendance> attendanceList = new ArrayList<Attendance>();
+		List<AttendanceDTO> attendanceList = new ArrayList<AttendanceDTO>();
 		List<Session> sessionList = new ArrayList<Session>();
 		Session session = null;
 		for (Attendance attendance : findAll()) {
 			if (attendance.getSession().getId() == sessionId) {
 				session = attendance.getSession();
-				attendanceList.add(attendance);
+				AttendanceDTO attendanceDTO=new AttendanceDTO();
+				attendanceDTO.setParticipant(attendance.getParticipant());
+				attendanceDTO.setSession(attendance.getSession());
+				switch (attendance.getAttendanceState()) {
+				case ABSENT:
+					if(attendance.getParticipant().getGender().equals("Masculin")) {
+						attendanceDTO.setAttendanceState("absent");
+					}
+					else {
+						attendanceDTO.setAttendanceState("absente");
+
+					}
+					break;
+
+				case PRESENT:
+					if(attendance.getParticipant().getGender().equals("Masculin")) {
+						attendanceDTO.setAttendanceState("présent");
+					}
+					else {
+						attendanceDTO.setAttendanceState("présente");
+
+					}
+					break;
+
+				case JUSTIFIEDABSENT:
+					if(attendance.getParticipant().getGender().equals("Masculin")) {
+						attendanceDTO.setAttendanceState("absent justifié");
+					}
+					else {
+						attendanceDTO.setAttendanceState("absente justifiée");
+
+					}
+					break;
+
+				default:
+					break;
+				}
+				
+				attendanceList.add(attendanceDTO);
 
 			}
 		}
@@ -139,8 +176,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 						.getPlace() != null) {
 					JSONObject obj = null;
 					try {
-						System.out.println(session.getThemeDetailInstance().getModuleInstance().getThemeInstance()
-								.getProgramInstance().getPlace());
+						
 						obj = new JSONObject(session.getThemeDetailInstance().getModuleInstance().getThemeInstance()
 								.getProgramInstance().getPlace());
 						if (obj != null) {
@@ -194,13 +230,13 @@ public class AttendanceServiceImpl implements AttendanceService {
 		// TODO Auto-generated method stub
 		return attendanceRepository.findBySession(session);
 	}
-	
+
 	@Override
 	public Boolean existsBySession(long sessionId) {
-		Optional<Session> result=sessionRepository.findById(sessionId);
-		Session session ; 
+		Optional<Session> result = sessionRepository.findById(sessionId);
+		Session session;
 		if (result.isPresent()) {
-			 session=result.get();
+			session = result.get();
 
 		} else {
 			// we didn't find the trainer
@@ -209,18 +245,18 @@ public class AttendanceServiceImpl implements AttendanceService {
 		// TODO Auto-generated method stub
 		return attendanceRepository.existsBySession(session);
 	}
-	
+
 	@Override
 	public Attendance markPresent(Attendance attendance) {
-		if(attendance!=null) {
+		if (attendance != null) {
 			attendance.setAttendanceState(AttendanceStates.PRESENT);
 		}
 		return attendanceRepository.save(attendance);
 	}
-	
+
 	@Override
 	public Attendance markAbsent(Attendance attendance) {
-		if(attendance!=null) {
+		if (attendance != null) {
 			attendance.setAttendanceState(AttendanceStates.ABSENT);
 		}
 		return attendanceRepository.save(attendance);
@@ -228,14 +264,10 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	@Override
 	public Attendance markJustifiedAbsent(Attendance attendance) {
-		if(attendance!=null) {
+		if (attendance != null) {
 			attendance.setAttendanceState(AttendanceStates.JUSTIFIEDABSENT);
 		}
 		return attendanceRepository.save(attendance);
 	}
-	
-	
-
-	
 
 }
