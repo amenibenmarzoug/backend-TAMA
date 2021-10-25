@@ -62,7 +62,7 @@
 			</staticText>
 			<image>
 				<reportElement x="0" y="10" width="60" height="50" uuid="66803fad-74b2-4390-b12f-4da62d0fa1dc"/>
-				<imageExpression><![CDATA["/home/nourhene/Desktop/Tama/Tama-Back2/backend-TAMA/src/main/resources/images/bbw-logo.png"]]></imageExpression>
+				<imageExpression><![CDATA["src/main/resources/images/bbw-logo.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
