@@ -94,6 +94,22 @@ public class SessionController {
         return result;
     }
     
+    
+    
+    @GetMapping("/session/classestrainer/{trainerId}")
+    public List<ProgramInstance> findProgramInstByTrainer(@PathVariable("trainerId") long trainerId) {
+    	
+    	List<Session> listSession = sessionService.findByTrainerId(trainerId);
+       
+        List<ProgramInstance> result = new ArrayList<>();
+        for (Session session : listSession) {
+                ProgramInstance p1= session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance();
+                result.add(p1);
+            
+        }
+        return result;
+    }
+    
     //Get Sessions of the specified Trainer
     @GetMapping("/session/trainerId/{trainerId}")
     public List<Session> findSessionByTrainer (@PathVariable("trainerId") long trainerId){
