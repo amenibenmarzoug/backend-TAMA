@@ -21,15 +21,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.eniso.tama.entity.Attendance;
 import com.eniso.tama.entity.AttendanceStates;
+import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Event;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Session;
 import com.eniso.tama.entity.Status;
+import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.entity.Attendance;
 import com.eniso.tama.entity.AttendanceStates;
 
 import com.eniso.tama.repository.AttendanceRepository;
+import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.SessionRepository;
 import com.lowagie.text.pdf.codec.Base64.OutputStream;
 
@@ -50,6 +53,9 @@ public class AttendanceServiceImpl implements AttendanceService {
 	private AttendanceRepository attendanceRepository;
 	@Autowired
 	private SessionRepository sessionRepository;
+	
+	@Autowired
+	private ParticipantRepository participantRepository;
 
 	public AttendanceServiceImpl() {
 	};
@@ -232,6 +238,33 @@ public class AttendanceServiceImpl implements AttendanceService {
 			attendance.setAttendanceState(AttendanceStates.JUSTIFIEDABSENT);
 		}
 		return attendanceRepository.save(attendance);
+	}
+
+	@Override
+	public List<Attendance> findByCompany(Entreprise company) {
+		List<Attendance> companyParticipantsAttendances= new ArrayList<Attendance>() ; 
+		List <Participant> participantsOfCompany = participantRepository.findByEntrepriseAndValidatedTrue(company); 
+		for (Participant theParticipant : participantsOfCompany) {
+			List<Attendance> theParticipantAttendances = attendanceRepository.findByParticipant(theParticipant);
+			if (theParticipantAttendances != null) {
+				companyParticipantsAttendances.addAll(theParticipantAttendances);
+			}
+		}
+		 		return companyParticipantsAttendances;
+	}
+
+	@Override
+	public List<Attendance> findByTrainer(Trainer trainer) {
+		List<Attendance> trainerAttendances= new ArrayList<Attendance>() ; 
+		List<Attendance> allAttendances= findAll() ; 
+		
+		for (Attendance attendance : allAttendances) {
+			if (attendance.getSession().getTrainer() == trainer) {
+				trainerAttendances.add(attendance);
+			}
+		}
+		
+		return trainerAttendances;
 	}
 	
 	

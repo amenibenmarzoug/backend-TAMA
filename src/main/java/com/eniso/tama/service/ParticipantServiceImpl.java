@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
+import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.Status;
@@ -65,23 +66,9 @@ public class ParticipantServiceImpl implements  ParticipantService {
 		//find by Company
 		@Override
 		
-		public List<Participant>  findByEntreprise (Participant theParticipant) {
-         
-			List<Participant> p1= null ;
-			
-			
-
-			for(Participant theP:participantRepository.findAll()) {
-				
-				
-			if  (theP.getEntreprise()!=null) {
-        	  
-				p1.add(theP) ;
-			
-          }
-		            	
-		}
-			return p1;
+		public List<Participant> getValidatedParticipantsByEntreprise(Entreprise company) {
+        
+			return participantRepository.findByEntrepriseAndValidatedTrue(company);
 			
 		}
 
