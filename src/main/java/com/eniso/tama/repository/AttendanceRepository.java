@@ -14,4 +14,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long>  {
 	List<Attendance> findBySession(Session session);
 	Boolean existsBySession (Session session ) ; 
 
+	public List<Attendance> findByParticipantId(long participantId);
+
 }

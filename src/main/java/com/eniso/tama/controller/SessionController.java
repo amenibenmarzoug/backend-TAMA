@@ -5,7 +5,9 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -97,17 +99,21 @@ public class SessionController {
     
     
     @GetMapping("/session/classestrainer/{trainerId}")
-    public List<ProgramInstance> findProgramInstByTrainer(@PathVariable("trainerId") long trainerId) {
+    public Set<ProgramInstance> findProgramInstByTrainer(@PathVariable("trainerId") long trainerId) {
     	
     	List<Session> listSession = sessionService.findByTrainerId(trainerId);
        
         List<ProgramInstance> result = new ArrayList<>();
+        Set<ProgramInstance> programs=new HashSet<>();
         for (Session session : listSession) {
+        		
                 ProgramInstance p1= session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance();
-                result.add(p1);
+                programs.add(p1);
+             
             
         }
-        return result;
+        
+        return programs;
     }
     
     //Get Sessions of the specified Trainer

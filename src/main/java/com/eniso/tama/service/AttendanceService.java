@@ -30,6 +30,9 @@ public List<Attendance> findAll();
 	public void deleteById(long id);
 	
 	public File generateReport (long sessionId) throws JRException, IOException;
+	
+	public List<Attendance> findByParticipantId(long participantId);
+
 
 	
 }

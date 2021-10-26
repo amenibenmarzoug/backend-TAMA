@@ -78,6 +78,17 @@ public class AttendanceController {
         return attendances;
     }
     
+    
+    @GetMapping("attendance/participant/{participantId}")
+    public List<Attendance> getAttendancesByParticipant(@PathVariable long participantId) {
+
+        List<Attendance> attendances = attendanceService.findByParticipantId(participantId);
+        if (attendances == null) {
+            throw new RuntimeException("attendance id not found - " + participantId);
+        }
+        return attendances;
+    }
+    
     //check whether the attendance of session is marked or not
     @GetMapping("attendanceMarked/{sessionId}")
     public Boolean attendanceMarked(@PathVariable long sessionId) {

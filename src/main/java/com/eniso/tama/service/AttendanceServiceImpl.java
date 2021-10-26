@@ -270,4 +270,9 @@ public class AttendanceServiceImpl implements AttendanceService {
 		return attendanceRepository.save(attendance);
 	}
 
+	@Override
+	public List<Attendance> findByParticipantId(long participantId) {
+		return attendanceRepository.findByParticipantId(participantId);
+	}
+
 }
