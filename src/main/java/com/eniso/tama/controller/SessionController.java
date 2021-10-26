@@ -101,19 +101,8 @@ public class SessionController {
     @GetMapping("/session/classestrainer/{trainerId}")
     public Set<ProgramInstance> findProgramInstByTrainer(@PathVariable("trainerId") long trainerId) {
     	
-    	List<Session> listSession = sessionService.findByTrainerId(trainerId);
+    	return  sessionService.findProgramInstByTrainer(trainerId);
        
-        List<ProgramInstance> result = new ArrayList<>();
-        Set<ProgramInstance> programs=new HashSet<>();
-        for (Session session : listSession) {
-        		
-                ProgramInstance p1= session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance();
-                programs.add(p1);
-             
-            
-        }
-        
-        return programs;
     }
     
     //Get Sessions of the specified Trainer
