@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.entity.Module;
+import com.eniso.tama.entity.Theme;
 import com.eniso.tama.service.ModuleService;
 
 @RestController
@@ -43,6 +44,21 @@ public class ModuleController {
 	public List<Module> getThemeModules(@RequestParam("id") long id) {
 		return moduleService.findModulesByThemeId(id);
 		
+	}
+	
+	
+	@GetMapping("/modulesOfprogram")
+	public List<Module> getProgramModules(@RequestParam("id") long id) {
+		List<Module> modulesPerProgram = new ArrayList<Module>();
+		for (Module theM : moduleService.findAll()) {
+		if(theM.getTheme().getProgram()!=null) {
+			if (id == theM.getTheme().getProgram().getId()) {
+
+				modulesPerProgram.add(theM);			
+			}
+		}
+		}
+		return modulesPerProgram;
 	}
 
 	
