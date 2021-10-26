@@ -30,12 +30,19 @@ public List<Attendance> findAll();
 	public List<Attendance> findByCompany(Entreprise entreprise);
 	public List<Attendance> findByTrainer(Trainer trainer);
 	
+	public int getPresencesNumber (Participant participant);
+	public int getAbsencesNumber(Participant participant);
+	public int getJustifiedAbsencesNumber(Participant participant);
+	
 	
 	public Boolean existsBySession (long sessionId) ; 
 	
 	public void deleteById(long id);
 	
 	public File generateReport (long sessionId) throws JRException, IOException;
+	
+	public List<Attendance> findByParticipantId(long participantId);
+
 
 	
 }

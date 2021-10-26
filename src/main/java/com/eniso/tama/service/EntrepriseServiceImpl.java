@@ -267,4 +267,14 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 		}
 		return enterprises;
 	}
+
+	@Override
+	public Entreprise refuseCompany(Entreprise company) {
+		Entreprise companyToUpdate=findById(company.getId());
+		if (companyToUpdate!=null) {
+			companyToUpdate.setValidated(false);
+			save(companyToUpdate);
+		}
+		return companyToUpdate;
+	}
 }

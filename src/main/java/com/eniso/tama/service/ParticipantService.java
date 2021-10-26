@@ -22,6 +22,7 @@ public interface ParticipantService {
 		
 		public List<Participant> findValidatedParticipants();
 
+		public Participant refuseParticipant(Participant participant);
 		
 		
 		public void save(Participant theParticipant);

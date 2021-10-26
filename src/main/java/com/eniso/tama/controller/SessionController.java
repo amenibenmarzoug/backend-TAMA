@@ -5,7 +5,9 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -92,6 +94,15 @@ public class SessionController {
             }
         }
         return result;
+    }
+    
+    
+    
+    @GetMapping("/session/classestrainer/{trainerId}")
+    public Set<ProgramInstance> findProgramInstByTrainer(@PathVariable("trainerId") long trainerId) {
+    	
+    	return  sessionService.findProgramInstByTrainer(trainerId);
+       
     }
     
     //Get Sessions of the specified Trainer

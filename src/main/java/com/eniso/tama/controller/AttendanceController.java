@@ -97,6 +97,17 @@ public class AttendanceController {
 		
         return attendanceService.findByCompany(company);
     }
+
+    
+    @GetMapping("attendance/participant/{participantId}")
+    public List<Attendance> getAttendancesByParticipant(@PathVariable long participantId) {
+
+        List<Attendance> attendances = attendanceService.findByParticipantId(participantId);
+        if (attendances == null) {
+            throw new RuntimeException("attendance id not found - " + participantId);
+        }
+        return attendances;
+    }
     
     //check whether the attendance of session is marked or not
     @GetMapping("attendanceMarked/{sessionId}")
@@ -112,6 +123,35 @@ public class AttendanceController {
 		}
 		
         return attendanceService.findByTrainer(trainer);
+    }
+    
+    @GetMapping("attendance/presencesNumber/{participantId}")
+    public int getPresencesNumber(@PathVariable long participantId) {
+        Participant participant = participantService.findById(participantId);
+		if (participant == null) {
+			throw new RuntimeException("error : no participant with id" + participantId );
+		}
+		
+        return attendanceService.getPresencesNumber(participant);
+    }
+    
+    @GetMapping("attendance/absencesNumber/{participantId}")
+    public int getAbsencesNumber(@PathVariable long participantId) {
+        Participant participant = participantService.findById(participantId);
+		if (participant == null) {
+			throw new RuntimeException("error : no participant with id" + participantId );
+		}
+		
+        return attendanceService.getAbsencesNumber(participant);
+    }
+    @GetMapping("attendance/justifiedAbsencesNumber/{participantId}")
+    public int getJustifiedAbsencesNumber(@PathVariable long participantId) {
+        Participant participant = participantService.findById(participantId);
+		if (participant == null) {
+			throw new RuntimeException("error : no participant with id" + participantId );
+		}
+		
+        return attendanceService.getJustifiedAbsencesNumber(participant);
     }
     
 

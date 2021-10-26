@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.dto.EntrepriseDto;
 import com.eniso.tama.entity.Entreprise;
+import com.eniso.tama.entity.Participant;
 import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.service.EntrepriseService;
 
@@ -123,5 +124,13 @@ public class EntrepriseController {
 		entrepriseService.sendmail(id);;
 		
 	}
+	
+	@PutMapping("/entreprises/refuse")
+	public Entreprise refuseCompany(@RequestBody Entreprise company)
+		{
+		Entreprise company1 = entrepriseService.refuseCompany(company);
+		return company1;
+	}
+
 
 }

@@ -1,6 +1,7 @@
 package com.eniso.tama.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.service.ParticipantRegistrationService;
@@ -36,7 +39,8 @@ public class ParticipantRegistrationController {
 	@GetMapping("participantRegistrations/{participantRegistrationId}")
 	public ParticipantRegistration getParticipantRegistration(@PathVariable long participantRegistrationId) {
 
-		ParticipantRegistration participantRegistration = participantRegistrationService.findById(participantRegistrationId);
+		ParticipantRegistration participantRegistration = participantRegistrationService
+				.findById(participantRegistrationId);
 
 		if (participantRegistration == null) {
 			throw new RuntimeException("registration not found - " + participantRegistrationId);
@@ -50,13 +54,13 @@ public class ParticipantRegistrationController {
 
 		return participantRegistrationService.findByParticipantId(partId);
 	}
-	
+
 	@GetMapping("participantRegistrations/programInstance/participant/{partId}")
 	public List<ProgramInstance> getParticipantProgramInstance(@PathVariable long partId) {
 
 		return participantRegistrationService.findParticipantPrograms(partId);
 	}
-	
+
 	@GetMapping("participantRegistrations/programInstance/validated/participant/{partId}")
 	public List<ProgramInstance> getValidatedParticipantProgramInstance(@PathVariable long partId) {
 
@@ -68,23 +72,32 @@ public class ParticipantRegistrationController {
 
 		return participantRegistrationService.findByProgramInstanceId(programInstId);
 	}
-	
+
+	@GetMapping("participantRegistrations/participants/trainer/{trainerId}")
+	public Set<Participant> findParticipantsByTrainerId(@PathVariable("trainerId") long trainerId) {
+
+		return participantRegistrationService.findParticipantsByTrainerId(trainerId);
+
+	}
+
 	@PutMapping("participantRegistrations/validate")
 	public ParticipantRegistration validateParticipantRegistration(@RequestBody ParticipantRegistration registration) {
 
-		ParticipantRegistration participantRegistration = participantRegistrationService.validateRegistration(registration.getId());
+		ParticipantRegistration participantRegistration = participantRegistrationService
+				.validateRegistration(registration.getId());
 
 		if (participantRegistration == null) {
-			throw new RuntimeException("registration not found - " );
+			throw new RuntimeException("registration not found - ");
 		}
 
 		return participantRegistration;
 	}
-	
+
 	@PutMapping("participantRegistrations/refuse")
 	public ParticipantRegistration refuseParticipantRegistration(@RequestBody ParticipantRegistration registration) {
 
-		ParticipantRegistration participantRegistration = participantRegistrationService.refuseRegistration(registration.getId());
+		ParticipantRegistration participantRegistration = participantRegistrationService
+				.refuseRegistration(registration.getId());
 
 		if (participantRegistration == null) {
 			throw new RuntimeException("registration not found - ");

@@ -1,5 +1,6 @@
 package com.eniso.tama.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.eniso.tama.entity.Module;
 import com.eniso.tama.entity.ModuleInstance;
 import com.eniso.tama.service.ModuleInstanceService;
 
@@ -51,6 +52,25 @@ public class ModuleInstanceController {
 		return module;
 	}
 	// add mapping for POST /Module - add new Module
+	
+	
+	
+	
+	
+	@GetMapping("/modulesOfclass")
+	public List<ModuleInstance> getProgramModules(@RequestParam("id") long id) {
+		List<ModuleInstance> modulesInstPerClass = new ArrayList<ModuleInstance>();
+		for (ModuleInstance theM : moduleInstanceService.findAll()) {
+		if(theM.getThemeInstance().getProgramInstance()!=null) {
+			if (id == theM.getThemeInstance().getProgramInstance().getId()) {
+
+				modulesInstPerClass.add(theM);			
+			}
+		}
+		}
+		return modulesInstPerClass;
+	}
+
 
 	@PostMapping("/moduleInstance")
 	public ModuleInstance addModule(@RequestBody ModuleInstance module) {
