@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.Days;
+import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.service.TrainerService;
@@ -123,4 +124,18 @@ public class TrainerController {
 	public List<Trainer> findTrainersBySpecialization(@RequestParam String specialization) {
     	return trainerService.findTrainersBySpecialization(specialization);
     }
+    
+    
+    @PutMapping("trainer/refuse")
+	public Trainer refuseTrainer(@RequestBody Trainer trainer) {
+
+		Trainer trainerToSave = trainerService.refuseTrainer(trainer);
+
+		if (trainerToSave == null) {
+			throw new RuntimeException("trainerTosave not found - " );
+		}
+
+		return trainerToSave;
+	}
+	
 }

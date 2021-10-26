@@ -443,6 +443,15 @@ public class ParticipantController {
 		return theParticipant;
 	}
 
+	
+	@PutMapping("/participants/refuse")
+	public Participant refuseParticipant(@RequestBody Participant theParticipant)
+		{
+		Participant newParticipant = participantService.refuseParticipant(theParticipant);
+		return newParticipant;
+	}
+
+	
 	@DeleteMapping("/participants/{participantId}")
 	public String deleteParticipant(@PathVariable long participantId) {
 
