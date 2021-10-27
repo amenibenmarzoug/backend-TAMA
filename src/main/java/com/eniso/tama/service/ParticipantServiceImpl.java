@@ -120,7 +120,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 		List<Participant> participantsPerClasse = new ArrayList<Participant>();
 		for (Participant theP : findAll()) {
 			for (ParticipantRegistration reg : participantRegistrationRepository.findByParticipantId(theP.getId()))
-				if (reg.getPrograminstance().getId() == id && theP.isValidated()) {
+				if (reg.getPrograminstance().getId() == id && theP.isValidated()&& reg.getStatus()==Status.ACCEPTED) {
 					participantsPerClasse.add(theP);
 
 				}

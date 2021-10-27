@@ -147,27 +147,27 @@ public class SessionController {
     	return markedSessions ; 
     }
 
-    @GetMapping("/session/trainer")
-    public List<Session> calculateAllSessionsDurationByTrainer(@RequestParam("trainerId") long trainerId) {
+    @GetMapping("/session/trainer/duration")
+    public int calculateAllSessionsDurationByTrainer(@RequestParam("trainerId") long trainerId) {
         List<Session> listSession = sessionService.findAll();
         List<Session> result = new ArrayList<>();
-        long sum = 0;
+        float sum = 0;
         //we should verify when the calculation will happen (at the end of the training?)
         for (Session session : listSession) {
             if (session.getTrainer().getId() == trainerId) {
                 Instant begin = session.getSessionBeginDate().toInstant();
                 Instant end = session.getSessionEndDate().toInstant();
                 Duration duration = Duration.between(end, begin);
-                long diff = Math.abs(duration.toMinutes());
+                float diff = Math.abs(duration.toMinutes());
                 sum += diff;
-                System.out.println(sum);
+                System.out.println(Math.round(sum/60));
                 result.add(session);
             }
         }
-        return result;
+        return Math.round(sum/60);
     }
 
-    @GetMapping("/session/trainerAndProgram/")
+    @GetMapping("/session/trainerAndProgram/duration")
     public List<Session> calculateAllSessionsDurationByTrainerAndProgram(@RequestParam("trainerId") long trainerId, @RequestParam("programId") long programId) {
         List<Session> listSession = sessionService.findAll();
         List<Session> result = new ArrayList<>();
