@@ -40,6 +40,7 @@ import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.RoleRepository;
+import com.eniso.tama.service.EntrepriseService;
 import com.eniso.tama.service.MailService;
 import com.eniso.tama.service.ParticipantRegistrationService;
 import com.eniso.tama.service.ParticipantService;
@@ -71,6 +72,8 @@ public class ParticipantController {
 
 	@Autowired
 	private ParticipantService participantService;
+	@Autowired
+	private EntrepriseService companyService;
 
 	@Autowired
 	private ParticipantRegistrationService participantRegistrationService;
@@ -132,6 +135,23 @@ public class ParticipantController {
 
 		return theParticipant;
 	}
+	
+	// get accepted/validated participants by company
+		@GetMapping("participants/company/{companyId}")
+		public List<Participant> getValidatedParticipantsByEntreprise(@PathVariable long companyId) {
+			Entreprise company = companyService.findById(companyId);
+			if (company == null) {
+				throw new RuntimeException("error : no company with id" + companyId );
+			}
+					
+			List<Participant> participants = participantService.getValidatedParticipantsByEntreprise(company);
+
+			if (participants == null) {
+				throw new RuntimeException("error : no validated participants for company with id" + companyId );
+			}
+			return participants;
+
+		}
 
 	// les participants du pilier1
 	@GetMapping("participants/pilier1")

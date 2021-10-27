@@ -73,7 +73,7 @@ public class ParticipantRegistrationController {
 		return participantRegistrationService.findByProgramInstanceId(programInstId);
 	}
 
-	@GetMapping("/participantRegistrations/participants/trainer/{trainerId}")
+	@GetMapping("participantRegistrations/participants/trainer/{trainerId}")
 	public Set<Participant> findParticipantsByTrainerId(@PathVariable("trainerId") long trainerId) {
 
 		return participantRegistrationService.findParticipantsByTrainerId(trainerId);
