@@ -5,11 +5,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.Status;
+import com.eniso.tama.entity.Trainer;
+import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.ProgramInstanceRepository;
@@ -35,6 +38,12 @@ public class ParticipantServiceImpl implements  ParticipantService {
 		public List<Participant> findAll() {
 			return participantRepository.findAll();
 		}
+		
+		@Autowired
+		PasswordEncoder encoder;
+		
+		@Autowired
+		RandomPasswordGenerator randomPassword;
 
 		@Override
 		public Participant findById(long theId) {
@@ -151,6 +160,28 @@ public class ParticipantServiceImpl implements  ParticipantService {
 		public float percentMascPart() {
 			
 			return participantRepository.getMaleParticipants();
+		}
+
+		@Override
+		public void resetPassword(long id, String newPassword) {
+			Participant p = this.findById(id);
+			
+			p.setPassword(encoder.encode(newPassword));
+			
+			this.save(p);
+			
+			
+		}
+
+		@Override
+		public void resetPasswordAutomatically(long id) {
+			Participant p = this.findById(id);
+			
+			p.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
+			
+			this.save(p);
+			
+			
 		}
 		
 		

@@ -41,4 +41,8 @@ public interface EntrepriseService {
 
 	public void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException;
 
+	
+	public void resetPassword (long id, String newPassword ); 
+    
+	public void resetPasswordAutomatically(long id); 
 }

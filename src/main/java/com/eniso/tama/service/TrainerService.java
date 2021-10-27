@@ -26,5 +26,9 @@ public interface TrainerService {
 	public void validateTrainer(long id) throws AddressException, MessagingException, IOException;
 	
     public List<Trainer> findTrainersBySpecialization(String specialization);
+    
+    public void resetPassword (long id, String newPassword ); 
+    
+    public void resetPasswordAutomatically(long id); 
 
 }

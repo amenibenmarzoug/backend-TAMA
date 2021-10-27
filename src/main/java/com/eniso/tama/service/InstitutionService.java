@@ -23,4 +23,9 @@ public List<Institution> findAll();
 	public Institution updateParticipant(Institution theInstitution) ;
 	
 	public String deleteInstitution( long id) ;
+	
+	 public void resetPassword (long id, String newPassword); 
+	    
+	   public void resetPasswordAutomatically(long id); 
+
 }
