@@ -54,6 +54,9 @@ public class AttendanceServiceImpl implements AttendanceService {
 	private AttendanceRepository attendanceRepository;
 	@Autowired
 	private SessionRepository sessionRepository;
+
+	@Autowired
+	private SessionService sessionService;
 	
 	@Autowired
 	private ParticipantRepository participantRepository;
@@ -347,6 +350,51 @@ public class AttendanceServiceImpl implements AttendanceService {
 		}
 		
 		return justifiedAbsencesNumber;
+	}
+
+	@Override
+	public List<Attendance> findByParticipantIdAndTrainerId(long participantId, long trainerId) {
+		List<Session> sessions=sessionService.findByTrainerId(trainerId);
+		List<Attendance> attendanceList=new ArrayList<>();
+		for (Attendance attendance : findByParticipantId(participantId)) {
+			if(sessions.contains(attendance.getSession())) {
+				attendanceList.add(attendance);
+			}
+		}
+		return attendanceList;
+	}
+
+	@Override
+	public int getPresencesNumberByParticipantAndTrainer(long participantId, long trainerId) {
+		List<Attendance> attendanceList=new ArrayList<>();
+		for (Attendance attendance : findByParticipantIdAndTrainerId( participantId,  trainerId)) {
+			if(attendance.getAttendanceState()==AttendanceStates.PRESENT) {
+				attendanceList.add(attendance);
+			}
+		}
+		return attendanceList.size();
+	}
+
+	@Override
+	public int getAbsencesNumberByParticipantAndTrainer(long participantId, long trainerId) {
+		List<Attendance> attendanceList=new ArrayList<>();
+		for (Attendance attendance : findByParticipantIdAndTrainerId( participantId,  trainerId)) {
+			if(attendance.getAttendanceState()==AttendanceStates.ABSENT) {
+				attendanceList.add(attendance);
+			}
+		}
+		return attendanceList.size();
+	}
+
+	@Override
+	public int getJustifiedAbsencesNumberByParticipantAndTrainer(long participantId, long trainerId) {
+		List<Attendance> attendanceList=new ArrayList<>();
+		for (Attendance attendance : findByParticipantIdAndTrainerId( participantId,  trainerId)) {
+			if(attendance.getAttendanceState()==AttendanceStates.JUSTIFIEDABSENT) {
+				attendanceList.add(attendance);
+			}
+		}
+		return attendanceList.size();
 	}
 
 }

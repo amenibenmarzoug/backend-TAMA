@@ -109,6 +109,26 @@ public class AttendanceController {
         return attendances;
     }
     
+    @GetMapping("attendance/participant/trainer")
+    public List<Attendance>  findByParticipantIdAndTrainerId(@RequestParam long participantId, @RequestParam long trainerId){
+    	return attendanceService.findByParticipantIdAndTrainerId(participantId, trainerId);
+    }
+    
+    @GetMapping("attendance/participant/trainer/presence")
+    public int  getPresenceByParticipantIdAndTrainerId(@RequestParam long participantId, @RequestParam long trainerId){
+    	return attendanceService.getPresencesNumberByParticipantAndTrainer(participantId, trainerId);
+    }
+    
+    @GetMapping("attendance/participant/trainer/absence")
+    public int  getAbsenceByParticipantIdAndTrainerId(@RequestParam long participantId, @RequestParam long trainerId){
+    	return attendanceService.getAbsencesNumberByParticipantAndTrainer(participantId, trainerId);
+    }
+    
+    @GetMapping("attendance/participant/trainer/justified")
+    public int  getJustifiedAbsenceByParticipantIdAndTrainerId(@RequestParam long participantId, @RequestParam long trainerId){
+    	return attendanceService.getJustifiedAbsencesNumberByParticipantAndTrainer(participantId, trainerId);
+    }
+    
     //check whether the attendance of session is marked or not
     @GetMapping("attendanceMarked/{sessionId}")
     public Boolean attendanceMarked(@PathVariable long sessionId) {

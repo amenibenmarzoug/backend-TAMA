@@ -34,6 +34,9 @@ public List<Attendance> findAll();
 	public int getAbsencesNumber(Participant participant);
 	public int getJustifiedAbsencesNumber(Participant participant);
 	
+	public int getPresencesNumberByParticipantAndTrainer (long participantId,long trainerId);
+	public int getAbsencesNumberByParticipantAndTrainer(long participantId,long trainerId);
+	public int getJustifiedAbsencesNumberByParticipantAndTrainer(long participantId,long trainerId);
 	
 	public Boolean existsBySession (long sessionId) ; 
 	
@@ -43,6 +46,6 @@ public List<Attendance> findAll();
 	
 	public List<Attendance> findByParticipantId(long participantId);
 
-
+	public List<Attendance> findByParticipantIdAndTrainerId(long participantId,long trainerId);
 	
 }
