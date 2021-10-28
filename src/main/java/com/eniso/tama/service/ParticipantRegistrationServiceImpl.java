@@ -122,7 +122,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 		
 		Set<Participant> participantSet= new HashSet<>();
 		for (ParticipantRegistration registration : findAll()) {
-			if(programs.contains( registration.getPrograminstance())) {
+			if(programs.contains( registration.getPrograminstance())&&registration.getStatus()==Status.ACCEPTED) {
 				participantSet.add(registration.getParticipant());
 			}
 		}
