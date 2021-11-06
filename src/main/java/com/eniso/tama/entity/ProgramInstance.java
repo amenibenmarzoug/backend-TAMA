@@ -43,8 +43,11 @@ public class ProgramInstance {
 	@Column
 	private boolean validated = false;
 
-	@Column
+	
 	private int nbMinParticipants;
+	
+	
+	private int nbMaxParticipants;
 
 	@Lob
 	private String place;
@@ -158,6 +161,16 @@ public class ProgramInstance {
 	public void setPlace(String place) {
 		this.place = place;
 	}
+
+	public int getNbMaxParticipants() {
+		return nbMaxParticipants;
+	}
+
+	public void setNbMaxParticipants(int nbMaxParticipants) {
+		this.nbMaxParticipants = nbMaxParticipants;
+	}
+	
+	
 
 //	public List<CompanyRegistration> getCompanyregistrations() {
 //		return Companyregistrations;

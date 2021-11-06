@@ -6,27 +6,37 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.Status;
+import com.eniso.tama.entity.Trainer;
+import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.ProgramInstanceRepository;
 
 @Service
 @ComponentScan(basePackageClasses = ParticipantRepository.class)
-
 public class ParticipantServiceImpl implements ParticipantService {
 
+	@Autowired
 	private ParticipantRepository participantRepository;
-	private ProgramInstanceRepository programInstanceRepository;
+	//private ProgramInstanceRepository programInstanceRepository;
+	
+	@Autowired
+	PasswordEncoder encoder;
+	
+	@Autowired
+	RandomPasswordGenerator randomPassword;
+	
 	@Autowired
 	private ParticipantRegistrationRepository participantRegistrationRepository;
 
-	@Autowired
+	
 	public ParticipantServiceImpl(ParticipantRepository theParticipantRepository) {
 		participantRepository = theParticipantRepository;
 	}
@@ -47,6 +57,8 @@ public class ParticipantServiceImpl implements ParticipantService {
 			// we didn't find the participant
 			throw new RuntimeException("Did not find participant id - " + theId);
 		}
+		
+
 
 		return theControl;
 	}
@@ -147,7 +159,32 @@ public class ParticipantServiceImpl implements ParticipantService {
 			participantToSave.setValidated(false);
 			save(participantToSave);
 		}
+
 		return participantToSave;
 	}
 
+
+		@Override
+		public void resetPassword(long id, String newPassword) {
+			Participant p = this.findById(id);
+			
+			p.setPassword(encoder.encode(newPassword));
+			
+			this.save(p);
+			
+			
+		}
+
+		@Override
+		public void resetPasswordAutomatically(long id) {
+			Participant p = this.findById(id);
+			
+			p.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
+			
+			this.save(p);
+			
+			
+		}
+		
+		
 }
