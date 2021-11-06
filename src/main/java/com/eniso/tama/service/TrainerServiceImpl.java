@@ -21,6 +21,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,11 @@ public class TrainerServiceImpl implements TrainerService {
 	@Autowired
 	private TrainerRepository trainerRepository;
 
+	 @Autowired 
+	 private MailTemplateService mailtemplateservice ;
+	 
+		@Value( "${spring.mail.username}" )
+		private String email;
 	public TrainerServiceImpl() {
 	}
 
@@ -137,7 +143,8 @@ public class TrainerServiceImpl implements TrainerService {
 		Trainer t = findById(id);
 		t.setValidated(true);
 		save(t);
-		// sendValidationMail(t);
+		mailtemplateservice.sendUserValidation( email ,t.getEmail() );
+	
 
 	}
 
