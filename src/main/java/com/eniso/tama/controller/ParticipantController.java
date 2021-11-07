@@ -226,6 +226,16 @@ public class ParticipantController {
 //	}
 	// Get Participants (status-Validated) By Class (same as the method above : to
 	// be corrected)
+	@GetMapping("participants/validated/classId/{id}")
+	public List<Participant> getValidatedParticipantsPerClass(@PathVariable("id") long classId) {
+		List<Participant> participantsPerClasse = participantService.getValidatedParticipantsPerClass(classId);
+
+		if (participantsPerClasse == null) {
+			throw new RuntimeException("No participants found in the class with id  " + classId);
+		}
+		return participantsPerClasse;
+	}
+	
 	@GetMapping("participants/classId/{id}")
 	public List<Participant> getParticipantsPerClass(@PathVariable("id") long classId) {
 		List<Participant> participantsPerClasse = participantService.getParticipantPerClass(classId);
