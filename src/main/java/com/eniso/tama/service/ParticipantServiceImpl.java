@@ -123,7 +123,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	}
 
 	@Override
-	public List<Participant> getParticipantPerClass(long id) {
+	public List<Participant> getValidatedParticipantsPerClass(long id) {
 		List<Participant> participantsPerClasse = new ArrayList<Participant>();
 		for (Participant theP : findAll()) {
 			for (ParticipantRegistration reg : participantRegistrationRepository.findByParticipantId(theP.getId()))
@@ -133,6 +133,19 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 				}
 		}
+		return participantsPerClasse;
+	}
+
+	@Override
+	public List<Participant> getParticipantPerClass(long id) {
+		List<Participant> participantsPerClasse = new ArrayList<Participant>();
+
+		for (ParticipantRegistration reg : participantRegistrationRepository.findAll())
+			if (reg.getPrograminstance().getId() == id) {
+				participantsPerClasse.add(reg.getParticipant());
+
+			}
+
 		return participantsPerClasse;
 	}
 
@@ -196,7 +209,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	public List<Participant> findParticipantsWithoutRegistration() {
 		List<Participant> participants = new ArrayList<>();
 		for (Participant participant : findAll()) {
-			if(!findParticipantsWithRegistration().contains(participant)) {
+			if (!findParticipantsWithRegistration().contains(participant)) {
 				participants.add(participant);
 			}
 		}
