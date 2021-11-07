@@ -23,9 +23,11 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.Trainer;
+import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.repository.TrainerRepository;
 
 @Service
@@ -35,11 +37,22 @@ public class TrainerServiceImpl implements TrainerService {
 	@Autowired
 	private TrainerRepository trainerRepository;
 
+
 	 @Autowired 
 	 private MailTemplateService mailtemplateservice ;
 	 
 		@Value( "${spring.mail.username}" )
 		private String email;
+		
+		@Value( "${password}" )
+		private String password;
+
+	@Autowired
+	PasswordEncoder encoder;
+
+	@Autowired
+	RandomPasswordGenerator randomPassword;
+
 	public TrainerServiceImpl() {
 	}
 
@@ -142,6 +155,7 @@ public class TrainerServiceImpl implements TrainerService {
 	public void validateTrainer(long id) throws AddressException, MessagingException, IOException {
 		Trainer t = findById(id);
 		t.setValidated(true);
+		t.setPassword(encoder.encode(password));
 		save(t);
 		mailtemplateservice.sendUserValidation( email ,t.getEmail() );
 	
@@ -167,6 +181,28 @@ public class TrainerServiceImpl implements TrainerService {
 			save(t);
 		}
 		return t;
+	}
+
+	@Override
+	public void resetPassword(long id, String newPassword) {
+
+		Trainer t = this.findById(id);
+
+		t.setPassword(encoder.encode(newPassword));
+
+		this.save(t);
+
+	}
+
+	@Override
+	public void resetPasswordAutomatically(long id) {
+
+		Trainer t = this.findById(id);
+
+		t.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
+
+		this.save(t);
+
 	}
 
 }

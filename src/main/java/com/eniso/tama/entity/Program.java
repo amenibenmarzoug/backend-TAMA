@@ -23,6 +23,12 @@ public class Program {
     @Column(name = "ProgramDays")
     private int nbDaysProg;
     
+    
+	private int nbMinParticipants;
+	
+	
+	private int nbMaxParticipants;
+    
     private boolean specificProgram =false ; 
 
     public Long getId() {
@@ -58,4 +64,30 @@ public class Program {
 	public void setSpecificProgram(boolean specificProgram) {
 		this.specificProgram = specificProgram;
 	}
+
+
+
+	public int getNbMinParticipants() {
+		return nbMinParticipants;
+	}
+
+
+
+	public int getNbMaxParticipants() {
+		return nbMaxParticipants;
+	}
+
+
+
+	public void setNbMinParticipants(int nbMinParticipants) {
+		this.nbMinParticipants = nbMinParticipants;
+	}
+
+
+
+	public void setNbMaxParticipants(int nbMaxParticipants) {
+		this.nbMaxParticipants = nbMaxParticipants;
+	}
+	
+	
 }
