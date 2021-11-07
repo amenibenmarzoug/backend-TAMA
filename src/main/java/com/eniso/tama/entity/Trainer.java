@@ -27,6 +27,9 @@ public class Trainer extends User {
     @NotNull
     @Column
     private String gender;
+    
+    @Lob
+	private String fees;
 
     @ElementCollection
     @CollectionTable(name = "trainer_disponibility_days", joinColumns = @JoinColumn(name = "user_id"))
@@ -97,10 +100,21 @@ public class Trainer extends User {
 
 
 
-    public Trainer() {
+    public String getFees() {
+		return fees;
+	}
+
+	public void setFees(String fees) {
+		this.fees = fees;
+	}
+
+	public Trainer() {
     }
     public Trainer(@NotBlank @Size(max = 50) @Email String email,
-                   String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,@NotBlank String lastName, String gender ) {
+                   String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, 
+                   @NotNull String phoneNumber,Set<Role> roles,@NotBlank @Size(max = 20)  String firstName,@NotBlank String lastName,
+                   String gender, String fees  ) {
+    	
 
         this.setId(super.getId());
         super.setEmail(email);
@@ -114,13 +128,14 @@ public class Trainer extends User {
         this.firstName = firstName;
         this.lastName  = lastName;
         this.gender = gender;
+        this.fees=fees ; 
         //super.setValidated(false);
 
     }
 
     public Trainer(String email,
                    String password, @NotBlank String street, @NotBlank String city, @NotBlank String postalCode, @NotNull String phoneNumber,Set<Role> roles,@NotNull String firstName, @NotNull String lastName, @NotNull String gender,
-                   Set<Days> disponibilityDays, Set<String>  specifications) {
+                   Set<Days> disponibilityDays, Set<String>  specifications , String fees) {
         this.setId(super.getId());
         super.setEmail(email);
         super.setPassword(password);
@@ -134,6 +149,7 @@ public class Trainer extends User {
         this.gender = gender;
         this.disponibilityDays = disponibilityDays;
         this.specifications=specifications;
+        this.fees=fees ; 
     }
 
 
