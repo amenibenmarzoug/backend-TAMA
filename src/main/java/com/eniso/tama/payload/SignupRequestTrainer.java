@@ -45,6 +45,8 @@ public class SignupRequestTrainer {
     
     private Set<String> role;
     
+    private String fees ; 
+    
    // @Size(min = 8, max = 40)
     //private String password;
 	
@@ -147,6 +149,14 @@ public class SignupRequestTrainer {
 
 	public void setDisponibilityDays(Set<Days> disponibilityDays) {
 		this.disponibilityDays = disponibilityDays;
+	}
+
+	public String getFees() {
+		return fees;
+	}
+
+	public void setFees(String fees) {
+		this.fees = fees;
 	}
 
 	

@@ -5,11 +5,13 @@ import java.util.List;
 
 import com.eniso.tama.entity.Program;
 import com.eniso.tama.entity.ProgramInstance;
+import com.eniso.tama.entity.Trainer;
 
 public interface ProgramInstanceService {
 
 	public List<ProgramInstance> findAll();
 	public List<ProgramInstance> getConfirmedClasses();
+	//public List<ProgramInstance> getClassesByTrainer  (Trainer trainer );
 
 	public ProgramInstance findById(long theId);
 	
