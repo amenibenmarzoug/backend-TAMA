@@ -226,6 +226,16 @@ public class ParticipantController {
 //	}
 	// Get Participants (status-Validated) By Class (same as the method above : to
 	// be corrected)
+	@GetMapping("participants/validated/classId/{id}")
+	public List<Participant> getValidatedParticipantsPerClass(@PathVariable("id") long classId) {
+		List<Participant> participantsPerClasse = participantService.getValidatedParticipantsPerClass(classId);
+
+		if (participantsPerClasse == null) {
+			throw new RuntimeException("No participants found in the class with id  " + classId);
+		}
+		return participantsPerClasse;
+	}
+	
 	@GetMapping("participants/classId/{id}")
 	public List<Participant> getParticipantsPerClass(@PathVariable("id") long classId) {
 		List<Participant> participantsPerClasse = participantService.getParticipantPerClass(classId);
@@ -256,6 +266,42 @@ public class ParticipantController {
 	@GetMapping("participants/classes/{participantid}")
 	public List<ProgramInstance> getParticipantClasses(@PathVariable long participantid) {
 		return participantRegistrationService.findParticipantPrograms(participantid);
+	}
+	
+	@GetMapping("participants/status")
+	public Set<Participant> getParticipantsByRegistrationStatus(@RequestParam String  status) {
+		Set<Participant> participants= new HashSet<>();
+		switch (status) {
+		case "WAITING":
+			System.out.println("WAITING");
+			participants=participantService.findParticipantsByRegistrationStatus(Status.WAITING);
+			break;
+		case "ACCEPTED":
+			System.out.println("ACCEPTED");
+
+			participants=participantService.findParticipantsByRegistrationStatus(Status.ACCEPTED);
+			break;
+		case "REFUSED":
+			System.out.println("REFUSED");
+
+			participants=participantService.findParticipantsByRegistrationStatus(Status.REFUSED);
+			break;
+
+		default:
+			break;
+		}
+		
+		return participants;
+	}
+
+	@GetMapping("participants/withRegistration")
+	public Set<Participant> getParticipantsWithRegistration() {
+		return participantService.findParticipantsWithRegistration();
+	}
+	
+	@GetMapping("participants/withoutRegistration")
+	public List<Participant> getParticipantsWithoutRegistration() {
+		return participantService.findParticipantsWithoutRegistration();
 	}
 
 	// POST FOR ADDING PARTICIPANTS IN CRUD , IT REQUERS THE ID OF THE ENTERPRISE

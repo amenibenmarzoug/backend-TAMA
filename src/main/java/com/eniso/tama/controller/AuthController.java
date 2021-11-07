@@ -155,7 +155,7 @@ public class AuthController {
 				signupRequestTrainer.getCity(), signupRequestTrainer.getPostalCode(),
 				signupRequestTrainer.getPhoneNumber(), null, signupRequestTrainer.getFirstName(),
 				signupRequestTrainer.getLastName(), signupRequestTrainer.getGender(),
-				signupRequestTrainer.getDisponibilityDays(), signupRequestTrainer.getSpecifications());
+				signupRequestTrainer.getDisponibilityDays(), signupRequestTrainer.getSpecifications(), signupRequestTrainer.getFees());
 		trainer.setValidated(false);
 
 //		User user = new User(signupRequestTrainer.getEmail(),

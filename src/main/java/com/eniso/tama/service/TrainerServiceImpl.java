@@ -105,6 +105,7 @@ public class TrainerServiceImpl implements TrainerService {
 		newTrainer.setLastName(theTrainer.getLastName());
 		newTrainer.setSpecifications(theTrainer.getSpecifications());
 		newTrainer.setDisponibilityDays(theTrainer.getDisponibilityDays());
+		newTrainer.setFees(theTrainer.getFees());
 		save(newTrainer);
 		return newTrainer;
 	}

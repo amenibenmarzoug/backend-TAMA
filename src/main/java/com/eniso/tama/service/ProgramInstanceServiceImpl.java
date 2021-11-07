@@ -17,16 +17,20 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.Module;
 import com.eniso.tama.entity.ModuleInstance;
 import com.eniso.tama.entity.ProgramInstance;
+import com.eniso.tama.entity.Session;
 import com.eniso.tama.entity.Theme;
 import com.eniso.tama.entity.ThemeDetail;
 import com.eniso.tama.entity.ThemeDetailInstance;
 import com.eniso.tama.entity.ThemeInstance;
+import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.repository.ProgramInstanceRepository;
+import com.eniso.tama.repository.SessionRepository;
 
 @Service
 @ComponentScan(basePackageClasses = ProgramInstanceRepository.class)
@@ -49,6 +53,8 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	@Autowired
 	private ParticipantService participantService;
 	
+	@Autowired
+	private SessionService sessionService;
 	@Autowired
 	private MailService mailService;
 	public ProgramInstanceServiceImpl(ProgramInstanceRepository programInstanceRepository,
@@ -254,4 +260,6 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		// TODO Auto-generated method stub
 		return programInstanceRepository.findByValidatedTrue();
 	}
+
+	
 }
