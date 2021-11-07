@@ -1,7 +1,9 @@
 package com.eniso.tama.service;
 
+import com.eniso.tama.service.UserServiceImpl.NewPassword;
+
 public interface UserService {
 
 	
-	public void resetPassword(long id , String newPassword);
+	public void resetPassword(long id , NewPassword newPassword);
 }

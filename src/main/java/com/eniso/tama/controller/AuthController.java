@@ -59,6 +59,7 @@ import com.eniso.tama.service.CompanyRegistrationService;
 import com.eniso.tama.service.EntrepriseService;
 import com.eniso.tama.service.UserDetailsImpl;
 import com.eniso.tama.service.UserService;
+import com.eniso.tama.service.UserServiceImpl.NewPassword;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -391,8 +392,9 @@ public class AuthController {
 	}
 	
 	
-	@PutMapping("/resetPassword/{id}")
-	public void resetPassword(@PathVariable long id , @RequestBody String newPassword) {
+	@PostMapping("/resetPassword/{id}")
+	public void resetPassword(@PathVariable long id , @RequestBody NewPassword newPassword) {
+		System.out.println(newPassword) ;
 		userService.resetPassword(id, newPassword);
 	}
 
