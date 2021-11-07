@@ -1,10 +1,12 @@
 package com.eniso.tama.service;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ProgramInstance;
+import com.eniso.tama.entity.Status;
 
 
 
@@ -20,6 +22,13 @@ public interface ParticipantService {
 		public List<Participant> findByAbonadn(boolean theAbondan );
 		public List<Participant> findParticipantsByClass(long programInstId );
 		
+		public Set<Participant> findParticipantsByRegistrationStatus(Status status );
+		
+		public List<Participant> findParticipantsWithoutRegistration();
+
+		public Set<Participant> findParticipantsWithRegistration();
+
+
 		public List<Participant> findValidatedParticipants();
 
 		public Participant refuseParticipant(Participant participant);

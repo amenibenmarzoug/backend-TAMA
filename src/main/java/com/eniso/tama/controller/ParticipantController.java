@@ -257,6 +257,42 @@ public class ParticipantController {
 	public List<ProgramInstance> getParticipantClasses(@PathVariable long participantid) {
 		return participantRegistrationService.findParticipantPrograms(participantid);
 	}
+	
+	@GetMapping("participants/status")
+	public Set<Participant> getParticipantsByRegistrationStatus(@RequestParam String  status) {
+		Set<Participant> participants= new HashSet<>();
+		switch (status) {
+		case "WAITING":
+			System.out.println("WAITING");
+			participants=participantService.findParticipantsByRegistrationStatus(Status.WAITING);
+			break;
+		case "ACCEPTED":
+			System.out.println("ACCEPTED");
+
+			participants=participantService.findParticipantsByRegistrationStatus(Status.ACCEPTED);
+			break;
+		case "REFUSED":
+			System.out.println("REFUSED");
+
+			participants=participantService.findParticipantsByRegistrationStatus(Status.REFUSED);
+			break;
+
+		default:
+			break;
+		}
+		
+		return participants;
+	}
+
+	@GetMapping("participants/withRegistration")
+	public Set<Participant> getParticipantsWithRegistration() {
+		return participantService.findParticipantsWithRegistration();
+	}
+	
+	@GetMapping("participants/withoutRegistration")
+	public List<Participant> getParticipantsWithoutRegistration() {
+		return participantService.findParticipantsWithoutRegistration();
+	}
 
 	// POST FOR ADDING PARTICIPANTS IN CRUD , IT REQUERS THE ID OF THE ENTERPRISE
 
