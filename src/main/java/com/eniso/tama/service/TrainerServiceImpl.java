@@ -195,6 +195,7 @@ public class TrainerServiceImpl implements TrainerService {
 
 	}
 
+	
 	@Override
 	public void resetPasswordAutomatically(long id) {
 
