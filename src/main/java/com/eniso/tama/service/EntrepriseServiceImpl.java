@@ -13,6 +13,7 @@ import javax.mail.internet.AddressException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,8 @@ import com.eniso.tama.dto.EntrepriseDto;
 import com.eniso.tama.entity.CompanyRegistration;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.ProgramInstance;
+import com.eniso.tama.entity.Trainer;
+import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.repository.CompanyRegistrationRepository;
 import com.eniso.tama.repository.EnterpriseRepository;
@@ -43,6 +46,12 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	@Autowired
 	CompanyRegistrationService companyRegistrationService;
+
+	@Autowired
+	PasswordEncoder encoder;
+
+	@Autowired
+	RandomPasswordGenerator randomPassword;
 
 	public EntrepriseServiceImpl(EnterpriseRepository theEnterpriseRepository) {
 		enterpriseRepository = theEnterpriseRepository;
@@ -126,7 +135,6 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	public ResponseEntity<?> updateEntreprise(@RequestBody EntrepriseDto theEntreprise) {
 
-		
 		Entreprise newEntreprise = findById(theEntreprise.getId());
 		Entreprise verifEmailEntreprise = findByEmail(theEntreprise.getEmail());
 		System.out.println(verifEmailEntreprise);
@@ -270,11 +278,32 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	@Override
 	public Entreprise refuseCompany(Entreprise company) {
-		Entreprise companyToUpdate=findById(company.getId());
-		if (companyToUpdate!=null) {
+		Entreprise companyToUpdate = findById(company.getId());
+		if (companyToUpdate != null) {
 			companyToUpdate.setValidated(false);
 			save(companyToUpdate);
 		}
 		return companyToUpdate;
+	}
+
+	@Override
+	public void resetPassword(long id, String newPassword) {
+
+		Entreprise e = this.findById(id);
+
+		e.setPassword(encoder.encode(newPassword));
+
+		this.save(e);
+
+	}
+
+	@Override
+	public void resetPasswordAutomatically(long id) {
+		Entreprise e = this.findById(id);
+
+		e.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
+
+		this.save(e);
+
 	}
 }

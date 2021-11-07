@@ -29,5 +29,9 @@ public interface TrainerService {
 
 	
     public List<Trainer> findTrainersBySpecialization(String specialization);
+    
+    public void resetPassword (long id, String newPassword ); 
+    
+    public void resetPasswordAutomatically(long id); 
 
 }

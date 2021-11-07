@@ -10,8 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.eniso.tama.entity.Institution;
+import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
+import com.eniso.tama.entity.Trainer;
+import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.repository.InstitutionRepository;
 import com.eniso.tama.repository.RoleRepository;
@@ -27,6 +30,12 @@ public class InstitutionServiceImpl implements InstitutionService {
 	
 	@Autowired
 	PasswordEncoder encoder;
+	
+
+	
+	@Autowired
+	RandomPasswordGenerator randomPassword;
+
 	// public InstitutionServiceImpl() {}
 
 	public InstitutionServiceImpl(InstitutionRepository institutionRepository) {
@@ -130,5 +139,26 @@ public class InstitutionServiceImpl implements InstitutionService {
 
 		return "Deleted institution id - " + id;
 }
+
+	@Override
+	public void resetPassword(long id, String newPassword) {
+        Institution i = this.findById(id);
+		
+		i.setPassword(encoder.encode(newPassword));
+		
+		this.save(i);
+		
+	}
+
+	@Override
+	public void resetPasswordAutomatically(long id) {
+		Institution i = this.findById(id);
+		
+		i.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
+		
+		this.save(i);
+		
+		
+	}
 
 }

@@ -1,32 +1,43 @@
 package com.eniso.tama.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.Status;
+import com.eniso.tama.entity.Trainer;
+import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.ProgramInstanceRepository;
 
 @Service
 @ComponentScan(basePackageClasses = ParticipantRepository.class)
-
 public class ParticipantServiceImpl implements ParticipantService {
 
+	@Autowired
 	private ParticipantRepository participantRepository;
-	private ProgramInstanceRepository programInstanceRepository;
+	// private ProgramInstanceRepository programInstanceRepository;
+
+	@Autowired
+	PasswordEncoder encoder;
+
+	@Autowired
+	RandomPasswordGenerator randomPassword;
+
 	@Autowired
 	private ParticipantRegistrationRepository participantRegistrationRepository;
 
-	@Autowired
 	public ParticipantServiceImpl(ParticipantRepository theParticipantRepository) {
 		participantRepository = theParticipantRepository;
 	}
@@ -50,17 +61,15 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 		return theControl;
 	}
-		
-		
-		//find by Company
-		@Override
-		
-		public List<Participant> getValidatedParticipantsByEntreprise(Entreprise company) {
-        
-			return participantRepository.findByEntrepriseAndValidatedTrue(company);
-			
-		}
-	
+
+	// find by Company
+	@Override
+
+	public List<Participant> getValidatedParticipantsByEntreprise(Entreprise company) {
+
+		return participantRepository.findByEntrepriseAndValidatedTrue(company);
+
+	}
 
 	// find By level
 	@Override
@@ -69,8 +78,6 @@ public class ParticipantServiceImpl implements ParticipantService {
 		return participantRepository.findByLevel(theLevel);
 
 	}
-
-
 
 	// find by abondan
 	@Override
@@ -120,7 +127,8 @@ public class ParticipantServiceImpl implements ParticipantService {
 		List<Participant> participantsPerClasse = new ArrayList<Participant>();
 		for (Participant theP : findAll()) {
 			for (ParticipantRegistration reg : participantRegistrationRepository.findByParticipantId(theP.getId()))
-				if (reg.getPrograminstance().getId() == id && theP.isValidated()&& reg.getStatus()==Status.ACCEPTED) {
+				if (reg.getPrograminstance().getId() == id && theP.isValidated()
+						&& reg.getStatus() == Status.ACCEPTED) {
 					participantsPerClasse.add(theP);
 
 				}
@@ -147,7 +155,61 @@ public class ParticipantServiceImpl implements ParticipantService {
 			participantToSave.setValidated(false);
 			save(participantToSave);
 		}
+
 		return participantToSave;
+	}
+
+	@Override
+	public void resetPassword(long id, String newPassword) {
+		Participant p = this.findById(id);
+
+		p.setPassword(encoder.encode(newPassword));
+
+		this.save(p);
+
+	}
+
+	@Override
+	public void resetPasswordAutomatically(long id) {
+		Participant p = this.findById(id);
+
+		p.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
+
+		this.save(p);
+
+	}
+
+	@Override
+	public Set<Participant> findParticipantsByRegistrationStatus(Status status) {
+		System.out.println(status);
+		Set<Participant> participants = new HashSet<>();
+
+		for (ParticipantRegistration reg : participantRegistrationRepository.findAll())
+			if (reg.getStatus() == status) {
+				participants.add(reg.getParticipant());
+
+			}
+		return participants;
+	}
+
+	@Override
+	public List<Participant> findParticipantsWithoutRegistration() {
+		List<Participant> participants = new ArrayList<>();
+		for (Participant participant : findAll()) {
+			if(!findParticipantsWithRegistration().contains(participant)) {
+				participants.add(participant);
+			}
+		}
+		return participants;
+	}
+
+	@Override
+	public Set<Participant> findParticipantsWithRegistration() {
+		Set<Participant> participants = new HashSet<>();
+		for (ParticipantRegistration registration : participantRegistrationRepository.findAll()) {
+			participants.add(registration.getParticipant());
+		}
+		return participants;
 	}
 
 }

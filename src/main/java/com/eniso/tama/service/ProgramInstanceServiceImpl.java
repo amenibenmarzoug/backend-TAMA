@@ -149,6 +149,8 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	@Transactional
 	@Override
 	public ProgramInstance addClass(ProgramInstance programInst) {
+		programInst.setNbMaxParticipants(programInst.getProgram().getNbMaxParticipants());
+		programInst.setNbMinParticipants(programInst.getProgram().getNbMinParticipants());
 		ProgramInstance p = save(programInst);
 		long id = programInst.getProgram().getId();
 		List<Theme> listT = this.themeService.findByProgId(id);
@@ -204,6 +206,8 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		newProgram.setProgram(programInst.getProgram());
 		newProgram.setBeginDate(programInst.getBeginDate());
 		newProgram.setEndDate(programInst.getEndDate());
+		newProgram.setNbMaxParticipants(programInst.getProgram().getNbMaxParticipants());
+		newProgram.setNbMinParticipants(programInst.getProgram().getNbMinParticipants());
 
 		// programService.save(newProgram);
 
