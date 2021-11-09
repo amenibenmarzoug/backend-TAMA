@@ -158,7 +158,7 @@ public class TrainerServiceImpl implements TrainerService {
 		t.setValidated(true);
 		t.setPassword(encoder.encode(password));
 		save(t);
-		mailtemplateservice.sendUserValidation( email ,t.getEmail() );
+		//mailtemplateservice.sendUserValidation( email ,t.getEmail() );
 	
 
 	}
