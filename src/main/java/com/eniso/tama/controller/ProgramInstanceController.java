@@ -40,6 +40,12 @@ public class ProgramInstanceController {
 	public List<ProgramInstance> findAll() {
 		return programInstService.findAll();
 	}
+	
+	//get confirmed classes
+	@GetMapping("/confirmedClasses")
+	public List<ProgramInstance> getConfirmedClasses() {
+		return programInstService.getConfirmedClasses();
+	}
 
 
 

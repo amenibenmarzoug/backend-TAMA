@@ -4,13 +4,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ProgramInstance;
@@ -19,90 +22,100 @@ import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.repository.SessionRepository;
 import com.eniso.tama.repository.TrainerRepository;
 
-
 @Service
 @ComponentScan(basePackageClasses = SessionRepository.class)
 public class SessionServiceImpl implements SessionService {
-    @Autowired
-    private SessionRepository sessionRepository;
-    @Autowired 
-    private TrainerService trainerService ; 
-    
-    @Autowired 
-    private AttendanceService attendanceService ; 
-    @Autowired
-    private TrainerRepository trainerRepository;
+	@Autowired
+	private SessionRepository sessionRepository;
+	@Autowired
+	private TrainerService trainerService;
 
-    public SessionServiceImpl() {
-    }
+	@Autowired
+	private AttendanceService attendanceService;
+	@Autowired
+	private TrainerRepository trainerRepository;
 
+	public SessionServiceImpl() {
+	}
 
-    public SessionServiceImpl(SessionRepository sessionRepository) {
-        this.sessionRepository = sessionRepository;
-    }
+	public SessionServiceImpl(SessionRepository sessionRepository) {
+		this.sessionRepository = sessionRepository;
+	}
 
-    @Override
-    public List<Session> findAll() {
-        return sessionRepository.findAll();
-    }
-	
-/*	@Override
-	public List<Session> findAllByCourseId(long id) {
-		// TODO Auto-generated method stub
-		return courseSessionRepository.findByCourseId(id);
-	}*/
+	@Override
+	public List<Session> findAll() {
+		return sessionRepository.findAll();
+	}
 
-    @Override
-    public Session findById(long theId) {
-        Optional<Session> result = sessionRepository.findById(theId);
+	/*
+	 * @Override public List<Session> findAllByCourseId(long id) { // TODO
+	 * Auto-generated method stub return courseSessionRepository.findByCourseId(id);
+	 * }
+	 */
 
-        Session courseSession = null;
+	@Override
+	public Session findById(long theId) {
+		Optional<Session> result = sessionRepository.findById(theId);
 
-        if (result.isPresent()) {
-            courseSession = result.get();
-        } else {
-            // we didn't find the courseSession
-            throw new RuntimeException("Did not find courseSession id - " + theId);
-        }
+		Session courseSession = null;
 
-        return courseSession;
-    }
+		if (result.isPresent()) {
+			courseSession = result.get();
+		} else {
+			// we didn't find the courseSession
+			throw new RuntimeException("Did not find courseSession id - " + theId);
+		}
 
-    @Override
-    public Session save(Session courseSession) {
-        return sessionRepository.save(courseSession);
-    }
+		return courseSession;
+	}
 
-    @Override
-    public void deleteById(long theId) {
-        sessionRepository.deleteById(theId);
-    }
+	@Override
+	public Session save(Session courseSession) {
+		return sessionRepository.save(courseSession);
+	}
 
+	@Override
+	public void deleteById(long theId) {
+		sessionRepository.deleteById(theId);
+	}
 
 	@Override
 	public List<Session> findByTrainerId(long trainerId) {
-		Trainer trainer=trainerService.findById(trainerId);
+		Trainer trainer = trainerService.findById(trainerId);
 		/*
-		if (result.isPresent()) {
-			trainer=result.get();
-
-		} else {
-			// we didn't find the trainer
-			throw new RuntimeException("Did not find trainer with ID  - " + trainerId);
-		}*/
+		 * if (result.isPresent()) { trainer=result.get();
+		 * 
+		 * } else { // we didn't find the trainer throw new
+		 * RuntimeException("Did not find trainer with ID  - " + trainerId); }
+		 */
 		// TODO Auto-generated method stub
 		return sessionRepository.findByTrainer(trainer);
-		
+
 	}
 
+	public Set<ProgramInstance> findProgramInstByTrainer(long trainerId) {
+
+		List<Session> listSession = findByTrainerId(trainerId);
+
+		Set<ProgramInstance> programs = new HashSet<>();
+		for (Session session : listSession) {
+
+			ProgramInstance p1 = session.getThemeDetailInstance().getModuleInstance().getThemeInstance()
+					.getProgramInstance();
+			programs.add(p1);
+
+		}
+
+		return programs;
+	}
 
 	@Override
 	public ProgramInstance getProgramInstance(long sessionId) {
-		Optional<Session> result=sessionRepository.findById(sessionId);
-		Session session ;
-		ProgramInstance programInst ; 
+		Optional<Session> result = sessionRepository.findById(sessionId);
+		Session session;
+		ProgramInstance programInst;
 		if (result.isPresent()) {
-			session=result.get();
+			session = result.get();
 
 		} else {
 			// we didn't find the trainer
@@ -111,13 +124,13 @@ public class SessionServiceImpl implements SessionService {
 		// TODO Auto-generated method stub
 		return session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance();
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public List<Session> getAttendanceMarkedSessions() {
-		List<Session> allSessions=this.findAll();
-		List<Session> markedSessions= new ArrayList<Session>() ; 
+		List<Session> allSessions = this.findAll();
+		List<Session> markedSessions = new ArrayList<Session>();
 		for (Session session : allSessions) {
 
 			if (attendanceService.existsBySession(session.getId())) {
@@ -126,10 +139,9 @@ public class SessionServiceImpl implements SessionService {
 
 			}
 		}
-		
-		return markedSessions;
-		
-	}
 
+		return markedSessions;
+
+	}
 
 }

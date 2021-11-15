@@ -278,6 +278,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 	}
 
 	@Override
+
 	public void resetPassword(long id, String newPassword) {
 		
         Entreprise e = this.findById(id);
@@ -295,7 +296,16 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 		e.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
 		
 		this.save(e);
+	}
 		
-		
+
+	public Entreprise refuseCompany(Entreprise company) {
+		Entreprise companyToUpdate=findById(company.getId());
+		if (companyToUpdate!=null) {
+			companyToUpdate.setValidated(false);
+			save(companyToUpdate);
+		}
+		return companyToUpdate;
+	
 	}
 }

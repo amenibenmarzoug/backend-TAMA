@@ -30,7 +30,7 @@
 	</style>
 	<subDataset name="Empty Dataset1" uuid="55b56a4b-3a16-423b-a2fb-719d7b7c79cd">
 		<field name="participant" class="com.eniso.tama.entity.Participant"/>
-		<field name="attendanceState" class="com.eniso.tama.entity.AttendanceStates"/>
+		<field name="attendanceState" class="java.lang.String"/>
 	</subDataset>
 	<parameter  name="program" class="java.lang.String"/>
 	<parameter name="session" class="java.lang.String"/>
@@ -62,7 +62,7 @@
 			</staticText>
 			<image>
 				<reportElement x="0" y="10" width="60" height="50" uuid="66803fad-74b2-4390-b12f-4da62d0fa1dc"/>
-				<imageExpression><![CDATA["/home/nourhene/Desktop/Tama/Tama-Back2/backend-TAMA/src/main/resources/images/bbw-logo.png"]]></imageExpression>
+				<imageExpression><![CDATA["src/main/resources/images/bbw-logo.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>

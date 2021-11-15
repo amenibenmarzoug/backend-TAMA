@@ -2,14 +2,18 @@ package com.eniso.tama.controller;
 
 import com.eniso.tama.entity.Attendance;
 import com.eniso.tama.entity.Session;
-
+import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.entity.AttendanceStates;
+import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.service.AttendanceService;
+import com.eniso.tama.service.EntrepriseService;
 import com.eniso.tama.service.ParticipantService;
 import com.eniso.tama.service.ProgramInstanceService;
 import com.eniso.tama.service.SessionService;
+import com.eniso.tama.service.TrainerService;
+
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -45,6 +49,12 @@ public class AttendanceController {
     private SessionService sessionService;
     @Autowired
     private ProgramInstanceService programInstanceService;
+    
+    @Autowired
+    private TrainerService trainerService;
+    
+    @Autowired
+    private EntrepriseService companyService ; 
 
 
     public AttendanceController(AttendanceService attendanceService) {
@@ -78,12 +88,91 @@ public class AttendanceController {
         return attendances;
     }
     
+    @GetMapping("attendance/company/{companyId}")
+    public List<Attendance> getAttendancesByCompany(@PathVariable long companyId) {
+        Entreprise company = companyService.findById(companyId);
+		if (company == null) {
+			throw new RuntimeException("error : no company with id" + companyId );
+		}
+		
+        return attendanceService.findByCompany(company);
+    }
+
+    
+    @GetMapping("attendance/participant/{participantId}")
+    public List<Attendance> getAttendancesByParticipant(@PathVariable long participantId) {
+
+        List<Attendance> attendances = attendanceService.findByParticipantId(participantId);
+        if (attendances == null) {
+            throw new RuntimeException("attendance id not found - " + participantId);
+        }
+        return attendances;
+    }
+    
+    @GetMapping("attendance/participant/trainer")
+    public List<Attendance>  findByParticipantIdAndTrainerId(@RequestParam long participantId, @RequestParam long trainerId){
+    	return attendanceService.findByParticipantIdAndTrainerId(participantId, trainerId);
+    }
+    
+    @GetMapping("attendance/participant/trainer/presence")
+    public int  getPresenceByParticipantIdAndTrainerId(@RequestParam long participantId, @RequestParam long trainerId){
+    	return attendanceService.getPresencesNumberByParticipantAndTrainer(participantId, trainerId);
+    }
+    
+    @GetMapping("attendance/participant/trainer/absence")
+    public int  getAbsenceByParticipantIdAndTrainerId(@RequestParam long participantId, @RequestParam long trainerId){
+    	return attendanceService.getAbsencesNumberByParticipantAndTrainer(participantId, trainerId);
+    }
+    
+    @GetMapping("attendance/participant/trainer/justified")
+    public int  getJustifiedAbsenceByParticipantIdAndTrainerId(@RequestParam long participantId, @RequestParam long trainerId){
+    	return attendanceService.getJustifiedAbsencesNumberByParticipantAndTrainer(participantId, trainerId);
+    }
+    
     //check whether the attendance of session is marked or not
     @GetMapping("attendanceMarked/{sessionId}")
     public Boolean attendanceMarked(@PathVariable long sessionId) {
         return attendanceService.existsBySession(sessionId);
     }
     
+    @GetMapping("attendance/trainer/{trainerId}")
+    public List<Attendance> getAttendancesByTrainer(@PathVariable long trainerId) {
+        Trainer trainer = trainerService.findById(trainerId);
+		if (trainer == null) {
+			throw new RuntimeException("error : no trainer with id" + trainerId );
+		}
+		
+        return attendanceService.findByTrainer(trainer);
+    }
+    
+    @GetMapping("attendance/presencesNumber/{participantId}")
+    public int getPresencesNumber(@PathVariable long participantId) {
+        Participant participant = participantService.findById(participantId);
+		if (participant == null) {
+			throw new RuntimeException("error : no participant with id" + participantId );
+		}
+		
+        return attendanceService.getPresencesNumber(participant);
+    }
+    
+    @GetMapping("attendance/absencesNumber/{participantId}")
+    public int getAbsencesNumber(@PathVariable long participantId) {
+        Participant participant = participantService.findById(participantId);
+		if (participant == null) {
+			throw new RuntimeException("error : no participant with id" + participantId );
+		}
+		
+        return attendanceService.getAbsencesNumber(participant);
+    }
+    @GetMapping("attendance/justifiedAbsencesNumber/{participantId}")
+    public int getJustifiedAbsencesNumber(@PathVariable long participantId) {
+        Participant participant = participantService.findById(participantId);
+		if (participant == null) {
+			throw new RuntimeException("error : no participant with id" + participantId );
+		}
+		
+        return attendanceService.getJustifiedAbsencesNumber(participant);
+    }
     
 
     // add mapping for POST /attendance - add
@@ -130,9 +219,9 @@ public class AttendanceController {
 		return attendanceService.markAbsent(attendance);
 	}
     
-    @PutMapping("attendance/markNotifiedAbsent")
+    @PutMapping("attendance/markJustifiedAbsent")
 	public Attendance markNotifiedAbsent(@RequestBody Attendance attendance) {
-		return attendanceService.markNotifiedAbsent(attendance);
+		return attendanceService.markJustifiedAbsent(attendance);
 	}
     
     

@@ -3,6 +3,7 @@ package com.eniso.tama.service;
 import java.util.List;
 import java.util.Set;
 
+import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.ProgramInstance;
 
@@ -20,6 +21,8 @@ public interface ParticipantRegistrationService {
 
 	public List<ParticipantRegistration> findByProgramInstanceId(long progranInstId);
 
+	public Set<Participant> findParticipantsByTrainerId(long trainerId) ;
+	
 	public void deleteById(long id);
 	
 	public ParticipantRegistration validateRegistration(long registrationId);

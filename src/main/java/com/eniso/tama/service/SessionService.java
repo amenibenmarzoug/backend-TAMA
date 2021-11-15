@@ -2,6 +2,7 @@ package com.eniso.tama.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Session;
@@ -18,6 +19,8 @@ public interface SessionService {
     public List<Session> findByTrainerId (long trainerId);
     public ProgramInstance getProgramInstance (long sessionId);
     public Session save(Session courseSession);
+
+	public Set<ProgramInstance> findProgramInstByTrainer(long trainerId);
 
     public void deleteById(long id);
     List<Session> getAttendanceMarkedSessions();

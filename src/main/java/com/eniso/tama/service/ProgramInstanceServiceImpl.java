@@ -244,4 +244,10 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 			
 		}
 	}
+
+	@Override
+	public List<ProgramInstance> getConfirmedClasses() {
+		// TODO Auto-generated method stub
+		return programInstanceRepository.findByValidatedTrue();
+	}
 }

@@ -38,6 +38,7 @@ public interface EntrepriseService {
 	
 	public List<Entreprise> findEnterpriseByLocation(String location);
 
+	public Entreprise refuseCompany(Entreprise company);
 
 	public void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException;
 

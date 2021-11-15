@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import org.springframework.stereotype.Repository;
 
+import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ProgramInstance;
 
@@ -28,6 +29,8 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
 
     //List<Participant> findByProgramInstance(ProgramInstance  programInst);
     List<Participant> findByLevel(String level);
+    List <Participant> findByValidatedTrue() ; 
+    List <Participant> findByEntrepriseAndValidatedTrue (Entreprise company) ;  
 
     //List <Participant> findByEntreprise(Participant theParticipant);<<<<<<< HEAD
  

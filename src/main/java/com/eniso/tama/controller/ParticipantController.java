@@ -40,6 +40,7 @@ import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.RoleRepository;
+import com.eniso.tama.service.EntrepriseService;
 import com.eniso.tama.service.MailService;
 import com.eniso.tama.service.ParticipantRegistrationService;
 import com.eniso.tama.service.ParticipantService;
@@ -71,6 +72,8 @@ public class ParticipantController {
 
 	@Autowired
 	private ParticipantService participantService;
+	@Autowired
+	private EntrepriseService companyService;
 
 	@Autowired
 	private ParticipantRegistrationService participantRegistrationService;
@@ -96,6 +99,16 @@ public class ParticipantController {
 //		}
 		return participantService.findAll();
 	}
+	
+	//get participants with validated accounts
+	@GetMapping("/validatedParticipants")
+	public List<Participant> findValidatedParticipants() {
+//		for (Participant par : participantService.findAll()) {
+//			//System.out.println("AGE"+par.getAge());
+//		}
+		return participantService.findValidatedParticipants();
+	}
+	
 
 	@GetMapping("participants/{participantId}")
 	public Participant getParticipant(@PathVariable long participantId) {
@@ -122,6 +135,23 @@ public class ParticipantController {
 
 		return theParticipant;
 	}
+	
+	// get accepted/validated participants by company
+		@GetMapping("participants/company/{companyId}")
+		public List<Participant> getValidatedParticipantsByEntreprise(@PathVariable long companyId) {
+			Entreprise company = companyService.findById(companyId);
+			if (company == null) {
+				throw new RuntimeException("error : no company with id" + companyId );
+			}
+					
+			List<Participant> participants = participantService.getValidatedParticipantsByEntreprise(company);
+
+			if (participants == null) {
+				throw new RuntimeException("error : no validated participants for company with id" + companyId );
+			}
+			return participants;
+
+		}
 
 	// les participants du pilier1
 	@GetMapping("participants/pilier1")
@@ -198,7 +228,7 @@ public class ParticipantController {
 	// be corrected)
 	@GetMapping("participants/classId/{id}")
 	public List<Participant> getParticipantsPerClass(@PathVariable("id") long classId) {
-		List<Participant> participantsPerClasse = participantService.findParticipantsByClass(classId);
+		List<Participant> participantsPerClasse = participantService.getParticipantPerClass(classId);
 
 		if (participantsPerClasse == null) {
 			throw new RuntimeException("No participants found in the class with id  " + classId);
@@ -433,6 +463,15 @@ public class ParticipantController {
 		return theParticipant;
 	}
 
+	
+	@PutMapping("/participants/refuse")
+	public Participant refuseParticipant(@RequestBody Participant theParticipant)
+		{
+		Participant newParticipant = participantService.refuseParticipant(theParticipant);
+		return newParticipant;
+	}
+
+	
 	@DeleteMapping("/participants/{participantId}")
 	public String deleteParticipant(@PathVariable long participantId) {
 

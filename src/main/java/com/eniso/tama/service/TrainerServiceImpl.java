@@ -99,8 +99,8 @@ public class TrainerServiceImpl implements TrainerService {
 	}
 
 	@Override
-	public void sendValidationMail(Trainer t)throws AddressException, MessagingException, IOException {
-		
+	public void sendValidationMail(Trainer t) throws AddressException, MessagingException, IOException {
+
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -136,25 +136,24 @@ public class TrainerServiceImpl implements TrainerService {
 		// multipart.addBodyPart(attachPart);
 		msg.setContent(multipart);
 		Transport.send(msg);
-		
 
 	}
-	
-	@Transactional 
+
+	@Transactional
 	@Override
-	public void validateTrainer(long id) throws AddressException, MessagingException, IOException{
+	public void validateTrainer(long id) throws AddressException, MessagingException, IOException {
 		Trainer t = findById(id);
 		t.setValidated(true);
 		save(t);
-		//sendValidationMail(t);
+		// sendValidationMail(t);
 
 	}
 
 	@Override
 	public List<Trainer> findTrainersBySpecialization(String specialization) {
-		List<Trainer> trainersList=new ArrayList<Trainer>();
+		List<Trainer> trainersList = new ArrayList<Trainer>();
 		for (Long trainerId : trainerRepository.findTrainersBySpecialization(specialization)) {
-			Trainer trainer=findById(trainerId);
+			Trainer trainer = findById(trainerId);
 			trainersList.add(trainer);
 
 		}
@@ -162,6 +161,7 @@ public class TrainerServiceImpl implements TrainerService {
 	}
 
 	@Override
+
 	public void resetPassword(long id, String newPassword) {
 		
 		Trainer t = this.findById(id);
@@ -169,9 +169,7 @@ public class TrainerServiceImpl implements TrainerService {
 		t.setPassword(encoder.encode(newPassword));
 		
 		this.save(t);
-		
-		
-		
+			
 	}
 
 	@Override
@@ -182,9 +180,16 @@ public class TrainerServiceImpl implements TrainerService {
 		t.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
 		
 		this.save(t);
-		
-		
-		
+	}
+	
+	public Trainer refuseTrainer(Trainer trainer) {
+		Trainer t = findById(trainer.getId());
+		if (t != null) {
+			t.setValidated(false);
+			save(t);
+		}
+		return t;
+
 	}
 
 }
