@@ -84,11 +84,10 @@ public class ProgramServiceImpl implements ProgramService {
 				
 				List<ProgramInstance> list = programInsService.findByProgramId(id);
 				for (ProgramInstance programInstance : list) {
-					programInstance.setProgramInstName(theProgram.getProgramName());
-					System.out.println(programInstance.getLocation());
-					
+					programInstance.setProgramInstName(theProgram.getProgramName());					
 					programInstance.setNbDaysProgInst(theProgram.getNbDaysProg());
-					System.out.println(programInstance.getNbDaysProgInst());
+					programInstance.setNbMaxParticipants(theProgram.getNbMaxParticipants());
+					programInstance.setNbMinParticipants(theProgram.getNbMinParticipants());
 					programInsService.save(programInstance);
 				}
 				save(theProgram);

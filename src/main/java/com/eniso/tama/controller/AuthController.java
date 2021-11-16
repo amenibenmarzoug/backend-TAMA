@@ -20,7 +20,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,6 +58,8 @@ import com.eniso.tama.repository.UserRepository;
 import com.eniso.tama.service.CompanyRegistrationService;
 import com.eniso.tama.service.EntrepriseService;
 import com.eniso.tama.service.UserDetailsImpl;
+import com.eniso.tama.service.UserService;
+import com.eniso.tama.service.UserServiceImpl.NewPassword;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -98,6 +102,8 @@ public class AuthController {
 	
 	@Autowired
 	JwtUtils jwtUtils;
+	@Autowired
+	UserService userService;
 
 	@Autowired
 	private CompanyRegistrationRepository registrationRepository;
@@ -109,10 +115,11 @@ public class AuthController {
 		System.out.println(encoder.encode(loginRequest.getPassword()));
 		System.out.println(loginRequest.getPassword());
 		System.out.println(loginRequest.getEmail());
+		
 
 		User u = new User();
 		u = userRepository.findByEmail(loginRequest.getEmail());
-
+		System.out.println(encoder.matches(loginRequest.getPassword(), u.getPassword()));
 		// System.out.println(u.toString());
 		if (u == null) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Cet email n'existe pas!"));
@@ -155,7 +162,7 @@ public class AuthController {
 				signupRequestTrainer.getCity(), signupRequestTrainer.getPostalCode(),
 				signupRequestTrainer.getPhoneNumber(), null, signupRequestTrainer.getFirstName(),
 				signupRequestTrainer.getLastName(), signupRequestTrainer.getGender(),
-				signupRequestTrainer.getDisponibilityDays(), signupRequestTrainer.getSpecifications());
+				signupRequestTrainer.getDisponibilityDays(), signupRequestTrainer.getSpecifications(), signupRequestTrainer.getFees());
 		trainer.setValidated(false);
 
 //		User user = new User(signupRequestTrainer.getEmail(),
@@ -382,6 +389,13 @@ public class AuthController {
 		}
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+	}
+	
+	
+	@PostMapping("/resetPassword/{id}")
+	public void resetPassword(@PathVariable long id , @RequestBody NewPassword newPassword) {
+		System.out.println(newPassword) ;
+		userService.resetPassword(id, newPassword);
 	}
 
 }

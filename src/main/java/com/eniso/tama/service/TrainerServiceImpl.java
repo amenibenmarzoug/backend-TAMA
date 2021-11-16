@@ -21,6 +21,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,10 +36,20 @@ public class TrainerServiceImpl implements TrainerService {
 
 	@Autowired
 	private TrainerRepository trainerRepository;
-	
+
+
+	 @Autowired 
+	 private MailTemplateService mailtemplateservice ;
+	 
+		@Value( "${spring.mail.username}" )
+		private String email;
+		
+		@Value( "${password}" )
+		private String password;
+
 	@Autowired
 	PasswordEncoder encoder;
-	
+
 	@Autowired
 	RandomPasswordGenerator randomPassword;
 
@@ -94,6 +105,7 @@ public class TrainerServiceImpl implements TrainerService {
 		newTrainer.setLastName(theTrainer.getLastName());
 		newTrainer.setSpecifications(theTrainer.getSpecifications());
 		newTrainer.setDisponibilityDays(theTrainer.getDisponibilityDays());
+		newTrainer.setFees(theTrainer.getFees());
 		save(newTrainer);
 		return newTrainer;
 	}
@@ -144,8 +156,10 @@ public class TrainerServiceImpl implements TrainerService {
 	public void validateTrainer(long id) throws AddressException, MessagingException, IOException {
 		Trainer t = findById(id);
 		t.setValidated(true);
+		t.setPassword(encoder.encode(password));
 		save(t);
-		// sendValidationMail(t);
+		//mailtemplateservice.sendUserValidation( email ,t.getEmail() );
+	
 
 	}
 
@@ -160,26 +174,29 @@ public class TrainerServiceImpl implements TrainerService {
 		return trainersList;
 	}
 
+	
 	@Override
 
 	public void resetPassword(long id, String newPassword) {
-		
+
 		Trainer t = this.findById(id);
-		
+
 		t.setPassword(encoder.encode(newPassword));
-		
+
 		this.save(t);
-			
+
 	}
 
+	
 	@Override
 	public void resetPasswordAutomatically(long id) {
-		
-        Trainer t = this.findById(id);
-		
+
+		Trainer t = this.findById(id);
+
 		t.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
-		
+
 		this.save(t);
+
 	}
 	
 	public Trainer refuseTrainer(Trainer trainer) {
@@ -189,6 +206,7 @@ public class TrainerServiceImpl implements TrainerService {
 			save(t);
 		}
 		return t;
+
 
 	}
 
