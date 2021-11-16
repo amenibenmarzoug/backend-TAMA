@@ -25,6 +25,8 @@ public class ThemeDetail {
     @NotNull
     @Column(name = "themeDetailDays")
     private int nbDaysThemeDetail;
+    
+    private boolean deleted;
 
     @ManyToOne
     private Module module;
@@ -60,6 +62,14 @@ public class ThemeDetail {
     public void setModule(Module module) {
         this.module = module;
     }
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 
 }

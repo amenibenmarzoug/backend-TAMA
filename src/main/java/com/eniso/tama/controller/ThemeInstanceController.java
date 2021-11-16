@@ -50,7 +50,6 @@ public class ThemeInstanceController {
     }
     @GetMapping("/program/themesInst")
     public List<ThemeInstance> getProgramThemesInst(@RequestParam("id") long id) {
-        System.out.println(id);
 
         return(themeInstanceService.getProgramThemesInst(id));
 
@@ -97,8 +96,8 @@ public class ThemeInstanceController {
 
     }
 
-    @DeleteMapping("themeInst/{themeId}")
-    public String deleteThemeInst(@PathVariable int themInstId) {
+    @DeleteMapping("themeInst/{themInstId}")
+    public ResponseEntity<?> deleteThemeInst(@PathVariable long themInstId) {
 
         ThemeInstance themeInst = themeInstanceService.findById(themInstId);
 
@@ -110,7 +109,7 @@ public class ThemeInstanceController {
 
         themeInstanceService.deleteThemeInstance(themInstId);
 
-        return "Deleted programId- " + themInstId;
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
     }
 
 

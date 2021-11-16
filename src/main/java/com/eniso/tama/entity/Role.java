@@ -25,6 +25,7 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
+    private boolean deleted;
 
     public Role() {
 
@@ -57,4 +58,14 @@ public class Role {
     public void setRole(Roles role) {
         this.role = role;
     }
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+    
+    
 }

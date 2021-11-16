@@ -60,6 +60,9 @@ public class Participant extends User {
 	@ManyToOne
 	// @JsonIgnore
 	private Entreprise entreprise;
+	
+	private boolean deleted;
+
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "participant")
 //    private List<ParticipantRegistration> participantRegistrations; 
@@ -84,6 +87,16 @@ public class Participant extends User {
 
 	public void setEducationLevel(String educationLevel) {
 		this.educationLevel = educationLevel;
+	}
+	
+	
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public Entreprise getEntreprise() {

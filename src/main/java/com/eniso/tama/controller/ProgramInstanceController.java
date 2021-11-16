@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.entity.ProgramInstance;
+import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.service.ProgramInstanceService;
 
 @CrossOrigin(origins = "*")
@@ -131,7 +133,7 @@ public class ProgramInstanceController {
 
 	@Transactional
 	@DeleteMapping("programsInst/{programId}")
-	public String deleteProgram(@PathVariable int programId) {
+	public ResponseEntity<?> deleteProgram(@PathVariable int programId) {
 
 		ProgramInstance Program = programInstService.findById(programId);
 
@@ -144,8 +146,7 @@ public class ProgramInstanceController {
 		//programService.deleteById(programId);
 
 		programInstService.deleteProgramInstance(programId);
-		return "Deleted programId- " + programId;
-
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
 	}
 
 }

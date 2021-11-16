@@ -31,8 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) {
         User userlist = userRepository.findByEmail(email);
 //		for (User user : userlist) {
-//			System.out.println("user email");
-//			System.out.println(user.getEmail());
+
 //		}	
 //		
 //		

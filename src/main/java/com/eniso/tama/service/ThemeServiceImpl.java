@@ -100,7 +100,7 @@ public class ThemeServiceImpl implements ThemeService {
 	@Transactional 
 	public ResponseEntity<?> addThemeProgram(Theme theme, long id) {
 		List<ProgramInstance> list = programInsService.findByProgramId(id);
-		System.out.println("chnw lid" + id);
+		
 		Program program = new Program();
 		for (Program p : programRepository.findAll()) {
 			if (id == p.getId()) {
@@ -154,6 +154,7 @@ public class ThemeServiceImpl implements ThemeService {
 	}
 
 	@Override
+	@Transactional 
 	public void deleteTheme(long id) {
 		List<ThemeInstance> themeInstances=themeInstService.findByThemeId(id);
 		List<com.eniso.tama.entity.Module> modules=moduleService.findModulesByThemeId(id);

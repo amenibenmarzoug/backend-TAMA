@@ -32,6 +32,8 @@ public class CompanyRegistration  implements Serializable {
 	
 	private LocalDate registrationDate;
 	
+	private boolean deleted;
+
 //	@OneToMany(fetch = FetchType.LAZY )
 //	private List<ParticipantRegistration> participantRegistrations;
 //	
@@ -52,6 +54,15 @@ public class CompanyRegistration  implements Serializable {
 		this.id = id;
 	}
 
+	
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 	public CompanyRegistration(Long id, Entreprise entreprise, ProgramInstance programinstance,
 			LocalDate registrationDate, List<ParticipantRegistration> participantRegistrations) {

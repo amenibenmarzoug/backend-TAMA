@@ -31,7 +31,6 @@ public class MailTemplateController {
 
 //	@PostMapping("/email")
 //	public ResponseEntity<String> enviarEmail(@RequestBody String login, ) {
-//		//System.out.println(notif);
 //		try {
 //			mailTemplateService.sendUserValidation(login);
 //			return new ResponseEntity<String>(login, HttpStatus.OK);

@@ -112,15 +112,11 @@ public class AuthController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		System.out.println(encoder.encode(loginRequest.getPassword()));
-		System.out.println(loginRequest.getPassword());
-		System.out.println(loginRequest.getEmail());
-		
+	
 
 		User u = new User();
 		u = userRepository.findByEmail(loginRequest.getEmail());
-		System.out.println(encoder.matches(loginRequest.getPassword(), u.getPassword()));
-		// System.out.println(u.toString());
+	
 		if (u == null) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Cet email n'existe pas!"));
 		} else {
@@ -128,9 +124,7 @@ public class AuthController {
 				Authentication authentication = authenticationManager.authenticate(
 						new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 				UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-				// System.out.println("USER") ;
-				// System.out.println(userDetails.getEmail()) ;
-				// System.out.println(userDetails.getPassword()) ;
+				
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 
 				String jwt = jwtUtils.generateJwtToken(authentication);
@@ -149,7 +143,6 @@ public class AuthController {
 
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestTrainer signupRequestTrainer) {
-		System.out.println(randomPassword.generateSecureRandomPassword());
 		if (trainerRepository.existsByEmail(signupRequestTrainer.getEmail())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
 		}
@@ -188,7 +181,7 @@ public class AuthController {
 		 * d.setDay(Days.MERCREDI); break; case "JEUDI": d.setDay(Days.JEUDI); break;
 		 * case "VENDREDI": d.setDay(Days.VENDREDI); break; case "SAMEDI":
 		 * d.setDay(Days.SAMEDI); break; case "DIMANCHE": d.setDay(Days.DIMANCHE);
-		 * break; } disponibilities.add(d); System.out.println(Days.valueOf(day)); }
+		 * break; } disponibilities.add(d);  }
 		 */
 		Role modRole = roleRepository.findByRole(Roles.TRAINER)
 				.orElseThrow(() -> new RuntimeException("Error: Role Trainer is not found."));
@@ -199,7 +192,6 @@ public class AuthController {
 		// userRepository.save(user);
 		trainerRepository.save(trainer);
 
-		System.out.println(trainer.getPhoneNumber());
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
@@ -231,7 +223,6 @@ public class AuthController {
 		// userRepository.save(user);
 		institutionRepository.save(institution);
 
-		// System.out.println(institution.getPhoneNumber()) ;
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
@@ -264,7 +255,6 @@ public class AuthController {
 				signupRequestEnterprise.getManagerLastName(), signupRequestEnterprise.getManagerPosition(),
 				signupRequestEnterprise.getNbMinParticipants(), signupRequestEnterprise.isProvider());
 
-		System.out.println(enterprise.isProvider());
 		enterprise.setValidated(false);
 
 		Set<String> strRoles = signupRequestEnterprise.getRole();
@@ -286,7 +276,6 @@ public class AuthController {
 				List<ProgramInstance> list1 = companyRegistrationService.findEntrepPrograms(enterprise.getId()).stream()
 						.filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))
 						.collect(Collectors.toList());
-				// System.out.println(list1);
 				if (prog != null && list1.isEmpty()) {
 					CompanyRegistration registration = new CompanyRegistration();
 					registration.setEntreprise(enterprise);
@@ -394,7 +383,6 @@ public class AuthController {
 	
 	@PostMapping("/resetPassword/{id}")
 	public void resetPassword(@PathVariable long id , @RequestBody NewPassword newPassword) {
-		System.out.println(newPassword) ;
 		userService.resetPassword(id, newPassword);
 	}
 

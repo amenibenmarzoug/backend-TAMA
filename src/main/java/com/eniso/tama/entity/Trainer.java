@@ -30,6 +30,8 @@ public class Trainer extends User {
     
     @Lob
 	private String fees;
+    
+    private boolean deleted;
 
     @ElementCollection
     @CollectionTable(name = "trainer_disponibility_days", joinColumns = @JoinColumn(name = "user_id"))
@@ -106,6 +108,16 @@ public class Trainer extends User {
 
 	public void setFees(String fees) {
 		this.fees = fees;
+	}
+	
+	
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public Trainer() {
