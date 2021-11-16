@@ -20,8 +20,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 
+import com.eniso.tama.entity.CompanyRegistration;
 import com.eniso.tama.entity.Module;
 import com.eniso.tama.entity.ModuleInstance;
+import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Session;
 import com.eniso.tama.entity.Theme;
@@ -52,6 +54,12 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	private ThemeDetailInstanceService themeDetailInstanceService;
 	@Autowired
 	private ParticipantService participantService;
+	
+	@Autowired
+	private ParticipantRegistrationService participantRegistrationService;
+	
+	@Autowired
+	private CompanyRegistrationService companyRegistrationService;
 	
 	@Autowired
 	private SessionService sessionService;
@@ -128,9 +136,28 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	}
 
 	@Override
-	public void delete(ProgramInstance theProgramInstance) {
-
-		entityManager.remove(theProgramInstance);
+	@Transactional 
+	public void deleteProgramInstance(long id ){
+		List<ThemeInstance> themeInstances=themeInstanceService.getProgramThemesInst(id);
+		List<ParticipantRegistration> participantRegistrations=participantRegistrationService.findByProgramInstanceId(id);
+		List<CompanyRegistration> companyRegistrations= companyRegistrationService.findByProgramInstance(id);
+		if(participantRegistrations!=null) {
+			for (ParticipantRegistration participantRegistration : participantRegistrations) {
+				participantRegistrationService.deleteById(participantRegistration.getId());
+			}
+		}
+		if(companyRegistrations!=null) {
+			for (CompanyRegistration companyRegistration : companyRegistrations) {
+				companyRegistrationService.deleteById(companyRegistration.getId());
+			}
+		}
+	
+		if(themeInstances!=null) {
+			for (ThemeInstance themeInstance : themeInstances) {
+				themeInstanceService.deleteById(themeInstance.getId());
+			}
+		}
+		deleteById(id);
 	}
 
 	@Override

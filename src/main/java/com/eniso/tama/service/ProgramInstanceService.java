@@ -27,7 +27,7 @@ public interface ProgramInstanceService {
 	
 	public ProgramInstance cancel(ProgramInstance theProgramInstance);
 
-	public void delete(ProgramInstance theProgramInstance);
+	public void deleteProgramInstance(long id);
 
 	public void deleteById(long theId);
 

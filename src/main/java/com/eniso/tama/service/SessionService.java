@@ -16,6 +16,9 @@ public interface SessionService {
     //public List<Session> findAllByCourseId(long id);
 
     public Session findById(long theId);
+    
+	List<Session> findByThemeDetailInstanceId(long id);
+	
     public List<Session> findByTrainerId (long trainerId);
     public ProgramInstance getProgramInstance (long sessionId);
     public Session save(Session courseSession);
@@ -23,5 +26,6 @@ public interface SessionService {
 	public Set<ProgramInstance> findProgramInstByTrainer(long trainerId);
 
     public void deleteById(long id);
+    public void deleteSession(long id);
     List<Session> getAttendanceMarkedSessions();
 }

@@ -53,6 +53,18 @@ public class ThemeDetailInstanceController {
 		return theThemeDetailInst;
 	}
 	
+	@GetMapping("themeDetailInst/themeDetail/{themeDetailId}")
+	public List<ThemeDetailInstance> findByThemeDetailId(@PathVariable long  themeDetailId) {
+		
+		List<ThemeDetailInstance>  theThemeDetailInst = themeDetailInstanceService.findByThemeDetId(themeDetailId);
+		
+		if (theThemeDetailInst == null) {
+			throw new RuntimeException("themeDetail id not found - " + themeDetailId);
+		}
+		
+		return theThemeDetailInst;
+	}
+	
 	@PostMapping("/themeDetailInst")
 	public  ThemeDetailInstance addThemeDetailInst(@RequestBody ThemeDetailInstance theThemeDetailInst) {
 		
@@ -78,7 +90,7 @@ public class ThemeDetailInstanceController {
 			throw new RuntimeException("the themeDetailInst id is not found - " + themeDetailInstId);
 		}
 		
-		themeDetailInstanceService.deleteById(themeDetailInstId);
+		themeDetailInstanceService.deleteThemeDetailInstance(themeDetailInstId);
 		
 		return "Deleted themeDetailInst id - " + themeDetailInstId;
 	}

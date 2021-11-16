@@ -95,7 +95,7 @@ public class ThemeDetailController {
 			throw new RuntimeException("the themeDetail id is not found - " + themeDetailId);
 		}
 		
-		themeDetailService.deleteById(themeDetailId);
+		themeDetailService.deleteThemeDetail(themeDetailId);
 		
 		return "Deleted themeDetail id - " + themeDetailId;
 	}

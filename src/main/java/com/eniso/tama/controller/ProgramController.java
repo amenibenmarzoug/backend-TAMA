@@ -86,7 +86,7 @@ public class ProgramController {
 			throw new RuntimeException("the Program id is not found - " + programId);
 		}
 
-		programService.deleteById(programId);
+		programService.deleteProgram(programId);
 
 		return "Deleted programId- " + programId;
 	}

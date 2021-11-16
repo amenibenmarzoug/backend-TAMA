@@ -58,7 +58,7 @@ public class Event {
 
     //@JsonIgnore
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "session_id", referencedColumnName = "session_id")
     private Session session;
 

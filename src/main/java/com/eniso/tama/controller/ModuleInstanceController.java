@@ -100,7 +100,7 @@ public class ModuleInstanceController {
 			throw new RuntimeException("the Module id is not found - " + moduleId);
 		}
 
-		moduleInstanceService.deleteById(moduleId);
+		moduleInstanceService.deleteModuleInstance(moduleId);
 
 		return "Deleted Module id - " + moduleId;
 	}

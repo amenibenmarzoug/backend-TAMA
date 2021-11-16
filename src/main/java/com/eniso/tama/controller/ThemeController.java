@@ -103,7 +103,7 @@ public class ThemeController {
 			throw new RuntimeException("the theme id is not found - " + themeId);
 		}
 		
-		themeService.deleteById(themeId);
+		themeService.deleteTheme(themeId);
 		
 		return "Deleted theme id - " + themeId;
 	}

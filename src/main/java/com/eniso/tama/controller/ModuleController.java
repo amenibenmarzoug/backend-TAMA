@@ -114,7 +114,7 @@ public class ModuleController {
 			throw new RuntimeException("the Module id is not found - " + moduleId);
 		}
 
-		moduleService.deleteById(moduleId);
+		moduleService.deleteModule(moduleId);
 
 		return "Deleted Module id - " + moduleId;
 	}

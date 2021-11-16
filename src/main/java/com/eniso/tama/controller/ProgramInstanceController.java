@@ -143,8 +143,7 @@ public class ProgramInstanceController {
 
 		//programService.deleteById(programId);
 
-		programInstService.delete(Program);
-
+		programInstService.deleteProgramInstance(programId);
 		return "Deleted programId- " + programId;
 
 	}
