@@ -30,7 +30,7 @@ public class ThemeInstance {
     private int nbDaysthemeInst;
     @ManyToOne
     private Theme theme;
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     private ProgramInstance programInstance;
 
     public String getThemeInstName() {

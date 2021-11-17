@@ -108,7 +108,7 @@ public class ThemeInstanceController {
             throw new RuntimeException("the ThemeInst id is not found - " + themInstId);
         }
 
-        themeInstanceService.deleteById(themInstId);
+        themeInstanceService.deleteThemeInstance(themInstId);
 
         return "Deleted programId- " + themInstId;
     }

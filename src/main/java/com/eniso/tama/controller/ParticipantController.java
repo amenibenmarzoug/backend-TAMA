@@ -60,9 +60,9 @@ public class ParticipantController {
 
 	@Autowired
 	PasswordEncoder encoder;
-	
+
 	@Autowired
-    RandomPasswordGenerator randomPassword;
+	RandomPasswordGenerator randomPassword;
 
 	@Autowired
 	EnterpriseRepository enterpriseRepository;
@@ -99,8 +99,8 @@ public class ParticipantController {
 //		}
 		return participantService.findAll();
 	}
-	
-	//get participants with validated accounts
+
+	// get participants with validated accounts
 	@GetMapping("/validatedParticipants")
 	public List<Participant> findValidatedParticipants() {
 //		for (Participant par : participantService.findAll()) {
@@ -108,7 +108,6 @@ public class ParticipantController {
 //		}
 		return participantService.findValidatedParticipants();
 	}
-	
 
 	@GetMapping("participants/{participantId}")
 	public Participant getParticipant(@PathVariable long participantId) {
@@ -135,23 +134,23 @@ public class ParticipantController {
 
 		return theParticipant;
 	}
-	
+
 	// get accepted/validated participants by company
-		@GetMapping("participants/company/{companyId}")
-		public List<Participant> getValidatedParticipantsByEntreprise(@PathVariable long companyId) {
-			Entreprise company = companyService.findById(companyId);
-			if (company == null) {
-				throw new RuntimeException("error : no company with id" + companyId );
-			}
-					
-			List<Participant> participants = participantService.getValidatedParticipantsByEntreprise(company);
-
-			if (participants == null) {
-				throw new RuntimeException("error : no validated participants for company with id" + companyId );
-			}
-			return participants;
-
+	@GetMapping("participants/company/{companyId}")
+	public List<Participant> getValidatedParticipantsByEntreprise(@PathVariable long companyId) {
+		Entreprise company = companyService.findById(companyId);
+		if (company == null) {
+			throw new RuntimeException("error : no company with id" + companyId);
 		}
+
+		List<Participant> participants = participantService.getValidatedParticipantsByEntreprise(company);
+
+		if (participants == null) {
+			throw new RuntimeException("error : no validated participants for company with id" + companyId);
+		}
+		return participants;
+
+	}
 
 	// les participants du pilier1
 	@GetMapping("participants/pilier1")
@@ -235,7 +234,7 @@ public class ParticipantController {
 		}
 		return participantsPerClasse;
 	}
-	
+
 	@GetMapping("participants/classId/{id}")
 	public List<Participant> getParticipantsPerClass(@PathVariable("id") long classId) {
 		List<Participant> participantsPerClasse = participantService.getParticipantPerClass(classId);
@@ -267,30 +266,30 @@ public class ParticipantController {
 	public List<ProgramInstance> getParticipantClasses(@PathVariable long participantid) {
 		return participantRegistrationService.findParticipantPrograms(participantid);
 	}
-	
+
 	@GetMapping("participants/status")
-	public Set<Participant> getParticipantsByRegistrationStatus(@RequestParam String  status) {
-		Set<Participant> participants= new HashSet<>();
+	public Set<Participant> getParticipantsByRegistrationStatus(@RequestParam String status) {
+		Set<Participant> participants = new HashSet<>();
 		switch (status) {
 		case "WAITING":
 			System.out.println("WAITING");
-			participants=participantService.findParticipantsByRegistrationStatus(Status.WAITING);
+			participants = participantService.findParticipantsByRegistrationStatus(Status.WAITING);
 			break;
 		case "ACCEPTED":
 			System.out.println("ACCEPTED");
 
-			participants=participantService.findParticipantsByRegistrationStatus(Status.ACCEPTED);
+			participants = participantService.findParticipantsByRegistrationStatus(Status.ACCEPTED);
 			break;
 		case "REFUSED":
 			System.out.println("REFUSED");
 
-			participants=participantService.findParticipantsByRegistrationStatus(Status.REFUSED);
+			participants = participantService.findParticipantsByRegistrationStatus(Status.REFUSED);
 			break;
 
 		default:
 			break;
 		}
-		
+
 		return participants;
 	}
 
@@ -298,7 +297,7 @@ public class ParticipantController {
 	public Set<Participant> getParticipantsWithRegistration() {
 		return participantService.findParticipantsWithRegistration();
 	}
-	
+
 	@GetMapping("participants/withoutRegistration")
 	public List<Participant> getParticipantsWithoutRegistration() {
 		return participantService.findParticipantsWithoutRegistration();
@@ -368,7 +367,7 @@ public class ParticipantController {
 	}
 
 	@PostMapping("/signupParticipantEntre")
-	public ResponseEntity<?> registerParticipantPerEntr(@Valid @RequestBody Participant theP,
+	public ResponseEntity<?> registerParticipantPerEntr(@Valid @RequestBody ParticipantDto theP,
 			@RequestParam("id") long id) {
 
 		if (participantRepository.existsByEmail(theP.getEmail())) {
@@ -406,7 +405,30 @@ public class ParticipantController {
 		// p.setProgramInstance(entreprise.getRegistration().getPrograminstance());
 		p.setStatus(Status.WAITING);
 		p.setValidated(false);
-		participantRepository.save(p);
+		Participant savedParticipant = participantRepository.save(p);
+		List<ProgramInstance> participantRegistrations = participantRegistrationService
+				.findParticipantPrograms(savedParticipant.getId());
+		if (theP.getProgramInstance() != null) {
+			for (ProgramInstance prog : theP.getProgramInstance()) {
+
+				List<ProgramInstance> list1 = participantRegistrationService
+						.findParticipantPrograms(savedParticipant.getId()).stream()
+						.filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))
+						.collect(Collectors.toList());
+				// System.out.println(list1);
+				if (prog != null && list1.isEmpty()) {
+					ParticipantRegistration registration = new ParticipantRegistration();
+					registration.setParticipant(savedParticipant);
+					registration.setPrograminstance(prog);
+					registration.setRegistrationDate(LocalDate.now());
+					registration.setStatus(Status.WAITING);
+					regPartRepository.save(registration);
+					// partRegistration.add(registration);
+					// participant.setParticipantRegistrations(partRegistration);
+
+				}
+			}
+		}
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
@@ -477,7 +499,7 @@ public class ParticipantController {
 	}
 
 	@PutMapping("/updatePartEntr")
-	public Participant updateParticipantEntr(@RequestBody Participant theParticipant) {
+	public Participant updateParticipantEntr(@RequestBody ParticipantDto theParticipant) {
 
 		Participant newParticipant = participantService.findById(theParticipant.getId());
 		newParticipant.setFirstNameP(theParticipant.getFirstNameP());
@@ -491,9 +513,34 @@ public class ParticipantController {
 		newParticipant.setEducationLevel(theParticipant.getEducationLevel());
 		newParticipant.setEmail(theParticipant.getEmail());
 		newParticipant.setLevel(theParticipant.getLevel());
-		participantService.save(newParticipant);
 
-		return theParticipant;
+		participantService.save(newParticipant);
+		List<ProgramInstance> participantRegistrations = participantRegistrationService
+				.findParticipantPrograms(newParticipant.getId());
+		if (theParticipant.getProgramInstance() != null) {
+			for (ProgramInstance prog : theParticipant.getProgramInstance()) {
+
+				List<ProgramInstance> list1 = participantRegistrationService
+						.findParticipantPrograms(newParticipant.getId()).stream()
+						.filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))
+						.collect(Collectors.toList());
+				// System.out.println(list1);
+
+				if (prog != null && list1.isEmpty()) {
+					ParticipantRegistration registration = new ParticipantRegistration();
+					registration.setParticipant(newParticipant);
+					registration.setPrograminstance(prog);
+					registration.setRegistrationDate(LocalDate.now());
+					registration.setStatus(Status.WAITING);
+					regPartRepository.save(registration);
+					// partRegistration.add(registration);
+					// participant.setParticipantRegistrations(partRegistration);
+
+				}
+			}
+		}
+
+		return newParticipant;
 	}
 
 	@PutMapping("/participants/validate")
@@ -509,15 +556,12 @@ public class ParticipantController {
 		return theParticipant;
 	}
 
-	
 	@PutMapping("/participants/refuse")
-	public Participant refuseParticipant(@RequestBody Participant theParticipant)
-		{
+	public Participant refuseParticipant(@RequestBody Participant theParticipant) {
 		Participant newParticipant = participantService.refuseParticipant(theParticipant);
 		return newParticipant;
 	}
 
-	
 	@DeleteMapping("/participants/{participantId}")
 	public String deleteParticipant(@PathVariable long participantId) {
 

@@ -21,5 +21,7 @@ public interface ModuleInstanceService {
 
 	public void deleteById(long id);
 	
+	public void deleteModuleInstance(long id);
+	
 	public List<ModuleInstance> getThemeModules(long id);
 }

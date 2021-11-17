@@ -22,7 +22,7 @@ public class ThemeDetailInstance {
     @ManyToOne
     private ThemeDetail themeDetail;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     private ModuleInstance moduleInstance;
 	
 	/*@Column(name = "themeDetailInst_begin_date")

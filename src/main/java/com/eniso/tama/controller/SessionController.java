@@ -117,6 +117,18 @@ public class SessionController {
 
     	return sessions ; 
     }
+    
+    @GetMapping("/session/themeDetailInst/{id}")
+    public List<Session> findSessionByThemeDetailInstId (@PathVariable long id){
+    	List<Session> sessions = sessionService.findByThemeDetailInstanceId(id);
+    	
+
+        if (sessions == null) {
+            throw new RuntimeException("trainernot found with id - " + id);
+        }
+
+    	return sessions ; 
+    }
     //Get the ProgramInstance of a specified Session
     @GetMapping("/session/getClass/{sessionId}")
     public ProgramInstance getProgramInstance (@PathVariable("sessionId") long sessionId){
@@ -240,7 +252,7 @@ public class SessionController {
             throw new RuntimeException("the session id is not found - " + sessionId);
         }
 
-        sessionService.deleteById(sessionId);
+        sessionService.deleteSession(sessionId);
 
         return "Deleted session id - " + sessionId;
     }

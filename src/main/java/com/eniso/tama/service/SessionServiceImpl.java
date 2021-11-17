@@ -9,12 +9,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.eniso.tama.entity.Attendance;
+import com.eniso.tama.entity.Event;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Session;
@@ -29,6 +33,9 @@ public class SessionServiceImpl implements SessionService {
 	private SessionRepository sessionRepository;
 	@Autowired
 	private TrainerService trainerService;
+
+	@Autowired
+	EventService eventService;
 
 	@Autowired
 	private AttendanceService attendanceService;
@@ -142,6 +149,30 @@ public class SessionServiceImpl implements SessionService {
 
 		return markedSessions;
 
+	}
+
+	@Override
+	@Transactional 
+	public void deleteSession(long id) {
+		Event event = eventService.findBySessionId(id);
+		List<Attendance> attendanceList = attendanceService.findBySession(id);
+		if (attendanceList != null) {
+			for (Attendance attendance : attendanceList) {
+				attendanceService.deleteById(attendance.getId());
+			}
+		}
+		if (event != null) {
+			eventService.deleteById(event.getId());
+		}
+
+		deleteById(id);
+
+	}
+
+	@Override
+	public List<Session> findByThemeDetailInstanceId(long id) {
+		// TODO Auto-generated method stub
+		return sessionRepository.findByThemeDetailInstanceId(id);
 	}
 
 }
