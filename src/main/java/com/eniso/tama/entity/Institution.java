@@ -14,6 +14,8 @@ public class Institution extends User {
     @Column
     private String institutionName;
 
+	private boolean deleted;
+
 
     public Institution() {
     }
@@ -41,4 +43,15 @@ public class Institution extends User {
         this.institutionName = institutionName;
     }
 
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+    
 }

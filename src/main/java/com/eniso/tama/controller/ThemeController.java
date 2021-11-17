@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.entity.Theme;
+import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.service.ThemeService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -93,7 +94,7 @@ public class ThemeController {
 	}
 	
 	@DeleteMapping("/theme/{themeId}")
-	public String deleteTheme(@PathVariable int  themeId) {
+	public ResponseEntity<?> deleteTheme(@PathVariable int  themeId) {
 		
 		Theme theme = themeService.findById(themeId);
 		
@@ -103,9 +104,9 @@ public class ThemeController {
 			throw new RuntimeException("the theme id is not found - " + themeId);
 		}
 		
-		themeService.deleteById(themeId);
+		themeService.deleteTheme(themeId);
 		
-		return "Deleted theme id - " + themeId;
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
 	}
 
 }

@@ -52,6 +52,8 @@ public class ProgramInstance {
 	@Lob
 	private String place;
 
+	private boolean deleted;
+	
 	@ManyToOne
 	private Program program;
 
@@ -168,6 +170,14 @@ public class ProgramInstance {
 
 	public void setNbMaxParticipants(int nbMaxParticipants) {
 		this.nbMaxParticipants = nbMaxParticipants;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 	
 	

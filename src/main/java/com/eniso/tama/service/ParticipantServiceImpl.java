@@ -194,7 +194,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 	@Override
 	public Set<Participant> findParticipantsByRegistrationStatus(Status status) {
-		System.out.println(status);
+		
 		Set<Participant> participants = new HashSet<>();
 
 		for (ParticipantRegistration reg : participantRegistrationRepository.findAll())

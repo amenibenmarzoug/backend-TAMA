@@ -30,6 +30,9 @@ public class Session {
     private Date sessionBeginDate;
     @Column(name = "session_end_date")
     private Date sessionEndDate;
+    
+    private boolean deleted;
+    
     @ManyToOne
     private ThemeDetailInstance themeDetailInstance;
     @ManyToOne
@@ -110,6 +113,14 @@ public class Session {
     public void setEvent(Event event) {
         this.event = event;
     }
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 
 }

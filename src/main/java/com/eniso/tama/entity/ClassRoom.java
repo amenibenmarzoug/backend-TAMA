@@ -25,6 +25,8 @@ public class ClassRoom {
     @Column
     private int fees;
 
+	private boolean deleted;
+
 
     @ManyToOne
     private Institution institution;
@@ -64,6 +66,7 @@ public class ClassRoom {
         this.classRoomName = classRoomName;
     }
 
+    
 //	public boolean isDisponibility() {
 //		return disponibility;
 //	}
@@ -72,7 +75,15 @@ public class ClassRoom {
 //		this.disponibility = disponibility;
 //	}
 
-    public int getCapacity() {
+    public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+	public int getCapacity() {
         return capacity;
     }
 

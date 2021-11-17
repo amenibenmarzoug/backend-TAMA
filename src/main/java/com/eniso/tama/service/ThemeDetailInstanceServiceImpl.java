@@ -3,9 +3,14 @@ package com.eniso.tama.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
+
+import com.eniso.tama.entity.Session;
 import com.eniso.tama.entity.ThemeDetailInstance;
 import com.eniso.tama.repository.ThemeDetailInstanceRepository;
 
@@ -15,6 +20,9 @@ public class ThemeDetailInstanceServiceImpl implements ThemeDetailInstanceServic
 	
 	@Autowired
 	private ThemeDetailInstanceRepository themeDetailInstanceRepository;
+	
+	@Autowired
+	private SessionService sessionService;
 
 	
 	public ThemeDetailInstanceServiceImpl(ThemeDetailInstanceRepository theThemeDetailInstanceRepository) {
@@ -79,5 +87,18 @@ public class ThemeDetailInstanceServiceImpl implements ThemeDetailInstanceServic
 		}
 		}
 		return themeDetailsPerModule;
+	}
+
+	@Override
+	@Transactional 
+	public void deleteThemeDetailInstance(long theId) {
+		List<Session> sessions=sessionService.findByThemeDetailInstanceId(theId);
+		if(sessions!=null) {
+			for (Session session : sessions) {
+				sessionService.deleteSession(session.getId());
+			}
+		}
+		deleteById(theId);
+		
 	}
 }

@@ -22,7 +22,7 @@ public class ThemeDetailInstance {
     @ManyToOne
     private ThemeDetail themeDetail;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     private ModuleInstance moduleInstance;
 	
 	/*@Column(name = "themeDetailInst_begin_date")
@@ -34,6 +34,7 @@ public class ThemeDetailInstance {
     @Column
     private int nbDaysthemeDetailInst;
 
+    private boolean deleted;
 
     public String getThemeDetailInstName() {
         return themeDetailInstName;
@@ -92,6 +93,15 @@ public class ThemeDetailInstance {
         this.moduleInstance = moduleInstance;
     }
 
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+    
 
 	/*@Column(name = "themeDetailInst_end_date")
 	private Date themeDetailInstEndDate;*/

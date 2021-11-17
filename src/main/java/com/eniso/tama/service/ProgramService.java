@@ -18,6 +18,8 @@ public interface ProgramService {
 
 	public void deleteById(long theId);
 	
+	public void deleteProgram(long theId);
+	
 	public Program updateProgram (Program theProgram);
 
 }

@@ -34,6 +34,9 @@ public class ParticipantRegistration {
 	
 	private LocalDate registrationDate;
 	
+	private boolean deleted;
+
+	
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
@@ -75,6 +78,14 @@ public class ParticipantRegistration {
 	}
 	
 	
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 	public CompanyRegistration getCompanyRegistration() {
 		return companyRegistration;

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.Module;
 import com.eniso.tama.entity.ModuleInstance;
+import com.eniso.tama.entity.ThemeDetail;
 import com.eniso.tama.entity.ThemeInstance;
 import com.eniso.tama.repository.ModuleRepository;
 
@@ -21,13 +22,15 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Autowired
 	private ModuleRepository moduleRepository;
-	
+
 	@Autowired
 	private ModuleInstanceService moduleInstService;
-	
+
 	@Autowired
 	private ThemeInstanceService themeInstService;
-	
+
+	@Autowired
+	private ThemeDetailService themeDetailService;
 
 	public ModuleServiceImpl() {
 	}
@@ -57,16 +60,16 @@ public class ModuleServiceImpl implements ModuleService {
 		return module;
 	}
 
-	@Transactional 
+	@Transactional
 	@Override
 	public Module save(Module module) {
-		long id=module.getTheme().getId();
+		long id = module.getTheme().getId();
 		List<ThemeInstance> list = themeInstService.findByThemeId(id);
-		
-		Module mod=moduleRepository.save(module);
-		
+
+		Module mod = moduleRepository.save(module);
+
 		for (ThemeInstance themeInstance : list) {
-			ModuleInstance modInst= new ModuleInstance();
+			ModuleInstance modInst = new ModuleInstance();
 			modInst.setModule(mod);
 			modInst.setModuleInstanceName(mod.getModuleName());
 			modInst.setNbDaysModuleInstance(mod.getNbDaysModule());
@@ -96,7 +99,7 @@ public class ModuleServiceImpl implements ModuleService {
 		return (list1);
 	}
 
-	@Transactional 
+	@Transactional
 	@Override
 	public Module updateModule(Module theModule) {
 		long id = theModule.getId();
@@ -106,16 +109,15 @@ public class ModuleServiceImpl implements ModuleService {
 		module.setModuleName(theModule.getModuleName());
 		module.setNbDaysModule(theModule.getNbDaysModule());
 		module.setTheme(theModule.getTheme());
-		
+
 		for (ModuleInstance moduleInstance : list) {
-			
+
 			moduleInstance.setModuleInstanceName(theModule.getModuleName());
 			moduleInstance.setNbDaysModuleInstance(theModule.getNbDaysModule());
-			System.out.println("module id");
-			System.out.println(moduleInstance.getId());
+		
 			moduleInstService.saveModuleInstance(moduleInstance);
 		}
-		
+
 		moduleRepository.save(theModule);
 
 		return module;
@@ -129,8 +131,26 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Override
 	public List<String> findDistinctModuleNameByThemes(List<String> themes) {
-		
+
 		return moduleRepository.findDistinctModuleNameByThemes(themes);
+	}
+
+	@Override
+	@Transactional 
+	public void deleteModule(long id) {
+		List<ModuleInstance> moduleInstances = moduleInstService.findByModuleId(id);
+		List<ThemeDetail> themeDetailList = themeDetailService.findByModuleId(id);
+		if (moduleInstances != null) {
+			for (ModuleInstance moduleInstance : moduleInstances) {
+				moduleInstService.deleteModuleInstance(moduleInstance.getId());
+			}
+		}
+		if (themeDetailList != null) {
+			for (ThemeDetail themeDetail : themeDetailList) {
+				themeDetailService.deleteThemeDetail(themeDetail.getId());
+			}
+		}
+		deleteById(id);
 	}
 
 }

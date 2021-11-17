@@ -11,5 +11,7 @@ import com.eniso.tama.entity.Trainer;
 @Repository
 public interface SessionRepository extends JpaRepository<Session, Long> {
 	List<Session> findByTrainer(Trainer trainer);
+	
+	List<Session> findByThemeDetailInstanceId(long id);
 
 }

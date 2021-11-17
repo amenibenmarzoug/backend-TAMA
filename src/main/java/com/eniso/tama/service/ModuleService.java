@@ -13,6 +13,8 @@ public interface ModuleService {
     public Module save(Module module);
 
     public void deleteById(long id);
+    
+    public void deleteModule(long id);
 
 	public List<Module> findModulesByThemeId(long id);
 	

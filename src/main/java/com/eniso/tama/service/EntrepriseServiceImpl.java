@@ -3,8 +3,10 @@ package com.eniso.tama.service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
@@ -23,12 +25,15 @@ import com.eniso.tama.dto.EntrepriseDto;
 import com.eniso.tama.entity.CompanyRegistration;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.ProgramInstance;
+import com.eniso.tama.entity.Role;
+import com.eniso.tama.entity.Roles;
 import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.repository.CompanyRegistrationRepository;
 import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.RoleRepository;
+import com.eniso.tama.repository.UserRepository;
 
 @Service
 @ComponentScan(basePackageClasses = EnterpriseRepository.class)
@@ -43,6 +48,11 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	@Autowired
 	RoleRepository roleRepository;
+	
+	@Autowired
+	UserRepository userRepository;
+
+
 
 	@Autowired
 	CompanyRegistrationService companyRegistrationService;
@@ -137,7 +147,6 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 		Entreprise newEntreprise = findById(theEntreprise.getId());
 		Entreprise verifEmailEntreprise = findByEmail(theEntreprise.getEmail());
-		System.out.println(verifEmailEntreprise);
 		Entreprise verifPhoneNumberEntreprise = findByPhoneNumber(theEntreprise.getPhoneNumber());
 
 		if (((verifEmailEntreprise != null) && (verifEmailEntreprise.getId() == theEntreprise.getId()))
@@ -167,8 +176,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 								.findEntrepPrograms(newEntreprise.getId()).stream()
 								.filter(x -> x.getProgramInstName().equals(p.getProgramInstName()))
 								.collect(Collectors.toList());
-						System.out.println(list1);
-						// System.out.println(list1);
+						
 						if (p != null && list1.isEmpty()) {
 							CompanyRegistration registration = new CompanyRegistration();
 							registration.setEntreprise(newEntreprise);
@@ -227,42 +235,8 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 	public void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException {
 
 		Entreprise t = findById(id);
-
-		t.setValidated(true);
-		/*
-		 * System.out.println(t.isValidated()); Properties props = new Properties();
-		 * props.put("mail.smtp.auth", "true"); props.put("mail.smtp.starttls.enable",
-		 * "true"); props.put("mail.smtp.host", "smtp.gmail.com");
-		 * props.put("mail.smtp.port", "587");
-		 * 
-		 * Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-		 * protected PasswordAuthentication getPasswordAuthentication() { return new
-		 * PasswordAuthentication("noreplybaeldung@gmail.com", "0000*admin"); } });
-		 * Message msg = new MimeMessage(session); msg.setFrom(new
-		 * InternetAddress("noreplybaeldung@gmail.com", false));
-		 * 
-		 * msg.setRecipients(Message.RecipientType.TO,
-		 * InternetAddress.parse(t.getEmail()));
-		 * msg.setSubject("TAMA-Account Activation"); msg.
-		 * setContent("Your account is successfully activated, you can log in using your settings:<br>"
-		 * + "Login:" + t.getEmail() + "<br>" + "Password:" + t.getPhoneNumber() + "",
-		 * "text/html"); msg.setSentDate(new Date(0));
-		 * 
-		 * MimeBodyPart messageBodyPart = new MimeBodyPart(); messageBodyPart.
-		 * setContent("Your account is successfully activated, you can log in using your settings:<br>"
-		 * + "Login:" + t.getEmail() + "<br>" + "Password:" + t.getPhoneNumber() + "",
-		 * "text/html");
-		 * 
-		 * Multipart multipart = new MimeMultipart();
-		 * multipart.addBodyPart(messageBodyPart); // MimeBodyPart attachPart = new
-		 * MimeBodyPart();
-		 * 
-		 * // attachPart.attachFile("/var/tmp/image19.png"); //
-		 * multipart.addBodyPart(attachPart); msg.setContent(multipart);
-		 */
 		t.setValidated(true);
 		save(t);
-		// Transport.send(msg);
 	}
 
 	@Override
@@ -305,5 +279,71 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 		this.save(e);
 
+	}
+
+	@Override
+	public Entreprise addCompanyByManager(EntrepriseDto company) {
+		
+
+		// Create new user's account
+
+		List<CompanyRegistration> entrepRegistration = new ArrayList<>();
+		LocalDate now = LocalDate.now();
+		Entreprise enterprise = new Entreprise(company.getEmail(),
+				encoder.encode(randomPassword.generateSecureRandomPassword()),
+				// company.getAddress(),
+				company.getStreet(), company.getCity(),
+				company.getPostalCode(),
+
+				company.getPhoneNumber(), null, company.getEnterpriseName(),
+				company.getWebsite(), company.getManagerFirstName(),
+				company.getManagerLastName(), company.getManagerPosition(),
+				company.getNbMinParticipants(), company.isProvider());
+
+		enterprise.setValidated(false);
+
+	
+
+		Set<Role> roles = new HashSet<>();
+
+		Role modRole = roleRepository.findByRole(Roles.ENTREPRISE)
+				.orElseThrow(() -> new RuntimeException("Error: Role ENTREPRISE is not found."));
+		roles.add(modRole);
+
+		enterprise.setRoles(roles);
+
+		enterpriseRepository.save(enterprise);
+
+		// enterprise.setProgramInstance(company.getProgramInstance());
+		if (company.getProgramInstance()!=null) {
+			for (ProgramInstance prog : company.getProgramInstance()) {
+
+				List<ProgramInstance> list1 = companyRegistrationService.findEntrepPrograms(enterprise.getId()).stream()
+						.filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))
+						.collect(Collectors.toList());
+				
+				if (prog != null && list1.isEmpty()) {
+					CompanyRegistration registration = new CompanyRegistration();
+					registration.setEntreprise(enterprise);
+					registration.setPrograminstance(prog);
+					registration.setRegistrationDate(now);
+					entrepRegistration.add(registration);
+					// enterprise.setRegistration(entrepRegistration);
+					registrationRepository.save(registration);
+
+				}
+			}
+		}
+
+		////////////////
+
+		/*
+		 * try { mailService.sendmail(enterprise.getEmail()); } catch (AddressException
+		 * e) { // TODO Auto-generated catch block e.printStackTrace(); } catch
+		 * (MessagingException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); } catch (IOException e) { // TODO Auto-generated catch
+		 * block e.printStackTrace(); }
+		 */
+		return enterprise;
 	}
 }

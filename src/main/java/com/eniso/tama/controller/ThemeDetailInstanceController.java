@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.entity.ThemeDetailInstance;
+import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.service.ThemeDetailInstanceService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -53,6 +55,18 @@ public class ThemeDetailInstanceController {
 		return theThemeDetailInst;
 	}
 	
+	@GetMapping("themeDetailInst/themeDetail/{themeDetailId}")
+	public List<ThemeDetailInstance> findByThemeDetailId(@PathVariable long  themeDetailId) {
+		
+		List<ThemeDetailInstance>  theThemeDetailInst = themeDetailInstanceService.findByThemeDetId(themeDetailId);
+		
+		if (theThemeDetailInst == null) {
+			throw new RuntimeException("themeDetail id not found - " + themeDetailId);
+		}
+		
+		return theThemeDetailInst;
+	}
+	
 	@PostMapping("/themeDetailInst")
 	public  ThemeDetailInstance addThemeDetailInst(@RequestBody ThemeDetailInstance theThemeDetailInst) {
 		
@@ -68,7 +82,7 @@ public class ThemeDetailInstanceController {
 	}
 	
 	@DeleteMapping("/themeDetailInst/{themeDetailInstId}")
-	public String deleteThemeDetailInst(@PathVariable int  themeDetailInstId) {
+	public ResponseEntity<?> deleteThemeDetailInst(@PathVariable int  themeDetailInstId) {
 		
 		ThemeDetailInstance themeDetailInst = themeDetailInstanceService.findById(themeDetailInstId);
 		
@@ -78,8 +92,8 @@ public class ThemeDetailInstanceController {
 			throw new RuntimeException("the themeDetailInst id is not found - " + themeDetailInstId);
 		}
 		
-		themeDetailInstanceService.deleteById(themeDetailInstId);
+		themeDetailInstanceService.deleteThemeDetailInstance(themeDetailInstId);
 		
-		return "Deleted themeDetailInst id - " + themeDetailInstId;
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
 	}
 }

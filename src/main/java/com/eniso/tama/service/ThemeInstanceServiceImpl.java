@@ -3,10 +3,15 @@ package com.eniso.tama.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.eniso.tama.entity.ModuleInstance;
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.ThemeInstance;
 import com.eniso.tama.payload.MessageResponse;
@@ -23,6 +28,9 @@ public class ThemeInstanceServiceImpl implements ThemeInstanceService{
 	
 	@Autowired
 	ProgramInstanceRepository programInstRepository;
+	
+	@Autowired
+	private ModuleInstanceService moduleInstanceService;
 
 	@Override
 	public List<ThemeInstance> findAll() {
@@ -124,6 +132,19 @@ public class ThemeInstanceServiceImpl implements ThemeInstanceService{
 		save(newthemeInst);
 
 		return newthemeInst;
+	}
+
+
+	@Override
+	@Transactional 
+	public void deleteThemeInstance(long theId) {
+		List<ModuleInstance> moduleInstances=moduleInstanceService.getThemeModules(theId);
+		if(moduleInstances!=null) {
+			for (ModuleInstance moduleInstance : moduleInstances) {
+				moduleInstanceService.deleteModuleInstance(moduleInstance.getId());
+			}
+		}
+		deleteById(theId);
 	}
 
 }

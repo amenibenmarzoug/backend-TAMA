@@ -58,6 +58,8 @@ public class User {
     @JsonIgnore
     private Instant lastModifiedDate = Instant.now();
     
+    private boolean deleted;
+    
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
@@ -179,5 +181,17 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+	public Boolean getValidated() {
+		return validated;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 }

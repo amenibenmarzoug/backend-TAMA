@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import com.eniso.tama.entity.ProgramInstance;
-
+import com.eniso.tama.entity.Theme;
 import com.eniso.tama.entity.Program;
 import com.eniso.tama.repository.ProgramRepository;
 
@@ -24,7 +24,8 @@ public class ProgramServiceImpl implements ProgramService {
 			@Autowired
 			private ProgramInstanceService programInsService;
 
-			
+			@Autowired
+			private ThemeService themeService;
 			
 			public ProgramServiceImpl(ProgramRepository programRepository, ProgramInstanceService programInsService) {
 				super();
@@ -68,7 +69,6 @@ public class ProgramServiceImpl implements ProgramService {
 
 		
 			@Override
-
 			public void deleteById (long theId) {
 				programRepository.deleteById(theId);
 			}
@@ -92,6 +92,24 @@ public class ProgramServiceImpl implements ProgramService {
 				}
 				save(theProgram);
 				return theProgram;
+			}
+
+			@Override
+			@Transactional 
+			public void deleteProgram(long theId) {
+				List<ProgramInstance> programInstances=programInsService.findByProgramId(theId);
+				List<Theme> themes=themeService.findByProgId(theId);
+				if(programInstances!=null) {
+					for (ProgramInstance programInstance : programInstances) {
+						programInsService.deleteProgramInstance(programInstance.getId());
+					}
+				}
+				if(themes!=null) {
+					for ( Theme theme: themes) {
+						themeService.deleteTheme(theme.getId());
+					}
+				}	
+				deleteById(theId);
 			}
 
 			

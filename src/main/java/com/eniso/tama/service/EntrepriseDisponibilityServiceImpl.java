@@ -69,9 +69,7 @@ public class EntrepriseDisponibilityServiceImpl implements EntrepriseDisponibili
 			@RequestParam("id") long id) {
 
 		Entreprise entreprise = new Entreprise();
-		System.out.println("1");
 		entreprise = entrepriseService.findById(id);
-		System.out.println("2");
 
 		if (disponibility == null) {
 			throw new RuntimeException("hell no");
@@ -80,14 +78,12 @@ public class EntrepriseDisponibilityServiceImpl implements EntrepriseDisponibili
 			throw new RuntimeException("Entreprise id not found - " + id);
 		}
 
-		System.out.println(entreprise.toString());
 
 		EntrepriseDisponibility d = new EntrepriseDisponibility();
 		d.setEntreprise(entreprise);
 
 		d.setDay(disponibility.getDay());
 		d.setTime(disponibility.getTime());
-		// System.out.println(enterpriseRepository.findById(1L));
 
 		return save(d);
 

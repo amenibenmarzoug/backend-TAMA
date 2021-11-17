@@ -14,5 +14,8 @@ public interface ThemeDetailInstanceService {
 	public void save(ThemeDetailInstance theThemeDetailInstance);
 
 	public void deleteById(long theId);
+	
+	public void deleteThemeDetailInstance(long theId);
+	
 	public List<ThemeDetailInstance> getModuleThemeDetails(long id);
 }

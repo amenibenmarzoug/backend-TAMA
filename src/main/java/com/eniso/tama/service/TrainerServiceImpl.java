@@ -21,6 +21,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,16 @@ public class TrainerServiceImpl implements TrainerService {
 
 	@Autowired
 	private TrainerRepository trainerRepository;
+
+
+	 @Autowired 
+	 private MailTemplateService mailtemplateservice ;
+	 
+		@Value( "${spring.mail.username}" )
+		private String email;
+		
+		@Value( "${password}" )
+		private String password;
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -145,8 +156,10 @@ public class TrainerServiceImpl implements TrainerService {
 	public void validateTrainer(long id) throws AddressException, MessagingException, IOException {
 		Trainer t = findById(id);
 		t.setValidated(true);
+		t.setPassword(encoder.encode(password));
 		save(t);
-		// sendValidationMail(t);
+		//mailtemplateservice.sendUserValidation( email ,t.getEmail() );
+	
 
 	}
 
@@ -182,6 +195,7 @@ public class TrainerServiceImpl implements TrainerService {
 
 	}
 
+	
 	@Override
 	public void resetPasswordAutomatically(long id) {
 

@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.eniso.tama.entity.Module;
 import com.eniso.tama.entity.Program;
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Theme;
@@ -34,6 +35,9 @@ public class ThemeServiceImpl implements ThemeService {
 	
 	@Autowired
 	private ProgramRepository programRepository;
+	
+	@Autowired
+	private ModuleService moduleService;
 	
 	
 
@@ -96,7 +100,7 @@ public class ThemeServiceImpl implements ThemeService {
 	@Transactional 
 	public ResponseEntity<?> addThemeProgram(Theme theme, long id) {
 		List<ProgramInstance> list = programInsService.findByProgramId(id);
-		System.out.println("chnw lid" + id);
+		
 		Program program = new Program();
 		for (Program p : programRepository.findAll()) {
 			if (id == p.getId()) {
@@ -147,6 +151,25 @@ public class ThemeServiceImpl implements ThemeService {
 	public List<String> findDistinctThemeName() {
 		return themeRepository.findDistinctThemeName();
 		
+	}
+
+	@Override
+	@Transactional 
+	public void deleteTheme(long id) {
+		List<ThemeInstance> themeInstances=themeInstService.findByThemeId(id);
+		List<com.eniso.tama.entity.Module> modules=moduleService.findModulesByThemeId(id);
+		if(themeInstances!=null) {
+			for (ThemeInstance themeInstance : themeInstances) {
+				themeInstService.deleteThemeInstance(themeInstance.getId());
+				
+			}
+		}
+		if(modules!=null) {
+			for (Module module : modules) {
+				moduleService.deleteModule(module.getId());
+			}
+		}
+		deleteById(id);
 	}
 
 }

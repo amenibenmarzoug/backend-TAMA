@@ -27,12 +27,14 @@ public class ModuleInstance {
     @Column(name = "moduleDays")
     private int nbDaysModuleInstance;
 
+	private boolean deleted;
+
 
     @ManyToOne
     private Module module;
 
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     private ThemeInstance themeInstance;
 
 
@@ -79,6 +81,14 @@ public class ModuleInstance {
     public void setThemeInstance(ThemeInstance themeInstance) {
         this.themeInstance = themeInstance;
     }
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 
 }

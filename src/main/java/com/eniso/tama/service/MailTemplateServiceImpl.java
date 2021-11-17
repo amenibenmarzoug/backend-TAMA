@@ -8,6 +8,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,9 @@ public class MailTemplateServiceImpl implements MailTemplateService {
 
 	@Autowired
 	MailTemplateRepository mailTemplateRepository;
+	
+	@Value( "${password}" )
+	private String password;
 
 	@Override
 	public MailTemplate findMailTemplate(String templateId) {
@@ -37,20 +41,21 @@ public class MailTemplateServiceImpl implements MailTemplateService {
 //		   Password: ${password}
 //   subject:   TAMA-Account Activation
 	@Override
-	public void sendUserValidation(Notification notif) {
+	public void sendUserValidation( String from , String to ) {
 		Function<String, String> vars = (v) -> {
 			switch (v) {
 			case "login":
-				return notif.getLogin();
+				//return notif.getLogin();
+				return to ;
 			case "password":
-				return notif.getPassword();
+				//return notif.getPassword();
+				return password ;
 			}
 			return null;
 		};
 
-		System.out.println(vars);
 
-		send(notif.getFrom(), notif.getTo(), "userValidation", vars);
+		send(from, to, "userValidation", vars);
 
 	}
 
@@ -94,7 +99,7 @@ public class MailTemplateServiceImpl implements MailTemplateService {
 			return null;
 		};
 
-		System.out.println(vars);
+
 
 		send(from, to, "mailAlert", vars);
 	}

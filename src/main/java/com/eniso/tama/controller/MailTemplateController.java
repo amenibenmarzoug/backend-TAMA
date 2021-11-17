@@ -29,17 +29,16 @@ public class MailTemplateController {
 		mailTemplateService = theEmailService;
 	}
 
-	@PostMapping("/email")
-	public ResponseEntity<Notification> enviarEmail(@RequestBody Notification notif) {
-		System.out.println(notif);
-		try {
-			mailTemplateService.sendUserValidation(notif);
-			return new ResponseEntity<Notification>(notif, HttpStatus.OK);
-		} catch (MailException e) {
-			return new ResponseEntity<Notification>(notif, HttpStatus.INTERNAL_SERVER_ERROR);
-			// return email;
-		}
-	}
+//	@PostMapping("/email")
+//	public ResponseEntity<String> enviarEmail(@RequestBody String login, ) {
+//		try {
+//			mailTemplateService.sendUserValidation(login);
+//			return new ResponseEntity<String>(login, HttpStatus.OK);
+//		} catch (MailException e) {
+//			return new ResponseEntity<String>(login, HttpStatus.INTERNAL_SERVER_ERROR);
+//			// return email;
+//		}
+//	}
 	
 
 	@PostMapping("/email/alert")

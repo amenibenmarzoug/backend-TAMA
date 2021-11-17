@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.Event;
+import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.service.EventService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -69,7 +71,7 @@ public class EventController {
 		}
 
 		@DeleteMapping("/event/{eventId}")
-		public String deleteEvent(@PathVariable int  eventId) {
+		public ResponseEntity<?> deleteEvent(@PathVariable int  eventId) {
 			
 			Event event = eventService.findById(eventId);
 			
@@ -81,7 +83,7 @@ public class EventController {
 			
 			eventService.deleteById(eventId);
 			
-			return "Deleted Event id - " + eventId;
+			return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
 		}
 		
 		@PostMapping("/event/freeDay")

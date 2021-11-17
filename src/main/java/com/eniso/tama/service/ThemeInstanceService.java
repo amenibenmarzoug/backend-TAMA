@@ -17,6 +17,9 @@ public interface ThemeInstanceService {
 
 	public void deleteById(long theId);
 	
+	public void deleteThemeInstance(long theId);
+
+	
 	public List<ThemeInstance> getProgramThemesInst(long id);
 	
 	public ResponseEntity<?>  addThemeProgram (ThemeInstance theme, long id);

@@ -28,9 +28,12 @@ public class ThemeInstance {
     @NotNull
     @Column
     private int nbDaysthemeInst;
+    
+    private boolean deleted;
+    
     @ManyToOne
     private Theme theme;
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     private ProgramInstance programInstance;
 
     public String getThemeInstName() {
@@ -94,6 +97,14 @@ public class ThemeInstance {
     public void setProgramInstance(ProgramInstance programInstance) {
         this.programInstance = programInstance;
     }
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 
 }

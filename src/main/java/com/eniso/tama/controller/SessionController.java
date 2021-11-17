@@ -86,7 +86,6 @@ public class SessionController {
     @GetMapping("/session/programInst")
     public List<Session> findSessionByProgramInst(@RequestParam("programId") long programId) {
         List<Session> listSession = sessionService.findAll();
-        //System.out.println("by theme");
         List<Session> result = new ArrayList<>();
         for (Session session : listSession) {
             if (session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance().getId() == programId) {
@@ -113,6 +112,18 @@ public class SessionController {
 
         if (sessions == null) {
             throw new RuntimeException("trainernot found with id - " + trainerId);
+        }
+
+    	return sessions ; 
+    }
+    
+    @GetMapping("/session/themeDetailInst/{id}")
+    public List<Session> findSessionByThemeDetailInstId (@PathVariable long id){
+    	List<Session> sessions = sessionService.findByThemeDetailInstanceId(id);
+    	
+
+        if (sessions == null) {
+            throw new RuntimeException("trainernot found with id - " + id);
         }
 
     	return sessions ; 
@@ -160,7 +171,6 @@ public class SessionController {
                 Duration duration = Duration.between(end, begin);
                 float diff = Math.abs(duration.toMinutes());
                 sum += diff;
-                System.out.println(Math.round(sum/60));
                 result.add(session);
             }
         }
@@ -180,7 +190,6 @@ public class SessionController {
                 Duration duration = Duration.between(end, begin);
                 long diff = Math.abs(duration.toMinutes());
                 sum += diff;
-                System.out.println(sum);
                 result.add(session);
             }
         }
@@ -230,7 +239,7 @@ public class SessionController {
 
 
     @DeleteMapping("/session/{sessionId}")
-    public String deleteSession(@PathVariable long sessionId) {
+    public ResponseEntity<?> deleteSession(@PathVariable long sessionId) {
 
         Session session = sessionService.findById(sessionId);
 
@@ -240,8 +249,8 @@ public class SessionController {
             throw new RuntimeException("the session id is not found - " + sessionId);
         }
 
-        sessionService.deleteById(sessionId);
+        sessionService.deleteSession(sessionId);
 
-        return "Deleted session id - " + sessionId;
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
     }
 }

@@ -180,7 +180,6 @@ public class AttendanceController {
     @PostMapping("/addAttendance")
     public Attendance addAttendance(@RequestBody Attendance attendance) {
 
-        System.out.println("attendance called");
         AttendanceStates present = AttendanceStates.PRESENT;
 
         attendance.setAttendanceState(present);

@@ -210,7 +210,6 @@ public class AttendanceServiceImpl implements AttendanceService {
 			try {
 				outputSteam = new FileOutputStream(file);
 				JasperExportManager.exportReportToPdfStream(jasperPrint, outputSteam);
-				System.out.println("Report Generated!");
 
 				fileToSend=new File(file.getAbsolutePath());
 
