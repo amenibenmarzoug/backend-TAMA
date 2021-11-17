@@ -42,10 +42,14 @@ public List<Attendance> findAll();
 	
 	public void deleteById(long id);
 	
+	public void deleteAttendance (long id);
+	
 	public File generateReport (long sessionId) throws JRException, IOException;
 	
 	public List<Attendance> findByParticipantId(long participantId);
 
 	public List<Attendance> findByParticipantIdAndTrainerId(long participantId,long trainerId);
+	
+	
 	
 }

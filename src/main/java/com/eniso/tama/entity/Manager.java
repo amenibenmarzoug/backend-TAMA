@@ -16,6 +16,9 @@ public class Manager extends User {
     @NotNull
     @Column
     private String lastNameM;
+    
+	private boolean deleted;
+
 
     public String getFirstNameM() {
         return firstNameM;
@@ -33,4 +36,13 @@ public class Manager extends User {
         this.lastNameM = lastNameM;
     }
 
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+    
 }

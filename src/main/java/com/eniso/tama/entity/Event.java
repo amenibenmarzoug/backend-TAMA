@@ -18,158 +18,134 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Event {
-    @Id
-    @Column(name = "event_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@Id
+	@Column(name = "event_id", updatable = false, nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    //@NotNull
+	// @NotNull
 
+	@Column
+	private String title;
 
-    @Column
-    private String title;
+	@Column
+	private Date start;
 
-    @Column
-    private Date start;
+	@Column
+	private Date end;
 
-    @Column
-    private Date end;
+	@Column
+	private String colorPrimary;
 
-    @Column
-    private String colorPrimary;
+	@Column
+	private String colorSecondary;
 
-    @Column
-    private String colorSecondary;
+	@Column(name = "beforeStart", columnDefinition = "boolean default true")
+	private boolean resizebeforeStart;
 
-    @Column(name = "beforeStart",columnDefinition = "boolean default true")
-    private boolean resizebeforeStart;
+	@Column(name = "afterEnd", columnDefinition = "boolean default true")
+	private boolean resizeafterEnd;
 
-    @Column(name = "afterEnd",columnDefinition = "boolean default true")
-    private boolean resizeafterEnd;
+	@Column
+	private boolean freeDay;
 
+	@Column(columnDefinition = "boolean default true")
+	private boolean draggable;
 
-    @Column
-    private boolean freeDay;
+	private boolean deleted;
 
-    @Column(columnDefinition = "boolean default true")
-    private boolean draggable;
+	// @JsonIgnore
 
+	@OneToOne
+	@JoinColumn(name = "session_id", referencedColumnName = "session_id")
+	private Session session;
 
+	public Session getSession() {
+		return session;
+	}
 
-    //@JsonIgnore
+	public void setSession(Session session) {
+		this.session = session;
+	}
 
-    @OneToOne
-    @JoinColumn(name = "session_id", referencedColumnName = "session_id")
-    private Session session;
+	public Long getId() {
+		return id;
+	}
 
+	public String getTitle() {
+		return title;
+	}
 
-    public Session getSession() {
-        return session;
-    }
+	public Date getStart() {
+		return start;
+	}
 
+	public Date getEnd() {
+		return end;
+	}
 
-    public void setSession(Session session) {
-        this.session = session;
-    }
+	public String getColorPrimary() {
+		return colorPrimary;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public String getColorSecondary() {
+		return colorSecondary;
+	}
 
+	public boolean isResizebeforeStart() {
+		return resizebeforeStart;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public boolean isResizeafterEnd() {
+		return resizeafterEnd;
+	}
 
+	public boolean isDeleted() {
+		return deleted;
+	}
 
-    public Date getStart() {
-        return start;
-    }
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Date getEnd() {
-        return end;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-
-    public String getColorPrimary() {
-        return colorPrimary;
-    }
-
-
-    public String getColorSecondary() {
-        return colorSecondary;
-    }
-
-
-    public boolean isResizebeforeStart() {
-        return resizebeforeStart;
-    }
-
-
-    public boolean isResizeafterEnd() {
-        return resizeafterEnd;
-    }
-
-
-
-
-
-
-
-
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
-
-    public void setEnd(Date end) {
-        this.end = end;
-    }
-
-
-    public void setColorPrimary(String colorPrimary) {
-        this.colorPrimary = colorPrimary;
-    }
-
-
-    public void setColorSecondary(String colorSecondary) {
-        this.colorSecondary = colorSecondary;
-    }
-
-
-    public void setResizebeforeStart(boolean resizebeforeStart) {
-        this.resizebeforeStart = resizebeforeStart;
-    }
-
-
-    public void setResizeafterEnd(boolean resizeafterEnd) {
-        this.resizeafterEnd = resizeafterEnd;
-    }
-
-
-    public boolean isFreeDay() {
-        return freeDay;
-    }
-
-
-    public void setFreeDay(boolean freeDay) {
-        this.freeDay = freeDay;
-    }
-
-
-
-
+	public void setStart(Date start) {
+		this.start = start;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
+	}
+
+	public void setColorPrimary(String colorPrimary) {
+		this.colorPrimary = colorPrimary;
+	}
+
+	public void setColorSecondary(String colorSecondary) {
+		this.colorSecondary = colorSecondary;
+	}
+
+	public void setResizebeforeStart(boolean resizebeforeStart) {
+		this.resizebeforeStart = resizebeforeStart;
+	}
+
+	public void setResizeafterEnd(boolean resizeafterEnd) {
+		this.resizeafterEnd = resizeafterEnd;
+	}
+
+	public boolean isFreeDay() {
+		return freeDay;
+	}
+
+	public void setFreeDay(boolean freeDay) {
+		this.freeDay = freeDay;
+	}
 
 }

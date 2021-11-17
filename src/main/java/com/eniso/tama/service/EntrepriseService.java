@@ -46,4 +46,6 @@ public interface EntrepriseService {
 	public void resetPassword (long id, String newPassword ); 
     
 	public void resetPasswordAutomatically(long id); 
+	
+	public Entreprise addCompanyByManager(EntrepriseDto company);
 }

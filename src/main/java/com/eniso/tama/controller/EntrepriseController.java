@@ -25,6 +25,8 @@ import com.eniso.tama.dto.EntrepriseDto;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.helpers.RandomPasswordGenerator;
+import com.eniso.tama.payload.MessageResponse;
+import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.service.EntrepriseService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -41,6 +43,10 @@ public class EntrepriseController {
 	
 	@Autowired
     RandomPasswordGenerator randomPassword;
+	
+	@Autowired
+	private EnterpriseRepository enterpriseRepository;
+
 	
 	public EntrepriseController(EntrepriseService entrepriseService) {
 		super();
@@ -77,13 +83,20 @@ public class EntrepriseController {
 	
 // add mapping for POST /participants - add new control
 
-	@PostMapping("/entreprises")
-	public Entreprise addEnterprise(@RequestBody Entreprise theParticipant) {
+	@PostMapping("/auth/manager/company")
+	public ResponseEntity<?> addCompanyByManager(@RequestBody EntrepriseDto company) {
 
+		if (enterpriseRepository.existsByEmail(company.getEmail())) {
+			return ResponseEntity.badRequest()
+					.body(new MessageResponse("Erreur: Veuillez donner un email valide. Cet email existe déjà"));
+		}
+		if (enterpriseRepository.existsByPhoneNumber(company.getPhoneNumber())) {
+			return ResponseEntity.badRequest().body(new MessageResponse(
+					"Erreur: Veuillez donner un numéro de téléphone valide. Ce numéro existe déjà"));
+		}
 		
-		theParticipant.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
-		entrepriseService.save(theParticipant);
-		return theParticipant;
+		entrepriseService.addCompanyByManager(company);
+		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
 
 

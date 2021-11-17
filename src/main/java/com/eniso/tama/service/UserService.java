@@ -6,4 +6,5 @@ public interface UserService {
 
 	
 	public void resetPassword(long id , NewPassword newPassword);
+	public void deleteUser(long id);
 }

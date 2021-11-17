@@ -95,7 +95,6 @@ public class ParticipantController {
 	@GetMapping("/participants")
 	public List<Participant> findAll() {
 //		for (Participant par : participantService.findAll()) {
-//			//System.out.println("AGE"+par.getAge());
 //		}
 		return participantService.findAll();
 	}
@@ -104,7 +103,6 @@ public class ParticipantController {
 	@GetMapping("/validatedParticipants")
 	public List<Participant> findValidatedParticipants() {
 //		for (Participant par : participantService.findAll()) {
-//			//System.out.println("AGE"+par.getAge());
 //		}
 		return participantService.findValidatedParticipants();
 	}
@@ -272,16 +270,13 @@ public class ParticipantController {
 		Set<Participant> participants = new HashSet<>();
 		switch (status) {
 		case "WAITING":
-			System.out.println("WAITING");
 			participants = participantService.findParticipantsByRegistrationStatus(Status.WAITING);
 			break;
 		case "ACCEPTED":
-			System.out.println("ACCEPTED");
 
 			participants = participantService.findParticipantsByRegistrationStatus(Status.ACCEPTED);
 			break;
 		case "REFUSED":
-			System.out.println("REFUSED");
 
 			participants = participantService.findParticipantsByRegistrationStatus(Status.REFUSED);
 			break;
@@ -307,7 +302,6 @@ public class ParticipantController {
 
 	@PostMapping("/signupParticipantManag")
 	public ResponseEntity<?> registerParticipantParManager(@Valid @RequestBody ParticipantDto theP) {
-		System.out.println("participant" + theP);
 
 		if (participantRepository.existsByEmail(theP.getEmail())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
@@ -348,7 +342,6 @@ public class ParticipantController {
 						.findParticipantPrograms(savedParticipant.getId()).stream()
 						.filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))
 						.collect(Collectors.toList());
-				// System.out.println(list1);
 				if (prog != null && list1.isEmpty()) {
 					ParticipantRegistration registration = new ParticipantRegistration();
 					registration.setParticipant(savedParticipant);
@@ -415,7 +408,6 @@ public class ParticipantController {
 						.findParticipantPrograms(savedParticipant.getId()).stream()
 						.filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))
 						.collect(Collectors.toList());
-				// System.out.println(list1);
 				if (prog != null && list1.isEmpty()) {
 					ParticipantRegistration registration = new ParticipantRegistration();
 					registration.setParticipant(savedParticipant);
@@ -460,7 +452,6 @@ public class ParticipantController {
 						.findParticipantPrograms(newParticipant.getId()).stream()
 						.filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))
 						.collect(Collectors.toList());
-				// System.out.println(list1);
 
 				if (prog != null && list1.isEmpty()) {
 					ParticipantRegistration registration = new ParticipantRegistration();
@@ -524,7 +515,6 @@ public class ParticipantController {
 						.findParticipantPrograms(newParticipant.getId()).stream()
 						.filter(x -> x.getProgramInstName().equals(prog.getProgramInstName()))
 						.collect(Collectors.toList());
-				// System.out.println(list1);
 
 				if (prog != null && list1.isEmpty()) {
 					ParticipantRegistration registration = new ParticipantRegistration();

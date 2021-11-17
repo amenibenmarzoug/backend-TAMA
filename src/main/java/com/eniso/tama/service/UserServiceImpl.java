@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.User;
 import com.eniso.tama.repository.UserRepository;
 
@@ -46,6 +47,15 @@ public class UserServiceImpl implements UserService {
 		public void setPasswordConfirm(String passwordConfirm) {
 			this.passwordConfirm = passwordConfirm;
 		} 
+		
+		
+	}
+
+	@Override
+	public void deleteUser(long id) {
+		User user = userRepository.findById(id);
+		user.setDeleted(true);
+		userRepository.save(user);
 		
 		
 	}

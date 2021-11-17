@@ -18,7 +18,6 @@ public class Day {
     }
 	
 	/*public Day(String day) {
-		System.out.println(Days.LUNDI.name());
 		switch (day) {
 		case "LUNDI":
 			this.dayName=Days.LUNDI.name();

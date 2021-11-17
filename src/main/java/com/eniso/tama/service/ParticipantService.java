@@ -40,6 +40,8 @@ public interface ParticipantService {
 		public float percentMascPart();
 		public void deleteById(long theId);
 		
+		public void deleteParticipant(long id);
+		
 	   public void resetPassword (long id, String newPassword); 
 		    
 	   public void resetPasswordAutomatically(long id); 

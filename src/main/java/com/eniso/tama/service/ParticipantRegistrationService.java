@@ -25,6 +25,8 @@ public interface ParticipantRegistrationService {
 	
 	public void deleteById(long id);
 	
+	public void deleteParticipantRegistration(long id);
+	
 	public ParticipantRegistration validateRegistration(long registrationId);
 	
 	public ParticipantRegistration refuseRegistration(long registrationId);

@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.eniso.tama.entity.Attendance;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.ProgramInstance;
@@ -127,6 +128,15 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 			}
 		}
 		return participantSet;
+	}
+
+	@Override
+	public void deleteParticipantRegistration(long id) {
+		
+		ParticipantRegistration participantRegistration = this.findById(id);
+		participantRegistration.setDeleted(true);
+		participantRegistrationRepository.save(participantRegistration);
+		
 	}
 
 }

@@ -109,6 +109,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 	public void deleteById(long id) {
 		attendanceRepository.deleteById(id);
 	}
+	
 
 	@Override
 	public File generateReport(long sessionId) throws JRException, IOException {
@@ -210,7 +211,6 @@ public class AttendanceServiceImpl implements AttendanceService {
 			try {
 				outputSteam = new FileOutputStream(file);
 				JasperExportManager.exportReportToPdfStream(jasperPrint, outputSteam);
-				System.out.println("Report Generated!");
 
 				fileToSend=new File(file.getAbsolutePath());
 
@@ -395,6 +395,15 @@ public class AttendanceServiceImpl implements AttendanceService {
 			}
 		}
 		return attendanceList.size();
+	}
+
+	@Override
+	public void deleteAttendance(long id) {
+		
+		Attendance attendance = this.findById(id);
+		attendance.setDeleted(true);
+		attendanceRepository.save(attendance);
+		
 	}
 
 }

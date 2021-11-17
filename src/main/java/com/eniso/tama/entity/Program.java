@@ -29,7 +29,10 @@ public class Program {
 	
 	private int nbMaxParticipants;
     
-    private boolean specificProgram =false ; 
+    private boolean specificProgram  ; 
+    
+	private boolean deleted;
+
 
     public Long getId() {
         return id;
@@ -88,6 +91,19 @@ public class Program {
 	public void setNbMaxParticipants(int nbMaxParticipants) {
 		this.nbMaxParticipants = nbMaxParticipants;
 	}
+
+
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+	
 	
 	
 }

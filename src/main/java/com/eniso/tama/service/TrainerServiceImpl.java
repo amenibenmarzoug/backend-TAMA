@@ -26,9 +26,14 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.eniso.tama.entity.Attendance;
+import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Trainer;
+import com.eniso.tama.entity.User;
 import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.repository.TrainerRepository;
+import com.eniso.tama.repository.UserRepository;
+import com.eniso.tama.repository.SessionRepository;
 
 @Service
 @ComponentScan(basePackageClasses = TrainerRepository.class)
@@ -52,6 +57,20 @@ public class TrainerServiceImpl implements TrainerService {
 
 	@Autowired
 	RandomPasswordGenerator randomPassword;
+	
+	@Autowired
+	SessionService sessionService;
+	
+	@Autowired
+	SessionRepository sessionRepository;
+	
+	
+	@Autowired
+	private UserService userService ;
+
+	@Autowired
+	private UserRepository userRepository;
+
 
 	public TrainerServiceImpl() {
 	}
@@ -208,6 +227,28 @@ public class TrainerServiceImpl implements TrainerService {
 		return t;
 
 
+	}
+
+	
+	@Transactional
+	@Override
+	public void deleteTrainer(long id) {
+		
+		Trainer t = findById(id);
+		 List<com.eniso.tama.entity.Session> sessionsList = sessionRepository.findByTrainer(t);
+		 if ( sessionsList  != null) {
+				for (com.eniso.tama.entity.Session session : sessionsList) {
+					session.setTrainer(null);
+					sessionRepository.save(session);
+				}
+			}
+		 
+		 User user = userRepository.findById(id);
+			userService.deleteUser(user.getId());
+
+			Trainer trainer = this.findById(id);
+			trainer.setDeleted(true);
+			trainerRepository.save(trainer);
 	}
 
 }

@@ -6,20 +6,25 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.eniso.tama.entity.Attendance;
 import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.Status;
 import com.eniso.tama.entity.Trainer;
+import com.eniso.tama.entity.User; 
 import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ParticipantRepository;
 import com.eniso.tama.repository.ProgramInstanceRepository;
+import com.eniso.tama.repository.UserRepository;
 
 @Service
 @ComponentScan(basePackageClasses = ParticipantRepository.class)
@@ -39,7 +44,20 @@ public class ParticipantServiceImpl implements ParticipantService {
 	@Autowired
 	RandomPasswordGenerator randomPassword;
 
+	
+	@Autowired
+	private AttendanceService attendanceService;
+	
+	
+	@Autowired
+	private ParticipantRegistrationService participantRegistrationService;
+	
+	
+	@Autowired
+	private UserService userService ;
 
+	@Autowired
+	private UserRepository userRepository;
 
 	
 
@@ -200,7 +218,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 	@Override
 	public Set<Participant> findParticipantsByRegistrationStatus(Status status) {
-		System.out.println(status);
+		
 		Set<Participant> participants = new HashSet<>();
 
 		for (ParticipantRegistration reg : participantRegistrationRepository.findAll())
@@ -230,6 +248,39 @@ public class ParticipantServiceImpl implements ParticipantService {
 		}
 		return participants;
 
+	}
+
+	
+	@Transactional
+	@Override
+	public void deleteParticipant(long id) {
+		List<Attendance> attendanceList = attendanceService.findByParticipantId(id);
+		
+		if (attendanceList != null) {
+			for (Attendance attendance : attendanceList) {
+				attendanceService.deleteAttendance(attendance.getId());
+			}
+		}
+		
+		List <ParticipantRegistration>  participantRegistrationList =  participantRegistrationRepository.findByParticipantId(id);
+		if (participantRegistrationList != null) {
+			for (ParticipantRegistration p : participantRegistrationList ) {
+				participantRegistrationService.deleteParticipantRegistration(p.getId());
+			}	
+		}
+		
+		User user = userRepository.findById(id);
+		userService.deleteUser(user.getId());
+
+		
+		
+		Participant participant = this.findById(id);
+		participant.setDeleted(true);
+		participantRepository.save(participant);
+		
+		
+		
+		
 	}
 
 }

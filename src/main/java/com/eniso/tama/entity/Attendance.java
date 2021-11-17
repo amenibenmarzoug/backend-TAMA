@@ -1,4 +1,5 @@
 package com.eniso.tama.entity;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -25,6 +26,8 @@ public class Attendance {
 	Session session;
 
 	private AttendanceStates attendanceState;
+
+	private boolean deleted;
 
 	public Long getId() {
 		return id;
@@ -58,6 +61,12 @@ public class Attendance {
 		this.session = session;
 	}
 
+	public boolean isDeleted() {
+		return deleted;
+	}
 
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 }

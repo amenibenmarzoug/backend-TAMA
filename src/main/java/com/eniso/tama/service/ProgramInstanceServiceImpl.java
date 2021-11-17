@@ -54,17 +54,18 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	private ThemeDetailInstanceService themeDetailInstanceService;
 	@Autowired
 	private ParticipantService participantService;
-	
+
 	@Autowired
 	private ParticipantRegistrationService participantRegistrationService;
-	
+
 	@Autowired
 	private CompanyRegistrationService companyRegistrationService;
-	
+
 	@Autowired
 	private SessionService sessionService;
 	@Autowired
 	private MailService mailService;
+
 	public ProgramInstanceServiceImpl(ProgramInstanceRepository programInstanceRepository,
 
 			ModuleService moduleService, ThemeDetailService themeDetailService,
@@ -105,7 +106,6 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		return theProgramInstance;
 	}
 
-
 	@Override
 	public ProgramInstance save(ProgramInstance theProgramInstance) {
 		ProgramInstance p = programInstanceRepository.save(theProgramInstance);
@@ -115,9 +115,7 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	@Override
 
 	public void deleteById(long theId) {
-		// programInstanceRepository.deleteById(theId);
-		Optional<ProgramInstance> p = programInstanceRepository.findById(theId);
-		entityManager.remove(p);
+		programInstanceRepository.deleteById(theId);
 
 	}
 
@@ -136,25 +134,27 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	}
 
 	@Override
-	@Transactional 
-	public void deleteProgramInstance(long id ){
-		List<ThemeInstance> themeInstances=themeInstanceService.getProgramThemesInst(id);
-		List<ParticipantRegistration> participantRegistrations=participantRegistrationService.findByProgramInstanceId(id);
-		List<CompanyRegistration> companyRegistrations= companyRegistrationService.findByProgramInstance(id);
-		if(participantRegistrations!=null) {
+	@Transactional
+	public void deleteProgramInstance(long id) {
+		List<ThemeInstance> themeInstances = themeInstanceService.getProgramThemesInst(id);
+		List<ParticipantRegistration> participantRegistrations = participantRegistrationService
+				.findByProgramInstanceId(id);
+		List<CompanyRegistration> companyRegistrations = companyRegistrationService.findByProgramInstance(id);
+		if (participantRegistrations != null) {
 			for (ParticipantRegistration participantRegistration : participantRegistrations) {
 				participantRegistrationService.deleteById(participantRegistration.getId());
 			}
 		}
-		if(companyRegistrations!=null) {
+		if (companyRegistrations != null) {
+
 			for (CompanyRegistration companyRegistration : companyRegistrations) {
 				companyRegistrationService.deleteById(companyRegistration.getId());
 			}
 		}
-	
-		if(themeInstances!=null) {
+
+		if (themeInstances != null) {
 			for (ThemeInstance themeInstance : themeInstances) {
-				themeInstanceService.deleteById(themeInstance.getId());
+				themeInstanceService.deleteThemeInstance(themeInstance.getId());
 			}
 		}
 		deleteById(id);
@@ -183,7 +183,7 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		List<Theme> listT = this.themeService.findByProgId(id);
 
 		for (Theme t : listT) {
-			System.out.println(t.getThemeName());
+			
 			// traitement création ThmeInst
 			ThemeInstance themeInst = new ThemeInstance();
 			themeInst.setProgramInstance(p);
@@ -194,7 +194,7 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 
 			List<Module> listM = this.moduleService.findModulesByThemeId(t.getId());
 			for (Module m : listM) {
-				System.out.println(m.getModuleName());
+			
 				// traitement création moduleInst
 				ModuleInstance moduleInst = new ModuleInstance();
 				moduleInst.setModule(m);
@@ -205,7 +205,6 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 
 				List<ThemeDetail> listTd = this.themeDetailService.findByModuleId(m.getId());
 				for (ThemeDetail td : listTd) {
-					System.out.println(td.getThemeDetailName());
 					// traitement
 					ThemeDetailInstance themeDetailinst = new ThemeDetailInstance();
 					themeDetailinst.setModuleInstance(m1);
@@ -255,30 +254,28 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		programInstanceRepository.save(theProgramInstance);
 		return theProgramInstance;
 	}
-	
-	
+
 	@Override
 	public List<ProgramInstance> findByLocationAndValidated(String location, boolean validated) {
 		// TODO Auto-generated method stub
 		return programInstanceRepository.findProgramInstByLocationAndValidated(location, validated);
 	}
-	
 
 	@Scheduled(cron = "0 0 9 * * *")
-	//@Scheduled(fixedRate = 60000)
+	// @Scheduled(fixedRate = 60000)
 	public void LaunchAlert() throws AddressException, MessagingException, IOException {
 		List<ProgramInstance> classes = findAll();
 		LocalDate now = LocalDate.now();
 		LocalDate next4Week = now.plus(4, ChronoUnit.WEEKS);
-		System.out.println(next4Week);
 		
 
 		for (ProgramInstance c : classes) {
-			if ((next4Week == c.getBeginDate().toLocalDate()) && (participantService.getParticipantPerClass(c.getId()).size()<c.getNbMinParticipants())) {
+			if ((next4Week == c.getBeginDate().toLocalDate())
+					&& (participantService.getParticipantPerClass(c.getId()).size() < c.getNbMinParticipants())) {
 				mailService.sendmailAlert(c.getId());
-				System.out.println(c.getProgramInstName());
+				
 			}
-			
+
 		}
 	}
 
@@ -288,5 +285,4 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		return programInstanceRepository.findByValidatedTrue();
 	}
 
-	
 }

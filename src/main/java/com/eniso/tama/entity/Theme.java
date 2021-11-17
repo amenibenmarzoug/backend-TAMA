@@ -26,6 +26,8 @@ public class Theme {
     @NotNull
     @Column(name = "themeDays")
     private int nbDaysTheme;
+    
+    private boolean deleted;
 
     @ManyToOne
     private Program program;
@@ -61,6 +63,14 @@ public class Theme {
     public void setProgram(Program program) {
         this.program = program;
     }
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
 
 }

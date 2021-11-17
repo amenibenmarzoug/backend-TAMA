@@ -12,60 +12,67 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Equipments {
-    @Id
-    @Column(name = "equipment_id", updatable = false, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@Id
+	@Column(name = "equipment_id", updatable = false, nullable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    //@NotNull
-    @Column
-    private String equipmentName;
+	// @NotNull
+	@Column
+	private String equipmentName;
 
+	@Column
+	private int quantity;
 
-    @Column
-    private int quantity;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private ClassRoom classroom;
+	private boolean deleted;
 
-    public ClassRoom getClassroom() {
-        return classroom;
-    }
+	@ManyToOne(cascade = CascadeType.ALL)
+	private ClassRoom classroom;
 
-    public void setClassroom(ClassRoom classroom) {
-        this.classroom = classroom;
-    }
+	public ClassRoom getClassroom() {
+		return classroom;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setClassroom(ClassRoom classroom) {
+		this.classroom = classroom;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getEquipmentName() {
-        return equipmentName;
-    }
+	public String getEquipmentName() {
+		return equipmentName;
+	}
 
-    public void setEquipmentName(String equipmentName) {
-        this.equipmentName = equipmentName;
-    }
+	public void setEquipmentName(String equipmentName) {
+		this.equipmentName = equipmentName;
+	}
 
+	public int getQuantity() {
+		return quantity;
+	}
 
-    public int getQuantity() {
-        return quantity;
-    }
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+	public boolean isDeleted() {
+		return deleted;
+	}
 
-    @Override
-    public String toString() {
-        return "Equipments [id=" + id + ", equipmentName=" + equipmentName + ", quantity=" + quantity + ", classroom="
-                + classroom + "]";
-    }
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
 
+	@Override
+	public String toString() {
+		return "Equipments [id=" + id + ", equipmentName=" + equipmentName + ", quantity=" + quantity + ", classroom="
+				+ classroom + "]";
+	}
 
 }

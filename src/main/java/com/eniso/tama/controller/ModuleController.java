@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.entity.Module;
 import com.eniso.tama.entity.Theme;
+import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.service.ModuleService;
 
 @RestController
@@ -104,7 +106,7 @@ public class ModuleController {
 	}
 
 	@DeleteMapping("/module/{moduleId}")
-	public String deleteModule(@PathVariable int moduleId) {
+	public ResponseEntity<?> deleteModule(@PathVariable int moduleId) {
 
 		Module module = moduleService.findById(moduleId);
 
@@ -116,6 +118,6 @@ public class ModuleController {
 
 		moduleService.deleteModule(moduleId);
 
-		return "Deleted Module id - " + moduleId;
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
 	}
 }

@@ -54,7 +54,6 @@ public class MailTemplateServiceImpl implements MailTemplateService {
 			return null;
 		};
 
-		System.out.println(vars);
 
 		send(from, to, "userValidation", vars);
 
@@ -100,7 +99,7 @@ public class MailTemplateServiceImpl implements MailTemplateService {
 			return null;
 		};
 
-		System.out.println(vars);
+
 
 		send(from, to, "mailAlert", vars);
 	}
