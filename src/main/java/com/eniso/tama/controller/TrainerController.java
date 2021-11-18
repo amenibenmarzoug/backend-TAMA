@@ -109,7 +109,7 @@ public class TrainerController {
             throw new RuntimeException("the trainer id is not found - " + trainerId);
         }
 
-        trainerService.deleteById(trainerId);
+        trainerService.deleteTrainer(trainerId);
 
         return "Deleted trainer id - " + trainerId;
     }

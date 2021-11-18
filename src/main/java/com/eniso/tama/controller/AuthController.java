@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -110,6 +111,9 @@ public class AuthController {
 	@Autowired
 	private ParticipantRegistrationRepository regPartRepository;
 
+    @Value("${tama.trainer.password}")
+    private String trainerPassword;
+	
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 	
@@ -117,7 +121,7 @@ public class AuthController {
 		User u = new User();
 		u = userRepository.findByEmail(loginRequest.getEmail());
 	
-		if (u == null) {
+		if (u == null || u.isDeleted()==true) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Cet email n'existe pas!"));
 		} else {
 			if (u.isValidated()) {
@@ -151,7 +155,7 @@ public class AuthController {
 		Role roleTrainer = new Role();
 
 		Trainer trainer = new Trainer(signupRequestTrainer.getEmail(),
-				encoder.encode(randomPassword.generateSecureRandomPassword()), signupRequestTrainer.getStreet(),
+				encoder.encode(trainerPassword), signupRequestTrainer.getStreet(),
 				signupRequestTrainer.getCity(), signupRequestTrainer.getPostalCode(),
 				signupRequestTrainer.getPhoneNumber(), null, signupRequestTrainer.getFirstName(),
 				signupRequestTrainer.getLastName(), signupRequestTrainer.getGender(),

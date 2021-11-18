@@ -42,35 +42,32 @@ public class TrainerServiceImpl implements TrainerService {
 	@Autowired
 	private TrainerRepository trainerRepository;
 
+	@Autowired
+	private MailTemplateService mailtemplateservice;
 
-	 @Autowired 
-	 private MailTemplateService mailtemplateservice ;
-	 
-		@Value( "${spring.mail.username}" )
-		private String email;
-		
-		@Value( "${password}" )
-		private String password;
+	@Value("${spring.mail.username}")
+	private String email;
+
+	@Value("${password}")
+	private String password;
 
 	@Autowired
 	PasswordEncoder encoder;
 
 	@Autowired
 	RandomPasswordGenerator randomPassword;
-	
+
 	@Autowired
 	SessionService sessionService;
-	
+
 	@Autowired
 	SessionRepository sessionRepository;
-	
-	
+
 	@Autowired
-	private UserService userService ;
+	private UserService userService;
 
 	@Autowired
 	private UserRepository userRepository;
-
 
 	public TrainerServiceImpl() {
 	}
@@ -175,10 +172,9 @@ public class TrainerServiceImpl implements TrainerService {
 	public void validateTrainer(long id) throws AddressException, MessagingException, IOException {
 		Trainer t = findById(id);
 		t.setValidated(true);
-		t.setPassword(encoder.encode(password));
+		// t.setPassword(encoder.encode(password));
 		save(t);
-		//mailtemplateservice.sendUserValidation( email ,t.getEmail() );
-	
+		// mailtemplateservice.sendUserValidation( email ,t.getEmail() );
 
 	}
 
@@ -193,7 +189,6 @@ public class TrainerServiceImpl implements TrainerService {
 		return trainersList;
 	}
 
-	
 	@Override
 
 	public void resetPassword(long id, String newPassword) {
@@ -206,7 +201,6 @@ public class TrainerServiceImpl implements TrainerService {
 
 	}
 
-	
 	@Override
 	public void resetPasswordAutomatically(long id) {
 
@@ -217,7 +211,7 @@ public class TrainerServiceImpl implements TrainerService {
 		this.save(t);
 
 	}
-	
+
 	public Trainer refuseTrainer(Trainer trainer) {
 		Trainer t = findById(trainer.getId());
 		if (t != null) {
@@ -226,29 +220,27 @@ public class TrainerServiceImpl implements TrainerService {
 		}
 		return t;
 
-
 	}
 
-	
 	@Transactional
 	@Override
 	public void deleteTrainer(long id) {
-		
-		Trainer t = findById(id);
-		 List<com.eniso.tama.entity.Session> sessionsList = sessionRepository.findByTrainer(t);
-		 if ( sessionsList  != null) {
-				for (com.eniso.tama.entity.Session session : sessionsList) {
-					session.setTrainer(null);
-					sessionRepository.save(session);
-				}
-			}
-		 
-		 User user = userRepository.findById(id);
-			userService.deleteUser(user.getId());
 
-			Trainer trainer = this.findById(id);
-			trainer.setDeleted(true);
-			trainerRepository.save(trainer);
+		Trainer t = findById(id);
+		List<com.eniso.tama.entity.Session> sessionsList = sessionRepository.findByTrainer(t);
+		if (sessionsList != null) {
+			for (com.eniso.tama.entity.Session session : sessionsList) {
+				session.setTrainer(null);
+				sessionRepository.save(session);
+			}
+		}
+
+		User user = userRepository.findById(id);
+		userService.deleteUser(user.getId());
+
+		Trainer trainer = this.findById(id);
+		trainer.setDeleted(true);
+		trainerRepository.save(trainer);
 	}
 
 }

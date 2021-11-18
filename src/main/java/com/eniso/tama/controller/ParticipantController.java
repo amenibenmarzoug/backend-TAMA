@@ -563,7 +563,7 @@ public class ParticipantController {
 			throw new RuntimeException("the participant id is not found - " + participantId);
 		}
 
-		participantService.deleteById(participantId);
+		participantService.deleteParticipant(participantId);
 
 		return "Deleted participant id - " + participantId;
 	}
