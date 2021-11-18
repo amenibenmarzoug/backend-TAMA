@@ -13,5 +13,6 @@ public interface EquipmentsRepository extends JpaRepository<Equipments, Long> {
     List<Equipments> findByClassroomId(Long classroomId);
 
     Optional<Equipments> findByIdAndClassroomId(Long id, Long classroomId);
+    
 }
 

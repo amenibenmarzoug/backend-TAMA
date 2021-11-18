@@ -20,6 +20,10 @@ public interface SessionService {
 	List<Session> findByThemeDetailInstanceId(long id);
 	
     public List<Session> findByTrainerId (long trainerId);
+    
+    public List<Session> findByClassroomId (long classroomId);
+
+    
     public ProgramInstance getProgramInstance (long sessionId);
     public Session save(Session courseSession);
 

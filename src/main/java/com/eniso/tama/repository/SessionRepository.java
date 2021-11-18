@@ -13,5 +13,8 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
 	List<Session> findByTrainer(Trainer trainer);
 	
 	List<Session> findByThemeDetailInstanceId(long id);
+	
+	List<Session> findByClassRoomId(long id);
+	
 
 }
