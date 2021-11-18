@@ -96,7 +96,7 @@ public class ClassRoomController {
 		}
 		
 		@DeleteMapping("/classroom/{classroomId}")
-		public String deleteClassRoom(@PathVariable long  classroomId) {
+		public ResponseEntity<?> deleteClassRoom(@PathVariable long  classroomId) {
 			
 			ClassRoom classRoom = classRoomService.findById(classroomId);
 			
@@ -108,7 +108,7 @@ public class ClassRoomController {
 			
 			//classRoomService.deleteById(classroomId);
 			classRoomService.deleteClassroom(classroomId);
-			return "Salle supprimé avec succès";
+			return ResponseEntity.ok(new MessageResponse( "Salle supprimé avec succès"));
 		}
 
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.entity.Equipments;
+import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.repository.ClassRoomRepository;
 import com.eniso.tama.service.EquipmentsService;
 
@@ -73,7 +74,7 @@ public class EquipmentsController {
 	}
 
 	@DeleteMapping("/equipment/{equipmentId}")
-	public String deleteEquipment(@PathVariable long equipmentId) {
+	public ResponseEntity<?> deleteEquipment(@PathVariable long equipmentId) {
 
 		Equipments equipment = equipmentsService.findById(equipmentId);
 		System.out.println("controler equipment "+ equipment.getEquipmentName());
@@ -89,7 +90,7 @@ public class EquipmentsController {
 		equipmentsService.deleteEquipment(equipmentId);
 		System.out.println("controler equipment after "+ equipment.isDeleted());
 
-		return "Equipement supprimé avec succès";
+		return ResponseEntity.ok(new MessageResponse( "Equipement supprimé avec succès"));
 	}
 
 }

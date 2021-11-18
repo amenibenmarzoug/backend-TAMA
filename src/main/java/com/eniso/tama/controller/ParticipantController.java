@@ -553,7 +553,7 @@ public class ParticipantController {
 	}
 
 	@DeleteMapping("/participants/{participantId}")
-	public String deleteParticipant(@PathVariable long participantId) {
+	public ResponseEntity<?> deleteParticipant(@PathVariable long participantId) {
 
 		Participant tempParticipant = participantService.findById(participantId);
 
@@ -565,7 +565,6 @@ public class ParticipantController {
 
 		participantService.deleteParticipant(participantId);
 
-		return "Deleted participant id - " + participantId;
-	}
+		   return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès " ));	}
 
 }

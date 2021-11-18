@@ -9,6 +9,7 @@ import javax.mail.internet.AddressException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +28,7 @@ import com.eniso.tama.entity.Days;
 import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.helpers.RandomPasswordGenerator;
+import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.service.TrainerService;
 
 @RestController
@@ -99,7 +101,7 @@ public class TrainerController {
     }
 
     @DeleteMapping("/trainers/{trainerId}")
-    public String deleteTrainer(@PathVariable int trainerId) {
+    public ResponseEntity<?> deleteTrainer(@PathVariable int trainerId) {
 
         Trainer tempTrainer = trainerService.findById(trainerId);
 
@@ -111,7 +113,7 @@ public class TrainerController {
 
         trainerService.deleteTrainer(trainerId);
 
-        return "Deleted trainer id - " + trainerId;
+        return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès " + trainerId));
     }
 
     @GetMapping("/sendMailToTrainer")
