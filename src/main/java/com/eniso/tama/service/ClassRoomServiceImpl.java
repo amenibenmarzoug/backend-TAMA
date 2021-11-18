@@ -10,10 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.eniso.tama.entity.ClassRoom;
+import com.eniso.tama.entity.Equipments;
 import com.eniso.tama.entity.Institution;
 import com.eniso.tama.entity.Participant;
+import com.eniso.tama.entity.Session;
 import com.eniso.tama.payload.MessageResponse;
 import com.eniso.tama.repository.ClassRoomRepository;
+import com.eniso.tama.repository.EquipmentsRepository;
 import com.eniso.tama.repository.InstitutionRepository;
 
 
@@ -24,9 +27,14 @@ public class ClassRoomServiceImpl  implements ClassRoomService{
 	@Autowired
     private ClassRoomRepository classRoomRepository;
 	
-	
+	@Autowired
+	private EquipmentsService equipmentsService ; 
 	@Autowired
 	private InstitutionRepository institutionRepository;
+	@Autowired
+	private SessionService sessionService;
+
+	
 	
 	public ClassRoomServiceImpl() {}
 
@@ -136,4 +144,33 @@ public class ClassRoomServiceImpl  implements ClassRoomService{
 		
 		return classRoom;
 	}
-}
+
+
+	@Override
+	public void deleteClassroom(long id) {
+		
+		// les séances qui vont se dérouler dans cette salle
+		List<Session> sessions=sessionService.findByClassroomId(id) ; 
+		if(sessions!=null) {
+			for (Session session : sessions) {
+				session.setClassRoom(null);
+			}
+		}
+			
+		//supprimer les equipments de cette salle
+		List <Equipments> equipments = equipmentsService.getClassroomsEquipments(id);
+		if (equipments !=null) {
+			for (Equipments equipment : equipments) {
+			equipmentsService.deleteEquipment(equipment.getId());
+		}
+		}
+		
+		ClassRoom classroom = findById(id) ; 
+		classroom.setDeleted(true);
+		save(classroom) ; 
+
+		// TODO Auto-generated method stub
+		
+	}
+
+	}

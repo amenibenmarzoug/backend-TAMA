@@ -175,4 +175,10 @@ public class SessionServiceImpl implements SessionService {
 		return sessionRepository.findByThemeDetailInstanceId(id);
 	}
 
+	@Override
+	public List<Session> findByClassroomId(long classroomId) {
+		// TODO Auto-generated method stub
+		return sessionRepository.findByClassRoomId(classroomId) ; 
+	}
+
 }

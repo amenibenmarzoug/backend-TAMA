@@ -76,6 +76,8 @@ public class EquipmentsController {
 	public String deleteEquipment(@PathVariable long equipmentId) {
 
 		Equipments equipment = equipmentsService.findById(equipmentId);
+		System.out.println("controler equipment "+ equipment.getEquipmentName());
+		System.out.println("controler equipment before "+ equipment.isDeleted());
 
 		// throw exception if null
 
@@ -83,9 +85,11 @@ public class EquipmentsController {
 			throw new RuntimeException("the equipment id is not found - " + equipmentId);
 		}
 
-		equipmentsService.deleteById(equipmentId);
+		//equipmentsService.deleteById(equipmentId);
+		equipmentsService.deleteEquipment(equipmentId);
+		System.out.println("controler equipment after "+ equipment.isDeleted());
 
-		return "Deleted equipment id - " + equipmentId;
+		return "Equipement supprimé avec succès";
 	}
 
 }

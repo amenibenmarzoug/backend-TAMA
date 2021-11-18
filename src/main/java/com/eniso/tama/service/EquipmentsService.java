@@ -32,4 +32,6 @@ public interface EquipmentsService {
 	public Equipments updateEquipmentClassroom(Equipments equipment) ;
 	
 	public ResponseEntity<?> addEquipmentsByClassroom(Equipments equipment, long id );
+	
+	public void deleteEquipment(long id) ; 
 }

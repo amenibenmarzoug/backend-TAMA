@@ -144,5 +144,16 @@ public class EquipmentsServiceImpl implements EquipmentsService {
 		save(equipment);
 		return equipment;
 	}
+	
+	@Override
+	public void deleteEquipment(long id) {
+		
+		Equipments equipment = findById(id) ; 
+		
+		equipment.setDeleted(true);
+		save(equipment);
+		
+
+	}
 
 }

@@ -106,9 +106,9 @@ public class ClassRoomController {
 				throw new RuntimeException("the classRoom id is not found - " + classroomId);
 			}
 			
-			classRoomService.deleteById(classroomId);
-			
-			return "Deleted classRoom id - " + classroomId;
+			//classRoomService.deleteById(classroomId);
+			classRoomService.deleteClassroom(classroomId);
+			return "Salle supprimé avec succès";
 		}
 
 }

@@ -24,4 +24,6 @@ public interface ClassRoomService {
 	public ResponseEntity<?> addClassRoomByInstitution(ClassRoom classRoom,long id);
 	
 	public ClassRoom updateClassRoomInstit (ClassRoom classRoom);
+	
+	public void deleteClassroom (long id ) ; 
 }
