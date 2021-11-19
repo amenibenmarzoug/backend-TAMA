@@ -45,7 +45,7 @@ public class ClassRoomServiceImpl  implements ClassRoomService{
 	
 	@Override
 	public List<ClassRoom> findAll() {
-		return classRoomRepository.findAll();
+		return classRoomRepository.findAllByDeletedFalse();
 	}
 
 	@Override

@@ -5,21 +5,21 @@ import java.util.List;
 import com.eniso.tama.entity.Program;
 
 public interface ProgramService {
-	
-	public List<Program> findAll();
 
-	
+	public List<Program> findAll();
 
 	public Program findById(long theId);
 
 	public void save(Program theProgram);
-	
+
 	public void saveSpecificProgram(Program theProgram);
 
 	public void deleteById(long theId);
-	
+
 	public void deleteProgram(long theId);
-	
-	public Program updateProgram (Program theProgram);
+
+	public void omitProgram(long theId);
+
+	public Program updateProgram(Program theProgram);
 
 }

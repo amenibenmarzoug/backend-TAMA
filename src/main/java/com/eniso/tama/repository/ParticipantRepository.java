@@ -1,6 +1,5 @@
 package com.eniso.tama.repository;
 
-
 import java.util.List;
 import java.util.Optional;
 
@@ -15,32 +14,34 @@ import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ProgramInstance;
 
-
 @Repository
 public interface ParticipantRepository extends JpaRepository<Participant, Long> {
 
-    Optional<Participant> findByEmail(String email);
+	Optional<Participant> findByIdAndDeletedFalse(long id);
 
-    Boolean existsByEmail(String email);
+	List<Participant> findAllByDeletedFalse();
 
-    Optional<Participant> findByFirstNameP(String firstNameP);
+	Optional<Participant> findByEmailAndDeletedFalse(String email);
 
-    Boolean existsByFirstNameP(String firstNameP);
+	Boolean existsByEmail(String email);
 
-    //List<Participant> findByProgramInstance(ProgramInstance  programInst);
-    List<Participant> findByLevel(String level);
-    List <Participant> findByValidatedTrue() ; 
-    List <Participant> findByEntrepriseAndValidatedTrue (Entreprise company) ;  
+	Optional<Participant> findByFirstNamePAndDeletedFalse(String firstNameP);
 
-    //List <Participant> findByEntreprise(Participant theParticipant);<<<<<<< HEAD
- 
-    
+	Boolean existsByFirstNamePAndDeletedFalse(String firstNameP);
 
-    List<Participant> findByAbandon(boolean abandon);
-    @Query
-	(value = "SELECT user_id FROM participant p WHERE p.program_instance_program_instance_id = :programInstId and p.status = 'ACCEPTED'", nativeQuery = true)
-	List<Long> findConfirmedParticipantsByClass(@Param("programInstId") long programInstId);
+	// List<Participant> findByProgramInstance(ProgramInstance programInst);
+	List<Participant> findByLevelAndDeletedFalse(String level);
 
+	List<Participant> findByValidatedTrueAndDeletedFalse();
+
+	List<Participant> findByEntrepriseAndValidatedTrueAndDeletedFalse(Entreprise company);
+
+	// List <Participant> findByEntreprise(Participant theParticipant);<<<<<<< HEAD
+
+	List<Participant> findByAbandonAndDeletedFalse(boolean abandon);
+//    @Query
+//	(value = "SELECT user_id FROM participant p WHERE p.program_instance_program_instance_id = :programInstId and p.status = 'ACCEPTED'", nativeQuery = true)
+//	List<Long> findConfirmedParticipantsByClassAndDeletedFalse( long programInstId);
 
 	@Query(value = ("select sum(case when p.gender = 'Masculin' then 1 else 0 end) * 100 / count(*) from participant p;"), nativeQuery = true)
 	float getMaleParticipants();

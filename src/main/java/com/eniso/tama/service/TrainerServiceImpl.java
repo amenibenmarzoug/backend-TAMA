@@ -48,9 +48,6 @@ public class TrainerServiceImpl implements TrainerService {
 	@Value("${spring.mail.username}")
 	private String email;
 
-	@Value("${password}")
-	private String password;
-
 	@Autowired
 	PasswordEncoder encoder;
 
@@ -78,12 +75,12 @@ public class TrainerServiceImpl implements TrainerService {
 
 	@Override
 	public List<Trainer> findAll() {
-		return trainerRepository.findAll();
+		return trainerRepository.findAllByDeletedFalse();
 	}
 
 	@Override
 	public Trainer findById(long theId) {
-		Optional<Trainer> result = trainerRepository.findById(theId);
+		Optional<Trainer> result = trainerRepository.findByIdAndDeletedFalse(theId);
 
 		Trainer theControl = null;
 
@@ -183,7 +180,9 @@ public class TrainerServiceImpl implements TrainerService {
 		List<Trainer> trainersList = new ArrayList<Trainer>();
 		for (Long trainerId : trainerRepository.findTrainersBySpecialization(specialization)) {
 			Trainer trainer = findById(trainerId);
-			trainersList.add(trainer);
+			if (trainer.isDeleted() == false) {
+				trainersList.add(trainer);
+			}
 
 		}
 		return trainersList;
@@ -226,8 +225,8 @@ public class TrainerServiceImpl implements TrainerService {
 	@Override
 	public void deleteTrainer(long id) {
 
-		Trainer t = findById(id);
-		List<com.eniso.tama.entity.Session> sessionsList = sessionRepository.findByTrainer(t);
+		
+		List<com.eniso.tama.entity.Session> sessionsList = sessionService.findByTrainerId(id);
 		if (sessionsList != null) {
 			for (com.eniso.tama.entity.Session session : sessionsList) {
 				session.setTrainer(null);
@@ -235,7 +234,7 @@ public class TrainerServiceImpl implements TrainerService {
 			}
 		}
 
-		User user = userRepository.findById(id);
+		User user = userRepository.findByIdAndDeletedFalse(id);
 		userService.deleteUser(user.getId());
 
 		Trainer trainer = this.findById(id);

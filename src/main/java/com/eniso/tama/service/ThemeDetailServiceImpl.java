@@ -131,7 +131,21 @@ public class ThemeDetailServiceImpl implements ThemeDetailService {
 				themeDetailInstService.deleteThemeDetailInstance(themeDetailInstance.getId());
 			}
 		}
-		deleteById(id);
+		ThemeDetail themeDetail=findById(id);
+		themeDetail.setDeleted(true);
+		themeDetailRepository.save(themeDetail);
+	}
+
+	@Override
+	@Transactional 
+	public void omitThemeDetail(long id) {
+		List<ThemeDetailInstance> themeDetailInstances=themeDetailInstService.findByThemeDetId(id);
+		if(themeDetailInstances!=null) {
+			for (ThemeDetailInstance themeDetailInstance : themeDetailInstances) {
+				themeDetailInstService.omitThemeDetailInstance(themeDetailInstance.getId());
+			}
+		}
+		deleteById(id);		
 	}
 
 }

@@ -20,7 +20,6 @@ public interface ParticipantService {
 		public List<Participant>findByLevel(String theLevel);
 		public List<Participant> getValidatedParticipantsByEntreprise(Entreprise company);
 		public List<Participant> findByAbonadn(boolean theAbondan );
-		public List<Participant> findParticipantsByClass(long programInstId );
 		
 		public Set<Participant> findParticipantsByRegistrationStatus(Status status );
 		

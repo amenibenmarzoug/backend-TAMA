@@ -98,6 +98,21 @@ public class ThemeDetailInstanceServiceImpl implements ThemeDetailInstanceServic
 				sessionService.deleteSession(session.getId());
 			}
 		}
+		ThemeDetailInstance themeDetailInstance=findById(theId);
+		themeDetailInstance.setDeleted(true);
+		themeDetailInstanceRepository.save(themeDetailInstance);
+		
+	}
+
+	@Override
+	@Transactional 
+	public void omitThemeDetailInstance(long theId) {
+		List<Session> sessions=sessionService.findByThemeDetailInstanceId(theId);
+		if(sessions!=null) {
+			for (Session session : sessions) {
+				sessionService.omitSession(session.getId());
+			}
+		}
 		deleteById(theId);
 		
 	}

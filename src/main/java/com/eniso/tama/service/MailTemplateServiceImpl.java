@@ -27,8 +27,7 @@ public class MailTemplateServiceImpl implements MailTemplateService {
 	@Autowired
 	MailTemplateRepository mailTemplateRepository;
 	
-	@Value( "${password}" )
-	private String password;
+	
 
 	@Override
 	public MailTemplate findMailTemplate(String templateId) {
@@ -41,7 +40,7 @@ public class MailTemplateServiceImpl implements MailTemplateService {
 //		   Password: ${password}
 //   subject:   TAMA-Account Activation
 	@Override
-	public void sendUserValidation( String from , String to ) {
+	public void sendUserValidation( String from , String to ,String password) {
 		Function<String, String> vars = (v) -> {
 			switch (v) {
 			case "login":

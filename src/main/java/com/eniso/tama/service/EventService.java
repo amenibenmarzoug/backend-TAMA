@@ -17,6 +17,8 @@ public interface EventService {
 	
 	public void deleteById(long id);
 	
+	public void deleteEvent(long id);
+	
 	public Event updateEvent(Event event);
 	
 	public Event addFreeDay(Event event);

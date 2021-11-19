@@ -9,13 +9,19 @@ import org.springframework.stereotype.Repository;
 import com.eniso.tama.entity.Attendance;
 import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.Session;
-@Repository
-public interface AttendanceRepository extends JpaRepository<Attendance, Long>  {
-	
-	List<Attendance> findByParticipant(Participant participant);
-	List<Attendance> findBySession(Session session);
-	Boolean existsBySession (Session session ) ; 
 
-	public List<Attendance> findByParticipantId(long participantId);
+@Repository
+public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
+	List<Attendance> findAllByDeletedFalse();
+
+	Optional<Attendance> findByIdAndDeletedFalse(long theId);
+
+	List<Attendance> findByParticipantAndDeletedFalse(Participant participant);
+
+	List<Attendance> findBySessionAndDeletedFalse(Session session);
+
+	Boolean existsBySessionAndDeletedFalse(Session session);
+
+	public List<Attendance> findByParticipantIdAndDeletedFalse(long participantId);
 
 }
