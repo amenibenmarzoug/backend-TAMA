@@ -11,18 +11,22 @@ import com.eniso.tama.entity.Entreprise;
 
 @Repository
 public interface EnterpriseRepository extends JpaRepository<Entreprise, Long> {
+	
+	List<Entreprise> findAllByDeletedFalse();
+	Optional<Entreprise> findByIdAndDeletedFalse(long id);
 
-    Optional<Entreprise> findByEmail(String email);
 
-    Optional<Entreprise> findByPhoneNumber(String email);
+    Optional<Entreprise> findByEmailAndDeletedFalse(String email);
 
-    Boolean existsByEmail(String email);
+    Optional<Entreprise> findByPhoneNumberAndDeletedFalse(String email);
 
-    Boolean existsByPhoneNumber(String phoneNumber);
+    Boolean existsByEmailAndDeletedFalse(String email);
 
-    Optional<Entreprise> findByEnterpriseName(String entrepriseName);
+    Boolean existsByPhoneNumberAndDeletedFalse(String phoneNumber);
 
-    Boolean existsByEnterpriseName(String entrepriseName);
+    Optional<Entreprise> findByEnterpriseNameAndDeletedFalse(String entrepriseName);
+
+    Boolean existsByEnterpriseNameAndDeletedFalse(String entrepriseName);
 }
 
 

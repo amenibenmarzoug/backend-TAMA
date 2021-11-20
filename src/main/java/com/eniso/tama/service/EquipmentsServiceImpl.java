@@ -27,7 +27,7 @@ public class EquipmentsServiceImpl implements EquipmentsService {
 	private EquipmentsRepository equipmentsRepository;
 
 	@Autowired
-	ClassRoomRepository classroomRepository;
+	ClassRoomService classrommService ; 
 	
 	public EquipmentsServiceImpl() {
 	}
@@ -39,12 +39,12 @@ public class EquipmentsServiceImpl implements EquipmentsService {
 
 	@Override
 	public List<Equipments> findAll() {
-		return equipmentsRepository.findAll();
+		return equipmentsRepository.findAllByDeletedFalse();
 	}
 
 	@Override
 	public Equipments findById(long theId) {
-		Optional<Equipments> result = equipmentsRepository.findById(theId);
+		Optional<Equipments> result = equipmentsRepository.findByIdAndDeletedFalse(theId);
 
 		Equipments equipments = null;
 
@@ -62,17 +62,19 @@ public class EquipmentsServiceImpl implements EquipmentsService {
 	public void save(Equipments equipment) {
 		equipmentsRepository.save(equipment);
 	}
+	
 
 	@Override
 	public void deleteById(long id) {
-		equipmentsRepository.deleteById(id);
+		//equipmentsRepository.deleteById(id);
 	}
+	
 
 	@Override
 	public List<Equipments> findByClassroom(Equipments theEquipment) {
 		List<Equipments> equipments = null;
 
-		for (Equipments theE : equipmentsRepository.findAll()) {
+		for (Equipments theE : equipmentsRepository.findAllByDeletedFalse()) {
 
 			if (theE.getClassroom() != null) {
 
@@ -114,7 +116,7 @@ public class EquipmentsServiceImpl implements EquipmentsService {
 	public ResponseEntity<?> addEquipmentsByClassroom(Equipments equipment,	 long id) {
 
 		ClassRoom classroom = new ClassRoom();
-		for (ClassRoom c : classroomRepository.findAll()) {
+		for (ClassRoom c : classrommService.findAll()) {
 			if (id == c.getId()) {
 				classroom = c;
 			}

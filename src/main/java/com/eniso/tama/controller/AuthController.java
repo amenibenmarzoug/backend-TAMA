@@ -204,7 +204,7 @@ public class AuthController {
 	public ResponseEntity<?> registerInstitution(
 			@Valid @RequestBody SignupRequestInstitution signupRequestInstitution) {
 
-		if (institutionRepository.existsByEmail(signupRequestInstitution.getEmail())) {
+		if (institutionRepository.existsByEmailAndDeletedFalse(signupRequestInstitution.getEmail())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
 		}
 
@@ -235,11 +235,11 @@ public class AuthController {
 	@PostMapping("/signupEnterprise")
 	public ResponseEntity<?> registerEnterprise(@Valid @RequestBody SignupRequestEnterprise signupRequestEnterprise) {
 
-		if (enterpriseRepository.existsByEmail(signupRequestEnterprise.getEmail())) {
+		if (enterpriseRepository.existsByEmailAndDeletedFalse(signupRequestEnterprise.getEmail())) {
 			return ResponseEntity.badRequest()
 					.body(new MessageResponse("Erreur: Veuillez donner un email valide. Cet email existe déjà"));
 		}
-		if (enterpriseRepository.existsByPhoneNumber(signupRequestEnterprise.getPhoneNumber())) {
+		if (enterpriseRepository.existsByPhoneNumberAndDeletedFalse(signupRequestEnterprise.getPhoneNumber())) {
 			return ResponseEntity.badRequest().body(new MessageResponse(
 					"Erreur: Veuillez donner un numéro de téléphone valide. Ce numéro existe déjà"));
 		}

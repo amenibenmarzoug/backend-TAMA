@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.eniso.tama.entity.Institution;
 import com.eniso.tama.helpers.RandomPasswordGenerator;
-import com.eniso.tama.repository.InstitutionRepository;
 import com.eniso.tama.service.InstitutionService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -26,9 +25,6 @@ import com.eniso.tama.service.InstitutionService;
 @RequestMapping(value = "/api")
 public class InstitutionController {
 	
-	@Autowired
-	InstitutionRepository institutionRepository;
-
 	@Autowired
 	PasswordEncoder encoder;
 	
