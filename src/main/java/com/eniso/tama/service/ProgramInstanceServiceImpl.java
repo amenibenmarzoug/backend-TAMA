@@ -142,13 +142,13 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		List<CompanyRegistration> companyRegistrations = companyRegistrationService.findByProgramInstance(id);
 		if (participantRegistrations != null) {
 			for (ParticipantRegistration participantRegistration : participantRegistrations) {
-				participantRegistrationService.deleteById(participantRegistration.getId());
+				participantRegistrationService.deleteParticipantRegistration(participantRegistration.getId());
 			}
 		}
 		if (companyRegistrations != null) {
 
 			for (CompanyRegistration companyRegistration : companyRegistrations) {
-				companyRegistrationService.deleteById(companyRegistration.getId());
+				companyRegistrationService.deleteCompanyRegistation(companyRegistration.getId());
 			}
 		}
 
@@ -157,7 +157,9 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 				themeInstanceService.deleteThemeInstance(themeInstance.getId());
 			}
 		}
-		deleteById(id);
+		ProgramInstance programInstance=findById(id);
+		programInstance.setDeleted(true);
+		programInstanceRepository.save(programInstance);
 	}
 
 	@Override
@@ -283,6 +285,34 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 	public List<ProgramInstance> getConfirmedClasses() {
 		// TODO Auto-generated method stub
 		return programInstanceRepository.findByValidatedTrue();
+	}
+
+	@Override
+	@Transactional
+	public void omitProgramInstance(long id) {
+		List<ThemeInstance> themeInstances = themeInstanceService.getProgramThemesInst(id);
+		List<ParticipantRegistration> participantRegistrations = participantRegistrationService
+				.findByProgramInstanceId(id);
+		List<CompanyRegistration> companyRegistrations = companyRegistrationService.findByProgramInstance(id);
+		if (participantRegistrations != null) {
+			for (ParticipantRegistration participantRegistration : participantRegistrations) {
+				participantRegistrationService.deleteById(participantRegistration.getId());
+			}
+		}
+		if (companyRegistrations != null) {
+
+			for (CompanyRegistration companyRegistration : companyRegistrations) {
+				companyRegistrationService.deleteById(companyRegistration.getId());
+			}
+		}
+
+		if (themeInstances != null) {
+			for (ThemeInstance themeInstance : themeInstances) {
+				themeInstanceService.omitThemeInstance(themeInstance.getId());
+			}
+		}
+		deleteById(id);
+		
 	}
 
 }

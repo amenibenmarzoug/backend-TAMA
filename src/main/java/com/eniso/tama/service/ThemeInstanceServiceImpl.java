@@ -144,7 +144,23 @@ public class ThemeInstanceServiceImpl implements ThemeInstanceService{
 				moduleInstanceService.deleteModuleInstance(moduleInstance.getId());
 			}
 		}
+		ThemeInstance themeInstance=findById(theId);
+		themeInstance.setDeleted(true);
+		themeInstanceRepository.save(themeInstance);
+	}
+
+
+	@Override
+	@Transactional
+	public void omitThemeInstance(long theId) {
+		List<ModuleInstance> moduleInstances=moduleInstanceService.getThemeModules(theId);
+		if(moduleInstances!=null) {
+			for (ModuleInstance moduleInstance : moduleInstances) {
+				moduleInstanceService.omitModuleInstance(moduleInstance.getId());
+			}
+		}
 		deleteById(theId);
+		
 	}
 
 }

@@ -22,6 +22,8 @@ public interface CompanyRegistrationService {
 	public List<CompanyRegistration> findByProgramInstance(long progranInstId);
 
 	public void deleteById(long id);
+	
+	public void deleteCompanyRegistation(long id);
 
 	public Entreprise registerEntrep(EntrepriseDto e, Long id);
 

@@ -51,7 +51,7 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public List<Session> findAll() {
-		return sessionRepository.findAll();
+		return sessionRepository.findAllByDeletedFalse();
 	}
 
 	/*
@@ -62,7 +62,7 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public Session findById(long theId) {
-		Optional<Session> result = sessionRepository.findById(theId);
+		Optional<Session> result = sessionRepository.findByIdAndDeletedFalse(theId);
 
 		Session courseSession = null;
 
@@ -88,7 +88,7 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public List<Session> findByTrainerId(long trainerId) {
-		Trainer trainer = trainerService.findById(trainerId);
+
 		/*
 		 * if (result.isPresent()) { trainer=result.get();
 		 * 
@@ -96,7 +96,7 @@ public class SessionServiceImpl implements SessionService {
 		 * RuntimeException("Did not find trainer with ID  - " + trainerId); }
 		 */
 		// TODO Auto-generated method stub
-		return sessionRepository.findByTrainer(trainer);
+		return sessionRepository.findByTrainerIdAndDeletedFalse(trainerId);
 
 	}
 
@@ -109,7 +109,9 @@ public class SessionServiceImpl implements SessionService {
 
 			ProgramInstance p1 = session.getThemeDetailInstance().getModuleInstance().getThemeInstance()
 					.getProgramInstance();
-			programs.add(p1);
+			if (p1.isDeleted() == false) {
+				programs.add(p1);
+			}
 
 		}
 
@@ -118,18 +120,19 @@ public class SessionServiceImpl implements SessionService {
 
 	@Override
 	public ProgramInstance getProgramInstance(long sessionId) {
-		Optional<Session> result = sessionRepository.findById(sessionId);
+		Optional<Session> result = sessionRepository.findByIdAndDeletedFalse(sessionId);
 		Session session;
 		ProgramInstance programInst;
 		if (result.isPresent()) {
 			session = result.get();
+			return session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance();
 
 		} else {
 			// we didn't find the trainer
 			throw new RuntimeException("Did not find session with ID  - " + sessionId);
 		}
 		// TODO Auto-generated method stub
-		return session.getThemeDetailInstance().getModuleInstance().getThemeInstance().getProgramInstance();
+
 		// TODO Auto-generated method stub
 
 	}
@@ -152,8 +155,40 @@ public class SessionServiceImpl implements SessionService {
 	}
 
 	@Override
-	@Transactional 
+	@Transactional
 	public void deleteSession(long id) {
+		Event event = eventService.findBySessionId(id);
+		List<Attendance> attendanceList = attendanceService.findBySession(id);
+		if (attendanceList != null) {
+			for (Attendance attendance : attendanceList) {
+				attendanceService.deleteAttendance(attendance.getId());
+			}
+		}
+		if (event != null) {
+			eventService.deleteEvent(event.getId());
+		}
+
+		Session session = findById(id);
+		session.setDeleted(true);
+		save(session);
+
+	}
+
+	@Override
+	public List<Session> findByThemeDetailInstanceId(long id) {
+		// TODO Auto-generated method stub
+		return sessionRepository.findByThemeDetailInstanceIdAndDeletedFalse(id);
+	}
+
+	@Override
+	public List<Session> findByClassroomId(long classroomId) {
+		// TODO Auto-generated method stub
+		return sessionRepository.findByClassRoomIdAndDeletedFalse(classroomId);
+	}
+
+	@Override
+	@Transactional
+	public void omitSession(long id) {
 		Event event = eventService.findBySessionId(id);
 		List<Attendance> attendanceList = attendanceService.findBySession(id);
 		if (attendanceList != null) {
@@ -166,19 +201,6 @@ public class SessionServiceImpl implements SessionService {
 		}
 
 		deleteById(id);
-
-	}
-
-	@Override
-	public List<Session> findByThemeDetailInstanceId(long id) {
-		// TODO Auto-generated method stub
-		return sessionRepository.findByThemeDetailInstanceId(id);
-	}
-
-	@Override
-	public List<Session> findByClassroomId(long classroomId) {
-		// TODO Auto-generated method stub
-		return sessionRepository.findByClassRoomId(classroomId) ; 
 	}
 
 }

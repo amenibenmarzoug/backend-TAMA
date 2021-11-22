@@ -32,12 +32,12 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 	@Override
 	public List<ParticipantRegistration> findAll() {
 
-		return participantRegistrationRepository.findAll();
+		return participantRegistrationRepository.findAllByDeletedFalse();
 	}
 
 	@Override
 	public ParticipantRegistration findById(long theId) {
-		Optional<ParticipantRegistration> result = participantRegistrationRepository.findById(theId);
+		Optional<ParticipantRegistration> result = participantRegistrationRepository.findByIdAndDeletedFalse(theId);
 		ParticipantRegistration registration = null;
 		if (result.isPresent()) {
 			registration = result.get();
@@ -57,13 +57,13 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 	@Override
 	public List<ParticipantRegistration> findByParticipantId(long partId) {
 
-		return participantRegistrationRepository.findByParticipantId(partId);
+		return participantRegistrationRepository.findByParticipantIdAndDeletedFalse(partId);
 	}
 
 	@Override
 	public List<ParticipantRegistration> findByProgramInstanceId(long partId) {
 
-		return participantRegistrationRepository.findByProgramInstanceId(partId);
+		return participantRegistrationRepository.findByPrograminstanceIdAndDeletedFalse(partId);
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 	public List<ProgramInstance> findParticipantPrograms(long participantId) {
 		List<ProgramInstance> programs = new ArrayList<>();
 		for (ParticipantRegistration registration : participantRegistrationRepository
-				.findByParticipantId(participantId)) {
+				.findByParticipantIdAndDeletedFalse(participantId)) {
 			programs.add(registration.getPrograminstance());
 		}
 		return programs;
@@ -108,7 +108,7 @@ public class ParticipantRegistrationServiceImpl implements ParticipantRegistrati
 	public List<ProgramInstance> findParticipantValidatedPrograms(long participantId) {
 		List<ProgramInstance> programs = new ArrayList<>();
 		for (ParticipantRegistration registration : participantRegistrationRepository
-				.findByParticipantId(participantId)) {
+				.findByParticipantIdAndDeletedFalse(participantId)) {
 			if (registration.getStatus() == Status.ACCEPTED) {
 				programs.add(registration.getPrograminstance());
 			}

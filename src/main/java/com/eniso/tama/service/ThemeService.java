@@ -19,6 +19,8 @@ public interface ThemeService {
 	
 	public void deleteTheme(long id);
 	
+	public void omitTheme(long id);
+	
 	public List<Theme> findByProgId(long id);
 	
 	public ResponseEntity<?> addThemeProgram(Theme theme,long id );

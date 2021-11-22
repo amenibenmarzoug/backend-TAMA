@@ -67,12 +67,12 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 	@Override
 	public List<Participant> findAll() {
-		return participantRepository.findAll();
+		return participantRepository.findAllByDeletedFalse();
 	}
 
 	@Override
 	public Participant findById(long theId) {
-		Optional<Participant> result = participantRepository.findById(theId);
+		Optional<Participant> result = participantRepository.findByIdAndDeletedFalse(theId);
 		Participant theControl = null;
 
 		if (result.isPresent()) {
@@ -90,7 +90,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 	public List<Participant> getValidatedParticipantsByEntreprise(Entreprise company) {
 
-		return participantRepository.findByEntrepriseAndValidatedTrue(company);
+		return participantRepository.findByEntrepriseAndValidatedTrueAndDeletedFalse(company);
 
 	}
 
@@ -98,7 +98,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	@Override
 	public List<Participant> findByLevel(String theLevel) {
 
-		return participantRepository.findByLevel(theLevel);
+		return participantRepository.findByLevelAndDeletedFalse(theLevel);
 
 	}
 
@@ -106,7 +106,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	@Override
 	public List<Participant> findByAbonadn(boolean theAbondan) {
 
-		return participantRepository.findByAbandon(theAbondan);
+		return participantRepository.findByAbandonAndDeletedFalse(theAbondan);
 	}
 
 	@Override
@@ -121,17 +121,9 @@ public class ParticipantServiceImpl implements ParticipantService {
 	}
 
 	// get Confirmed Participants by ProgramInst
-	@Override
+/*	@Override
 	public List<Participant> findParticipantsByClass(long programInstId) {
-		/*
-		 * Optional<ProgramInstance> result =
-		 * programInstanceRepository.findById(programInstId);
-		 * 
-		 * List<Participant> participants ; ProgramInstance programInst ; if
-		 * (result.isPresent()) { programInst=result.get(); } else { // we didn't find
-		 * the programInst throw new RuntimeException("Did not find class with Id  - " +
-		 * programInstId); }
-		 */
+		
 		List<Long> partcipantsIdsList = participantRepository.findConfirmedParticipantsByClass(programInstId);
 		List<Participant> participants = new ArrayList<>();
 		for (long ParticipantID : partcipantsIdsList) {
@@ -143,13 +135,13 @@ public class ParticipantServiceImpl implements ParticipantService {
 		}
 		return participants;
 
-	}
+	}*/
 
 	@Override
 	public List<Participant> getValidatedParticipantsPerClass(long id) {
 		List<Participant> participantsPerClasse = new ArrayList<Participant>();
 		for (Participant theP : findAll()) {
-			for (ParticipantRegistration reg : participantRegistrationRepository.findByParticipantId(theP.getId()))
+			for (ParticipantRegistration reg : participantRegistrationRepository.findByParticipantIdAndDeletedFalse(theP.getId()))
 				if (reg.getPrograminstance().getId() == id && theP.isValidated()
 						&& reg.getStatus() == Status.ACCEPTED) {
 					participantsPerClasse.add(theP);
@@ -163,7 +155,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	public List<Participant> getParticipantPerClass(long id) {
 		List<Participant> participantsPerClasse = new ArrayList<Participant>();
 
-		for (ParticipantRegistration reg : participantRegistrationRepository.findAll())
+		for (ParticipantRegistration reg : participantRegistrationRepository.findAllByDeletedFalse())
 			if (reg.getPrograminstance().getId() == id) {
 				participantsPerClasse.add(reg.getParticipant());
 
@@ -181,7 +173,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	@Override
 	public List<Participant> findValidatedParticipants() {
 		// TODO Auto-generated method stub
-		return participantRepository.findByValidatedTrue();
+		return participantRepository.findByValidatedTrueAndDeletedFalse();
 	}
 
 	@Override
@@ -221,7 +213,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 		
 		Set<Participant> participants = new HashSet<>();
 
-		for (ParticipantRegistration reg : participantRegistrationRepository.findAll())
+		for (ParticipantRegistration reg : participantRegistrationRepository.findAllByDeletedFalse())
 			if (reg.getStatus() == status) {
 				participants.add(reg.getParticipant());
 
@@ -243,7 +235,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	@Override
 	public Set<Participant> findParticipantsWithRegistration() {
 		Set<Participant> participants = new HashSet<>();
-		for (ParticipantRegistration registration : participantRegistrationRepository.findAll()) {
+		for (ParticipantRegistration registration : participantRegistrationRepository.findAllByDeletedFalse()) {
 			participants.add(registration.getParticipant());
 		}
 		return participants;
@@ -262,14 +254,14 @@ public class ParticipantServiceImpl implements ParticipantService {
 			}
 		}
 		
-		List <ParticipantRegistration>  participantRegistrationList =  participantRegistrationRepository.findByParticipantId(id);
+		List <ParticipantRegistration>  participantRegistrationList =  participantRegistrationRepository.findByParticipantIdAndDeletedFalse(id);
 		if (participantRegistrationList != null) {
 			for (ParticipantRegistration p : participantRegistrationList ) {
 				participantRegistrationService.deleteParticipantRegistration(p.getId());
 			}	
 		}
 		
-		User user = userRepository.findById(id);
+		User user = userRepository.findByIdAndDeletedFalse(id);
 		userService.deleteUser(user.getId());
 
 		

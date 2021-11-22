@@ -109,7 +109,28 @@ public class ProgramServiceImpl implements ProgramService {
 						themeService.deleteTheme(theme.getId());
 					}
 				}	
+				Program program=findById(theId);
+				program.setDeleted(true);
+				programRepository.save(program);
+			}
+
+			@Override
+			@Transactional
+			public void omitProgram(long theId) {
+				List<ProgramInstance> programInstances=programInsService.findByProgramId(theId);
+				List<Theme> themes=themeService.findByProgId(theId);
+				if(programInstances!=null) {
+					for (ProgramInstance programInstance : programInstances) {
+						programInsService.omitProgramInstance(programInstance.getId());
+					}
+				}
+				if(themes!=null) {
+					for ( Theme theme: themes) {
+						themeService.omitTheme(theme.getId());
+					}
+				}	
 				deleteById(theId);
+				
 			}
 
 			

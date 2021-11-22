@@ -7,7 +7,7 @@ public interface MailTemplateService {
 
 	public MailTemplate findMailTemplate(String templateId) ;
 	//public void sendUserValidation(Notification notification) ;
-	public void sendUserValidation(String from,String to ) ;
+	public void sendUserValidation(String from,String to,String password ) ;
 	public void sendmailAlert(String from , String to , String programInstanceName, String ProgramInstanceLocation) ;
 
 }

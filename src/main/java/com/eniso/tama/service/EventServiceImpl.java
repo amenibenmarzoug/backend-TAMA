@@ -26,13 +26,13 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public List<Event> findAll() {
-		return eventRepository.findAll();
+		return eventRepository.findAllByDeletedFalse();
 	}
 
 	
 	@Override
 	public Event findBySessionId(long theId) {
-		Optional<Event> result = eventRepository.findBySessionId(theId);
+		Optional<Event> result = eventRepository.findBySessionIdAndDeletedFalse(theId);
 
 		Event event = null;
 
@@ -48,7 +48,7 @@ public class EventServiceImpl implements EventService {
 	
 	@Override
 	public Event findById(long theId) {
-		Optional<Event> result = eventRepository.findById(theId);
+		Optional<Event> result = eventRepository.findByIdAndDeletedFalse(theId);
 
 		Event event = null;
 
@@ -93,6 +93,17 @@ public class EventServiceImpl implements EventService {
 		event.setColorSecondary("FF0000");
 		save(event);
 		return event;
+	}
+
+
+	@Override
+	public void deleteEvent(long id) {
+		Event event = findById(id);
+		if(event!=null) {
+			event.setDeleted(true);
+			save(event);
+		}
+		
 	}
 	
 	

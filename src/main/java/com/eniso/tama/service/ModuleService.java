@@ -15,6 +15,8 @@ public interface ModuleService {
     public void deleteById(long id);
     
     public void deleteModule(long id);
+    
+    public void omitModule(long id);
 
 	public List<Module> findModulesByThemeId(long id);
 	

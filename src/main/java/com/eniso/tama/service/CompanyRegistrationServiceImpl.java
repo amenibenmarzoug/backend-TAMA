@@ -106,6 +106,14 @@ public class CompanyRegistrationServiceImpl implements CompanyRegistrationServic
 		}
 		return programs;
 	}
+
+	@Override
+	public void deleteCompanyRegistation(long id) {
+		CompanyRegistration companyRegistration=findById(id);
+		companyRegistration.setDeleted(true);
+		registrationRepository.save(companyRegistration);
+		
+	}
 	
 	
 

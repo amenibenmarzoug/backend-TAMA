@@ -16,14 +16,17 @@ import com.eniso.tama.entity.Trainer;
 
 public interface TrainerRepository extends JpaRepository<Trainer, Long> {
 	
+	List<Trainer> findAllByDeletedFalse();
+	
+	Optional<Trainer> findByIdAndDeletedFalse(long id);
 	//Trainer findById(long id);
-    List<Trainer> findByEmail(String email);
+    List<Trainer> findByEmailAndDeletedFalse(String email);
 
-    Boolean existsByEmail(String email);
+    Boolean existsByEmailAndDeletedFalse(String email);
 
-    List<Trainer> findByFirstName(String firstName);
+    List<Trainer> findByFirstNameAndDeletedFalse(String firstName);
 
-    Boolean existsByFirstName(String firstName);
+    Boolean existsByFirstNameAndDeletedFalse(String firstName);
     
     @Query(value="select distinct ts.user_id from trainer_specifications ts  "
     		+ "join module m  on m.module_name=ts.specifications " + 

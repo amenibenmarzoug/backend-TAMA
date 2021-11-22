@@ -169,7 +169,29 @@ public class ThemeServiceImpl implements ThemeService {
 				moduleService.deleteModule(module.getId());
 			}
 		}
+		Theme theme=findById(id);
+		theme.setDeleted(true);
+		themeRepository.save(theme);
+	}
+
+	@Override
+	@Transactional
+	public void omitTheme(long id) {
+		List<ThemeInstance> themeInstances=themeInstService.findByThemeId(id);
+		List<com.eniso.tama.entity.Module> modules=moduleService.findModulesByThemeId(id);
+		if(themeInstances!=null) {
+			for (ThemeInstance themeInstance : themeInstances) {
+				themeInstService.omitThemeInstance(themeInstance.getId());
+				
+			}
+		}
+		if(modules!=null) {
+			for (Module module : modules) {
+				moduleService.omitModule(module.getId());
+			}
+		}
 		deleteById(id);
+		
 	}
 
 }

@@ -70,12 +70,12 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	@Override
 	public List<Attendance> findAll() {
-		return attendanceRepository.findAll();
+		return attendanceRepository.findAllByDeletedFalse();
 	}
 
 	@Override
 	public Attendance findById(long theId) {
-		Optional<Attendance> result = attendanceRepository.findById(theId);
+		Optional<Attendance> result = attendanceRepository.findByIdAndDeletedFalse(theId);
 		Attendance attendance = null;
 		if (result.isPresent()) {
 			attendance = result.get();
@@ -227,32 +227,34 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	@Override
 	public List<Attendance> findBySession(long sessionId) {
-		Optional<Session> result = sessionRepository.findById(sessionId);
+		Optional<Session> result = sessionRepository.findByIdAndDeletedFalse(sessionId);
 		Session session;
 		if (result.isPresent()) {
 			session = result.get();
+			return attendanceRepository.findBySessionAndDeletedFalse(session);
 
 		} else {
 			// we didn't find the trainer
 			throw new RuntimeException("Did not find session with ID  - " + sessionId);
 		}
 		// TODO Auto-generated method stub
-		return attendanceRepository.findBySession(session);
+		
 	}
 
 	@Override
 	public Boolean existsBySession(long sessionId) {
-		Optional<Session> result = sessionRepository.findById(sessionId);
+		Optional<Session> result = sessionRepository.findByIdAndDeletedFalse(sessionId);
 		Session session;
 		if (result.isPresent()) {
 			session = result.get();
+			return attendanceRepository.existsBySessionAndDeletedFalse(session);
 
 		} else {
 			// we didn't find the trainer
 			throw new RuntimeException("Did not find session with ID  - " + sessionId);
 		}
 		// TODO Auto-generated method stub
-		return attendanceRepository.existsBySession(session);
+
 	}
 
 	@Override
@@ -282,9 +284,9 @@ public class AttendanceServiceImpl implements AttendanceService {
 	@Override
 	public List<Attendance> findByCompany(Entreprise company) {
 		List<Attendance> companyParticipantsAttendances= new ArrayList<Attendance>() ; 
-		List <Participant> participantsOfCompany = participantRepository.findByEntrepriseAndValidatedTrue(company); 
+		List <Participant> participantsOfCompany = participantRepository.findByEntrepriseAndValidatedTrueAndDeletedFalse(company); 
 		for (Participant theParticipant : participantsOfCompany) {
-			List<Attendance> theParticipantAttendances = attendanceRepository.findByParticipant(theParticipant);
+			List<Attendance> theParticipantAttendances = attendanceRepository.findByParticipantAndDeletedFalse(theParticipant);
 			if (theParticipantAttendances != null) {
 				companyParticipantsAttendances.addAll(theParticipantAttendances);
 			}
@@ -309,7 +311,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	@Override
 	public List<Attendance> findByParticipantId(long participantId) {
-		return attendanceRepository.findByParticipantId(participantId);
+		return attendanceRepository.findByParticipantIdAndDeletedFalse(participantId);
 	}
 
 	@Override

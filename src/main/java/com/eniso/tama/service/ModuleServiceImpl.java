@@ -150,7 +150,28 @@ public class ModuleServiceImpl implements ModuleService {
 				themeDetailService.deleteThemeDetail(themeDetail.getId());
 			}
 		}
+		Module module=findById(id);
+		module.setDeleted(true);
+		moduleRepository.save(module);
+	}
+
+	@Override
+	@Transactional 
+	public void omitModule(long id) {
+		List<ModuleInstance> moduleInstances = moduleInstService.findByModuleId(id);
+		List<ThemeDetail> themeDetailList = themeDetailService.findByModuleId(id);
+		if (moduleInstances != null) {
+			for (ModuleInstance moduleInstance : moduleInstances) {
+				moduleInstService.omitModuleInstance(moduleInstance.getId());
+			}
+		}
+		if (themeDetailList != null) {
+			for (ThemeDetail themeDetail : themeDetailList) {
+				themeDetailService.omitThemeDetail(themeDetail.getId());
+			}
+		}
 		deleteById(id);
+		
 	}
 
 }
