@@ -86,11 +86,11 @@ public class EntrepriseController {
 	@PostMapping("/auth/manager/company")
 	public ResponseEntity<?> addCompanyByManager(@RequestBody EntrepriseDto company) {
 
-		if (enterpriseRepository.existsByEmail(company.getEmail())) {
+		if (enterpriseRepository.existsByEmailAndDeletedFalse(company.getEmail())) {
 			return ResponseEntity.badRequest()
 					.body(new MessageResponse("Erreur: Veuillez donner un email valide. Cet email existe déjà"));
 		}
-		if (enterpriseRepository.existsByPhoneNumber(company.getPhoneNumber())) {
+		if (enterpriseRepository.existsByPhoneNumberAndDeletedFalse(company.getPhoneNumber())) {
 			return ResponseEntity.badRequest().body(new MessageResponse(
 					"Erreur: Veuillez donner un numéro de téléphone valide. Ce numéro existe déjà"));
 		}

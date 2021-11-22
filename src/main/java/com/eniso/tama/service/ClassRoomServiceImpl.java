@@ -29,8 +29,9 @@ public class ClassRoomServiceImpl  implements ClassRoomService{
 	
 	@Autowired
 	private EquipmentsService equipmentsService ; 
+	
 	@Autowired
-	private InstitutionRepository institutionRepository;
+	private InstitutionService institutionService;
 	@Autowired
 	private SessionService sessionService;
 
@@ -50,7 +51,7 @@ public class ClassRoomServiceImpl  implements ClassRoomService{
 
 	@Override
 	public ClassRoom findById(long theId) {
-		Optional<ClassRoom> result = classRoomRepository.findById(theId);
+		Optional<ClassRoom> result = classRoomRepository.findByIdAndDeletedFalse(theId);
 		
 		ClassRoom classRoom = null;
 		
@@ -82,7 +83,7 @@ public class ClassRoomServiceImpl  implements ClassRoomService{
 		
 		
 
-		for(ClassRoom theC:classRoomRepository.findAll()) {
+		for(ClassRoom theC:findAll()) {
 			
 			
 		if  (theC.getInstitution()!=null) {
@@ -117,7 +118,7 @@ public class ClassRoomServiceImpl  implements ClassRoomService{
 	@Override
 	public ResponseEntity<?> addClassRoomByInstitution(ClassRoom classRoom, long id) {
 		Institution institution = new Institution();
-		for (Institution i : institutionRepository.findAll()) {
+		for (Institution i : institutionService.findAll()) {
 			if (id == i.getId()) {
 				institution = i;
 			}

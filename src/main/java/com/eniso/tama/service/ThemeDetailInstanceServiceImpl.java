@@ -31,12 +31,12 @@ public class ThemeDetailInstanceServiceImpl implements ThemeDetailInstanceServic
 	
 	@Override
 	public List<ThemeDetailInstance> findAll() {
-		return themeDetailInstanceRepository.findAll();
+		return themeDetailInstanceRepository.findAllByDeletedFalse();
 	}
 
 	@Override
 	public ThemeDetailInstance findById(long theId) {
-		Optional<ThemeDetailInstance> result = themeDetailInstanceRepository.findById(theId);
+		Optional<ThemeDetailInstance> result = themeDetailInstanceRepository.findByIdAndDeletedFalse(theId);
 
 		ThemeDetailInstance themeDetailInstance = null;
 
@@ -64,7 +64,7 @@ public class ThemeDetailInstanceServiceImpl implements ThemeDetailInstanceServic
 
 	@Override
 	public List<ThemeDetailInstance> findByThemeDetId(long id) {
-		List<ThemeDetailInstance> list= themeDetailInstanceRepository.findAll();
+		List<ThemeDetailInstance> list= this.findAll();
 		List<ThemeDetailInstance> list1= new ArrayList<>();
 		for (ThemeDetailInstance thInst : list ) {
 			if (thInst.getThemeDetail().getId()== id) {

@@ -32,12 +32,12 @@ public class ModuleInstanceServiceImpl implements ModuleInstanceService {
 
 	@Override
 	public List<ModuleInstance> findAll() {
-		return moduleInstanceRepository.findAll();
+		return moduleInstanceRepository.findAllByDeletedFalse();
 	}
 
 	@Override
 	public ModuleInstance findById(long theId) {
-		Optional<ModuleInstance> result = moduleInstanceRepository.findById(theId);
+		Optional<ModuleInstance> result = moduleInstanceRepository.findByIdAndDeletedFalse(theId);
 
 		ModuleInstance module = null;
 
@@ -63,7 +63,7 @@ public class ModuleInstanceServiceImpl implements ModuleInstanceService {
 
 	@Override
 	public List<ModuleInstance> findByModuleId(long id) {
-		List<ModuleInstance> list = moduleInstanceRepository.findAll();
+		List<ModuleInstance> list = this.findAll();
 		List<ModuleInstance> list1 = new ArrayList<>();
 		for (ModuleInstance modInst : list) {
 			if (modInst.getModule().getId() == id) {
@@ -76,7 +76,7 @@ public class ModuleInstanceServiceImpl implements ModuleInstanceService {
 
 	@Override
 	public List<ModuleInstance> getThemeModules(long id) {
-		List<ModuleInstance> list = moduleInstanceRepository.findAll();
+		List<ModuleInstance> list = this.findAll();
 		List<ModuleInstance> modulesPerTheme = new ArrayList<ModuleInstance>();
 		for (ModuleInstance theM : list) {
 			if (theM.getThemeInstance() != null) {

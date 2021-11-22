@@ -41,12 +41,12 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Override
 	public List<Module> findAll() {
-		return moduleRepository.findAll();
+		return moduleRepository.findAllByDeletedFalse();
 	}
 
 	@Override
 	public Module findById(long theId) {
-		Optional<Module> result = moduleRepository.findById(theId);
+		Optional<Module> result = moduleRepository.findByIdAndDeletedFalse(theId);
 
 		Module module = null;
 
@@ -86,7 +86,7 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Override
 	public List<Module> findModulesByThemeId(long id) {
-		List<Module> list = moduleRepository.findAll();
+		List<Module> list = this.findAll();
 		List<Module> list1 = new ArrayList<>();
 		for (Module m : list) {
 			if (m.getTheme() != null) {

@@ -45,12 +45,12 @@ public class InstitutionServiceImpl implements InstitutionService {
 
 	@Override
 	public List<Institution> findAll() {
-		return institutionRepository.findAll();
+		return institutionRepository.findAllByDeletedFalse();
 	}
 
 	@Override
 	public Institution findById(long theId) {
-		Optional<Institution> result = institutionRepository.findById(theId);
+		Optional<Institution> result = institutionRepository.findByIdAndDeletedFalse(theId);
 
 		Institution theControl = null;
 
@@ -88,7 +88,7 @@ public class InstitutionServiceImpl implements InstitutionService {
 	
 	public ResponseEntity<?> registerInstitutionParManager(Institution theI) {
 
-		if (institutionRepository.existsByEmail(theI.getEmail())) {
+		if (institutionRepository.existsByEmailAndDeletedFalse(theI.getEmail())) {	
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
 		}
 	

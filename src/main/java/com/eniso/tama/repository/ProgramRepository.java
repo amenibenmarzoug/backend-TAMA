@@ -1,6 +1,9 @@
 package com.eniso.tama.repository;
 
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -11,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.eniso.tama.entity.Program;
+import com.eniso.tama.entity.Session;
 @Repository
 public interface ProgramRepository extends JpaRepository<Program, Long> {
 
@@ -21,5 +25,11 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
 //			
 //	void deleteBooks(@Param("id") Long id);
 
+	
+    List<Program> findAllByDeletedFalse();
+	
+	Optional<Program> findByIdAndDeletedFalse(long id);
+	
+	
 
 }

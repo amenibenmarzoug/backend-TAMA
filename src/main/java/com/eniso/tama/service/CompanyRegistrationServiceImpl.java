@@ -21,19 +21,20 @@ public class CompanyRegistrationServiceImpl implements CompanyRegistrationServic
 
 	@Autowired
 	private CompanyRegistrationRepository registrationRepository;
+	
 	@Autowired
-	private EnterpriseRepository enterpriseRepository;
+	EntrepriseService entrepriseService ; 
 
 	@Override
 	public List<CompanyRegistration> findAll() {
 
-		return registrationRepository.findAll();
+		return registrationRepository.findAllByDeletedFalse();
 	}
 
 	@Override
 	public CompanyRegistration findById(long theId) {
 		
-		Optional<CompanyRegistration> result = registrationRepository.findById(theId);
+		Optional<CompanyRegistration> result = registrationRepository.findByIdAndDeletedFalse(theId);
 		CompanyRegistration registration = null;
 		if (result.isPresent()) {
 			registration = result.get();
@@ -53,7 +54,7 @@ public class CompanyRegistrationServiceImpl implements CompanyRegistrationServic
 	@Override
 	public List<CompanyRegistration> findByEntreprise(long entrepriseId) {
 		
-		return registrationRepository.findByEntrepriseId(entrepriseId);
+		return registrationRepository.findByEntrepriseIdAndDeletedFalse(entrepriseId);
 	}
 	
 
@@ -66,12 +67,12 @@ public class CompanyRegistrationServiceImpl implements CompanyRegistrationServic
 	@Override
 	public List<CompanyRegistration> findByProgramInstance(long progranInstId) {
 	
-		return registrationRepository.findByProgramInstanceId(progranInstId);
+		return registrationRepository.findByProgramInstanceIdAndDeletedFalse(progranInstId);
 	}
 
 	@Override
 	public Entreprise registerEntrep(EntrepriseDto enterprisedto, Long enterpriseId) {
-		Entreprise entreprise = enterpriseRepository.getOne(enterpriseId);
+		Entreprise entreprise = entrepriseService.findById(enterpriseId);
 		entreprise.setEnterpriseName(enterprisedto.getEnterpriseName());
 		entreprise.setCity(enterprisedto.getCity());
 		entreprise.setEmail(enterprisedto.getEmail());
@@ -94,14 +95,14 @@ public class CompanyRegistrationServiceImpl implements CompanyRegistrationServic
 		}
 		//entreprise.setRegistration(companyRegistartions);
 		
-		enterpriseRepository.save(entreprise);
+		entrepriseService.save(entreprise);
 		return entreprise;
 	}
 
 	@Override
 	public List<ProgramInstance> findEntrepPrograms(long entrepriseId) {
 		List<ProgramInstance> programs = new ArrayList<>() ;
-		for (CompanyRegistration registration : registrationRepository.findByEntrepriseId(entrepriseId)) {
+		for (CompanyRegistration registration : registrationRepository.findByEntrepriseIdAndDeletedFalse(entrepriseId)) {
 			programs.add(registration.getPrograminstance());
 		}
 		return programs;

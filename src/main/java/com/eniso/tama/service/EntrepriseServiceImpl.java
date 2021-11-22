@@ -27,13 +27,10 @@ import com.eniso.tama.entity.Entreprise;
 import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Role;
 import com.eniso.tama.entity.Roles;
-import com.eniso.tama.entity.Trainer;
 import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.payload.MessageResponse;
-import com.eniso.tama.repository.CompanyRegistrationRepository;
 import com.eniso.tama.repository.EnterpriseRepository;
 import com.eniso.tama.repository.RoleRepository;
-import com.eniso.tama.repository.UserRepository;
 
 @Service
 @ComponentScan(basePackageClasses = EnterpriseRepository.class)
@@ -43,19 +40,13 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 	@Autowired
 	private EnterpriseRepository enterpriseRepository;
 
+	
 	@Autowired
-	private CompanyRegistrationRepository registrationRepository;
+	CompanyRegistrationService companyRegistrationService;
 
 	@Autowired
 	RoleRepository roleRepository;
-	
-	@Autowired
-	UserRepository userRepository;
 
-
-
-	@Autowired
-	CompanyRegistrationService companyRegistrationService;
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -69,12 +60,12 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	@Override
 	public List<Entreprise> findAll() {
-		return enterpriseRepository.findAll();
+		return enterpriseRepository.findAllByDeletedFalse();
 	}
 
 	@Override
 	public Entreprise findById(long theId) {
-		Optional<Entreprise> result = enterpriseRepository.findById(theId);
+		Optional<Entreprise> result = enterpriseRepository.findByIdAndDeletedFalse(theId);
 
 		Entreprise theControl = null;
 
@@ -90,7 +81,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	@Override
 	public Entreprise findByEmail(String email) {
-		Optional<Entreprise> result = enterpriseRepository.findByEmail(email);
+		Optional<Entreprise> result = enterpriseRepository.findByEmailAndDeletedFalse(email);
 
 		Entreprise entreprise = null;
 
@@ -106,7 +97,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
 	@Override
 	public Entreprise findByPhoneNumber(String phoneNumber) {
-		Optional<Entreprise> result = enterpriseRepository.findByPhoneNumber(phoneNumber);
+		Optional<Entreprise> result = enterpriseRepository.findByPhoneNumberAndDeletedFalse(phoneNumber);
 
 		Entreprise entreprise = null;
 
@@ -183,7 +174,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 							registration.setPrograminstance(p);
 							registration.setRegistrationDate(LocalDate.now());
 							// enterprise.setRegistration(entrepRegistration);
-							registrationRepository.save(registration);
+							companyRegistrationService.save(registration);
 
 						}
 
@@ -242,7 +233,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 	@Override
 	public List<Entreprise> findEnterpriseByLocation(String location) {
 		List<Entreprise> enterprises = new ArrayList<Entreprise>();
-		for (Entreprise entreprise : enterpriseRepository.findAll()) {
+		for (Entreprise entreprise : findAll()) {
 			if (entreprise.getCity().equals(location)) {
 				enterprises.add(entreprise);
 			}
@@ -335,7 +326,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 					registration.setRegistrationDate(now);
 					entrepRegistration.add(registration);
 					// enterprise.setRegistration(entrepRegistration);
-					registrationRepository.save(registration);
+					companyRegistrationService.save(registration);
 
 				}
 			}

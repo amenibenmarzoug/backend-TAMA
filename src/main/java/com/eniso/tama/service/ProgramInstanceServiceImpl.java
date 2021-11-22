@@ -87,12 +87,12 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 
 	@Override
 	public List<ProgramInstance> findAll() {
-		return programInstanceRepository.findAll();
+		return programInstanceRepository.findAllByDeletedFalse();
 	}
 
 	@Override
 	public ProgramInstance findById(long theId) {
-		Optional<ProgramInstance> result = programInstanceRepository.findById(theId);
+		Optional<ProgramInstance> result = programInstanceRepository.findByIdAndDeletedFalse(theId);
 
 		ProgramInstance theProgramInstance = null;
 
@@ -164,7 +164,7 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 
 	@Override
 	public List<ProgramInstance> findByProgramId(long id) {
-		List<ProgramInstance> list = programInstanceRepository.findAll();
+		List<ProgramInstance> list = this.findAll();
 		List<ProgramInstance> list1 = new ArrayList<>();
 		for (ProgramInstance prInst : list) {
 			if (prInst.getProgram().getId() == id) {

@@ -34,7 +34,7 @@ public class ThemeInstanceServiceImpl implements ThemeInstanceService{
 
 	@Override
 	public List<ThemeInstance> findAll() {
-		return themeInstanceRepository.findAll();
+		return themeInstanceRepository.findAllByDeletedFalse();
 	}
 
 	
@@ -48,7 +48,7 @@ public class ThemeInstanceServiceImpl implements ThemeInstanceService{
 
 	@Override
 	public ThemeInstance findById(long theId) {
-		Optional<ThemeInstance> result = themeInstanceRepository.findById(theId);
+		Optional<ThemeInstance> result = themeInstanceRepository.findByIdAndDeletedFalse(theId);
 
 		ThemeInstance theThemeInstance = null;
 
@@ -75,7 +75,7 @@ public class ThemeInstanceServiceImpl implements ThemeInstanceService{
 	
 	@Override
 	public List<ThemeInstance> findByThemeId(long id) {
-		List<ThemeInstance> list= themeInstanceRepository.findAll();
+		List<ThemeInstance> list= this.findAll();
 		List<ThemeInstance> list1= new ArrayList<>();
 		for (ThemeInstance thInst : list ) {
 			if (thInst.getTheme().getId()== id) {
@@ -105,7 +105,7 @@ public class ThemeInstanceServiceImpl implements ThemeInstanceService{
 	@Override
 	public ResponseEntity<?> addThemeProgram(ThemeInstance theme, long id) {
 		ProgramInstance program = new ProgramInstance();
-		for (ProgramInstance p : programInstRepository.findAll()) {
+		for (ProgramInstance p : programInstRepository.findAllByDeletedFalse()) {
 			if (id == p.getId()) {
 				program = p;
 			}

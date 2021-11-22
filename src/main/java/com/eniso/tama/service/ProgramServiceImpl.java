@@ -35,12 +35,12 @@ public class ProgramServiceImpl implements ProgramService {
 
 			@Override
 			public List<Program> findAll() {
-				return programRepository.findAll();
+				return programRepository.findAllByDeletedFalse();
 			}
 
 			@Override
 			public Program findById(long theId) {
-				Optional<Program> result = programRepository.findById(theId);
+				Optional<Program> result = programRepository.findByIdAndDeletedFalse(theId);
 				
 				Program theControl = null;
 				

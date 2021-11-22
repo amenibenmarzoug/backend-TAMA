@@ -34,12 +34,12 @@ public class ThemeDetailServiceImpl implements ThemeDetailService {
     
 	@Override
 	public List<ThemeDetail> findAll() {
-		return themeDetailRepository.findAll();
+		return themeDetailRepository.findAllByDeletedFalse();
 	}
 
 	@Override
 	public ThemeDetail findById(long theId) {
-		Optional<ThemeDetail> result = themeDetailRepository.findById(theId);
+		Optional<ThemeDetail> result = themeDetailRepository.findByIdAndDeletedFalse(theId);
 		
 		ThemeDetail theControl = null;
 		
@@ -68,7 +68,7 @@ public class ThemeDetailServiceImpl implements ThemeDetailService {
 
 	@Override
 	public List<ThemeDetail> findByModuleId(long id) {
-		List<ThemeDetail> list= themeDetailRepository.findAll();
+		List<ThemeDetail> list= this.findAll();
 		List<ThemeDetail> list1= new ArrayList<>();
 		for (ThemeDetail t : list ) {
 			if (t.getModule().getId()== id) {

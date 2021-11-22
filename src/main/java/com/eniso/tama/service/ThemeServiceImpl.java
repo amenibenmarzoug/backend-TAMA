@@ -52,12 +52,12 @@ public class ThemeServiceImpl implements ThemeService {
 	@Override
 	public List<Theme> findAll() {
 		
-		return themeRepository.findAll();
+		return themeRepository.findAllByDeletedFalse();
 	}
 
 	@Override
 	public Theme findById(long theId) {
-		Optional<Theme> result=themeRepository.findById(theId);
+		Optional<Theme> result=themeRepository.findByIdAndDeletedFalse(theId);
          Theme theControl = null;
 		
 		if (result.isPresent()) {
@@ -85,7 +85,7 @@ public class ThemeServiceImpl implements ThemeService {
 
 	@Override
 	public List<Theme> findByProgId(long id) {
-		List<Theme> list= themeRepository.findAll();
+		List<Theme> list= this.findAll();
 		List<Theme> list1= new ArrayList<>();
 		for (Theme t : list ) {
 			if (t.getProgram().getId()== id) {
