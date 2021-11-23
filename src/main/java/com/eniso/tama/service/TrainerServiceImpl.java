@@ -251,11 +251,16 @@ public class TrainerServiceImpl implements TrainerService {
 				sessionRepository.save(session);
 			}
 		}
-
+		
 		Trainer trainer = this.findById(id);
+		trainer.setRoles(null);
+		trainerRepository.save(trainer);
+		/*User user = userRepository.findByIdAndDeletedFalse(id);
+		user.setRoles(null);
+		userRepository.save(user);*/
 		deleteById(trainer.getId());
-		User user = userRepository.findByIdAndDeletedFalse(id);
-		userRepository.deleteById(user.getId());
+	
+		
 
 	}
 

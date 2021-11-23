@@ -260,6 +260,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 		Participant participant = this.findById(id);
 		participant.setDeleted(true);
+		
 		participantRepository.save(participant);
 
 	}
@@ -268,9 +269,10 @@ public class ParticipantServiceImpl implements ParticipantService {
 	@Transactional
 	public void omitParticipant(long id) {
 		List<Attendance> attendanceList = attendanceService.findByParticipantId(id);
-
 		if (attendanceList != null) {
 			for (Attendance attendance : attendanceList) {
+				attendance.setParticipant(null);
+				attendanceService.save(attendance);
 				attendanceService.deleteById(attendance.getId());
 			}
 		}
@@ -283,11 +285,19 @@ public class ParticipantServiceImpl implements ParticipantService {
 			}
 		}
 
+		
 		Participant participant = this.findById(id);
-		deleteById(participant.getId());
+		participant.setRoles(null);
+		participant=participantRepository.save(participant);
 
 		User user = userRepository.findByIdAndDeletedFalse(id);
-		userRepository.deleteById(user.getId());
+		user.setRoles(null);
+		userRepository.save(user);
+		deleteById(participant.getId());
+		
+		
+
+	
 	}
 
 }
