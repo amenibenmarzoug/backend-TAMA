@@ -35,6 +35,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -183,6 +184,7 @@ public class AttendanceController {
         AttendanceStates present = AttendanceStates.PRESENT;
 
         attendance.setAttendanceState(present);
+        
         attendanceService.save(attendance);
         return attendance;
     }
@@ -204,6 +206,8 @@ public class AttendanceController {
         updatedAttendance.setParticipant(attendance.getParticipant());
         updatedAttendance.setSession(attendance.getSession());
         updatedAttendance.setAttendanceState(attendance.getAttendanceState());
+        updatedAttendance.setCreatedDate(attendance.getCreatedDate()) ; 
+        updatedAttendance.setLastModifiedDate(new Date());
         attendanceService.save(updatedAttendance);
         return updatedAttendance;
     }

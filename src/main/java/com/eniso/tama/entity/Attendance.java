@@ -1,5 +1,7 @@
 package com.eniso.tama.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -16,6 +18,12 @@ public class Attendance {
 	@Column(name = "attendance_id", updatable = false, nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
+	 @Column(name = "created_date")
+	 private Date createdDate;
+	 
+	 @Column(name = "last_modified_date")
+	 private Date lastModifiedDate;
 
 	@ManyToOne
 	@JoinColumn(name = "participant_id")
@@ -67,6 +75,22 @@ public class Attendance {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getLastModifiedDate() {
+		return lastModifiedDate;
+	}
+
+	public void setLastModifiedDate(Date lastModifiedDate) {
+		this.lastModifiedDate = lastModifiedDate;
 	}
 
 }
