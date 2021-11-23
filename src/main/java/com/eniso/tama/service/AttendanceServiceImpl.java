@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -101,6 +102,8 @@ public class AttendanceServiceImpl implements AttendanceService {
 		newAttendance.setSession(session);
 		newAttendance.setParticipant(participant);
 		newAttendance.setAttendanceState(present);
+		newAttendance.setCreatedDate(new Date()) ; 
+		newAttendance.setLastModifiedDate(new Date());
 
 		return attendanceRepository.save(newAttendance);
 	}
@@ -260,6 +263,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 	@Override
 	public Attendance markPresent(Attendance attendance) {
 		if (attendance != null) {
+			attendance.setLastModifiedDate(new Date());
 			attendance.setAttendanceState(AttendanceStates.PRESENT);
 		}
 		return attendanceRepository.save(attendance);
@@ -268,6 +272,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 	@Override
 	public Attendance markAbsent(Attendance attendance) {
 		if (attendance != null) {
+			attendance.setLastModifiedDate(new Date());
 			attendance.setAttendanceState(AttendanceStates.ABSENT);
 		}
 		return attendanceRepository.save(attendance);
@@ -276,6 +281,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 	@Override
 	public Attendance markJustifiedAbsent(Attendance attendance) {
 		if (attendance != null) {
+			attendance.setLastModifiedDate(new Date());
 			attendance.setAttendanceState(AttendanceStates.JUSTIFIEDABSENT);
 		}
 		return attendanceRepository.save(attendance);
