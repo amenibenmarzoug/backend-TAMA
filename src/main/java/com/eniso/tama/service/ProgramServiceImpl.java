@@ -133,5 +133,16 @@ public class ProgramServiceImpl implements ProgramService {
 				
 			}
 
+			@Override
+			public List<Program> findByProgramNameContaining(String name) {
+				return programRepository.findByProgramNameContainingIgnoreCase(name);
+			}
+
+			@Override
+			public List<Program> findByProgramNameNotLike(String category1,String category2,String category3) {
+				
+				return programRepository.findByProgramNameNotLike( category1, category2, category3);
+			}
+
 			
 	}

@@ -49,7 +49,16 @@ public class ProgramInstanceController {
 		return programInstService.getConfirmedClasses();
 	}
 
-
+	@GetMapping("/programsInst/private")
+	public List<ProgramInstance> getPrivateClasses() {
+		return programInstService.findAllByPrivateProgramInstanceTrue();
+	}
+	
+	
+	@GetMapping("/programsInst/public")
+	public List<ProgramInstance> getPublicClasses() {
+		return programInstService.findAllByPrivateProgramInstanceFalse();
+	}
 
 	@GetMapping("programsInst/{programId}")
 	public ProgramInstance getProgram(@PathVariable long programId) {
@@ -146,6 +155,24 @@ public class ProgramInstanceController {
 		//programService.deleteById(programId);
 
 		programInstService.deleteProgramInstance(programId);
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
+	}
+	
+	@Transactional
+	@DeleteMapping("programsInst/omit/{programId}")
+	public ResponseEntity<?> omitProgram(@PathVariable int programId) {
+
+		ProgramInstance Program = programInstService.findById(programId);
+
+		// throw exception if null
+
+		if (Program == null) {
+			throw new RuntimeException("the Program id is not found - " + programId);
+		}
+
+		//programService.deleteById(programId);
+
+		programInstService.omitProgramInstance(programId);
 		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
 	}
 

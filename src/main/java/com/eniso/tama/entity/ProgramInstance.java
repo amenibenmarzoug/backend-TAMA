@@ -54,6 +54,8 @@ public class ProgramInstance {
 
 	private boolean deleted;
 	
+	private boolean privateProgramInstance;
+	
 	@ManyToOne
 	private Program program;
 
@@ -178,6 +180,14 @@ public class ProgramInstance {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public boolean isPrivateProgramInstance() {
+		return privateProgramInstance;
+	}
+
+	public void setPrivateProgramInstance(boolean privateProgramInstance) {
+		this.privateProgramInstance = privateProgramInstance;
 	}
 	
 	

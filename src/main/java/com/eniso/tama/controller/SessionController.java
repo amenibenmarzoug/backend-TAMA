@@ -253,4 +253,20 @@ public class SessionController {
 
 		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
     }
+    
+    @DeleteMapping("/session/omit/{sessionId}")
+    public ResponseEntity<?> omitSession(@PathVariable long sessionId) {
+
+        Session session = sessionService.findById(sessionId);
+
+        // throw exception if null
+
+        if (session == null) {
+            throw new RuntimeException("the session id is not found - " + sessionId);
+        }
+
+        sessionService.omitSession(sessionId);
+
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
+    }
 }

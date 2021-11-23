@@ -37,107 +37,117 @@ import com.eniso.tama.service.TrainerService;
 @RequestMapping("/api")
 public class TrainerController {
 
-    @Autowired
-    private TrainerService trainerService;
-    
+	@Autowired
+	private TrainerService trainerService;
+
 	@Autowired
 	PasswordEncoder encoder;
-	
+
 	@Autowired
-    RandomPasswordGenerator randomPassword;
-    
+	RandomPasswordGenerator randomPassword;
 
-    public TrainerController(TrainerService theTrainerService) {
-        trainerService = theTrainerService;
-    }
+	public TrainerController(TrainerService theTrainerService) {
+		trainerService = theTrainerService;
+	}
 
-	
 	@GetMapping("/trainers")
-	//@PreAuthorize("hasAuthority('MANAGER')")
+	// @PreAuthorize("hasAuthority('MANAGER')")
 	public List<Trainer> getAllTrainers() {
 		return trainerService.findAll();
 	}
 
+	@GetMapping("trainers/{trainerId}")
+	public Trainer getTrainer(@PathVariable int trainerId) {
 
-    @GetMapping("trainers/{trainerId}")
-    public Trainer getTrainer(@PathVariable int trainerId) {
+		Trainer theTrainer = trainerService.findById(trainerId);
 
-        Trainer theTrainer = trainerService.findById(trainerId);
+		if (theTrainer == null) {
+			throw new RuntimeException("Trainer id not found - " + trainerId);
+		}
 
-        if (theTrainer == null) {
-            throw new RuntimeException("Trainer id not found - " + trainerId);
-        }
+		return theTrainer;
+	}
 
-        return theTrainer;
-    }
+	@GetMapping("trainerDisponi/{trainerId}")
+	public Set<Days> getTrainerDisponibilities(@PathVariable int trainerId) {
 
-    @GetMapping("trainerDisponi/{trainerId}")
-    public Set<Days> getTrainerDisponibilities(@PathVariable int trainerId) {
+		Trainer theTrainer = trainerService.findById(trainerId);
 
-        Trainer theTrainer = trainerService.findById(trainerId);
+		if (theTrainer == null) {
+			throw new RuntimeException("Trainer id not found - " + trainerId);
+		}
 
-        if (theTrainer == null) {
-            throw new RuntimeException("Trainer id not found - " + trainerId);
-        }
+		return theTrainer.getDisponibilityDays();
+	}
+	// add mapping for POST /participants - add new control
 
-        return theTrainer.getDisponibilityDays();
-    }
-    // add mapping for POST /participants - add new control
+	@PostMapping("/trainers")
+	public Trainer addTrainer(@RequestBody Trainer theTrainer) {
+		theTrainer.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
+		trainerService.save(theTrainer);
+		return theTrainer;
+	}
 
-    @PostMapping("/trainers")
-    public Trainer addTrainer(@RequestBody Trainer theTrainer) {
-    	theTrainer.setPassword(encoder.encode(randomPassword.generateSecureRandomPassword()));
-        trainerService.save(theTrainer);
-        return theTrainer;
-    }
+	@PutMapping("/trainers")
+	public Trainer updateTrainer(@RequestBody Trainer theTrainer) {
 
+		Trainer newTrainer = trainerService.updateTrainer(theTrainer);
+		return theTrainer;
+	}
 
+	@DeleteMapping("/trainers/{trainerId}")
+	public ResponseEntity<?> deleteTrainer(@PathVariable int trainerId) {
 
-    @PutMapping("/trainers")
-    public Trainer updateTrainer(@RequestBody Trainer theTrainer) {
+		Trainer tempTrainer = trainerService.findById(trainerId);
 
-        Trainer newTrainer = trainerService.updateTrainer(theTrainer);
-        return theTrainer;
-    }
+		// throw exception if null
 
-    @DeleteMapping("/trainers/{trainerId}")
-    public ResponseEntity<?> deleteTrainer(@PathVariable int trainerId) {
+		if (tempTrainer == null) {
+			throw new RuntimeException("the trainer id is not found - " + trainerId);
+		}
 
-        Trainer tempTrainer = trainerService.findById(trainerId);
+		trainerService.deleteTrainer(trainerId);
 
-        // throw exception if null
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès " + trainerId));
+	}
 
-        if (tempTrainer == null) {
-            throw new RuntimeException("the trainer id is not found - " + trainerId);
-        }
+	@DeleteMapping("/trainers/omit/{trainerId}")
+	public ResponseEntity<?> omitTrainer(@PathVariable int trainerId) {
 
-        trainerService.deleteTrainer(trainerId);
+		Trainer tempTrainer = trainerService.findById(trainerId);
 
-        return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès " + trainerId));
-    }
+		// throw exception if null
 
-    @GetMapping("/sendMailToTrainer")
-    private void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException {
+		if (tempTrainer == null) {
+			throw new RuntimeException("the trainer id is not found - " + trainerId);
+		}
 
-        trainerService.validateTrainer(id);
-    }
-    
-    @GetMapping("specialization/trainers")
+		trainerService.omitTrainer(trainerId);
+
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès " + trainerId));
+	}
+
+	@GetMapping("/sendMailToTrainer")
+	private void sendmail(@RequestParam("id") long id) throws AddressException, MessagingException, IOException {
+
+		trainerService.validateTrainer(id);
+	}
+
+	@GetMapping("specialization/trainers")
 	public List<Trainer> findTrainersBySpecialization(@RequestParam String specialization) {
-    	return trainerService.findTrainersBySpecialization(specialization);
-    }
-    
-    
-    @PutMapping("trainer/refuse")
+		return trainerService.findTrainersBySpecialization(specialization);
+	}
+
+	@PutMapping("trainer/refuse")
 	public Trainer refuseTrainer(@RequestBody Trainer trainer) {
 
 		Trainer trainerToSave = trainerService.refuseTrainer(trainer);
 
 		if (trainerToSave == null) {
-			throw new RuntimeException("trainerTosave not found - " );
+			throw new RuntimeException("trainerTosave not found - ");
 		}
 
 		return trainerToSave;
 	}
-	
+
 }

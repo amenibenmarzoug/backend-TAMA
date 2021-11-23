@@ -110,5 +110,21 @@ public class ClassRoomController {
 			classRoomService.deleteClassroom(classroomId);
 			return ResponseEntity.ok(new MessageResponse( "Salle supprimé avec succès"));
 		}
+		
+		@DeleteMapping("/classroom/omit/{classroomId}")
+		public ResponseEntity<?> omitClassRoom(@PathVariable long  classroomId) {
+			
+			ClassRoom classRoom = classRoomService.findById(classroomId);
+			
+			// throw exception if null
+			
+			if (classRoom == null) {
+				throw new RuntimeException("the classRoom id is not found - " + classroomId);
+			}
+			
+			//classRoomService.deleteById(classroomId);
+			classRoomService.omitClassroom(classroomId);
+			return ResponseEntity.ok(new MessageResponse( "Salle supprimé avec succès"));
+		}
 
 }

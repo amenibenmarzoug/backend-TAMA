@@ -236,6 +236,7 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		newProgram.setEndDate(programInst.getEndDate());
 		newProgram.setNbMaxParticipants(programInst.getProgram().getNbMaxParticipants());
 		newProgram.setNbMinParticipants(programInst.getProgram().getNbMinParticipants());
+		newProgram.setPrivateProgramInstance(programInst.isPrivateProgramInstance());
 
 		// programService.save(newProgram);
 
@@ -314,5 +315,24 @@ public class ProgramInstanceServiceImpl implements ProgramInstanceService {
 		deleteById(id);
 		
 	}
+
+	@Override
+	public List<ProgramInstance> findAllByPrivateProgramInstanceTrue() {
+		
+		return programInstanceRepository.findAllByPrivateProgramInstanceTrue();
+	}
+
+	@Override
+	public List<ProgramInstance> findAllByPrivateProgramInstanceFalse() {
+		return programInstanceRepository.findAllByPrivateProgramInstanceFalse();
+	}
+
+	@Override
+	public List<ProgramInstance> findByProgramInstNameContaining(String name) {
+		
+		return programInstanceRepository.findByProgramInstNameContaining(name);
+	}
+	
+	
 
 }

@@ -225,7 +225,6 @@ public class TrainerServiceImpl implements TrainerService {
 	@Override
 	public void deleteTrainer(long id) {
 
-		
 		List<com.eniso.tama.entity.Session> sessionsList = sessionService.findByTrainerId(id);
 		if (sessionsList != null) {
 			for (com.eniso.tama.entity.Session session : sessionsList) {
@@ -240,6 +239,24 @@ public class TrainerServiceImpl implements TrainerService {
 		Trainer trainer = this.findById(id);
 		trainer.setDeleted(true);
 		trainerRepository.save(trainer);
+	}
+
+	@Override
+	@Transactional
+	public void omitTrainer(long id) {
+		List<com.eniso.tama.entity.Session> sessionsList = sessionService.findByTrainerId(id);
+		if (sessionsList != null) {
+			for (com.eniso.tama.entity.Session session : sessionsList) {
+				session.setTrainer(null);
+				sessionRepository.save(session);
+			}
+		}
+
+		Trainer trainer = this.findById(id);
+		deleteById(trainer.getId());
+		User user = userRepository.findByIdAndDeletedFalse(id);
+		userRepository.deleteById(user.getId());
+
 	}
 
 }

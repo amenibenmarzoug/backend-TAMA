@@ -567,4 +567,18 @@ public class ParticipantController {
 
 		   return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès " ));	}
 
+	@DeleteMapping("/participants/omit/{participantId}")
+	public ResponseEntity<?> omitParticipant(@PathVariable long participantId) {
+
+		Participant tempParticipant = participantService.findById(participantId);
+
+		// throw exception if null
+
+		if (tempParticipant == null) {
+			throw new RuntimeException("the participant id is not found - " + participantId);
+		}
+
+		participantService.omitParticipant(participantId);
+
+		   return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès " ));	}
 }

@@ -22,6 +22,8 @@ public interface TrainerService {
 	public void deleteById(long theId);
 	
 	public void deleteTrainer (long id);
+	
+	public void omitTrainer (long id);
 
 	public void sendValidationMail(Trainer t) throws AddressException, MessagingException, IOException;
 

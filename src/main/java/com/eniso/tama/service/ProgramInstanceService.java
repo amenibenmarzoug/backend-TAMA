@@ -18,6 +18,12 @@ public interface ProgramInstanceService {
 
 	public List<ProgramInstance> findByProgramId(long id);
 
+	List<ProgramInstance> findAllByPrivateProgramInstanceTrue();
+
+	List<ProgramInstance> findAllByPrivateProgramInstanceFalse();
+
+	List<ProgramInstance> findByProgramInstNameContaining(String name);
+
 	public ProgramInstance save(ProgramInstance theProgramInstance);
 
 	public ProgramInstance update(ProgramInstance theProgramInstance);

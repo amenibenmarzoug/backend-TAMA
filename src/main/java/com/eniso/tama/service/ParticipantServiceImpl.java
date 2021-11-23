@@ -19,7 +19,7 @@ import com.eniso.tama.entity.Participant;
 import com.eniso.tama.entity.ParticipantRegistration;
 import com.eniso.tama.entity.Status;
 import com.eniso.tama.entity.Trainer;
-import com.eniso.tama.entity.User; 
+import com.eniso.tama.entity.User;
 import com.eniso.tama.helpers.RandomPasswordGenerator;
 import com.eniso.tama.repository.ParticipantRegistrationRepository;
 import com.eniso.tama.repository.ParticipantRepository;
@@ -36,30 +36,24 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 	@Autowired
 	private ParticipantRegistrationRepository participantRegistrationRepository;
-	
-	
+
 	@Autowired
 	PasswordEncoder encoder;
-	
+
 	@Autowired
 	RandomPasswordGenerator randomPassword;
 
-	
 	@Autowired
 	private AttendanceService attendanceService;
-	
-	
+
 	@Autowired
 	private ParticipantRegistrationService participantRegistrationService;
-	
-	
+
 	@Autowired
-	private UserService userService ;
+	private UserService userService;
 
 	@Autowired
 	private UserRepository userRepository;
-
-	
 
 	public ParticipantServiceImpl(ParticipantRepository theParticipantRepository) {
 		participantRepository = theParticipantRepository;
@@ -121,27 +115,28 @@ public class ParticipantServiceImpl implements ParticipantService {
 	}
 
 	// get Confirmed Participants by ProgramInst
-/*	@Override
-	public List<Participant> findParticipantsByClass(long programInstId) {
-		
-		List<Long> partcipantsIdsList = participantRepository.findConfirmedParticipantsByClass(programInstId);
-		List<Participant> participants = new ArrayList<>();
-		for (long ParticipantID : partcipantsIdsList) {
-			Optional<Participant> theP = participantRepository.findById(ParticipantID);
-			if (theP.isPresent()) {
-				participants.add(theP.get());
-
-			}
-		}
-		return participants;
-
-	}*/
+	/*
+	 * @Override public List<Participant> findParticipantsByClass(long
+	 * programInstId) {
+	 * 
+	 * List<Long> partcipantsIdsList =
+	 * participantRepository.findConfirmedParticipantsByClass(programInstId);
+	 * List<Participant> participants = new ArrayList<>(); for (long ParticipantID :
+	 * partcipantsIdsList) { Optional<Participant> theP =
+	 * participantRepository.findById(ParticipantID); if (theP.isPresent()) {
+	 * participants.add(theP.get());
+	 * 
+	 * } } return participants;
+	 * 
+	 * }
+	 */
 
 	@Override
 	public List<Participant> getValidatedParticipantsPerClass(long id) {
 		List<Participant> participantsPerClasse = new ArrayList<Participant>();
 		for (Participant theP : findAll()) {
-			for (ParticipantRegistration reg : participantRegistrationRepository.findByParticipantIdAndDeletedFalse(theP.getId()))
+			for (ParticipantRegistration reg : participantRegistrationRepository
+					.findByParticipantIdAndDeletedFalse(theP.getId()))
 				if (reg.getPrograminstance().getId() == id && theP.isValidated()
 						&& reg.getStatus() == Status.ACCEPTED) {
 					participantsPerClasse.add(theP);
@@ -187,7 +182,6 @@ public class ParticipantServiceImpl implements ParticipantService {
 		return participantToSave;
 	}
 
-
 	@Override
 	public void resetPassword(long id, String newPassword) {
 		Participant p = this.findById(id);
@@ -210,7 +204,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 	@Override
 	public Set<Participant> findParticipantsByRegistrationStatus(Status status) {
-		
+
 		Set<Participant> participants = new HashSet<>();
 
 		for (ParticipantRegistration reg : participantRegistrationRepository.findAllByDeletedFalse())
@@ -242,37 +236,58 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 	}
 
-	
 	@Transactional
 	@Override
 	public void deleteParticipant(long id) {
 		List<Attendance> attendanceList = attendanceService.findByParticipantId(id);
-		
+
 		if (attendanceList != null) {
 			for (Attendance attendance : attendanceList) {
 				attendanceService.deleteAttendance(attendance.getId());
 			}
 		}
-		
-		List <ParticipantRegistration>  participantRegistrationList =  participantRegistrationRepository.findByParticipantIdAndDeletedFalse(id);
+
+		List<ParticipantRegistration> participantRegistrationList = participantRegistrationRepository
+				.findByParticipantIdAndDeletedFalse(id);
 		if (participantRegistrationList != null) {
-			for (ParticipantRegistration p : participantRegistrationList ) {
+			for (ParticipantRegistration p : participantRegistrationList) {
 				participantRegistrationService.deleteParticipantRegistration(p.getId());
-			}	
+			}
 		}
-		
+
 		User user = userRepository.findByIdAndDeletedFalse(id);
 		userService.deleteUser(user.getId());
 
-		
-		
 		Participant participant = this.findById(id);
 		participant.setDeleted(true);
 		participantRepository.save(participant);
-		
-		
-		
-		
+
+	}
+
+	@Override
+	@Transactional
+	public void omitParticipant(long id) {
+		List<Attendance> attendanceList = attendanceService.findByParticipantId(id);
+
+		if (attendanceList != null) {
+			for (Attendance attendance : attendanceList) {
+				attendanceService.deleteById(attendance.getId());
+			}
+		}
+
+		List<ParticipantRegistration> participantRegistrationList = participantRegistrationRepository
+				.findByParticipantIdAndDeletedFalse(id);
+		if (participantRegistrationList != null) {
+			for (ParticipantRegistration p : participantRegistrationList) {
+				participantRegistrationService.deleteById(p.getId());
+			}
+		}
+
+		Participant participant = this.findById(id);
+		deleteById(participant.getId());
+
+		User user = userRepository.findByIdAndDeletedFalse(id);
+		userRepository.deleteById(user.getId());
 	}
 
 }

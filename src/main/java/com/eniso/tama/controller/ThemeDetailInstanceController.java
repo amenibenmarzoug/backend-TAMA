@@ -96,4 +96,20 @@ public class ThemeDetailInstanceController {
 		
 		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
 	}
+	
+	@DeleteMapping("/themeDetailInst/omit/{themeDetailInstId}")
+	public ResponseEntity<?> omitThemeDetailInst(@PathVariable int  themeDetailInstId) {
+		
+		ThemeDetailInstance themeDetailInst = themeDetailInstanceService.findById(themeDetailInstId);
+		
+		// throw exception if null
+		
+		if (themeDetailInst == null) {
+			throw new RuntimeException("the themeDetailInst id is not found - " + themeDetailInstId);
+		}
+		
+		themeDetailInstanceService.omitThemeDetailInstance(themeDetailInstId);
+		
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
+	}
 }

@@ -174,4 +174,29 @@ public class ClassRoomServiceImpl  implements ClassRoomService{
 		
 	}
 
+
+	@Override
+	public void omitClassroom(long id) {
+		// les séances qui vont se dérouler dans cette salle
+				List<Session> sessions=sessionService.findByClassroomId(id) ; 
+				if(sessions!=null) {
+					for (Session session : sessions) {
+						session.setClassRoom(null);
+						sessionService.save(session);
+					}
+				}
+					
+				//supprimer les equipments de cette salle
+				List <Equipments> equipments = equipmentsService.getClassroomsEquipments(id);
+				if (equipments !=null) {
+					for (Equipments equipment : equipments) {
+					equipmentsService.deleteById(equipment.getId());
+				}
+				}
+				
+				deleteById(id);
+
+		
+	}
+
 	}

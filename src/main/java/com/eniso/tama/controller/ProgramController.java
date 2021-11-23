@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eniso.tama.entity.Program;
@@ -25,12 +26,9 @@ import com.eniso.tama.service.ProgramService;
 @RequestMapping(value = "/api")
 public class ProgramController {
 
-	
 	@Autowired
 	private ProgramService programService;
 
-	
-	
 	public ProgramController(ProgramService programService) {
 		super();
 		this.programService = programService;
@@ -52,6 +50,18 @@ public class ProgramController {
 
 		return theProgram;
 	}
+
+	@GetMapping("programs/category")
+	public List<Program> getProgramByName(@RequestParam String category) {
+
+		return programService.findByProgramNameContaining(category);
+	}
+	
+	@GetMapping("programs/category/other")
+	public List<Program> getProgramsByOtherCategories(@RequestParam String category1,@RequestParam  String category2,@RequestParam String category3) {
+		
+		return programService.findByProgramNameNotLike(category1, category2, category3);
+	}
 // add mapping for POST /participants - add new control
 
 	@PostMapping("/program")
@@ -60,6 +70,7 @@ public class ProgramController {
 		programService.save(theProgram);
 		return theProgram;
 	}
+
 	// add program specific
 	@PostMapping("/specificProgram")
 	public Program addSpecificProgram(@RequestBody Program theProgram) {
@@ -72,9 +83,9 @@ public class ProgramController {
 
 	@PutMapping("/programEdit")
 	public Program updateProgram(@RequestBody Program theProgram) {
-		
-		return(programService.updateProgram(theProgram));
-		
+
+		return (programService.updateProgram(theProgram));
+
 	}
 
 	@DeleteMapping("programs/{programId}")
@@ -90,6 +101,23 @@ public class ProgramController {
 
 		programService.deleteProgram(programId);
 
-		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));	}
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
+	}
+
+	@DeleteMapping("programs/omit/{programId}")
+	public ResponseEntity<?> omitProgram(@PathVariable long programId) {
+
+		Program Program = programService.findById(programId);
+
+		// throw exception if null
+
+		if (Program == null) {
+			throw new RuntimeException("the Program id is not found - " + programId);
+		}
+
+		programService.omitProgram(programId);
+
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
+	}
 
 }

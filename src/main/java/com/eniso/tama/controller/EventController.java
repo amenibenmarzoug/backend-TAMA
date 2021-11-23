@@ -81,6 +81,23 @@ public class EventController {
 				throw new RuntimeException("the event id is not found - " + eventId);
 			}
 			
+			eventService.deleteEvent(eventId);
+			
+			return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
+		}
+		
+		
+		@DeleteMapping("/event/omit/{eventId}")
+		public ResponseEntity<?> omitEvent(@PathVariable int  eventId) {
+			
+			Event event = eventService.findById(eventId);
+			
+			// throw exception if null
+			
+			if (event == null) {
+				throw new RuntimeException("the event id is not found - " + eventId);
+			}
+			
 			eventService.deleteById(eventId);
 			
 			return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));

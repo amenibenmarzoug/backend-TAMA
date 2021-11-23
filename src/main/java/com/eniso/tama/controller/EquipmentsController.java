@@ -77,8 +77,6 @@ public class EquipmentsController {
 	public ResponseEntity<?> deleteEquipment(@PathVariable long equipmentId) {
 
 		Equipments equipment = equipmentsService.findById(equipmentId);
-		System.out.println("controler equipment "+ equipment.getEquipmentName());
-		System.out.println("controler equipment before "+ equipment.isDeleted());
 
 		// throw exception if null
 
@@ -86,11 +84,26 @@ public class EquipmentsController {
 			throw new RuntimeException("the equipment id is not found - " + equipmentId);
 		}
 
-		//equipmentsService.deleteById(equipmentId);
+		// equipmentsService.deleteById(equipmentId);
 		equipmentsService.deleteEquipment(equipmentId);
-		System.out.println("controler equipment after "+ equipment.isDeleted());
 
-		return ResponseEntity.ok(new MessageResponse( "Equipement supprimé avec succès"));
+		return ResponseEntity.ok(new MessageResponse("Equipement supprimé avec succès"));
+	}
+
+	@DeleteMapping("/equipment/omit/{equipmentId}")
+	public ResponseEntity<?> omitEquipment(@PathVariable long equipmentId) {
+
+		Equipments equipment = equipmentsService.findById(equipmentId);
+
+		// throw exception if null
+
+		if (equipment == null) {
+			throw new RuntimeException("the equipment id is not found - " + equipmentId);
+		}
+
+		equipmentsService.deleteById(equipmentId);
+
+		return ResponseEntity.ok(new MessageResponse("Equipement supprimé avec succès"));
 	}
 
 }

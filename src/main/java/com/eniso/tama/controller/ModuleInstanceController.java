@@ -106,4 +106,20 @@ public class ModuleInstanceController {
 
 		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
 	}
+	
+	@DeleteMapping("/moduleInstance/omit/{moduleId}")
+	public ResponseEntity<?> omitModule(@PathVariable long moduleId) {
+
+		ModuleInstance module = moduleInstanceService.findById(moduleId);
+
+		// throw exception if null
+
+		if (module == null) {
+			throw new RuntimeException("the Module id is not found - " + moduleId);
+		}
+
+		moduleInstanceService.omitModuleInstance(moduleId);
+
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
+	}
 }

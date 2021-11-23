@@ -14,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.eniso.tama.entity.Program;
+import com.eniso.tama.entity.ProgramInstance;
 import com.eniso.tama.entity.Session;
 @Repository
 public interface ProgramRepository extends JpaRepository<Program, Long> {
@@ -30,6 +31,11 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
 	
 	Optional<Program> findByIdAndDeletedFalse(long id);
 	
+	List<Program> findByProgramNameContainingIgnoreCase(String name);
 	
+	@Query(value="select * from program p2 where p2.program_name not like %:category1% and p2.program_name not like %:category2%  and p2.program_name not like %:category3%  ", nativeQuery = true)
+	List<Program> findByProgramNameNotLike(String category1,String category2,String category3);
+
+
 
 }

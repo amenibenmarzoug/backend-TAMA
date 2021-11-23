@@ -120,4 +120,20 @@ public class ModuleController {
 
 		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
 	}
+	
+	@DeleteMapping("/module/omit/{moduleId}")
+	public ResponseEntity<?> omitModule(@PathVariable int moduleId) {
+
+		Module module = moduleService.findById(moduleId);
+
+		// throw exception if null
+
+		if (module == null) {
+			throw new RuntimeException("the Module id is not found - " + moduleId);
+		}
+
+		moduleService.omitModule(moduleId);
+
+		return ResponseEntity.ok(new MessageResponse("Suppression faite avec succès!"));
+	}
 }
